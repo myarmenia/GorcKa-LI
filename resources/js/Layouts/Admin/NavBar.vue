@@ -1,4 +1,4 @@
-<!-- <script setup>
+<script setup>
 import { onMounted } from "vue";
 import { initScript } from '@/modules/admin/scripts.js';
 
@@ -6,7 +6,7 @@ import { initScript } from '@/modules/admin/scripts.js';
 onMounted(() => {
     initScript(); // Запускаем `initNavbar` после монтирования компонента
 });
-</script> -->
+</script>
 <template>
     <!-- start navbar -->
 <div class="md:fixed md:w-full md:top-0 md:z-20 flex flex-row flex-wrap items-center bg-white p-6 border-b border-gray-300">

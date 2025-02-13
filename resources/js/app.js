@@ -21,11 +21,7 @@ import './modules/user/swiper.init.js';
 // import './bootstrap';
 
 import './modules/user/nav&tabs.js';
-import '../css/admin/style.css';
 
-
-// import { initNavbar } from './modules/user/navbar.js';
-// import { initScript } from './modules/admin/scripts.js';
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
@@ -38,8 +34,8 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) =>
         resolvePageComponent(
-            `./Pages/${name}.vue`,
-            import.meta.glob('./Pages/**/*.vue'),
+            `./Pages/User/${name}.vue`,
+            import.meta.glob('./Pages/User/**/*.vue'),
         ),
     setup({ el, App, props, plugin }) {
         return createApp({ render: () => h(App, props) })
@@ -53,10 +49,5 @@ createInertiaApp({
 });
 
 
-
-// document.addEventListener("DOMContentLoaded", () => {
-//     initNavbar();
-//     initScript();
-// });
 
 

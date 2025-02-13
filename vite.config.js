@@ -12,7 +12,7 @@ export default defineConfig({
                 'resources/css/user/tailwind.css',
                 'resources/js/app.js',
                 'resources/css/admin/style.css',
-                // 'resources/js/admin.js'
+                'resources/js/admin.js'
 
             ],
             refresh: true,
