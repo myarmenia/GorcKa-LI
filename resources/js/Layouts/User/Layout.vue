@@ -2,7 +2,6 @@
 import { Link } from '@inertiajs/vue3';
 import Footer from '@/Layouts/User/Footer.vue';
 import NavBar from '@/Layouts/User/NavBar.vue';
-import Index from '@/Layouts/User/Index.vue';
 
 
 
@@ -10,6 +9,9 @@ import Index from '@/Layouts/User/Index.vue';
 
 <template>
     <NavBar></NavBar>
-    <Index></Index>
+
+    <main>
+        <slot></slot>
+    </main>
     <Footer></Footer>
 </template>

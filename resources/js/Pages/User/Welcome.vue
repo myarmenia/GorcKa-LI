@@ -1,6 +1,7 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import Layout from '@/Layouts/User/Layout.vue';
+import Index from '@/Layouts/User/Index.vue';
 
 import { Head, Link } from '@inertiajs/vue3';
 
@@ -30,10 +31,13 @@ function handleImageError() {
 </script>
 
 <template>
+
     <Head title="Welcome" />
 
     <!-- <GuestLayout></GuestLayout> -->
-    <Layout></Layout>
+    <Layout >
+        <Index />
+    </Layout>
 
 
 </template>

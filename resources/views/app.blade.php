@@ -13,13 +13,9 @@
 
 
         <!-- Scripts -->
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
         @routes
-        @vite([
-            'resources/js/app.js',
-            // 'resources/js/admin.js'
-            ])
+        @vite(['resources/js/app.js'])
 
         @inertiaHead
     </head>
@@ -27,7 +23,7 @@
         @inertia
 
 
-        <script src="{{asset('assets/user/libs/choices.js/public/assets/scripts/choices.min.js')}}"></script>
+        {{-- <script src="{{asset('assets/user/libs/choices.js/public/assets/scripts/choices.min.js')}}"></script> --}}
         <script src="https://unicons.iconscout.com/release/v4.0.0/script/monochrome/bundle.js"></script>
 
     </body>

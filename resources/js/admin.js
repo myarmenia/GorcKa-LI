@@ -3,9 +3,6 @@ import '../css/admin/style.css';
 // import './modules/admin/scripts';
 
 
-// import { initNavbar } from './modules/user/navbar.js';
-
-
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
@@ -17,8 +14,8 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) =>
         resolvePageComponent(
-            `./Pages/${name}.vue`,
-            import.meta.glob('./Pages/**/*.vue'),
+            `./Pages/Admin/${name}.vue`,
+            import.meta.glob('./Pages/Admin/**/*.vue'),
         ),
     setup({ el, App, props, plugin }) {
         return createApp({ render: () => h(App, props) })
@@ -32,8 +29,4 @@ createInertiaApp({
 });
 
 
-
-// document.addEventListener("DOMContentLoaded", () => {
-//     initNavbar();
-// });
 
