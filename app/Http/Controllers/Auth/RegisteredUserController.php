@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\VerifyEmail;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
+use Mail;
 
 class RegisteredUserController extends Controller
 {
@@ -44,7 +46,8 @@ class RegisteredUserController extends Controller
 
         $user->assignRole('user');
 
-        event(new Registered($user));
+        // event(new Registered($user));
+        Mail::to($user->email)->send(new VerifyEmail($user));
 
         Auth::login($user);
 
