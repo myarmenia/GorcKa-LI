@@ -27,8 +27,8 @@ import { Head } from '@inertiajs/vue3';
                             </div>
                         </div>
                     </div>
-                    <img src="assets/images/about/shape.png" alt="" class="absolute block bg-cover -bottom-0 dark:hidden">
-                    <img src="assets/images/about/shape-dark.png" alt="" class="absolute hidden bg-cover -bottom-0 dark:block">
+                    <img src="/assets/user/images/about/shape.png" alt="" class="absolute block bg-cover -bottom-0 dark:hidden">
+                    <img src="/assets/user/images/about/shape-dark.png" alt="" class="absolute hidden bg-cover -bottom-0 dark:block">
                 </section>
 
                 <!-- Start grid -->
@@ -39,7 +39,7 @@ import { Head } from '@inertiajs/vue3';
                                     <div class="border rounded border-gray-100/50 dark:border-neutral-600">
                                         <div class="p-5 border-b border-gray-100/50 dark:border-neutral-600">
                                             <div class="text-center">
-                                                <img src="assets/images/profile.jpg" alt="" class="w-20 h-20 p-1 mx-auto border-2 rounded-full border-gray-200/20">
+                                                <img src="/assets/user/images/user/profile.jpg" alt="" class="w-20 h-20 p-1 mx-auto border-2 rounded-full border-gray-200/20">
                                                 <h6 class="mt-4 mb-0 text-lg text-gray-900 dark:text-gray-50">Jansh Dickens</h6>
                                                 <p class="mb-4 text-gray-500 dark:text-gray-300">Developer</p>
                                                 <ul class="flex flex-wrap justify-center gap-2 mb-0">
@@ -307,7 +307,7 @@ import { Head } from '@inertiajs/vue3';
                                                                 <h5 class="mb-3 text-gray-900 fs-17 fw-semibold dark:text-gray-50">My Account</h5>
                                                                 <div class="text-center">
                                                                     <div class="relative mb-4">
-                                                                        <img src="assets/images/user/img-02.jpg" class="w-40 h-40 p-1 mx-auto border-2 rounded-full border-gray-100/50 dark:border-neutral-600" id="profile-img" alt="">
+                                                                        <img src="/assets/user/images/user/img-02.jpg" class="w-40 h-40 p-1 mx-auto border-2 rounded-full border-gray-100/50 dark:border-neutral-600" id="profile-img" alt="">
                                                                         <div class="absolute w-8 h-8 leading-8 text-center rounded-full shadow-md bottom-2 right-[42%] z-40 bg-gray-50 dark:bg-neutral-700 dark:text-white">
                                                                             <input id="profile-img-file-input" type="file" class="hidden" onchange="previewImg()">
                                                                             <label for="profile-img-file-input" class="">
