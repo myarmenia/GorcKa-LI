@@ -30,7 +30,7 @@ Route::get('/{locale}', function ($locale) {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-})->where('locale', 'en|ru|am'); // Разрешенные языки
+})->where('locale', 'en|ru|am')->name('welcome'); // Разрешенные языки
 
 
 Route::get('/admin', function () {
