@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             CreateAdminUserSeeder::class,
             LangSeeder::class,
             LocationSeeder::class,
+            LocationTranslationSeeder::class
 
         ]);
     }
