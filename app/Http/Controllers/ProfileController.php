@@ -13,6 +13,9 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+    public function profile_page(Request $request){
+        return Inertia::render('Profile/Index');
+    }
     /**
      * Display the user's profile form.
      */

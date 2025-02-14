@@ -70,4 +70,6 @@ Route::middleware('auth')->group(function () {
 });
 
 // Route::resource('roles', RoleController::class);
+// Route::get
+Route::get('/profile_page', [ProfileController::class, 'profile_page'])->name('profile.profile_page');
 
