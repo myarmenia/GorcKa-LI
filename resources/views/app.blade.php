@@ -19,9 +19,9 @@
 
         @inertiaHead
     </head>
-    <body class="font-sans antialiased">
-        @inertia
+    <body class="font-sans antialiased bg-white dark:bg-neutral-800">
 
+        @inertia
 
         {{-- <script src="{{asset('assets/user/libs/choices.js/public/assets/scripts/choices.min.js')}}"></script> --}}
         <script src="https://unicons.iconscout.com/release/v4.0.0/script/monochrome/bundle.js"></script>

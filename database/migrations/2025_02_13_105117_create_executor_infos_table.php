@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('executor_infos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('sub_category_id')->constrained('sub_categories')->cascadeOnDelete();
+            $table->foreignId('sub_category_id')->nullable()->constrained('sub_categories')->cascadeOnDelete();
             $table->longText('description')->nullable();
             $table->timestamps();
         });

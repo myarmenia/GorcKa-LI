@@ -9,9 +9,10 @@ import NavBar from '@/Layouts/User/NavBar.vue';
 
 <template>
     <NavBar></NavBar>
-
-    <main>
-        <slot></slot>
-    </main>
+        <div class="main-content">
+            <div class="page-content">
+                <slot></slot>
+            </div>
+        </div>
     <Footer></Footer>
 </template>
