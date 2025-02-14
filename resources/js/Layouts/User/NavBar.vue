@@ -3,7 +3,11 @@ import { onMounted } from "vue";
 import { initNavbar } from "@/modules/user/navbar.js";
 import { router } from '@inertiajs/vue3';
 import { useI18n } from 'vue-i18n';
+
+import { usePage } from '@inertiajs/vue3';
 const { locale } = useI18n();
+
+const locale_lng = usePage().props.locale; // Получаем локаль
 
 
 onMounted(() => {
@@ -153,7 +157,7 @@ const changeLanguage = (lang) => {
                                 </ul>
                             </div>
                         </div>
-                        <h1>{{ $t('welcome') }}</h1>
+                        <h1>{{ $t('welcome') }}{{ locale}}</h1>
                         <div>
                             <div class="relative dropdown ltr:mr-4 rtl:ml-4">
                                 <button type="button" class="flex items-center px-4 py-5 dropdown-toggle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
