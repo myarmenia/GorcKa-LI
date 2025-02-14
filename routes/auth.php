@@ -63,11 +63,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
     Route::post('/roles/store', [RoleController::class, 'store'])->name('roles.store');
 
-    // Route::resource('roles', RoleController::class);
 
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });
 
+// Route::resource('roles', RoleController::class);
 
