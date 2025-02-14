@@ -9,6 +9,14 @@ import TextInput from '@/Components/TextInput.vue';
 import Layout from '@/Layouts/User/Layout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
+defineProps({
+    
+    locale: {
+        type: String,
+    }
+
+});
+
 const form = useForm({
     name: '',
     email: '',
@@ -133,7 +141,7 @@ const submit = () => {
                                                     </div>
                                                 </form>
                                                 <div class="text-center">
-                                                    <Link :href="route('login')" class="text-white underline fw-medium">
+                                                    <Link :href="route('login', { locale: locale })" class="text-white underline fw-medium">
                                                     Sign In </Link>
                                                 </div>
                                             </div>
