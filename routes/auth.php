@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\User\Profile\TaskController;
 
 // Route::middleware('setLocale')->prefix('{locale}')->where(['locale' => 'en|ru|am'])->group(function () {
 Route::prefix('{locale}')
@@ -43,6 +44,11 @@ Route::prefix('{locale}')
 
         Route::post('reset-password', [NewPasswordController::class, 'store'])
             ->name('password.store');
+
+        Route::get('/profile_page', [ProfileController::class, 'profile_page'])->name('profile.profile_page');
+
+        Route::get('task',[TaskController::class,'index'])->name('task.create');
+
     });
 });
 
@@ -79,7 +85,7 @@ Route::middleware('auth')->group(function () {
 
 
 // Route::resource('roles', RoleController::class);
-// Route::get
-Route::get('/profile_page', [ProfileController::class, 'profile_page'])->name('profile.profile_page');
+
+
 
 

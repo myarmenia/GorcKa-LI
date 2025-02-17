@@ -2,6 +2,8 @@
 import { onMounted } from "vue";
 import { initNavbar } from "@/modules/user/navbar.js";
 import { router } from '@inertiajs/vue3';
+
+
 import { useI18n } from 'vue-i18n';
 
 import { usePage } from '@inertiajs/vue3';
@@ -17,7 +19,15 @@ const changeLanguage = (lang) => {
 
     locale.value = lang;
     localStorage.setItem('locale', lang);
-    router.visit(`/${lang}`); // Переход на локализованный маршрут
+    const path = window.location.pathname.split('/');
+
+    // Replace the current locale (first segment) with the new one
+    path[1] = lang;
+    // Construct the new URL using the updated path
+    const newUrl = path.join('/');
+    console.log(newUrl)
+    // Navigate to the new URL without reloading the page
+    router.get(newUrl, {}, { preserveState: true, preserveScroll: true });
 };
 </script>
 
