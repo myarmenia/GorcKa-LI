@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,7 +14,15 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return  Inertia::render('Profile/Task');
+        // dd(444);
+
+        $categories = Category::with(['category_translations','sub_categories','sub_categories.sub_category_translations'])->get();
+
+
+        return  Inertia::render('Profile/Task',[
+            'categories'=>$categories
+
+        ]);
     }
 
     /**

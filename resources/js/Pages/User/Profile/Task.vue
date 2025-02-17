@@ -1,9 +1,25 @@
 <script setup>
-
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import Index from './Index.vue';
-import InputLabel from 'vendor/laravel/breeze/stubs/inertia-react/resources/js/Components/InputLabel';
+import InputLabel from '@/Components/InputLabel.vue';
+import Select from '@/Components/Select.vue';
 
+const form = useForm({
+    sub_category_id : '',
+    location_id : '',
+    title : '',
+    description : '',
+    price_min : '',
+    price_max : '',
+    end_date : '',
+
+
+});
+
+
+const props = defineProps({
+    categories: Array
+});
 
 
 
@@ -34,6 +50,7 @@ import InputLabel from 'vendor/laravel/breeze/stubs/inertia-react/resources/js/C
                                                                         <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
                                                                                 <InputLabel for="category" value="category name" class="text-white" />
+                                                                                <Select :options="categories"/>
 
                                                                                 <!-- <label for="firstName" class="text-sm text-gray-900 dark:text-gray-50">First Name</label> -->
                                                                                 <input type="text" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" id="firstName" value="Jansh">

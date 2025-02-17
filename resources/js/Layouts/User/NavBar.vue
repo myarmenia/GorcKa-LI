@@ -2,13 +2,10 @@
 import { onMounted } from "vue";
 import { initNavbar } from "@/modules/user/navbar.js";
 import { router } from '@inertiajs/vue3';
-
-
 import { useI18n } from 'vue-i18n';
-
 import { usePage } from '@inertiajs/vue3';
-const { locale } = useI18n();
 
+const { locale } = useI18n();
 const locale_lng = usePage().props.locale; // Получаем локаль
 
 
