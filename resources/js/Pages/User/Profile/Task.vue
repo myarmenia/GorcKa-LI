@@ -2,6 +2,7 @@
 
 import { Head } from '@inertiajs/vue3';
 import Index from './Index.vue';
+import InputLabel from 'vendor/laravel/breeze/stubs/inertia-react/resources/js/Components/InputLabel';
 
 
 
@@ -14,7 +15,7 @@ import Index from './Index.vue';
         <template #content>
             <div class="w-full tab-pane block" id="settings-tab">
                                                     <div class="pt-8 space-x-8">
-                                                        <form  @submit.prevent= submit >
+                                                        <form  @submit.prevent = submit >
                                                             <div>
                                                                 <h5 class="mb-3 text-gray-900 fs-17 fw-semibold dark:text-gray-50">My Account</h5>
                                                                 <!-- <div class="text-center">
@@ -32,8 +33,9 @@ import Index from './Index.vue';
                                                                     <div class="grid grid-cols-12 gap-5">
                                                                         <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
+                                                                                <InputLabel for="category" value="category name" class="text-white" />
 
-                                                                                <label for="firstName" class="text-sm text-gray-900 dark:text-gray-50">First Name</label>
+                                                                                <!-- <label for="firstName" class="text-sm text-gray-900 dark:text-gray-50">First Name</label> -->
                                                                                 <input type="text" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" id="firstName" value="Jansh">
                                                                             </div>
                                                                         </div>
