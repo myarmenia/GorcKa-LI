@@ -21,16 +21,32 @@ Route::get('/', function () {
 
 // ====
 // Локализованные маршруты
-Route::get('/{locale}', function ($locale) {
-    app()->setLocale($locale);
-    return Inertia::render('Welcome', [
-        'locale' => $locale, // Передаем локаль в Vue
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->where('locale', 'en|ru|am')->name('welcome'); // Разрешенные языки
+// Route::get('/{locale}', function ($locale) {
+//     app()->setLocale($locale);
+//     return Inertia::render('Welcome', [
+//         'locale' => $locale, // Передаем локаль в Vue
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// })->where('locale', 'en|ru|am')->name('welcome'); // Разрешенные языки
+
+
+// ======================== 17.02 ============================
+Route::prefix('{locale}')
+    ->where(['locale' => 'en|ru|am']) // Разрешенные языки
+    ->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('Welcome', [
+                'locale' => app()->getLocale(), // Локаль теперь берется из Middleware
+                'canLogin' => Route::has('login'),
+                'canRegister' => Route::has('register'),
+                'laravelVersion' => Application::VERSION,
+                'phpVersion' => PHP_VERSION,
+            ]);
+        })->name('welcome');
+    });
 
 
 Route::get('/admin', function () {

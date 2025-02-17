@@ -18,9 +18,8 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 Route::prefix('{locale}')
     ->where(['locale' => 'en|ru|am']) // Здесь указываются допустимые значения для локали
     ->group(function () {
-    // app()->setLocale($locale);
 
-    Route::middleware('guest')->group(function () {
+        Route::middleware('guest')->group(function () {
 
         Route::get('register', [RegisteredUserController::class, 'create'])
             ->name('register');
