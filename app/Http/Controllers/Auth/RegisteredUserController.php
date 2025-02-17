@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Mail\VerifyEmail;
+use App\Models\Location;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -22,8 +23,13 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-
-        return Inertia::render('Auth/Register');
+        $locations = Location::with([
+            'translations' => function ($query) {
+                $query->where('lang_id', 1);
+            }
+        ])->get();
+        // dd($locations);
+        return Inertia::render('Auth/Register',  ['locations' => $locations]);
     }
 
     /**
@@ -33,9 +39,12 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
+            'phone' => 'required|regex:/^\+?[1-9]\d{1,14}$/',
+             'agree_terms' => 'accepted',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
