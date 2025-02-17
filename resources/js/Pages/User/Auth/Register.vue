@@ -8,6 +8,17 @@ import WhiteButton from '@/Components/WhiteButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import Layout from '@/Layouts/User/Layout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
+
+const locale_lng = usePage().props.locale; // Получаем локаль
+
+defineProps({
+
+    locale: {
+        type: String,
+    }
+
+});
 
 const form = useForm({
     name: '',
@@ -133,7 +144,7 @@ const submit = () => {
                                                     </div>
                                                 </form>
                                                 <div class="text-center">
-                                                    <Link :href="route('login')" class="text-white underline fw-medium">
+                                                    <Link :href="route('login', { locale: locale_lng })" class="text-white underline fw-medium">
                                                     Sign In </Link>
                                                 </div>
                                             </div>
