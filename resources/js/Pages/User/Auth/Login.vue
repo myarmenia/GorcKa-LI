@@ -8,6 +8,10 @@ import TextInput from '@/Components/TextInput.vue';
 import WhiteButton from '@/Components/WhiteButton.vue';
 
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
+
+
+const locale_lng = usePage().props.locale; // Получаем локаль
 
 defineProps({
     canResetPassword: {
@@ -24,7 +28,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('login'), {
+    form.post(route('login', { locale: locale_lng }), {
         onFinish: () => form.reset('password'),
     });
 };
@@ -95,7 +99,7 @@ const submit = () => {
                                                     <div >
                                                         <Link
                                                             v-if="canResetPassword"
-                                                            :href="route('password.request')"
+                                                            :href="route('password.request', { locale: locale_lng })"
                                                             class="mb-4 text-white ltr:float-right rtl:float-left"
                                                         >
                                                             Forgot your password?
@@ -113,7 +117,7 @@ const submit = () => {
                                                 </form>
                                                 <div class="text-center">
                                                     <p class="text-white">Already a member ?
-                                                        <Link :href="route('register')" class="text-white underline fw-medium">
+                                                        <Link :href="route('register', { locale: locale_lng })" class="text-white underline fw-medium">
                                                             Sign Up
                                                         </Link>
                                                     </p>

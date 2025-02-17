@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-
+use App\Interfaces\Auth\RegisterInterface;
+use App\Repositories\Auth\RegisterRepository;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -17,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(RegisterInterface::class, RegisterRepository::class);
     }
 
     /**

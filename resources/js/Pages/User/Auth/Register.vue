@@ -157,8 +157,8 @@ const submit = () => {
 
 
                                                     <div class="mb-4">
-                                                        <div>
-                                                            <input
+                                                        <div class="flex">
+                                                            <!-- <input
                                                                 class="align-middle border-transparent rounded focus:ring-0 focus:ring-offset-0 group-data-[theme-color=violet]:checked:bg-violet-500 group-data-[theme-color=sky]:checked:bg-sky-500 group-data-[theme-color=red]:checked:bg-red-500 group-data-[theme-color=green]:checked:bg-green-500 group-data-[theme-color=pink]:checked:bg-pink-500 group-data-[theme-color=blue]:checked:bg-blue-500"
                                                                 type="checkbox" id="flexCheckDefault" name="agree_terms">
                                                             <label class="text-white align-middle"
@@ -169,11 +169,17 @@ const submit = () => {
                                                                     and
                                                                     conditions
                                                                 </a>
-                                                            </label>
-                                                            <Checkbox  v-model="form.agree_terms"></Checkbox>
-                                                            <InputError class="mt-2 opacity-60"
-                                                                :message="form.errors.agree_terms" />
+                                                            </label> -->
+                                                            <Checkbox id="flexCheckDefault" v-model="form.agree_terms" class="align-middle border-transparent rounded focus:ring-0 focus:ring-offset-0 group-data-[theme-color=green]:checked:bg-green-500 mr-2"></Checkbox>
+
+                                                            <InputLabel for="flexCheckDefault" value="agree to the"
+                                                            class="text-white" />
+                                                            <Link :href="route('login', { locale: locale_lng })" class="text-white underline fw-medium">
+                                                                  Terms and conditions </Link>
+
                                                         </div>
+                                                        <InputError class="mt-2 opacity-60"
+                                                                :message="form.errors.agree_terms" />
                                                     </div>
                                                     <div class="my-5 text-center">
 

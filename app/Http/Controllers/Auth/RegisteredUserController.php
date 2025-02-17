@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Mail\VerifyEmail;
 use App\Models\Location;
 use App\Models\User;
+use App\Services\Auth\RegisterService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,16 +20,14 @@ use Mail;
 
 class RegisteredUserController extends Controller
 {
+    public function __construct(protected RegisterService $registerService) {}
+
     /**
      * Display the registration view.
      */
     public function create(): Response
     {
-        $locations = Location::with([
-            'translations' => function ($query) {
-                $query->where('lang_id', 1);
-            }
-        ])->get();
+        $locations = $this->registerService->create();
         // dd($locations);
         return Inertia::render('Auth/Register',  ['locations' => $locations]);
     }
@@ -37,16 +37,16 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(RegisterRequest $request): RedirectResponse
     {
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
-            'phone' => 'required|regex:/^\+?[1-9]\d{1,14}$/',
-             'agree_terms' => 'accepted',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
+        // $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
+        //     'phone' => 'required|regex:/^\+?[1-9]\d{1,14}$/',
+        //      'agree_terms' => 'accepted',
+        //     'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        // ]);
 
         $user = User::create([
             'name' => $request->name,
