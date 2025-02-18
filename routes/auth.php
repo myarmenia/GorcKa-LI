@@ -51,37 +51,45 @@ Route::prefix('{locale}')
     });
 });
 
+
+
 Route::middleware('auth')->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
-        ->name('verification.notice');
 
-    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
+    Route::prefix('{locale}')
+        ->where(['locale' => 'en|ru|am']) // Здесь указываются допустимые значения для локали
+        ->group(function () {
 
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware('throttle:6,1')
-        ->name('verification.send');
 
-    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-        ->name('password.confirm');
+        Route::get('verify-email', EmailVerificationPromptController::class)
+            ->name('verification.notice')->where(['locale' => 'en|ru|am']);
 
-    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
+        Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+            ->middleware(['signed', 'throttle:6,1' ])
+            ->name('verification.verify');
 
-    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+        Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
+            ->middleware(['throttle:6,1'])
+            ->name('verification.send');
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
+            ->name('password.confirm');
 
-    Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
-    Route::post('/roles/store', [RoleController::class, 'store'])->name('roles.store');
+        Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
-    // Route::resource('roles', RoleController::class);
+        Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+        Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
+        Route::post('/roles/store', [RoleController::class, 'store'])->name('roles.store');
+
+        // Route::resource('roles', RoleController::class);
+
+        Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+            ->name('logout');
+    });
 });
-
 
 // Route::resource('roles', RoleController::class);
 

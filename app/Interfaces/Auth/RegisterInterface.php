@@ -2,7 +2,9 @@
 
 namespace App\Interfaces\Auth;
 
-interface RegisterInterface
+use App\Interfaces\BaseInterface;
+
+interface RegisterInterface extends BaseInterface
 {
     public function store(array $data);
 }

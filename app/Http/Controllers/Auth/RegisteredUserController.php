@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\DTO\Auth\RegisterDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Mail\VerifyEmail;
@@ -40,29 +41,12 @@ class RegisteredUserController extends Controller
     public function store(RegisterRequest $request): RedirectResponse
     {
 
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
-        //     'phone' => 'required|regex:/^\+?[1-9]\d{1,14}$/',
-        //      'agree_terms' => 'accepted',
-        //     'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        // ]);
+        $user = $this->registerService->store(RegisterDTO::fromRegisterDTO($request->all()));
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
 
-        $user->assignRole('user');
-
-        // event(new Registered($user));
-        Mail::to($user->email)->send(new VerifyEmail($user));
-
-        Auth::login($user);
-
-        return redirect(route('dashboard', ['locale' => app()->getLocale()], absolute: false));
-        // return redirect()->route('welcome');
+        return $user ?
+            redirect(route('dashboard', ['locale' => app()->getLocale()], absolute: false)) :
+            redirect(route('welcome', ['locale' => app()->getLocale()], absolute: false));
 
     }
 }

@@ -8,33 +8,19 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\URL;
-class VerifyEmail extends Mailable
+
+class CustomResetPasswordToMail extends Mailable
 {
     use Queueable, SerializesModels;
-
-
-    public $user;
-    public $url;
-
+    public string $token;
+    public string $email;
     /**
      * Create a new message instance.
      */
-    public function __construct($user)
+    public function __construct(string $token, string $email)
     {
-        $this->user = $user;
-        $this->url = URL::temporarySignedRoute(
-            'verification.verify',
-            Carbon::now()->addMinutes(60),
-            [
-                'id' => $user->getKey(),
-                'hash' => sha1($user->getEmailForVerification()),
-                'locale' => app()->getLocale()
-            ]
-        );
-
-        $this->to($user->email);
+        $this->token = $token;
+        $this->email = $email;
     }
 
     /**
@@ -43,9 +29,8 @@ class VerifyEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Verify Email',
+            subject: 'Custom Reset Password To Mail',
         );
-
     }
 
     /**
@@ -54,11 +39,11 @@ class VerifyEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.verify-email',
-            with: ['user' => $this->user, 'url' => $this->url]
+            view: 'emails.reset-password',
+            with: [
+                'url' => url(route('password.reset', ['token' => $this->token, 'email' => $this->email, 'locale' => app()->getLocale()], false)),
+            ],
         );
-
-
     }
 
     /**
@@ -69,5 +54,11 @@ class VerifyEmail extends Mailable
     public function attachments(): array
     {
         return [];
+    }
+
+    public function build()
+    {
+        return $this->to($this->email) // Ensure the recipient is set here
+            ->subject('Reset your password');
     }
 }

@@ -19,27 +19,16 @@ class SetLocale
     public function handle(Request $request, Closure $next)
     {
 
-//         $locale = $request->route('locale'); // Получаем язык из URL
-//         if (!in_array($locale, ['en', 'ru', 'am'])) {
-//             $locale = Session::get('locale', config('app.locale')); // Берем из сессии, если нет в URL
-//         }
+        $locale = $request->route('locale'); // Получаем язык из URL
+        if (!in_array($locale, ['en', 'ru', 'am'])) {
+            $locale = Session::get('locale', config('app.locale')); // Берем из сессии, если нет в URL
+        }
 
-//        // Устанавливаем локаль
-//        App::setLocale($locale);
-//        session(['locale' => $locale]);
-// dd(session()->get('locale'));
-//         Inertia::share('locale', $locale);
-        // Определяем локаль из маршрута или берём стандартную из конфига
-        $locale = $request->route('locale', config('app.locale'));
-
-        // Устанавливаем локаль приложения
+        // Устанавливаем локаль
         App::setLocale($locale);
+        session(['locale' => $locale]);
 
-        // Передаём локаль во все Inertia-запросы
-        Inertia::share([
-            'locale' => $locale
-        ]);
-
+        Inertia::share('locale', $locale);
 
         return $next($request);
     }

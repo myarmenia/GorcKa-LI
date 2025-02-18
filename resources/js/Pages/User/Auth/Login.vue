@@ -10,7 +10,6 @@ import WhiteButton from '@/Components/WhiteButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 
-
 const locale_lng = usePage().props.locale; // Получаем локаль
 
 defineProps({

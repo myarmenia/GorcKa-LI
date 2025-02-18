@@ -24,14 +24,10 @@ class BaseRepository implements BaseInterface
         return $this->model->findOrFail($id);
     }
 
-    // public function create()
-    // {
-    //     return $this->model->create();
-    // }
 
     public function store(array $data)
     {
-        return $this->model->store($data);
+        return $this->model->create($data);
     }
 
     public function update(int $id, array $data)

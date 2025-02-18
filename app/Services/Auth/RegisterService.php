@@ -4,11 +4,14 @@ namespace App\Services\Auth;
 
 use App\DTO\RegisterDTO;
 use App\Interfaces\Auth\RegisterInterface;
+use App\Interfaces\BaseInterface;
+use App\Mail\VerifyEmail;
 use App\Models\Location;
-
+use Illuminate\Support\Facades\Auth;
+use Mail;
 class RegisterService
 {
-    public function __construct(protected RegisterInterface $registerRepository) {}
+    public function __construct(protected BaseInterface $registerRepository) {}
 
 
     public function create()
@@ -23,9 +26,18 @@ class RegisterService
     }
 
 
-    public function store(RegisterDTO $dto)
+    public function store($dto)
     {
-        return $this->registerRepository->store($dto->toArray());
+
+        $user = $this->registerRepository->store($dto->toArray());
+
+        $user->assignRole('user');
+
+        Mail::to($user->email)->send(new VerifyEmail($user));
+
+        Auth::login($user);
+
+        return $user;
     }
 
 

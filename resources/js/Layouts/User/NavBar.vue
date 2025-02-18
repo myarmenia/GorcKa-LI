@@ -146,6 +146,12 @@ const changeLanguage = (lang) => {
                             </div>
                         </div>
                         <div>
+                            <div class="relative dropdown ltr:mr-4 rtl:ml-4">**
+                                <a href="job-categories.html" class="text-white border-transparent group-data-[theme-color=green]:bg-green-500 btn hover:-translate-y-2">Log In </a>
+                                <a href="job-categories.html" class="text-white border-transparent group-data-[theme-color=green]:bg-green-500 btn hover:-translate-y-2">Register </a>
+
+
+                            </div>
                             <div class="relative dropdown ltr:mr-4 rtl:ml-4">
                                 <button type="button" class="flex items-center px-4 py-5 dropdown-toggle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <img class="w-8 h-8 rounded-full ltr:xl:mr-2 rtl:xl:ml-2" src="assets/user/images/user/img-02.jpg" alt="Header Avatar">

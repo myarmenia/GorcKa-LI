@@ -4,7 +4,6 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import Select from '@/Components/Select.vue';
 import Checkbox from '@/Components/Checkbox.vue'
-// import PrimaryButton from '@/Components/PrimaryButton.vue';
 import WhiteButton from '@/Components/WhiteButton.vue';
 
 import TextInput from '@/Components/TextInput.vue';
@@ -45,7 +44,7 @@ const submit = () => {
 <template>
     <Layout >
         <Head title="Register" />
-                <section class="flex items-center justify-center min-h-screen py-10 group-data-[theme-color=green]:bg-green-500/10 dark:bg-neutral-700">
+                <section class="flex items-center justify-center min-h-screen pt-40 pb-20 group-data-[theme-color=green]:bg-green-500/10 dark:bg-neutral-700">
                     <div class="container mx-auto">
                         <div class="grid grid-cols-12">
                             <div class="col-span-12 lg:col-span-10 lg:col-start-2">
@@ -53,7 +52,7 @@ const submit = () => {
                                     <div class="grid flex-col grid-cols-12">
                                         <div class="col-span-6 ltr:rounded-l-lg rtl:rounded-r-lg">
                                             <div class="p-10">
-                                                <a href="index.html">
+                                                <a href="">
                                                     <img src="/assets/user/images/logo-light.png" alt=""
                                                         class="hidden mx-auto dark:block">
                                                     <img src="/assets/user/images/logo-dark.png" alt=""
