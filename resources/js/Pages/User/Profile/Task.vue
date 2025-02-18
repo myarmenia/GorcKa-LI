@@ -1,25 +1,85 @@
 <script setup>
+
+
 import { Head, useForm } from '@inertiajs/vue3';
 import Index from './Index.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import Select from '@/Components/Select.vue';
+import { onMounted,ref, watch , computed} from 'vue';
+
+import { usePage } from '@inertiajs/vue3';
+
+// =====for lang =====
+const pathParts = window.location.pathname.split("/");
+const locale = pathParts[1] ?? "en"; // Извлекаем локаль из URL
+
+// ===== Получаем категории с подкатегориями из props
+const { categories } = usePage().props; //
+// ===== Подкатегории для выбранной категории
+const subcategories = ref([]);
+
+
 
 const form = useForm({
-    sub_category_id : '',
-    location_id : '',
-    title : '',
-    description : '',
-    price_min : '',
-    price_max : '',
-    end_date : '',
+    category_id: categories.length > 0 ? categories[0].id : '',
+
+     sub_category_id : '',
+    // location_id : '',
+    // title : '',
+    // description : '',
+    // price_min : '',
+    // price_max : '',
+    // end_date : '',
+
+     lang: locale
+
 
 
 });
-
-
+console.log(form)
 const props = defineProps({
     categories: Array
 });
+
+
+// // Автозаполнение категории при загрузке страницы
+// onMounted(() => {
+//   if (categories.length > 0) {
+//     form.category_id = categories[0].id; // Устанавливаем первую категорию
+//     onCategoryChange(); // Вызываем функцию загрузки подкатегорий
+//   }
+// });
+
+// Метод для обработки изменения категории
+
+
+const onCategoryChange = () => {
+  if (!props.categories) return;
+  const selectedCategory = props.categories.find(category => category.id === form.category_id);
+  subcategories.value = selectedCategory ? selectedCategory.sub_categories || [] : [];
+
+};
+
+// Массив подкатегорий с переведенными названиями
+const subcategoryOptions = computed(() => {
+  return subcategories.value.map(subcategory => ({
+    value: subcategory.id,
+    text: subcategory.translation?.name || 'Без названия'
+  }));
+});
+console.log(subcategoryOptions)
+
+
+
+
+
+
+const submitForm = () => {
+    form.post(route('task.store',{ locale }));
+};
+
+// Инициализируем подкатегории при первом рендере
+watch(() => form.category_id, onCategoryChange, { immediate: true });
 
 
 
@@ -31,9 +91,9 @@ const props = defineProps({
         <template #content>
             <div class="w-full tab-pane block" id="settings-tab">
                                                     <div class="pt-8 space-x-8">
-                                                        <form  @submit.prevent = submit >
+                                                        <form  @submit.prevent = submitForm >
                                                             <div>
-                                                                <h5 class="mb-3 text-gray-900 fs-17 fw-semibold dark:text-gray-50">My Account</h5>
+                                                                <h5 class="mb-3 text-gray-900 fs-17 fw-semibold dark:text-gray-50">{{ $t('create_task') }}</h5>
                                                                 <!-- <div class="text-center">
                                                                     <div class="relative mb-4">
                                                                         <img src="assets/images/user/img-02.jpg" class="w-40 h-40 p-1 mx-auto border-2 rounded-full border-gray-100/50 dark:border-neutral-600" id="profile-img" alt="">
@@ -50,10 +110,31 @@ const props = defineProps({
                                                                         <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
                                                                                 <InputLabel for="category" value="category name" class="text-white" />
-                                                                                <Select :options="categories"/>
+
+                                                                                <!-- <select v-model="form.category_id" @change="ChangeSelection" >
+                                                                                    <option value = ""  disabled>chose</option>
+                                                                                    <option v-for = "category in categories" :key = "category.id"  :value="category.id">
+                                                                                        {{ category.translation?.name }}
+                                                                                    </option>
+
+                                                                                </select> -->
+                                                                                <Select
+                                                                                    v-model="form.category_id"
+                                                                                    :id="'category'"
+                                                                                    :label="$t('select_category')"
+                                                                                    :name="'category_id'"
+                                                                                    :options="categories.map(category => ({
+                                                                                        value: category.id,
+                                                                                        text: category.translation?.name || 'Без названия'
+                                                                                    }))"
+                                                                                    :error="form.errors.category_id"
+
+                                                                                />
+
+                                                                                <button type="submit">Create Task</button>
 
                                                                                 <!-- <label for="firstName" class="text-sm text-gray-900 dark:text-gray-50">First Name</label> -->
-                                                                                <input type="text" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" id="firstName" value="Jansh">
+                                                                                <!-- <input type="text" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" id="firstName" value="Jansh"> -->
                                                                             </div>
                                                                         </div>
                                                                         <!--end col-->
@@ -66,10 +147,22 @@ const props = defineProps({
                                                                         <!--end col-->
                                                                         <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
-                                                                                <label for="choices-single-categories" class="text-sm text-gray-900 dark:text-gray-50">Account Type</label>
+
+                                                                                <!-- <label for="choices-single-categories" class="text-sm text-gray-900 dark:text-gray-50">Account Type</label>
                                                                                 <div class="mt-1">
                                                                                     <div class="choices" data-type="select-one" tabindex="0" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false"><div class="choices__inner"><select class="form-select choices__input" data-trigger="" name="choices-single-categories" id="choices-single-categories" aria-label="Default select example" hidden="" tabindex="-1" data-choice="active"><option value="4" data-custom-properties="[object Object]">Accounting</option></select><div class="choices__list choices__list--single"><div class="choices__item choices__item--selectable" data-item="" data-id="1" data-value="4" data-custom-properties="[object Object]" aria-selected="true">Accounting</div></div></div><div class="choices__list choices__list--dropdown" aria-expanded="false"><input type="search" name="search_terms" class="choices__input choices__input--cloned" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null" placeholder=""><div class="choices__list" role="listbox"><div id="choices--choices-single-categories-item-choice-1" class="choices__item choices__item--choice is-selected choices__item--selectable is-highlighted" role="option" data-choice="" data-id="1" data-value="4" data-select-text="Press to select" data-choice-selectable="" aria-selected="true">Accounting</div><div id="choices--choices-single-categories-item-choice-2" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="2" data-value="5" data-select-text="Press to select" data-choice-selectable="">Banking</div><div id="choices--choices-single-categories-item-choice-3" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="3" data-value="1" data-select-text="Press to select" data-choice-selectable="">IT &amp; Software</div><div id="choices--choices-single-categories-item-choice-4" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="4" data-value="3" data-select-text="Press to select" data-choice-selectable="">Marketing</div></div></div></div>
-                                                                                </div>
+                                                                                </div> -->
+                                                                                <InputLabel for="sub_category" value="sub_category name" class="text-white"/>
+                                                                                <Select
+                                                                                    :v-model = "form.subcategory_id"
+                                                                                    :id = "'sub_category'"
+                                                                                    :label = "$t('select_sub_category')"
+                                                                                    :name = "subcategory_id"
+                                                                                    :options = "subcategoryOptions"
+                                                                                    :error = "form.errors.subcategory_id"
+
+
+                                                                                />
                                                                             </div>
                                                                         </div>
                                                                         <!--end col-->

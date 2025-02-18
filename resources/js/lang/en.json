@@ -1,4 +1,7 @@
 {
     "welcome": "Welcome",
-    "logout": "Logout"
+    "logout": "Logout",
+    "select_category": "Select category",
+    "select_sub_category": "Select subcategory",
+    "create_task": "Create a task"
   }

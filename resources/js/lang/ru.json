@@ -1,4 +1,7 @@
 {
     "welcome": "Добро пожаловать",
-    "logout": "Выйти"
+    "logout": "Выйти",
+    "select_category": "Выберите категорию",
+    "select_sub_category": "Выберите подкатегорию",
+    "create_task": "Создать задачу"
   }

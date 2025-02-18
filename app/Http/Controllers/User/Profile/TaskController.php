@@ -16,7 +16,7 @@ class TaskController extends Controller
     {
         // dd(444);
 
-        $categories = Category::with(['category_translations','sub_categories','sub_categories.sub_category_translations'])->get();
+        $categories = Category::with(['translation','sub_categories.translation'])->get();
 
 
         return  Inertia::render('Profile/Task',[
@@ -38,7 +38,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
