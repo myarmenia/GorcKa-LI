@@ -164,12 +164,18 @@ const changeLanguage = (lang) => {
                                 </ul>
                             </div>
                         </div>
-                        <h1>{{ $t('welcome') }}{{ locale}}</h1>
+
                         <div>
                             <div class="relative dropdown ltr:mr-4 rtl:ml-4">
                                 <button type="button" class="flex items-center px-4 py-5 dropdown-toggle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-
-                                    <span class="hidden fw-medium xl:block dark:text-gray-50">lang</span>
+                                    <span class="mx-2 text-gray-800">{{ locale}}</span>
+                                    <span class="hidden fw-medium xl:block dark:text-gray-50">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="gray" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"></path>
+                                        </svg>
+                                    </span>
                                 </button>
                                 <ul class="absolute top-auto z-50 hidden w-48 p-3 list-none bg-white border rounded shadow-lg dropdown-menu border-gray-500/20 xl:ltr:-left-3 ltr:-left-32 rtl:-right-3 dark:bg-neutral-800" id="profile/log" aria-labelledby="navNotifications">
                                     <li class="p-2 dropdown-item group/dropdown dark:text-gray-300">

@@ -55,7 +55,7 @@ const props = defineProps({
 
 const onCategoryChange = () => {
   if (!props.categories) return;
-  const selectedCategory = props.categories.find(category => category.id === form.category_id);
+   const selectedCategory = props.categories.find(category => category.id === form.category_id);
   subcategories.value = selectedCategory ? selectedCategory.sub_categories || [] : [];
 
 };
@@ -68,6 +68,7 @@ const subcategoryOptions = computed(() => {
   }));
 });
 console.log(subcategoryOptions)
+
 
 
 
@@ -87,7 +88,7 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
 
 <template>
     <Index>
-        <Head title = "Profile" />
+        <Head title = "Task" />
         <template #content>
             <div class="w-full tab-pane block" id="settings-tab">
                                                     <div class="pt-8 space-x-8">
@@ -111,8 +112,8 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                             <div class="mb-3">
                                                                                 <InputLabel for="category" value="category name" class="text-white" />
 
-                                                                                <!-- <select v-model="form.category_id" @change="ChangeSelection" >
-                                                                                    <option value = ""  disabled>chose</option>
+                                                                                <!-- <select v-model="form.category_id"   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >
+                                                                                    <option value = ""  disabled>{{$t('select_category')}}</option>
                                                                                     <option v-for = "category in categories" :key = "category.id"  :value="category.id">
                                                                                         {{ category.translation?.name }}
                                                                                     </option>
