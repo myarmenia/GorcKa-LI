@@ -3,5 +3,14 @@
     "logout": "Logout",
     "select_category": "Select category",
     "select_sub_category": "Select subcategory",
-    "create_task": "Create a task"
+    "create_task": "Create a task",
+    "select_location": "Select location",
+    "enter_task_name": "Enter a task name",
+    "task_name": "Task name",
+    "min_price": "Min price",
+    "max_price": "Maximum price",
+    "start_date": "Start date",
+    "end_date": "End date",
+    "description": "Description",
+    "chose_file": "Chose file"
   }

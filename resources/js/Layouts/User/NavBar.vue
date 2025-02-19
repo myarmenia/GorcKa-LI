@@ -15,7 +15,8 @@ onMounted(() => {
 const changeLanguage = (lang) => {
 
     locale.value = lang;
-    localStorage.setItem('locale', lang);
+    // localStorage.setItem('locale', lang);
+
     const path = window.location.pathname.split('/');
 
     // Replace the current locale (first segment) with the new one
