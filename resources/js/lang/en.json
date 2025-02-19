@@ -1,4 +1,9 @@
 {
     "welcome": "Welcome",
-    "logout": "Logout"
-  }
+    "logout": "Logout",
+
+    "form": {
+        "title": "english"
+        
+    }
+}

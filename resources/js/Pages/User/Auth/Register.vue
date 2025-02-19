@@ -11,7 +11,7 @@ import Layout from '@/Layouts/User/Layout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 import { usePage } from '@inertiajs/vue3';
-const locale_lng = usePage().props.locale; // Получаем локаль
+import { useTrans } from '/resources/js/trans';
 
 const props = defineProps({
   locations: Array
@@ -35,7 +35,7 @@ const form = useForm({
 
 const submit = () => {
 
-    form.post(route('register', { locale: locale_lng }), {
+    form.post(route('register', { locale: usePage().props.locale }), {
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
 };
@@ -66,8 +66,9 @@ const submit = () => {
                                         <div
                                             class="col-span-12 rounded-b-md lg:col-span-6 group-data-[theme-color=green]:bg-green-500  lg:ltr:rounded-r-lg rtl:rounded-l-lg">
                                             <div class="flex flex-col justify-center h-full p-12">
-                                                <div class="text-center">
-                                                    <h5 class="text-[18.5px] text-white">Let's Get Started</h5>
+                                                <div class="text-center"> ----- {{ useTrans('page.title') }} ++++ {{ useTrans('form.name') }}
+                                                    <h1 v-text=" useTrans('page.title')"></h1>
+                                                    <h5 class="text-[18.5px] text-white">Let's Get Started 7777 {{ $page.props.translations.page.title }} </h5>
                                                     <p class="mt-3 text-gray-50">Sign Up and get access to all the
                                                         features
                                                         of Jobcy</p>
@@ -173,7 +174,7 @@ const submit = () => {
 
                                                             <InputLabel for="flexCheckDefault" value="agree to the"
                                                             class="text-white" />
-                                                            <Link :href="route('login', { locale: locale_lng })" class="text-white underline fw-medium">
+                                                            <Link :href="route('login', { locale: usePage().props.locale })" class="text-white underline fw-medium">
                                                                   Terms and conditions </Link>
 
                                                         </div>
@@ -190,7 +191,7 @@ const submit = () => {
                                                     </div>
                                                 </form>
                                                 <div class="text-center">
-                                                    <Link :href="route('login', { locale: locale_lng })" class="text-white underline fw-medium">
+                                                    <Link :href="route('login', { locale: usePage().props.locale })" class="text-white underline fw-medium">
                                                     Sign In </Link>
                                                 </div>
                                             </div>

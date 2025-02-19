@@ -1,4 +1,8 @@
 {
     "welcome": "Բարի գալուստ",
-    "logout": "Ելք"
-  }
+    "logout": "Ելք",
+
+    "form": {
+        "title": "hayeren"
+    }
+}

@@ -35,7 +35,7 @@ const submit = () => {
 </script>
 
 <template>
-   
+
     <Layout>
         <Head title="Reset Password" />
 

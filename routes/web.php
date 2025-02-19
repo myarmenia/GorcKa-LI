@@ -48,7 +48,7 @@ Route::prefix('{locale}')
             ]);
         })->name('welcome');
 
-        Route::get('/dashboard', function () {
+        Route::get('dashboard', function () {
             return Inertia::render('Dashboard');
         })->middleware(['auth', 'verified_with_locale'])->name('dashboard');
     });
