@@ -15,7 +15,8 @@ const props = defineProps({
 const emit = defineEmits();
 
 // Синхронизация выбранного значения с родительским компонентом
-const selected = ref(props.value);
+// const selected = ref(props.value);
+const selected = ref(props.value ?? (props.options?.length ? props.options[0].value : ''));
 
 watch(selected, (newValue) => {
   emit('update:modelValue', newValue);

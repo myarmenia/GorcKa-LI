@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('notific_cat_trans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('notification_category_id')->constrained('notification_categories')->cascadeOnDelete();
-            $table->foreignId('lang_id')->constrained('langs')->cascadeOnDelete();
+            $table->string('lang');
             $table->string('name');
             $table->timestamps();
         });

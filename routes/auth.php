@@ -47,6 +47,8 @@ Route::prefix('{locale}')
         Route::get('/profile_page', [ProfileController::class, 'profile_page'])->name('profile.profile_page');
 
         Route::get('task',[TaskController::class,'index'])->name('task.create');
+        Route::post('task',[TaskController::class,'store'])->name('task.store');
+        
 
     });
 });
