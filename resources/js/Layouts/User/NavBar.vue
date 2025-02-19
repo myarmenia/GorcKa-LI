@@ -1,9 +1,13 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, inject } from "vue";
 import { initNavbar } from "@/modules/user/navbar.js";
-import { router } from '@inertiajs/vue3';
+
+import { router, Link } from '@inertiajs/vue3';
+
+
 import { useI18n } from 'vue-i18n';
 import { usePage } from '@inertiajs/vue3';
+
 
 const { locale } = useI18n();
 const locale_lng = usePage().props.locale; // Получаем локаль
@@ -26,10 +30,12 @@ const changeLanguage = (lang) => {
     console.log(newUrl)
     // Navigate to the new URL without reloading the page
     router.get(newUrl, {}, { preserveState: true, preserveScroll: true });
+
 };
 </script>
 
 <template>
+
        <nav class="navbar fixed right-0 left-0 top-0 lg:top-[44.5px] px-5 lg:px-24 transition-all duration-500 ease shadow-lg shadow-gray-200/20 bg-white border-gray-200 dark:bg-neutral-800 z-40 dark:shadow-neutral-900" id="navbar">
             <div class="mx-auto container-fluid">
                 <div class="flex flex-wrap items-center justify-between mx-auto">
@@ -42,7 +48,7 @@ const changeLanguage = (lang) => {
                         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
                     </button>
                     <div class="flex items-center lg:order-2">
-                        <div>
+                        <div v-if="$page.props.auth.user">
                             <div class="relative dropdown">
                                 <div class="relative">
                                     <button type="button" class="btn border-0 h-[70px] dropdown-toggle px-4 text-gray-500 dark:text-gray-300" aria-expanded="false" data-dropdown-toggle="notification">
@@ -144,7 +150,8 @@ const changeLanguage = (lang) => {
                             </div>
                         </div>
                         <div>
-                            <div class="relative dropdown ltr:mr-4 rtl:ml-4">
+
+                            <div  v-if="$page.props.auth.user" class="relative dropdown ltr:mr-4 rtl:ml-4">
                                 <button type="button" class="flex items-center px-4 py-5 dropdown-toggle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <img class="w-8 h-8 rounded-full ltr:xl:mr-2 rtl:xl:ml-2" src="assets/user/images/user/img-02.jpg" alt="Header Avatar">
                                     <span class="hidden fw-medium xl:block dark:text-gray-50">Shawn L.</span>
@@ -163,6 +170,10 @@ const changeLanguage = (lang) => {
                                         <a class="text-15 font-medium text-gray-800 group-data-[theme-color=violet]:group-hover/dropdown:text-violet-500 group-data-[theme-color=sky]:group-hover/dropdown:text-sky-500 group-data-[theme-color=red]:group-hover/dropdown:text-red-500 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-data-[theme-color=pink]:group-hover/dropdown:text-pink-500 group-data-[theme-color=blue]:group-hover/dropdown:text-blue-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50" href="sign-out.html">Logout</a>
                                     </li>
                                 </ul>
+                            </div>
+                            <div v-else class="relative dropdown ltr:mr-4 rtl:ml-4">
+                                <Link :href="route('login', { locale: usePage().props.locale })" class="text-white mr-4 border-transparent group-data-[theme-color=green]:bg-green-500 btn hover:-translate-y-2">Log In </Link>
+                                <Link :href="route('register', { locale: usePage().props.locale })" class="text-white border-transparent group-data-[theme-color=green]:bg-green-500 btn hover:-translate-y-2">Register</Link>
                             </div>
                         </div>
 

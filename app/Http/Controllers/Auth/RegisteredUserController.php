@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\DTO\Auth\RegisterDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Mail\VerifyEmail;
+use App\Models\Location;
 use App\Models\User;
+use App\Services\Auth\RegisterService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,13 +21,16 @@ use Mail;
 
 class RegisteredUserController extends Controller
 {
+    public function __construct(protected RegisterService $registerService) {}
+
     /**
      * Display the registration view.
      */
     public function create(): Response
     {
-
-        return Inertia::render('Auth/Register');
+        $locations = $this->registerService->create();
+        // dd($locations);
+        return Inertia::render('Auth/Register',  ['locations' => $locations]);
     }
 
     /**
@@ -31,29 +38,15 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(RegisterRequest $request): RedirectResponse
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $user = $this->registerService->store(RegisterDTO::fromRegisterDTO($request->all()));
 
-        $user->assignRole('user');
 
-        // event(new Registered($user));
-        Mail::to($user->email)->send(new VerifyEmail($user));
-
-        Auth::login($user);
-
-        return redirect(route('dashboard', ['locale' => app()->getLocale()], absolute: false));
-        // return redirect()->route('welcome');
+        return $user ?
+            redirect(route('dashboard', ['locale' => app()->getLocale()], absolute: false)) :
+            redirect(route('welcome', ['locale' => app()->getLocale()], absolute: false));
 
     }
 }

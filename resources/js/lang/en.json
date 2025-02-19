@@ -1,6 +1,7 @@
 {
     "welcome": "Welcome",
     "logout": "Logout",
+
     "select_category": "Select category",
     "select_sub_category": "Select subcategory",
     "create_task": "Create a task",
@@ -14,3 +15,4 @@
     "description": "Description",
     "chose_file": "Chose file"
   }
+

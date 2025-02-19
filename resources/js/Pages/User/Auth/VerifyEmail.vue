@@ -5,6 +5,8 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import WhiteButton from '@/Components/WhiteButton.vue';
 
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
+const locale_lng = usePage().props.locale; // Получаем локаль
 
 const props = defineProps({
     status: {
@@ -15,7 +17,7 @@ const props = defineProps({
 const form = useForm({});
 
 const submit = () => {
-    form.post(route('verification.send'));
+    form.post(route('verification.send', { locale: locale_lng }));
 };
 
 const verificationLinkSent = computed(
@@ -35,7 +37,7 @@ const verificationLinkSent = computed(
                                 <div class="grid flex-col grid-cols-12">
                                     <div class="col-span-12 lg:col-span-6 ltr:rounded-l-lg rtl:rounded-r-lg">
                                         <div class="p-10">
-                                            <a href="index.html">
+                                            <a href="">
                                                 <img src="/assets/user/images/logo-light.png" alt="" class="hidden mx-auto dark:block">
                                                 <img src="/assets/user/images/logo-dark.png" alt="" class="block mx-auto dark:hidden">
                                             </a>
@@ -69,7 +71,7 @@ const verificationLinkSent = computed(
                                             <div class="mt-8 text-center">
                                                 <p class="text-white/50">If you want to ?
                                                     <Link
-                                                        :href="route('logout')"
+                                                        :href="route('logout', { locale: locale_lng })"
                                                         method="post"
                                                         as="button"
                                                         class="text-white underline fw-medium"

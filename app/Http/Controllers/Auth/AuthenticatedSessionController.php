@@ -13,6 +13,7 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
+
     /**
      * Display the login view.
      */
@@ -33,7 +34,8 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('welcome', absolute: false));
+        // return redirect()->intended(route('welcome', absolute: false));
+        return redirect()->intended(route('dashboard', ['locale' => app()->getLocale()], absolute: false));
     }
 
     /**

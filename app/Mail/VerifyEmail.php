@@ -27,10 +27,14 @@ class VerifyEmail extends Mailable
         $this->url = URL::temporarySignedRoute(
             'verification.verify',
             Carbon::now()->addMinutes(60),
-            ['id' => $user->getKey(), 'hash' => sha1($user->getEmailForVerification())]
+            [
+                'id' => $user->getKey(),
+                'hash' => sha1($user->getEmailForVerification()),
+                'locale' => app()->getLocale()
+            ]
         );
 
-        $this->to($user->email); 
+        $this->to($user->email);
     }
 
     /**

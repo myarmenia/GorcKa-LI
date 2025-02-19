@@ -6,7 +6,7 @@ import '../css/user/app.css';
 import '../css/user/icons.css';
 import '../css/user/tailwind.css';
 
-import '../../public/assets/user/libs/@popperjs/core/umd/popper.min';
+// import '../../public/assets/user/libs/@popperjs/core/umd/popper.min';
 import '../../public/assets/user/libs/simplebar/simplebar.min';
 import './modules/user/switcher.js';
 import '../../public/assets/user/libs/choices.js/public/assets/scripts/choices.min';

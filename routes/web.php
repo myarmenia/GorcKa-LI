@@ -37,6 +37,7 @@ Route::get('/', function () {
 Route::prefix('{locale}')
     ->where(['locale' => 'en|ru|am']) // Разрешенные языки
     ->group(function () {
+
         Route::get('/', function () {
             return Inertia::render('Welcome', [
                 'locale' => app()->getLocale(), // Локаль теперь берется из Middleware
@@ -46,6 +47,10 @@ Route::prefix('{locale}')
                 'phpVersion' => PHP_VERSION,
             ]);
         })->name('welcome');
+
+        Route::get('dashboard', function () {
+            return Inertia::render('Dashboard');
+        })->middleware(['auth', 'verified_with_locale'])->name('dashboard');
     });
 
 
@@ -55,9 +60,7 @@ Route::get('/admin', function () {
 
 
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 
 // Route::middleware('auth')->group(function () {
