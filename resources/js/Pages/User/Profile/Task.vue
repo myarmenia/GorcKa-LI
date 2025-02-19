@@ -119,7 +119,7 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                          <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
 
-                                                                                <InputLabel for="title" :value="$t('task_name')" class="text-grey"/>
+                                                                                <InputLabel for="title" :value="$page.props.translations.page.task_name" class="text-grey"/>
                                                                                 <TextInput
 
                                                                                  v-model="form.title"
