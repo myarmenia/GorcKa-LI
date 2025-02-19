@@ -97,10 +97,10 @@
                                                     <div class="flex">
                                                         <label class="w-32 font-medium text-gray-900 dark:text-gray-50"></label>
                                                         <div>
-                                                            
 
 
-                                                                <Link :href="route('task.create',{locale:locale_lng})">Task Page</Link>
+
+                                                                <Link :href="route('task.create',{locale:usePage().props.locale})">Task Page</Link>
 
                                                         </div>
                                                     </div>

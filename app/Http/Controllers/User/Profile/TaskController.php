@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,7 +15,18 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return  Inertia::render('Profile/Task');
+
+
+        $categories = Category::with(['translation','sub_categories.translation'])->get();
+        $location = Location::with('translation')->get();
+        // dd($location);
+
+
+        return  Inertia::render('Profile/Task',[
+            'categories'=>$categories,
+            'locations'=>$location
+
+        ]);
     }
 
     /**
@@ -29,7 +42,7 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
