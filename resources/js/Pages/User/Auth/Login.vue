@@ -9,8 +9,7 @@ import WhiteButton from '@/Components/WhiteButton.vue';
 
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
-
-const locale_lng = usePage().props.locale; // Получаем локаль
+import { useTrans } from '/resources/js/trans';
 
 defineProps({
     canResetPassword: {
@@ -27,7 +26,7 @@ const form = useForm({
 });
 
 const submit = () => {
-    form.post(route('login', { locale: locale_lng }), {
+    form.post(route('login', { locale: usePage().props.locale }), {
         onFinish: () => form.reset('password'),
     });
 };
@@ -35,7 +34,7 @@ const submit = () => {
 
 <template>
     <Layout>
-        <Head title="Log in" />
+        <Head :title="useTrans('page.sign_in')" />
 
         <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
             {{ status }}
@@ -61,12 +60,12 @@ const submit = () => {
                                         <div class="col-span-12 rounded-b-md lg:col-span-6 group-data-[theme-color=green]:bg-green-700 lg:rounded-b-none lg:ltr:rounded-r-lg rtl:rounded-l-lg">
                                             <div class="flex flex-col justify-center h-full p-12">
                                                 <div class="text-center">
-                                                    <h5 class="text-[18.5px] text-white">Welcome Back !</h5>
-                                                    <p class="mt-3 text-white/80">Sign in to continue to Jobcy.</p>
+                                                    <h5 class="text-[18.5px] text-white">{{useTrans('page.title_h5')}}</h5>
+                                                    <p class="mt-3 text-white/80">{{useTrans('page.title_p')}}</p>
                                                 </div>
                                                 <form @submit.prevent="submit" class="mt-8">
                                                     <div class="mb-5">
-                                                        <InputLabel for="email" value="Email" class="text-white" />
+                                                        <InputLabel for="email" :value="useTrans('form.email')" class="text-white" />
                                                         <TextInput
                                                             id="email"
                                                             type="email"
@@ -75,14 +74,14 @@ const submit = () => {
                                                             required
                                                             autofocus
                                                             autocomplete="email"
-                                                            placeholder="Enter your email"
+                                                            :placeholder="useTrans('form.email_placeholder')"
 
                                                         />
                                                         <InputError class="mt-2 opacity-60" :message="form.errors.email" />
                                                     </div>
 
                                                     <div class="mb-5">
-                                                        <InputLabel for="password" value="Password" class="text-white" />
+                                                        <InputLabel for="password" :value="useTrans('form.password')" class="text-white" />
                                                         <TextInput
                                                             id="password"
                                                             type="password"
@@ -90,7 +89,7 @@ const submit = () => {
                                                             v-model="form.password"
                                                             required
                                                             autocomplete="current-password"
-                                                            placeholder="Enter your password"
+                                                            :placeholder="useTrans('form.password_placeholder')"
                                                         />
                                                         <InputError class="mt-2 opacity-60" :message="form.errors.password" />
                                                     </div>
@@ -98,10 +97,10 @@ const submit = () => {
                                                     <div >
                                                         <Link
                                                             v-if="canResetPassword"
-                                                            :href="route('password.request', { locale: locale_lng })"
+                                                            :href="route('password.request', { locale: usePage().props.locale })"
                                                             class="mb-4 text-white ltr:float-right rtl:float-left"
                                                         >
-                                                            Forgot your password?
+                                                            {{useTrans('page.forgot_password')}}
                                                         </Link>
                                                     </div>
                                                     <div class="my-8 text-center">
@@ -109,15 +108,15 @@ const submit = () => {
                                                             :class="{ 'opacity-25': form.processing }"
                                                             :disabled="form.processing"
                                                         >
-                                                            Sign in
+                                                            {{useTrans('page.sign_in')}}
                                                         </WhiteButton>
 
                                                     </div>
                                                 </form>
                                                 <div class="text-center">
-                                                    <p class="text-white">Already a member ?
-                                                        <Link :href="route('register', { locale: locale_lng })" class="text-white underline fw-medium">
-                                                            Sign Up
+                                                    <p class="text-white">{{useTrans('page.not_registered')}}
+                                                        <Link :href="route('register', { locale: usePage().props.locale })" class="text-white underline fw-medium">
+                                                            {{useTrans('form.register')}}
                                                         </Link>
                                                     </p>
                                                 </div>

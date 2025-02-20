@@ -13,6 +13,10 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use App\Mail\VerifyEmail as CustomVerifyEmail;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
+use Illuminate\Translation\FileLoader;
+use Illuminate\Translation\Translator;
+use Illuminate\Support\Facades\App;
+use Illuminate\Filesystem\Filesystem;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +25,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $loader = new FileLoader(new Filesystem(), base_path('lang'));
+        $translator = new Translator($loader, App::getLocale());
+
+        App::instance('translator', $translator);
+
         $this->app->bind(BaseInterface::class, RegisterRepository::class);
 
     }

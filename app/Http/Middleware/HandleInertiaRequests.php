@@ -59,7 +59,12 @@ class HandleInertiaRequests extends Middleware
             'translations' => [
                 'form' => File::exists($formFile) ? File::json($formFile) : [],
                 'page' => File::exists($file) ? File::json($file) : []
-            ]
+            ],
+            'err' => function () use ($request) {
+                return $request->session()->get('errors')
+                    ? $request->session()->get('errors')->getBag('default')->toArray()
+                    : (object) [];
+            },
         ];
     }
 }

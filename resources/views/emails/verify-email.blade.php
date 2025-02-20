@@ -72,7 +72,7 @@
 
             <div class="right">
                 <div class="content">
-                    <h2>Здравствуйте, {{ $user->name }}!</h2>
+                    <h2>Здравствуйте, {{ $user->name }}!  </h2>
                     <h4>Пожалуйста, подтвердите ваш email, нажав на кнопку ниже.</h4>
 
                     <a class="btn" href="{{ $url }}" style="">Подтвердить Email</a>

@@ -13,6 +13,7 @@
     "phone_placeholder": "Введите номер телефона",
     "location_placeholder": "Location",
     "password_placeholder": "Введите пароль",
-    "password_confirmation_placeholder": "Подтвердить пароль"
+    "password_confirmation_placeholder": "Подтвердить пароль",
+    "select_placeholder": "Выберите вариант"
 }
 
