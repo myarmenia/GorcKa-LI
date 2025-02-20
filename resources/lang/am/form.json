@@ -1,4 +1,16 @@
 {
-    "title": "am login",
-    "name": "Անուն"
+    "name": "Անուն",
+    "email": "Էլ․ փոստ",
+    "phone": "Հեռախոս",
+    "location": "Մարզ",
+    "password": "Գաղտնաբառ",
+    "password_confirmation": "Հաստատեք գաղտնաբառը",
+    "sign_in": "Մուտք",
+    "register": "Գրանցվել",
+
+    "name_placeholder": "Մուտքագրեք ձեր անունը",
+    "email_placeholder": "Մուտքագրեք ձեր էլ․ փոստը",
+    "phone_placeholder": "Մուտքագրեք ձեր հեռախոսահամարը",
+    "password_placeholder": "Մուտքագրեք ձեր գաղտնաբառը",
+    "password_confirmation_placeholder": "Հաստատեք գաղտնաբառը"
 }

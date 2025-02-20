@@ -3,22 +3,15 @@ import { onMounted, inject } from "vue";
 import { initNavbar } from "@/modules/user/navbar.js";
 
 import { router, Link } from '@inertiajs/vue3';
-
-
-import { useI18n } from 'vue-i18n';
 import { usePage } from '@inertiajs/vue3';
 
-
-const { locale } = useI18n();
 const locale_lng = usePage().props.locale; // Получаем локаль
-
 
 onMounted(() => {
     initNavbar(); // Запускаем `initNavbar` после монтирования компонента
 });
 const changeLanguage = (lang) => {
 
-    locale.value = lang;
     // localStorage.setItem('locale', lang);
 
     const path = window.location.pathname.split('/');
