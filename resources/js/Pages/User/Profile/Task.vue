@@ -11,11 +11,12 @@ import { usePage } from '@inertiajs/vue3';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
 import FileInput from '@/Components/FileInput.vue';
+import { useTrans } from '/resources/js/trans';
 
 
 
-
-
+const trans = useTrans();
+console.log(trans, 'useTrans return value');
 // =====for lang =====
 const pathParts = window.location.pathname.split("/");
 const locale = pathParts[1] ?? "en"; // Извлекаем локаль из URL
@@ -33,13 +34,13 @@ const selectedFiles = ref([]);
 const form = useForm({
 
     category_id: categories.length > 0 ? categories[0].id : '',
-    sub_category_id : '',
-    location_id : '',
-    title : '',
-    price_min : '',
-    price_max : '',
-    description : '',
-    start_date : '',
+    sub_category_id: '',
+    location_id: '',
+    title: '',
+    price_min: '',
+    price_max: '',
+    description: '',
+    start_date: '',
     end_date: "",
     lang: locale,
     file: '',
@@ -47,7 +48,7 @@ const form = useForm({
 
 
 });
-console.log(form)
+
 const props = defineProps({
     categories: Array,
     locations: Array
@@ -79,15 +80,6 @@ console.log(subcategoryOptions)
 
 
 // ===============
-// import { ref } from 'vue';
-
-const form1 = ref({
-  file: [],
-});
-
-const handleFileChange = (event) => {
-  form1.value.file = Array.from1(event.target.files);
-};
 
 
 
@@ -111,13 +103,14 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                     <div class="pt-8 space-x-8">
                                                         <form  @submit.prevent = submitForm >
                                                             <div>
-                                                                <h5 class="mb-3 text-gray-900 fs-17 fw-semibold dark:text-gray-50">{{ $t('create_task') }}</h5>
+                                                                <h5 class="mb-3 text-gray-900 fs-17 fw-semibold dark:text-gray-50">{{ useTrans('page.create_task') }}</h5>
 
                                                                 <div class="mt-5">
                                                                     <div class="grid grid-cols-12 gap-5">
                                                                          <!--Title col-->
                                                                          <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
+                                                                                 <!-- <pre>{{ $page.props }}</pre> -->
 
                                                                                 <InputLabel for="title" :value="$page.props.translations.page.task_name" class="text-grey"/>
                                                                                 <TextInput
@@ -179,12 +172,12 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                 </div> -->
                                                                                 <InputLabel for="sub_category" value="sub_category name" class="text-white"/>
                                                                                 <Select
-                                                                                    :v-model = "form.subcategory_id"
+                                                                                    v-model = "form.sub_category_id"
                                                                                     :id = "'sub_category'"
                                                                                     :label = "$t('select_sub_category')"
-                                                                                    :name = "subcategory_id"
+                                                                                    :name = "'sub_category_id'"
                                                                                     :options = "subcategoryOptions"
-                                                                                    :error = "form.errors.subcategory_id"
+                                                                                    :error = "form.errors.sub_category_id"
 
                                                                                 />
                                                                             </div>
@@ -248,20 +241,13 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                  v-model="form.price_max"
                                                                                  :id="maxPrice"
                                                                                  type="number"
+                                                                                 min="0"
                                                                                  class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
                                                                                  required
                                                                                  autofocus
                                                                                  :placeholder="$t('max_price')"
 
                                                                                 />
-
-
-
-
-                                                                                <!-- <button type="submit">Create Task</button> -->
-
-                                                                                <!-- <label for="firstName" class="text-sm text-gray-900 dark:text-gray-50">First Name</label> -->
-                                                                                <!-- <input type="text" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" id="firstName" value="Jansh"> -->
                                                                             </div>
                                                                         </div>
                                                                         <!--end col-->
@@ -313,39 +299,23 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                             </div>
                                                             <!--end account-->
                                                             <div class="mt-4">
-                                                                <!-- <h5 class="mb-3 font-semibold text-gray-900 text-17 dark:text-gray-50">Profile</h5> -->
+
                                                                 <div class="grid grid-cols-12 gap-5">
                                                                     <div class="col-span-12">
                                                                         <div class="mb-3">
                                                                             <InputLabel for="textarea" :value="$t('description')" class="text-grey" />
-
                                                                             <TextArea
                                                                              id="textarea"
                                                                              v-model = "form.description"
                                                                              :placeholder = "$t('description')"
                                                                              rows="5" />
-                                                                            <!-- <p>Entered text: {{ form.description }}</p> -->
+
 
 
                                                                         </div>
                                                                     </div>
                                                                     <!--end col-->
-                                                                    <!-- <div class="col-span-12 lg:col-span-6">
-                                                                        <div class="mb-3">
-                                                                            <label for="languages" class="text-sm text-gray-900 dark:text-gray-50">Languages</label>
-                                                                            <input type="text" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" id="languages" value="English, German, French">
-                                                                        </div>
-                                                                    </div> -->
-                                                                    <!--end col-->
-                                                                    <!-- <div class="col-span-12 lg:col-span-6">
-                                                                        <div class="mb-3">
-                                                                            <label for="choices-single-location" class="text-sm text-gray-900 dark:text-gray-50">Location</label>
-                                                                            <div class="mt-1">
-                                                                                <div class="choices" data-type="select-one" tabindex="0" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false"><div class="choices__inner"><select class="form-select choices__input" data-trigger="" name="choices-single-location" id="choices-single-location" aria-label="Default select exam
-                                                                                    ple" hidden="" tabindex="-1" data-choice="active"><option value="ME" data-custom-properties="[object Object]">Montenegro</option></select><div class="choices__list choices__list--single"><div class="choices__item choices__item--selectable" data-item="" data-id="1" data-value="ME" data-custom-properties="[object Object]" aria-selected="true">Montenegro</div></div></div><div class="choices__list choices__list--dropdown" aria-expanded="false"><input type="search" name="search_terms" class="choices__input choices__input--cloned" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null" placeholder=""><div class="choices__list" role="listbox"><div id="choices--choices-single-location-item-choice-1" class="choices__item choices__item--choice is-selected choices__item--selectable is-highlighted" role="option" data-choice="" data-id="1" data-value="ME" data-select-text="Press to select" data-choice-selectable="" aria-selected="true">Montenegro</div><div id="choices--choices-single-location-item-choice-2" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="2" data-value="MS" data-select-text="Press to select" data-choice-selectable="">Montserrat</div><div id="choices--choices-single-location-item-choice-3" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="3" data-value="MA" data-select-text="Press to select" data-choice-selectable="">Morocco</div><div id="choices--choices-single-location-item-choice-4" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="4" data-value="MZ" data-select-text="Press to select" data-choice-selectable="">Mozambique</div></div></div></div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> -->
+
                                                                     <!--end col-->
                                                                     <div class="col-span-12">
                                                                         <div class="mb-3 ">
@@ -368,9 +338,10 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                  id="formFileLg" type="file"> -->
                                                                                  <!-- <input type="file"  v-model="form.file" multiple> -->
                                                                                  <div>
-                                                                                    <input type="file" @change="handleFileChange" multiple>
+                                                                                    <input type="file" @input="form.file = $event.target.files" multiple>
+
                                                                                     <ul v-if="form.file.length">
-                                                                                    <li v-for="(file, index) in form.file" :key="index">{{ file.name }}</li>
+                                                                                      <li v-for="(file, index) in form.file" :key="index">{{ file.name }}</li>
                                                                                     </ul>
                                                                                 </div>
                                                                             </div>
@@ -384,8 +355,9 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
 
                                                             <!--end Change-password-->
                                                             <div class="mt-8 text-right">
-                                                                <button type="submit">Create Task</button>
-                                                                <a href="javascript:void(0)" class="text-white btn group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 border-transparent focus:ring group-data-[theme-color=violet]:focus:ring-violet-500/20 group-data-[theme-color=sky]:focus:ring-sky-500/20 group-data-[theme-color=red]:focus:ring-red-500/20 group-data-[theme-color=green]:focus:ring-green-500/20 group-data-[theme-color=pink]:focus:ring-pink-500/20 group-data-[theme-color=blue]:focus:ring-blue-500/20">Update</a>
+
+
+                                                                <button type="submit" class="text-white btn group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 border-transparent focus:ring group-data-[theme-color=violet]:focus:ring-violet-500/20 group-data-[theme-color=sky]:focus:ring-sky-500/20 group-data-[theme-color=red]:focus:ring-red-500/20 group-data-[theme-color=green]:focus:ring-green-500/20 group-data-[theme-color=pink]:focus:ring-pink-500/20 group-data-[theme-color=blue]:focus:ring-blue-500/20">{{ useTrans('form.create') }}</button>
                                                             </div>
                                                         </form>
                                                     </div>
