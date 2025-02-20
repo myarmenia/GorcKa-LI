@@ -15,11 +15,11 @@ class RegisterService
     public function __construct(protected BaseInterface $registerRepository) {}
 
 
-    public function create($locale)
+    public function create()
     {
 
         $locations = Location::with([
-            'translations' => function ($query) use ($locale) {
+            'translations' => function ($query) {
                 $query->where('lang', app()->getLocale());
             }
         ])->get();
