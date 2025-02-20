@@ -1,3 +1,19 @@
 {
-    "title": "am login"
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "location": "Region",
+    "password": "Password",
+    "password_confirmation": "Confirm Password",
+    "sign_in": "Sign In",
+    "register": "Register",
+
+    "name_placeholder": "Enter your name",
+    "email_placeholder": "Enter your email",
+    "phone_placeholder": "Enter your phone number",
+    "password_placeholder": "Enter your password",
+    "password_confirmation_placeholder": "Confirm Password"
+
+
+
 }

@@ -26,9 +26,9 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): Response
+    public function create(Request $request): Response
     {
-        $locations = $this->registerService->create();
+        $locations = $this->registerService->create($request->route('locale'));
         // dd($locations);
         return Inertia::render('Auth/Register',  ['locations' => $locations]);
     }

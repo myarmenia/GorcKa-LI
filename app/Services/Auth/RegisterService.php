@@ -9,16 +9,18 @@ use App\Mail\VerifyEmail;
 use App\Models\Location;
 use Illuminate\Support\Facades\Auth;
 use Mail;
+use Request;
 class RegisterService
 {
     public function __construct(protected BaseInterface $registerRepository) {}
 
 
-    public function create()
+    public function create($locale)
     {
+
         $locations = Location::with([
-            'translations' => function ($query) {
-                $query->where('lang_id', 1);
+            'translations' => function ($query) use ($locale) {
+                $query->where('lang', app()->getLocale());
             }
         ])->get();
 
