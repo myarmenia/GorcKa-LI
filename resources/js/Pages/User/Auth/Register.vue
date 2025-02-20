@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { computed, watch } from "vue";
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import Select from '@/Components/Select.vue';
@@ -20,12 +20,18 @@ const props = defineProps({
 const currentLanguage = computed(() => usePage().props.locale);
 
 const locationOptions = computed(() =>
+
   props.locations.map(location => ({
     value: location.id,
     text: location.translations[0]?.name
   }))
+
 );
 
+
+watch(currentLanguage, () => {
+  form.errors = {};
+});
 
 const form = useForm({
     name: '',
@@ -40,14 +46,15 @@ const form = useForm({
 const submit = () => {
 
     form.post(route('register', { locale: usePage().props.locale }), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onFinish: () =>{ form.reset('password', 'password_confirmation')
+        }
     });
 };
 </script>
 
 <template>
     <Layout >
-        <Head title="Register" />
+        <Head :title="useTrans('page.register')" />
                 <section class="flex items-center justify-center min-h-screen pt-40 pb-20 group-data-[theme-color=green]:bg-green-500/10 dark:bg-neutral-700">
                     <div class="container mx-auto">
                         <div class="grid grid-cols-12">
@@ -80,7 +87,7 @@ const submit = () => {
 
                                                         <TextInput id="name" type="text"
                                                             class="w-full mt-1 group-data-[theme-color=green]:bg-green-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
-                                                            v-model="form.name" required
+                                                            v-model="form.name"
                                                             :placeholder="useTrans('form.name_placeholder')" />
 
                                                         <InputError class="mt-2 opacity-60 "
@@ -93,7 +100,7 @@ const submit = () => {
 
                                                         <TextInput id="email" type="text"
                                                             class="w-full mt-1 group-data-[theme-color=green]:bg-green-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
-                                                            v-model="form.email" required
+                                                            v-model="form.email"
                                                             :placeholder="useTrans('form.email_placeholder')" />
 
                                                         <InputError class="mt-2 opacity-60"
@@ -105,7 +112,7 @@ const submit = () => {
 
                                                         <TextInput id="phone" type="text"
                                                             class="w-full mt-1 group-data-[theme-color=green]:bg-green-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
-                                                            v-model="form.phone" required
+                                                            v-model="form.phone"
                                                             :placeholder="useTrans('form.phone_placeholder')" />
 
                                                         <InputError class="mt-2 opacity-60"
@@ -118,7 +125,7 @@ const submit = () => {
                                                             id="location_id"
                                                             :options="locationOptions"
                                                             v-model="form.location_id"
-
+                                                            :autoSelectFirst="false"
                                                         />
                                                         <InputError :message="form.errors.location_id" />
                                                     </div>
@@ -158,7 +165,7 @@ const submit = () => {
 
                                                             <InputLabel for="flexCheckDefault" :value="useTrans('page.agree')"
                                                             class="text-white" />
-                                                            <Link :href="route('login', { locale: usePage().props.locale })" class="text-white underline fw-medium">
+                                                            <Link :href="route('login', { locale: usePage().props.locale })" class="text-white underline fw-medium ml-2">
                                                                   {{useTrans('page.terms_conditions')}} </Link>
 
                                                         </div>

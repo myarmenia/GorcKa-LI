@@ -12,5 +12,6 @@
     "email_placeholder": "Մուտքագրեք ձեր էլ․ փոստը",
     "phone_placeholder": "Մուտքագրեք ձեր հեռախոսահամարը",
     "password_placeholder": "Մուտքագրեք ձեր գաղտնաբառը",
-    "password_confirmation_placeholder": "Հաստատեք գաղտնաբառը"
+    "password_confirmation_placeholder": "Հաստատեք գաղտնաբառը",
+    "select_placeholder": "Ընտրեք տարբերակը"
 }
