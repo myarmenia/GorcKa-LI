@@ -1,4 +1,22 @@
 {
+
     "create": "Создать",
-    "title": "am login"
+    "name": "Имя",
+    "email": "Эл. почта",
+    "phone": "Телефон",
+    "location": "Область",
+    "password": "Пароль",
+    "password_confirmation": "Подтвердить пароль",
+    "sign_in": "Войти",
+    "register": "Регистрация",
+
+    "name_placeholder": "Введите ваше имя",
+    "email_placeholder": "Введите свою эл․ почту",
+    "phone_placeholder": "Введите номер телефона",
+    "location_placeholder": "Location",
+    "password_placeholder": "Введите пароль",
+    "password_confirmation_placeholder": "Подтвердить пароль",
+    "select_placeholder": "Выберите вариант"
+
 }
+

@@ -23,12 +23,18 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $data = [
             'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
-            'phone' => 'required|regex:/^\+?[1-9]\d{1,14}$/',
             'agree_terms' => 'accepted',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ];
+
+        if(isset($this->phone)){
+            $data['phone'] = 'required|regex:/^\+?[1-9]\d{1,14}$/';
+        }
+        
+        return $data;
+
     }
 }
