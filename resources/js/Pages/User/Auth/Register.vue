@@ -54,7 +54,7 @@ const submit = () => {
 
 <template>
     <Layout >
-        <Head :title="useTrans('page.register')" />
+        <Head :title="useTrans('page.title')" />
                 <section class="flex items-center justify-center min-h-screen pt-40 pb-20 group-data-[theme-color=green]:bg-green-500/10 dark:bg-neutral-700">
                     <div class="container mx-auto">
                         <div class="grid grid-cols-12">
@@ -136,7 +136,7 @@ const submit = () => {
 
                                                         <TextInput id="password" type="password"
                                                             class="w-full mt-1 group-data-[theme-color=green]:bg-green-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
-                                                            v-model="form.password" required
+                                                            v-model="form.password"
                                                             :placeholder="useTrans('form.password_placeholder')" />
 
                                                         <InputError class="mt-2 opacity-60"
@@ -151,7 +151,7 @@ const submit = () => {
 
                                                         <TextInput id="password_confirmation" type="password"
                                                             class="w-full mt-1 group-data-[theme-color=green]:bg-green-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
-                                                            v-model="form.password_confirmation" required
+                                                            v-model="form.password_confirmation"
                                                             :placeholder="useTrans('form.password_placeholder')" />
 
                                                         <InputError class="mt-2 opacity-60"
