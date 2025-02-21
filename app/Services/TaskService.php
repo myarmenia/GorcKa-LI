@@ -1,6 +1,10 @@
 <?php
-namespace App\Servive;
+namespace App\Services;
 
  class TaskService {
-    
+     public function store($dto){
+        dd(777);
+
+     }
+
  }

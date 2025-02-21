@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\User\Profile;
 
+use App\DTO\TaskDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TaskRequest;
 use App\Models\Category;
 use App\Models\Location;
+use App\Services\TaskService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class TaskController extends Controller
 {
+        public function __construct(protected TaskService $taskService ){}
     /**
      * Display a listing of the resource.
      */
@@ -40,9 +44,11 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        dd($request->all());
+        // dd($request->$request->validated());
+        $data=$this->service->store(TaskDTO::fromArray($request->validated());
+
     }
 
     /**
