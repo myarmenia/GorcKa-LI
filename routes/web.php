@@ -6,34 +6,12 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
 Route::get('/', function () {
     return redirect('/am');
 });
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
 
-// ====
-// Локализованные маршруты
-// Route::get('/{locale}', function ($locale) {
-//     app()->setLocale($locale);
-//     return Inertia::render('Welcome', [
-//         'locale' => $locale, // Передаем локаль в Vue
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// })->where('locale', 'en|ru|am')->name('welcome'); // Разрешенные языки
-
-
-// ======================== 17.02 ============================
 Route::prefix('{locale}')
     ->where(['locale' => 'en|ru|am']) // Разрешенные языки
     ->group(function () {

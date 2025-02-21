@@ -59,6 +59,30 @@
             border-radius: 5px;
         }
 
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+                display: block;
+                text-align: center;
+            }
+
+            .left, .right {
+                width: 100%;
+            }
+            .logo-div{
+                padding-top: 20px;
+            }
+            .logo{
+                margin: 30px 0 10px;
+                width: 120px;
+                height: auto
+            }
+            .left img,
+            .right .content {
+                margin: 0 auto;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -66,18 +90,18 @@
     <section >
         <div class="container ">
             <div class="left">
-                <div><img class="logo" src="{{ $message->embed(public_path('/assets/user/images/logo-dark.png')) }}"></div>
+                <div class="logo-div"><img class="logo" src="{{ $message->embed(public_path('/assets/user/images/logo-dark.png')) }}"></div>
                 <div class="icon-img-div"><img class="icon-img" src="{{ $message->embed(public_path('/assets/user/images/subscribe.png')) }}"></div>
             </div>
 
             <div class="right">
                 <div class="content">
-                    <h2>Здравствуйте, {{ $user->name }}!  </h2>
-                    <h4>Пожалуйста, подтвердите ваш email, нажав на кнопку ниже.</h4>
+                    <h2>{{__('email.hello')}} {{ $user->name }}!  </h2>
+                    <h4>{{__('email.email_confirm_p')}}</h4>
 
-                    <a class="btn" href="{{ $url }}" style="">Подтвердить Email</a>
+                    <a class="btn" href="{{ $url }}" style="">{{__('email.email_confirm')}}</a>
 
-                    <p>С уважением, <br>Команда {{ config('app.name') }}</p>
+                    <p>{{__('email.regards')}}, <br>{{__('email.team')}} {{ config('app.name') }}</p>
                 </div>
             </div>
         </div>
