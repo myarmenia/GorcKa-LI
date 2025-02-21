@@ -10,6 +10,8 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+        <link rel="stylesheet" href="{{asset('assets/user/libs/choices.js/public/assets/styles/choices.min.css')}}">
+
 
 
         <!-- Scripts -->
@@ -23,7 +25,20 @@
 
         @inertia
 
-        {{-- <script src="{{asset('assets/user/libs/choices.js/public/assets/scripts/choices.min.js')}}"></script> --}}
+        <script src="{{asset('assets/user/libs/choices.js/public/assets/scripts/choices.min.js')}}"></script>
+        {{-- <script src="{{asset('assets/modules/user/job-list.init.js')}}"></script> --}}
+
+<script>
+  var singleLocation = new Choices('#choices-single-location');
+
+var singleCategorie = document.getElementById('choices-single-categories');
+if (singleCategorie) {
+    var singleCategories = new Choices('#choices-single-categories');
+}
+
+
+</script>
+
         <script src="https://unicons.iconscout.com/release/v4.0.0/script/monochrome/bundle.js"></script>
 
     </body>

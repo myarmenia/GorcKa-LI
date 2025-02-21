@@ -29,6 +29,10 @@ Route::prefix('{locale}')
         Route::get('dashboard', function () {
             return Inertia::render('Dashboard');
         })->middleware(['auth', 'verified_with_locale'])->name('dashboard');
+
+        Route::get('specialists', function () {
+            return Inertia::render('Specialists/Index');
+        })->name('user.specialists');
     });
 
 
