@@ -15,8 +15,7 @@ import { useTrans } from '/resources/js/trans';
 
 
 
-const trans = useTrans();
-console.log(trans, 'useTrans return value');
+
 // =====for lang =====
 const pathParts = window.location.pathname.split("/");
 const locale = pathParts[1] ?? "en"; // Извлекаем локаль из URL
