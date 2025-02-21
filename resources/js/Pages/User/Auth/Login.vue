@@ -1,4 +1,6 @@
 <script setup>
+import { computed, watch } from "vue";
+
 import Checkbox from '@/Components/Checkbox.vue';
 import Layout from '@/Layouts/User/Layout.vue';
 import InputError from '@/Components/InputError.vue';
@@ -20,6 +22,12 @@ defineProps({
     },
 });
 
+const currentLanguage = computed(() => usePage().props.locale);
+
+watch(currentLanguage, () => {
+  form.errors = {};
+});
+
 const form = useForm({
     email: '',
     password: ''
@@ -34,7 +42,7 @@ const submit = () => {
 
 <template>
     <Layout>
-        <Head :title="useTrans('page.sign_in')" />
+        <Head :title="useTrans('page.title')" />
 
         <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
             {{ status }}
@@ -63,6 +71,9 @@ const submit = () => {
                                                     <h5 class="text-[18.5px] text-white">{{useTrans('page.title_h5')}}</h5>
                                                     <p class="mt-3 text-white/80">{{useTrans('page.title_p')}}</p>
                                                 </div>
+                                                 <div class="px-3 py-5 mt-2 mb-5 text-center text-yellow-800 rounded-md bg-yellow-50" role="alert"  v-if="status">
+                                                    <p >{{status}}</p>
+                                                </div>
                                                 <form @submit.prevent="submit" class="mt-8">
                                                     <div class="mb-5">
                                                         <InputLabel for="email" :value="useTrans('form.email')" class="text-white" />
@@ -71,7 +82,6 @@ const submit = () => {
                                                             type="email"
                                                             class="w-full mt-1 group-data-[theme-color=green]:bg-green-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
                                                             v-model="form.email"
-                                                            required
                                                             autofocus
                                                             autocomplete="email"
                                                             :placeholder="useTrans('form.email_placeholder')"
@@ -87,7 +97,6 @@ const submit = () => {
                                                             type="password"
                                                             class="w-full mt-1 group-data-[theme-color=green]:bg-green-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
                                                             v-model="form.password"
-                                                            required
                                                             autocomplete="current-password"
                                                             :placeholder="useTrans('form.password_placeholder')"
                                                         />
@@ -128,65 +137,6 @@ const submit = () => {
                         </div>
                     </div>
                 </section>
-<!--
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
 
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4 block">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ms-2 text-sm text-gray-600"
-                        >Remember me</span
-                    >
-                </label>
-            </div>
-
-            <div class="mt-4 flex items-center justify-end">
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Forgot your password?
-                </Link>
-
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Log in
-                </PrimaryButton>
-            </div>
-        </form> -->
     </Layout>
 </template>
