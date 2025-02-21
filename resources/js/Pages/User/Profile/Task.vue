@@ -118,7 +118,7 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                  id="title"
                                                                                  type="text"
                                                                                  class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-                                                                                 required
+
                                                                                  autofocus
                                                                                  autocomplete="title"
                                                                                  :placeholder="useTrans('page.enter_task_name')"
@@ -202,7 +202,6 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                  min="0"
                                                                                  type="number"
                                                                                  class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-                                                                                 required
                                                                                  autofocus
                                                                                  :placeholder="useTrans('page.min_price')"
 
@@ -220,7 +219,7 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                  type="number"
                                                                                  min="0"
                                                                                  class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-                                                                                 required
+
                                                                                  autofocus
                                                                                  :placeholder="useTrans('page.max_price')"
 
@@ -246,7 +245,6 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                  :id="startDate"
                                                                                  type="date"
                                                                                  class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-                                                                                 required
                                                                                  autofocus
                                                                                  :placeholder="useTrans('page.start_date')"
 
@@ -263,7 +261,6 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                 :id="endDate"
                                                                                 type="date"
                                                                                 class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-                                                                                required
                                                                                 autofocus
                                                                                 :placeholder="useTrans('page.end_date')"
 
@@ -273,7 +270,7 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                         </div>
                                                                         <!--end col-->
 
-                                                                       
+
                                                                     </div>
                                                                 </div>
 

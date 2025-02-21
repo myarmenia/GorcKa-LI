@@ -13,7 +13,7 @@ use Inertia\Inertia;
 
 class TaskController extends Controller
 {
-        public function __construct(protected TaskService $taskService ){}
+        public function __construct(protected TaskService $service ){}
     /**
      * Display a listing of the resource.
      */
@@ -46,8 +46,8 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-        // dd($request->$request->validated());
-        $data=$this->service->store(TaskDTO::fromArray($request->validated());
+        dd($request->$request->validated());
+        $data=$this->service->createTask(TaskDTO::fromArray($request->all()));
 
     }
 
