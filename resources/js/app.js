@@ -1,5 +1,5 @@
 
-import '../../public/assets/user/libs/choices.js/public/assets/styles/choices.min.css';
+// import '../../public/assets/user/libs/choices.js/public/assets/styles/choices.min.css';
 import '../../public/assets/user/libs/swiper/swiper-bundle.min.css';
 
 import '../css/user/app.css';
@@ -16,11 +16,11 @@ import './modules/user/dropdown&modal.init.js';
 
 import '../../public/assets/user/libs/swiper/swiper-bundle.min';
 import './modules/user/swiper.init.js';
-
+import '../../node_modules/preline/dist/preline.js'
 
 // import './bootstrap';
 
-import './modules/user/nav&tabs.js';
+// import './modules/user/nav&tabs.js';
 
 
 import { createInertiaApp } from '@inertiajs/vue3';

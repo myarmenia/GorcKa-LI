@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Helpers\Helper;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Specialist\SpecialistController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
     return redirect('/am');
@@ -30,9 +32,7 @@ Route::prefix('{locale}')
             return Inertia::render('Dashboard');
         })->middleware(['auth', 'verified_with_locale'])->name('dashboard');
 
-        Route::get('specialists', function () {
-            return Inertia::render('Specialists/Index');
-        })->name('user.specialists');
+        Route::get('specialists', SpecialistController::class)->name('user.specialists');
     });
 
 
@@ -41,8 +41,9 @@ Route::get('/admin', function () {
 });
 
 
-
-
+// Route::get('/filter-locations', function () {
+//     return response()->json(Helper::filterLocations());
+// });
 
 
 // Route::middleware('auth')->group(function () {

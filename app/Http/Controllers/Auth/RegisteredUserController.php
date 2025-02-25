@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\DTO\Auth\RegisterDTO;
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\Auth\RegisterService;
@@ -19,7 +20,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        $locations = $this->registerService->create();
+        $locations = Helper::getLocations();
         // dd($locations);
         return Inertia::render('Auth/Register',  ['locations' => $locations]);
     }
