@@ -12,7 +12,8 @@ class SpecialistController extends Controller
     public function __invoke(){
 
         $locations = Helper::getLocations();
+        $categories = Helper::getCategories();
 
-        return Inertia::render('Specialists/Index', ['locations' => $locations]);
+        return Inertia::render('Specialists/Index', ['locations' => $locations, 'categories' => $categories]);
     }
 }

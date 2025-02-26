@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Category;
 use App\Models\Location;
 use Illuminate\Support\Collection;
 use Request;
@@ -34,6 +35,18 @@ class Helper
         ])->get();
 
         return response()->json($options);  // Отправляем отфильтрованные данные
+    }
+
+
+    public static function getCategories(){
+
+        $categories = Category::with([
+            'item_translations' => function ($query) {
+                $query->where('lang', app()->getLocale());
+            }
+        ])->get();
+
+        return $categories;
     }
 
 

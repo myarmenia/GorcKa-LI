@@ -21,7 +21,7 @@ class RegisteredUserController extends Controller
     public function create(): Response
     {
         $locations = Helper::getLocations();
-        // dd($locations);
+
         return Inertia::render('Auth/Register',  ['locations' => $locations]);
     }
 

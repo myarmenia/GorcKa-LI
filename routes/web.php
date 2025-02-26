@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SimpleFilterController;
 use Inertia\Inertia;
 use App\Helpers\Helper;
 use Illuminate\Support\Facades\Route;
@@ -41,9 +42,7 @@ Route::get('/admin', function () {
 });
 
 
-// Route::get('/filter-locations', function () {
-//     return response()->json(Helper::filterLocations());
-// });
+Route::get('/simple-filter/{model}/{value}', SimpleFilterController::class)->name('simple_filter');
 
 
 // Route::middleware('auth')->group(function () {
