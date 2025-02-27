@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 
-use App\Services\SimpleFilterService;
-use Illuminate\Http\Request;
+use App\Services\FilterService;
 
 class SimpleFilterController extends Controller
 {
 
     public function __invoke($model, $value){
 
-        $result = SimpleFilterService::filter($model, $value);
+        $result = FilterService::filter($model, $value, 'scopeSimpleFilter');
 
         return response()->json($result);
     }

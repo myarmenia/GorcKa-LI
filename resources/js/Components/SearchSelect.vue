@@ -5,12 +5,15 @@ import { useTrans } from '/resources/js/trans';
 
 const props = defineProps({
     model: String,
+    route: String,
     options: Array
 });
 
 const search = ref('');
 const isOpen = ref(false); // Состояние, контролирующее открытие/закрытие списка
 const filteredOptions = ref([]); // Начально пустой массив
+
+const emit = defineEmits(['update:modelValue']);
 
 // Следим за изменениями props.options и обновляем filteredOptions
 watch(() => props.options, (newOptions) => {
@@ -26,11 +29,11 @@ const searchItems = async () => {
     }
 
     try {
-        const response = await axios.get(`/simple-filter/${props.model}/${search.value}`);
+        const response = await axios.get(`/${props.route}/${props.model}/${search.value}`);
 
-        filteredOptions.value = response.data.map(location => ({
-            value: location.id,
-            text: location.name
+        filteredOptions.value = response.data.map(item => ({
+            value: item.id,
+            text: item.name
         }));
     } catch (error) {
         console.error('Error fetching search results:', error);
@@ -39,8 +42,10 @@ const searchItems = async () => {
 
 const selectOption = (option) => {
     search.value = option.text;
+    emit('update:modelValue', option.value); // Передаем ID в v-model
     isOpen.value = false; // Закрываем список после выбора
 };
+
 
 const handleBlur = () => {
     // Закрыть список при потере фокуса, с задержкой, чтобы успеть кликнуть на элемент

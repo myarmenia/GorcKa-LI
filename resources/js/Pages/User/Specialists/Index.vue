@@ -1,6 +1,8 @@
 <script setup>
 import Layout from '@/Layouts/User/Layout.vue';
 import SearchSelect from '@/Components/SearchSelect.vue';
+import SearchMultiSelect from '@/Components/SearchMultiSelect.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 import { computed, watch, ref } from "vue";
 import { Head, Link, useForm } from '@inertiajs/vue3';
@@ -32,7 +34,7 @@ const categoryOptions = computed(() =>
 
     props.categories.map(category => ({
         value: category.id,
-        text: category.translations[0]?.name
+        text: category.item_translations[0]?.name
     }))
 
 );
@@ -48,19 +50,20 @@ const selectedLocation = ref(null);
 // const currentLanguage = computed(() => usePage().props.locale);
 
 watch(currentLanguage, () => {
-console.log(locationOptions, ' --------->>>>')
-
   form.errors = {};
 });
 
 const form = useForm({
-    email: '',
-    password: ''
+    search: '',
+    location_id: '',
+    category_id: ''
 });
 
 const submit = () => {
-    form.post(route('login', { locale: usePage().props.locale }), {
-        onFinish: () => form.reset('password'),
+    form.post(route('user.filter_specialists', { locale: usePage().props.locale }), {
+        onFinish: () => {
+            console.log(22)
+        }
     });
 };
 </script>
@@ -98,12 +101,12 @@ const submit = () => {
                             <div class="col-span-12">
 
                                 <div class="job-list-header">
-                                    <form action="#">
+                                    <form @submit.prevent="submit" >
                                         <div class="grid grid-cols-12 lg:gap-3 gap-y-3">
                                             <div class="col-span-12 xl:col-span-3">
                                                 <div class="relative filler-job-form">
                                                     <i class="uil uil-briefcase-alt"></i>
-                                                    <input type="search" class="w-full filter-job-input-box dark:text-gray-100" id="exampleFormControlInput1" placeholder="Job, company... ">
+                                                    <input type="search" v-model="form.search" class="w-full filter-job-input-box dark:text-gray-100" id="exampleFormControlInput1" placeholder="Job, company... ">
                                                 </div>
                                             </div>
 
@@ -112,7 +115,9 @@ const submit = () => {
                                                     <i class="uil uil-location-point"></i>
                                                     <div class="">
                                                         <SearchSelect
-                                                            model="LocationTranslation"
+                                                            v-model="form.location_id"
+                                                            model="Location"
+                                                            route="simple-filter"
                                                             :options="locationOptions"
                                                         />
                                                     </div>
@@ -124,17 +129,40 @@ const submit = () => {
                                                     <i class="uil uil-clipboard-notes"></i>
                                                     <div class="">
                                                         <SearchSelect
-                                                            model="LocationTranslation"
+                                                            v-model="form.category_id"
+                                                            model="Category"
+                                                            route="category-subcategory-filter"
                                                             :options="categoryOptions"
                                                         />
                                                     </div>
                                                 </div>
                                             </div>
+                                                            <!-- model="CategoryTranslation" -->
+
+                                            <!-- <div class="col-span-12 xl:col-span-4">
+                                                <div class="relative filler-job-form">
+                                                    <i class="uil uil-clipboard-notes"></i>
+                                                    <div class="">
+                                                        <SearchMultiSelect
+                                                            v-model="form.category_id"
+                                                            model="CategoryTranslation"
+                                                            :options="categoryOptions"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div> -->
+
+
 
                                             <!--end col-->
-                                            <div class="col-span-12 xl:col-span-3">
-                                                <a href="javascript:void(0)" class="text-white border-transparent btn group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 focus:ring focus:ring-custom-500/30"><i class="uil uil-filter"></i> Fliter</a>
-                                                <a href="javascript:void(0)" class="text-white bg-green-500 border-transparent btn focus:ring focus:ring-green-500/30 ltr:ml-1 rtl:mr-1"><i class="uil uil-cog"></i> Advance</a>
+                                            <div class="col-span-12 xl:col-span-2">
+                                                <PrimaryButton :class="{ 'opacity-25': form.processing }"
+                                                    :disabled="form.processing">
+                                                    <i class="uil uil-filter"></i> Fliter
+                                                    <!-- {{useTrans('page.filter')}} -->
+                                                </PrimaryButton>
+                                                <!-- <a href="javascript:void(0)" class="text-white border-transparent btn group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 focus:ring focus:ring-custom-500/30"><i class="uil uil-filter"></i> Fliter</a> -->
+                                                <!-- <a href="javascript:void(0)" class="text-white bg-green-500 border-transparent btn focus:ring focus:ring-green-500/30 ltr:ml-1 rtl:mr-1"><i class="uil uil-cog"></i> Advance</a> -->
                                             </div>
                                             <!--end col-->
                                         </div>

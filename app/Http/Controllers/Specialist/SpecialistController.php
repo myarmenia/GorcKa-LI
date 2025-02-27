@@ -9,11 +9,17 @@ use Inertia\Inertia;
 
 class SpecialistController extends Controller
 {
-    public function __invoke(){
+    public function index(){
 
         $locations = Helper::getLocations();
         $categories = Helper::getCategories();
 
         return Inertia::render('Specialists/Index', ['locations' => $locations, 'categories' => $categories]);
+    }
+
+    public function filter(Request $request)
+    {
+
+        dd($request->all());
     }
 }

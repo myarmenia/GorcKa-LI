@@ -12,7 +12,7 @@ trait SimpleFilterTrait
 
     public function scopeSimpleFilter(Builder $query, string $value): Builder
     {
-       
+
         if (property_exists($this, 'simpleFilterField') && $this->simpleFilterField) {
             return $query->where($this->simpleFilterField, 'like', "%{$value}%");
         }

@@ -1,10 +1,8 @@
 <?php
 namespace App\Services;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 
-class SimpleFilterService
+class CategoryWithSubCategoryFilterService
 {
 
     public static function filter(string $model, string $value)
@@ -26,4 +24,6 @@ class SimpleFilterService
 
         return $modelClass::simpleFilter($value)->get();
     }
+
+
 }

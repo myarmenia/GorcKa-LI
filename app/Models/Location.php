@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\TranslationFilterTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Location extends Model
 {
+    use TranslationFilterTrait;
+
     protected $guarded = [];
 
 

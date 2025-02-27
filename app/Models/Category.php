@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\CategoryWithSubCategoryFilterTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+    use CategoryWithSubCategoryFilterTrait;
+    
     protected $guarded = [];
 
     public function item_translations(){
