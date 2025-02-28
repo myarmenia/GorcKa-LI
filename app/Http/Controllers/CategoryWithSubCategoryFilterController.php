@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\FilterService;
+use App\Services\CategoryWithSubCategoryFilterService;
 
 class CategoryWithSubCategoryFilterController extends Controller
 {
-    public function __invoke($model, $value)
+    public function __invoke($value)
     {
 
-        $result = FilterService::filter($model, $value, 'scopeCategoryWithSubCategoryFilter');
+        $result = CategoryWithSubCategoryFilterService::filter($value);
 
         return response()->json($result);
     }

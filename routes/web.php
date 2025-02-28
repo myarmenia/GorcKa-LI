@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryWithSubCategoryFilterController;
+use App\Http\Controllers\LocationFilterController;
 use App\Http\Controllers\SimpleFilterController;
 use Inertia\Inertia;
 use App\Helpers\Helper;
@@ -45,8 +46,8 @@ Route::get('/admin', function () {
 });
 
 
-Route::get('/simple-filter/{model}/{value}', SimpleFilterController::class)->name('simple_filter');
-Route::get('/category-subcategory-filter/{model}/{value}', CategoryWithSubCategoryFilterController::class)->name('category_subcategory_filter');
+Route::get('/location-filter/{value}', LocationFilterController::class)->name('location_filter');
+Route::get('/category-subcategory-filter/{value}', CategoryWithSubCategoryFilterController::class)->name('category_subcategory_filter');
 
 
 

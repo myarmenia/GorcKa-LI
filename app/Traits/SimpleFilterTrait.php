@@ -17,7 +17,7 @@ trait SimpleFilterTrait
             return $query->where($this->simpleFilterField, 'like', "%{$value}%");
         }
 
-        return $query;
+        return $query->with('item_translations');
     }
 
 }

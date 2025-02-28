@@ -25,7 +25,7 @@ const locationOptions = computed(() =>
 
     props.locations.map(location => ({
         value: location.id,
-        text: location.translations[0]?.name
+        text: location.item_translations[0]?.name
     }))
 
 );
@@ -116,8 +116,7 @@ const submit = () => {
                                                     <div class="">
                                                         <SearchSelect
                                                             v-model="form.location_id"
-                                                            model="Location"
-                                                            route="simple-filter"
+                                                            route="location-filter"
                                                             :options="locationOptions"
                                                         />
                                                     </div>
@@ -130,7 +129,6 @@ const submit = () => {
                                                     <div class="">
                                                         <SearchSelect
                                                             v-model="form.category_id"
-                                                            model="Category"
                                                             route="category-subcategory-filter"
                                                             :options="categoryOptions"
                                                         />

@@ -2,14 +2,10 @@
 
 namespace App\Models;
 
-use App\Traits\SimpleFilterTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class CategoryTranslation extends Model
 {
-    use SimpleFilterTrait;
-    public $simpleFilterField = 'name';
-    public $relationModel = 'SubCategoryTranslation';
 
     protected $guarded = [];
 

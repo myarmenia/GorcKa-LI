@@ -15,19 +15,7 @@ class RegisterService
     public function __construct(protected BaseInterface $registerRepository) {}
 
 
-    // public function create()
-    // {
-
-    //     $locations = Location::with([
-    //         'translations' => function ($query) {
-    //             $query->where('lang', app()->getLocale());
-    //         }
-    //     ])->get();
-
-    //     return $locations;
-    // }
-
-
+    
     public function store($dto)
     {
 

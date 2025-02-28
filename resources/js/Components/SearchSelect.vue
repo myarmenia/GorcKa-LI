@@ -29,7 +29,7 @@ const searchItems = async () => {
     }
 
     try {
-        const response = await axios.get(`/${props.route}/${props.model}/${search.value}`);
+        const response = await axios.get(`/${props.route}/${search.value}`);
 
         filteredOptions.value = response.data.map(item => ({
             value: item.id,

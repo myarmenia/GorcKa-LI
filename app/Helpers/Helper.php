@@ -15,7 +15,7 @@ class Helper
     public static function getLocations(): Collection
     {
         $locations = Location::with([
-            'translations' => function ($query) {
+            'item_translations' => function ($query) {
                 $query->where('lang', app()->getLocale());
             }
         ])->get();
@@ -29,7 +29,7 @@ class Helper
 
         // Фильтруем данные по полю 'text', учитывая регистр
         $options = Location::with([
-            'translations' => function ($query) use ($search) {
+            'item_translations' => function ($query) use ($search) {
                 $query->where('text', 'like', '%' . $search . '%');
             }
         ])->get();
