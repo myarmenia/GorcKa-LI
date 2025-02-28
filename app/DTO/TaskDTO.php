@@ -15,25 +15,46 @@ class TaskDTO
         public Carbon $end_date,
         public ?int $executor_id,
         public ?string $status,
-        public ?string $file,
+        public ?string $description,
+        public ?array $file,
 
     )
     {}
-    public static function fromArray(array $data): self
-    {
 
-        return new self(
-            $data['title'],
-            $data['sub_category_id'] ?? null,
-            $data['location_id'],
-            $data['price_min'],
-            $data['price_max'],
-            Carbon::parse($data['start_date']), // Преобразуем дату в Carbon
-            Carbon::parse($data['end_date']),
-            isset($data['executor_id']) ? (int) $data['executor_id'] : null,
-            $data['status'] ?? null,
-            isset($data['file']) ? $data['file'] : null
+    public static  function fromRequestDto(Request $request): TaskDTO {
+        return  new self(
+            title: $request->title,
+            sub_category_id: (int) $request->sub_category_id,
+            location_id: (int) $request->location_id,
+            price_min: (int) $request->price_min,
+            price_max: (int) $request->price_max,
+            start_date: Carbon::parse($request->start_date),
+            end_date: Carbon::parse($request->end_date),
+            executor_id: $request->executor_id ? (int) $request->executor_id : null,
+            status: $request->status ?? 'active',
+            description: $request->description,
+            file: $request->hasFile('file') ? $request->file('file') : null
         );
+
+    }
+
+    public function toArray()
+    {
+        return [
+            'title' => $this->title,
+            "sub_category_id" => $this->sub_category_id,
+            "location_id" => $this->location_id,
+            "price_min" => $this->price_min,
+            "price_max" => $this->price_max,
+            "start_date" => $this->start_date,
+            "end_date" => $this->end_date,
+            "executor_id" => $this->executor_id,
+            "status" => $this->status,
+            "file" => $this->file
+
+
+
+        ];
     }
 
 }

@@ -113,15 +113,14 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
 
                                                                                 <InputLabel for="title" :value="$page.props.translations.page.task_name" class="text-grey"/>
                                                                                 <TextInput
-
                                                                                  v-model="form.title"
                                                                                  id="title"
                                                                                  type="text"
                                                                                  class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-
                                                                                  autofocus
                                                                                  autocomplete="title"
                                                                                  :placeholder="useTrans('page.enter_task_name')"
+                                                                                 :error="form.errors.title"
 
                                                                                 />
                                                                                 <!-- <label for="lastName" class="text-sm text-gray-900 dark:text-gray-50">Last Name</label>

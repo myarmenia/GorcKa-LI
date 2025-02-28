@@ -46,8 +46,8 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-       
-        $data=$this->service->createTask(TaskDTO::fromArray($request->all()));
+
+        $data=$this->service->createTask(TaskDTO::fromRequestDto($request));
 
     }
 

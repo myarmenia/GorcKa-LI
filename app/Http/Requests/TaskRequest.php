@@ -21,6 +21,7 @@ class TaskRequest extends FormRequest
      */
     public function rules(): array
     {
+
         $arr= [
             "title"=>"required",
             "sub_category_id"=>"required",

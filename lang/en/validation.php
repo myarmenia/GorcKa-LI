@@ -160,6 +160,7 @@ return [
 
     'attributes' => [
       'email' => 'email',
+      'title' => 'task name'
 
     ],
 
