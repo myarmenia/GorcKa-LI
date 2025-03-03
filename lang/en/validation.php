@@ -160,7 +160,13 @@ return [
 
     'attributes' => [
       'email' => 'email',
-      'title' => 'task name'
+      'title' => 'task name',
+      'location_id' => "Region",
+      'category_id'=> "Category",
+      'sub_category_id'=>"Subcategory",
+      'price_min'=> "Minimum price",
+      'price_max'=> "Max price",
+      'end_date' => "End date",
 
     ],
 

@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\User\Profile\TaskController;
+use App\Http\Controllers\User\Profile\UpdateProfileAvatarController;
 
 // Route::middleware('setLocale')->prefix('{locale}')->where(['locale' => 'en|ru|am'])->group(function () {
 Route::prefix('{locale}')
@@ -48,7 +49,8 @@ Route::prefix('{locale}')
 
         Route::get('task',[TaskController::class,'index'])->name('task.create');
         Route::post('task',[TaskController::class,'store'])->name('task.store');
-        
+        Route::post('update-profile-avatar',UpdateProfileAvatarController::class)->name('update-profile-avatar');
+
 
     });
 });

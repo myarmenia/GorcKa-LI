@@ -1,15 +1,57 @@
 <script setup>
-    import { Link } from '@inertiajs/vue3';
+    // import { Link } from '@inertiajs/vue3';
+    import { usePage, Link } from '@inertiajs/vue3';
+    import axios from 'axios';
 
-    import { usePage } from '@inertiajs/vue3';
+    import { onMounted,ref, watch , computed} from 'vue';
     const locale_lng = usePage().props.locale;
+
+    const fileInput = ref(null);
+
+    const openFileInput = () =>{
+        fileInput.value.click();
+    }
+
+
+
+    const profilePictureUrl = ref(null);
+
+    const handelFileChange = (event) =>{
+        const file = event.target.files[0];
+
+        profilePictureUrl.value = URL.createObjectURL(file)
+
+        console.log(profilePictureUrl.value);
+        const formData = new FormData();
+        formData.append('avatar',file);
+        axios.post('/api/update-profile-avatar',formData,{
+            headers: { 'Content-Type': 'multipart/form-data' }
+
+        })
+        .then((response)=>{
+            console.log(response)
+
+        })
+    }
+
+
+
 </script>
+<style>
+    .profile-user-img:hove {
+        background-color:blue;
+        cursor:pointer;
+
+    }
+</style>
 <template>
       <div class="col-span-12 lg:col-span-4">
                                     <div class="border rounded border-gray-100/50 dark:border-neutral-600">
                                         <div class="p-5 border-b border-gray-100/50 dark:border-neutral-600">
                                             <div class="text-center">
-                                                <img src="/assets/user/images/user/profile.jpg" alt="" class="w-20 h-20 p-1 mx-auto border-2 rounded-full border-gray-200/20">
+                                                <input  @change="handelFileChange" ref="fileInput" type="file" class="">
+
+                                                <img @click="openFileInput" :src = "profilePictureUrl ?profilePictureUrl : '/assets/user/images/user/profile.jpg'" alt="" class="w-20 h-20 p-1 mx-auto border-2 rounded-full border-gray-200/20 profile-user-img">
                                                 <h6 class="mt-4 mb-0 text-lg text-gray-900 dark:text-gray-50">Jansh Dickens</h6>
                                                 <p class="mb-4 text-gray-500 dark:text-gray-300">Developer</p>
                                                 <ul class="flex flex-wrap justify-center gap-2 mb-0">

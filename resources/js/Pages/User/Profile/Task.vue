@@ -12,6 +12,7 @@ import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
 import FileInput from '@/Components/FileInput.vue';
 import { useTrans } from '/resources/js/trans';
+import InputError from '@/Components/InputError.vue';
 
 
 
@@ -30,6 +31,7 @@ const selectedFiles = ref([]);
 
 
 
+
 const form = useForm({
 
     category_id: categories.length > 0 ? categories[0].id : '',
@@ -42,9 +44,7 @@ const form = useForm({
     start_date: '',
     end_date: "",
     lang: locale,
-    file: '',
-
-
+    file: [],
 
 });
 
@@ -79,11 +79,39 @@ console.log(subcategoryOptions)
 
 
 // ===============
+// // Функция для создания временного URL
+// const getFileUrl = (file) => {
+//     if (file instanceof File) {
+//         console.log(file)
+//     return URL.createObjectURL(file);
+//   } else {
+//     console.error("Invalid file object", file);
+//     return ''; // Return an empty string if the file is invalid
+//   }
+// };
+
+const handleFileChange = (event) => {
+  const files = event.target.files;
+  if (files && files.length > 0) {
+   form.value.file = Array.from(files).map((file) => ({
+      file,
+      url: URL.createObjectURL(file) // Generate preview URL
+    }));
+  }
+  console.log(form.value.file)
+};
+
+
+// Cleanup object URLs when component unmounts
+const revokeObjectURLs = () => {
+  form.value.file.forEach(({ url }) => URL.revokeObjectURL(url));
+};
 
 
 
 
 const submitForm = () => {
+    console.log(form.errors)
     form.post(route('task.store',{ locale: usePage().props.locale }));
 };
 
@@ -120,11 +148,12 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                  autofocus
                                                                                  autocomplete="title"
                                                                                  :placeholder="useTrans('page.enter_task_name')"
-                                                                                 :error="form.errors.title"
 
                                                                                 />
-                                                                                <!-- <label for="lastName" class="text-sm text-gray-900 dark:text-gray-50">Last Name</label>
-                                                                                <input type="text" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" id="lastName" value="Dickens"> -->
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.title" />
+
+
+
                                                                             </div>
                                                                          </div>
                                                                          <!-- Title col end -->
@@ -141,9 +170,10 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                         value: location.id,
                                                                                         text: location.translation?.name || 'Без названия'
                                                                                     }))"
-                                                                                    :error="form.errors.location_id"
+
 
                                                                                 />
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.location_id" />
 
 
                                                                             </div>
@@ -163,9 +193,10 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                         value: category.id,
                                                                                         text: category.translation?.name || 'Без названия'
                                                                                     }))"
-                                                                                    :error="form.errors.category_id"
+
 
                                                                                 />
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.category_id" />
 
 
 
@@ -176,8 +207,6 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                         <!--end col-->
                                                                         <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
-
-
                                                                                 <InputLabel for="sub_category" value="sub_category name" class="text-white"/>
                                                                                 <Select
                                                                                     v-model = "form.sub_category_id"
@@ -185,44 +214,47 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                     :label = "useTrans('page.select_sub_category')"
                                                                                     :name = "'sub_category_id'"
                                                                                     :options = "subcategoryOptions"
-                                                                                    :error = "form.errors.sub_category_id"
+
 
                                                                                 />
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.sub_category_id" />
                                                                             </div>
                                                                         </div>
                                                                         <!--end col-->
                                                                         <!-- min price start -->
                                                                         <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
-                                                                                <InputLabel for="minPrice" :value="useTrans('page.min_price')" class="text-grey" />
+                                                                                <InputLabel for="price_min" :value="useTrans('page.price_min')" class="text-grey" />
                                                                                 <TextInput
-                                                                                v-model="form.price_min"
-                                                                                 :id="minPrice"
-                                                                                 min="0"
-                                                                                 type="number"
-                                                                                 class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-                                                                                 autofocus
-                                                                                 :placeholder="useTrans('page.min_price')"
+                                                                                    v-model="form.price_min"
+                                                                                    id="price_min"
+                                                                                    min="0"
+                                                                                    type="number"
+                                                                                    class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
+                                                                                    autofocus
+                                                                                    :placeholder="useTrans('page.price_min')"
 
                                                                                 />
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.price_min" />
                                                                             </div>
                                                                         </div>
                                                                         <!-- min price end -->
                                                                             <!-- location end -->
                                                                         <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
-                                                                                <InputLabel for="maxPrice" :value="useTrans('page.max_price')" class="text-grey" />
+                                                                                <InputLabel for="price_max" :value="useTrans('page.price_max')" class="text-grey" />
                                                                                 <TextInput
                                                                                  v-model="form.price_max"
-                                                                                 :id="maxPrice"
+                                                                                 id="price_max"
                                                                                  type="number"
                                                                                  min="0"
                                                                                  class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
 
                                                                                  autofocus
-                                                                                 :placeholder="useTrans('page.max_price')"
+                                                                                 :placeholder="useTrans('page.price_max')"
 
                                                                                 />
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.price_max" />
                                                                             </div>
                                                                         </div>
 
@@ -248,6 +280,8 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                  :placeholder="useTrans('page.start_date')"
 
                                                                                 />
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.start_date" />
+
 
                                                                             </div>
                                                                         </div>
@@ -264,6 +298,7 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                 :placeholder="useTrans('page.end_date')"
 
                                                                                 />
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.end_date" />
                                                                             </div>
 
                                                                         </div>
@@ -316,10 +351,20 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                  id="formFileLg" type="file"> -->
                                                                                  <!-- <input type="file"  v-model="form.file" multiple> -->
                                                                                  <div>
-                                                                                    <input type="file" @input="form.file = $event.target.files" multiple>
+                                                                                    <input type="file"
+                                                                                          @change = "handleFileChange"
+                                                                                          multiple>
 
-                                                                                    <ul v-if="form.file.length">
+                                                                                    <!-- <ul v-if="form.file.length">
                                                                                       <li v-for="(file, index) in form.file" :key="index">{{ file.name }}</li>
+                                                                                      <img :src="getFileUrl(file)" :alt="file.image" class="w-24 h-24 object-cover rounded-lg" />
+                                                                                      <p>{{ file.url }}</p>
+                                                                                    </ul> -->
+                                                                                    <ul v-if="form.file.length">
+                                                                                        <li v-for="(item, index) in form.file" :key="index">
+                                                                                        <img :src="item.url" :alt="item.file.name" class="w-24 h-24 object-cover rounded-lg" />
+                                                                                        <p>{{ item.file.name }}</p>
+                                                                                        </li>
                                                                                     </ul>
                                                                                 </div>
                                                                             </div>
