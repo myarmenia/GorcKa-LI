@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
+use App\Services\FileUploadService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,6 +36,7 @@ Route::prefix('{locale}')
 Route::get('/admin', function () {
     return Inertia::render('WelcomeAdmin');
 });
+Route::get('get-file', [FileUploadService::class, 'get_file'])->name('get-file');
 
 
 

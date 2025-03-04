@@ -1,7 +1,7 @@
 <script setup>
 
 
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, router  } from '@inertiajs/vue3';
 import Index from './Index.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import Select from '@/Components/Select.vue';
@@ -11,47 +11,74 @@ import { usePage } from '@inertiajs/vue3';
 import TextInput from '@/Components/TextInput.vue';
 import TextArea from '@/Components/TextArea.vue';
 import FileInput from '@/Components/FileInput.vue';
-
+import { useTrans } from '/resources/js/trans';
+import InputError from '@/Components/InputError.vue';
 
 
 
 
 // =====for lang =====
-const pathParts = window.location.pathname.split("/");
-const locale = pathParts[1] ?? "en"; // Извлекаем локаль из URL
+const props = defineProps({
+    categories: Array,
+    locations: Array,
+    locale: String
+});
+
 
 // ===== Получаем категории с подкатегориями из props
 const { categories } = usePage().props; //
 const { locations } = usePage().props;
+
+const {locale } = usePage().props;
 
 // ===== Подкатегории для выбранной категории
 const subcategories = ref([]);
 const selectedFiles = ref([]);
 
 
+// ======= file =========
+const previewUrls = ref([]);
+
+
+const handleFileUpload = (event) => {
+  const files = event.target.files;
+
+  if (files.length) {
+
+    for (let file of files) {
+            form.file.push(file);
+            previewUrls.value.push(URL.createObjectURL(file)); // Generate preview
+        }
+
+
+  }
+};
+
+
+// Remove file from preview and form data
+const removeNewFile = (index) => {
+    form.file.splice(index, 1);
+    previewUrls.value.splice(index, 1);
+};
+
 
 const form = useForm({
 
     category_id: categories.length > 0 ? categories[0].id : '',
-    sub_category_id : '',
-    location_id : '',
-    title : '',
-    price_min : '',
-    price_max : '',
-    description : '',
-    start_date : '',
+    sub_category_id: '',
+    location_id: '',
+    title: '',
+    price_min: '',
+    price_max: '',
+    description: '',
+    start_date: '',
     end_date: "",
     lang: locale,
-    file: '',
-
-
+    file: [],
 
 });
-console.log(form)
-const props = defineProps({
-    categories: Array,
-    locations: Array
-});
+
+
 
 
 
@@ -78,22 +105,18 @@ const subcategoryOptions = computed(() => {
 console.log(subcategoryOptions)
 
 
-// ===============
-// import { ref } from 'vue';
 
-const form1 = ref({
-  file: [],
-});
 
-const handleFileChange = (event) => {
-  form1.value.file = Array.from1(event.target.files);
-};
+
+
 
 
 
 
 const submitForm = () => {
-    form.post(route('task.store',{ locale }));
+    console.log(form.errors)
+    form.post(route('task.store',{ locale: usePage().props.locale }));
+
 };
 
 // Инициализируем подкатегории при первом рендере
@@ -102,6 +125,37 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
 
 
 </script>
+<style>
+.preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  margin-top: 10px;
+
+}
+.preview-item {
+  position: relative;
+  display: inline-block;
+}
+.preview-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+
+}
+.delete-icon {
+  position: absolute;
+  top: -10px;
+  right: -30px;
+
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+</style>
 
 <template>
     <Index>
@@ -111,35 +165,50 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                     <div class="pt-8 space-x-8">
                                                         <form  @submit.prevent = submitForm >
                                                             <div>
-                                                                <h5 class="mb-3 text-gray-900 fs-17 fw-semibold dark:text-gray-50">{{ $t('create_task') }}</h5>
+                                                                <h5 class="mb-3 text-gray-900 fs-17 fw-semibold dark:text-gray-50">{{ useTrans('page.create_task') }}</h5>
 
                                                                 <div class="mt-5">
                                                                     <div class="grid grid-cols-12 gap-5">
                                                                          <!--Title col-->
                                                                          <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
+                                                                                 <!-- <pre>{{ $page.props }}</pre> -->
 
-                                                                                <InputLabel for="title" :value="$t('task_name')" class="text-grey"/>
+                                                                                <InputLabel for="title" :value="$page.props.translations.page.task_name" class="text-grey"/>
                                                                                 <TextInput
-
                                                                                  v-model="form.title"
                                                                                  id="title"
                                                                                  type="text"
                                                                                  class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-                                                                                 required
                                                                                  autofocus
                                                                                  autocomplete="title"
-                                                                                 :placeholder="$t('enter_task_name')"
+                                                                                 :placeholder="useTrans('page.enter_task_name')"
 
                                                                                 />
-                                                                                <!-- <label for="lastName" class="text-sm text-gray-900 dark:text-gray-50">Last Name</label>
-                                                                                <input type="text" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" id="lastName" value="Dickens"> -->
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.title" />
+
+
+
                                                                             </div>
                                                                          </div>
                                                                          <!-- Title col end -->
                                                                           <!--Title col-->
                                                                          <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
+                                                                                <InputLabel for="category" value="category name" class="text-white" />
+                                                                                <Select
+                                                                                    v-model="form.location_id"
+                                                                                    :id="'location'"
+                                                                                    :label="useTrans('page.select_location')"
+                                                                                    :name="'location_id'"
+                                                                                    :options="locations.map(location => ({
+                                                                                        value: location.id,
+                                                                                        text: location.translation?.name || 'Без названия'
+                                                                                    }))"
+
+
+                                                                                />
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.location_id" />
 
 
                                                                             </div>
@@ -153,15 +222,16 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                 <Select
                                                                                     v-model="form.category_id"
                                                                                     :id="'category'"
-                                                                                    :label="$t('select_category')"
+                                                                                    :label="useTrans('page.select_category')"
                                                                                     :name="'category_id'"
                                                                                     :options="categories.map(category => ({
                                                                                         value: category.id,
                                                                                         text: category.translation?.name || 'Без названия'
                                                                                     }))"
-                                                                                    :error="form.errors.category_id"
+
 
                                                                                 />
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.category_id" />
 
 
 
@@ -172,140 +242,104 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                         <!--end col-->
                                                                         <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
-
-                                                                                <!-- <label for="choices-single-categories" class="text-sm text-gray-900 dark:text-gray-50">Account Type</label>
-                                                                                <div class="mt-1">
-                                                                                    <div class="choices" data-type="select-one" tabindex="0" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false"><div class="choices__inner"><select class="form-select choices__input" data-trigger="" name="choices-single-categories" id="choices-single-categories" aria-label="Default select example" hidden="" tabindex="-1" data-choice="active"><option value="4" data-custom-properties="[object Object]">Accounting</option></select><div class="choices__list choices__list--single"><div class="choices__item choices__item--selectable" data-item="" data-id="1" data-value="4" data-custom-properties="[object Object]" aria-selected="true">Accounting</div></div></div><div class="choices__list choices__list--dropdown" aria-expanded="false"><input type="search" name="search_terms" class="choices__input choices__input--cloned" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null" placeholder=""><div class="choices__list" role="listbox"><div id="choices--choices-single-categories-item-choice-1" class="choices__item choices__item--choice is-selected choices__item--selectable is-highlighted" role="option" data-choice="" data-id="1" data-value="4" data-select-text="Press to select" data-choice-selectable="" aria-selected="true">Accounting</div><div id="choices--choices-single-categories-item-choice-2" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="2" data-value="5" data-select-text="Press to select" data-choice-selectable="">Banking</div><div id="choices--choices-single-categories-item-choice-3" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="3" data-value="1" data-select-text="Press to select" data-choice-selectable="">IT &amp; Software</div><div id="choices--choices-single-categories-item-choice-4" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="4" data-value="3" data-select-text="Press to select" data-choice-selectable="">Marketing</div></div></div></div>
-                                                                                </div> -->
                                                                                 <InputLabel for="sub_category" value="sub_category name" class="text-white"/>
                                                                                 <Select
-                                                                                    :v-model = "form.subcategory_id"
+                                                                                    v-model = "form.sub_category_id"
                                                                                     :id = "'sub_category'"
-                                                                                    :label = "$t('select_sub_category')"
-                                                                                    :name = "subcategory_id"
+                                                                                    :label = "useTrans('page.select_sub_category')"
+                                                                                    :name = "'sub_category_id'"
                                                                                     :options = "subcategoryOptions"
-                                                                                    :error = "form.errors.subcategory_id"
+
 
                                                                                 />
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.sub_category_id" />
                                                                             </div>
                                                                         </div>
                                                                         <!--end col-->
-                                                                        <!-- location start -->
+                                                                        <!-- min price start -->
                                                                         <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
-                                                                                <InputLabel for="category" value="category name" class="text-white" />
-
-
-                                                                                <Select
-                                                                                    v-model="form.location_id"
-                                                                                    :id="'location'"
-                                                                                    :label="$t('select_location')"
-                                                                                    :name="'location_id'"
-                                                                                    :options="locations.map(location => ({
-                                                                                        value: location.id,
-                                                                                        text: location.translation?.name || 'Без названия'
-                                                                                    }))"
-                                                                                    :error="form.errors.location_id"
-
-                                                                                />
-
-                                                                                <!-- <label for="email" class="text-sm text-gray-900 dark:text-gray-50">Email</label>
-                                                                                <input type="text" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" id="email" value="Jansh@gmail.com"> -->
-                                                                            </div>
-                                                                        </div>
-                                                                            <!-- location end -->
-                                                                              <!-- min price start -->
-                                                                        <div class="col-span-12 lg:col-span-6">
-                                                                            <div class="mb-3">
-                                                                                <InputLabel for="minPrice" :value="$t('min_price')" class="text-grey" />
+                                                                                <InputLabel for="price_min" :value="useTrans('page.price_min')" class="text-grey" />
                                                                                 <TextInput
-                                                                                v-model="form.price_min"
-                                                                                 :id="minPrice"
-                                                                                 min="0"
-                                                                                 type="number"
-                                                                                 class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-                                                                                 required
-                                                                                 autofocus
-                                                                                 :placeholder="$t('min_price')"
+                                                                                    v-model="form.price_min"
+                                                                                    id = "price_min"
+                                                                                    min = "0"
+                                                                                    type = "number"
+                                                                                    class = "w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
+                                                                                    autofocus
+                                                                                    :placeholder = "useTrans('page.price_min')"
 
                                                                                 />
-
-                                                                                <!-- <label for="email" class="text-sm text-gray-900 dark:text-gray-50">Email</label>
-                                                                                <input type="text" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" id="email" value="Jansh@gmail.com"> -->
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.price_min" />
                                                                             </div>
                                                                         </div>
-                                                                            <!-- min price end -->
+                                                                        <!-- min price end -->
+                                                                            <!-- location end -->
+                                                                        <div class="col-span-12 lg:col-span-6">
+                                                                            <div class="mb-3">
+                                                                                <InputLabel for="price_max" :value="useTrans('page.price_max')" class="text-grey" />
+                                                                                <TextInput
+                                                                                 v-model="form.price_max"
+                                                                                 id="price_max"
+                                                                                 type="number"
+                                                                                 min="0"
+                                                                                 class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
+
+                                                                                 autofocus
+                                                                                 :placeholder="useTrans('page.price_max')"
+
+                                                                                />
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.price_max" />
+                                                                            </div>
+                                                                        </div>
+
+
+
                                                                         <!--end col-->
                                                                     </div>
                                                                 </div>
                                                                 <!-- ----second section -->
                                                                 <div class="mt-5">
                                                                     <div class="grid grid-cols-12 gap-5">
-                                                                        <div class="col-span-12 lg:col-span-6">
-                                                                            <div class="mb-3">
-                                                                                <InputLabel for="maxPrice" :value="$t('max_price')" class="text-grey" />
-                                                                                <TextInput
-                                                                                 v-model="form.price_max"
-                                                                                 :id="maxPrice"
-                                                                                 type="number"
-                                                                                 class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-                                                                                 required
-                                                                                 autofocus
-                                                                                 :placeholder="$t('max_price')"
 
-                                                                                />
-
-
-
-
-                                                                                <!-- <button type="submit">Create Task</button> -->
-
-                                                                                <!-- <label for="firstName" class="text-sm text-gray-900 dark:text-gray-50">First Name</label> -->
-                                                                                <!-- <input type="text" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" id="firstName" value="Jansh"> -->
-                                                                            </div>
-                                                                        </div>
                                                                         <!--end col-->
                                                                         <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
-                                                                                <InputLabel for="startDate" :value="$t('start_date')" class="text-grey" />
+                                                                                <InputLabel for="startDate" :value="useTrans('page.start_date')" class="text-grey" />
                                                                                 <TextInput
                                                                                 v-model="form.start_date"
                                                                                  :id="startDate"
                                                                                  type="date"
                                                                                  class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-                                                                                 required
                                                                                  autofocus
-                                                                                 :placeholder="$t('start_date')"
+                                                                                 :placeholder="useTrans('page.start_date')"
 
                                                                                 />
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.start_date" />
+
 
                                                                             </div>
                                                                         </div>
-                                                                        <!--end col-->
                                                                         <div class="col-span-12 lg:col-span-6">
                                                                             <div class="mb-3">
 
-                                                                                <InputLabel for="endDate" :value="$t('end_date')" class="text-grey" />
+                                                                                <InputLabel for="endDate" :value="useTrans('page.end_date')" class="text-grey" />
                                                                                 <TextInput
                                                                                 v-model="form.end_date"
-                                                                                 :id="endDate"
-                                                                                 type="date"
-                                                                                 class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-                                                                                 required
-                                                                                 autofocus
-                                                                                 :placeholder="$t('end_date')"
+                                                                                :id="endDate"
+                                                                                type="date"
+                                                                                class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
+                                                                                autofocus
+                                                                                :placeholder="useTrans('page.end_date')"
 
                                                                                 />
+                                                                                <InputError class="mt-2 opacity-60" :message="form.errors.end_date" />
                                                                             </div>
+
                                                                         </div>
                                                                         <!--end col-->
-                                                                        <div class="col-span-12 lg:col-span-6">
-                                                                            <div class="mb-3">
-                                                                                <label for="email" class="text-sm text-gray-900 dark:text-gray-50">Email</label>
-                                                                                <input type="text" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" id="email" value="Jansh@gmail.com">
-                                                                            </div>
-                                                                        </div>
-                                                                        <!--end col-->
+
+
                                                                     </div>
                                                                 </div>
 
@@ -313,65 +347,45 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                             </div>
                                                             <!--end account-->
                                                             <div class="mt-4">
-                                                                <!-- <h5 class="mb-3 font-semibold text-gray-900 text-17 dark:text-gray-50">Profile</h5> -->
+
                                                                 <div class="grid grid-cols-12 gap-5">
                                                                     <div class="col-span-12">
                                                                         <div class="mb-3">
-                                                                            <InputLabel for="textarea" :value="$t('description')" class="text-grey" />
-
+                                                                            <InputLabel for="textarea" :value="useTrans('page.description')" class="text-grey" />
                                                                             <TextArea
                                                                              id="textarea"
                                                                              v-model = "form.description"
-                                                                             :placeholder = "$t('description')"
+                                                                             :placeholder = "useTrans('page.description')"
                                                                              rows="5" />
-                                                                            <!-- <p>Entered text: {{ form.description }}</p> -->
+
+
 
 
                                                                         </div>
                                                                     </div>
                                                                     <!--end col-->
-                                                                    <!-- <div class="col-span-12 lg:col-span-6">
-                                                                        <div class="mb-3">
-                                                                            <label for="languages" class="text-sm text-gray-900 dark:text-gray-50">Languages</label>
-                                                                            <input type="text" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" id="languages" value="English, German, French">
-                                                                        </div>
-                                                                    </div> -->
-                                                                    <!--end col-->
-                                                                    <!-- <div class="col-span-12 lg:col-span-6">
-                                                                        <div class="mb-3">
-                                                                            <label for="choices-single-location" class="text-sm text-gray-900 dark:text-gray-50">Location</label>
-                                                                            <div class="mt-1">
-                                                                                <div class="choices" data-type="select-one" tabindex="0" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false"><div class="choices__inner"><select class="form-select choices__input" data-trigger="" name="choices-single-location" id="choices-single-location" aria-label="Default select exam
-                                                                                    ple" hidden="" tabindex="-1" data-choice="active"><option value="ME" data-custom-properties="[object Object]">Montenegro</option></select><div class="choices__list choices__list--single"><div class="choices__item choices__item--selectable" data-item="" data-id="1" data-value="ME" data-custom-properties="[object Object]" aria-selected="true">Montenegro</div></div></div><div class="choices__list choices__list--dropdown" aria-expanded="false"><input type="search" name="search_terms" class="choices__input choices__input--cloned" autocomplete="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" aria-label="null" placeholder=""><div class="choices__list" role="listbox"><div id="choices--choices-single-location-item-choice-1" class="choices__item choices__item--choice is-selected choices__item--selectable is-highlighted" role="option" data-choice="" data-id="1" data-value="ME" data-select-text="Press to select" data-choice-selectable="" aria-selected="true">Montenegro</div><div id="choices--choices-single-location-item-choice-2" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="2" data-value="MS" data-select-text="Press to select" data-choice-selectable="">Montserrat</div><div id="choices--choices-single-location-item-choice-3" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="3" data-value="MA" data-select-text="Press to select" data-choice-selectable="">Morocco</div><div id="choices--choices-single-location-item-choice-4" class="choices__item choices__item--choice choices__item--selectable" role="option" data-choice="" data-id="4" data-value="MZ" data-select-text="Press to select" data-choice-selectable="">Mozambique</div></div></div></div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div> -->
+
                                                                     <!--end col-->
                                                                     <div class="col-span-12">
                                                                         <div class="mb-3 ">
                                                                             <div class="mb-3">
-                                                                                <InputLabel for="file" :value="$t('chose_file')" class="text-grey" />
-                                                                                <!-- <FileInput
-                                                                                 id="file"
-                                                                                 type="file"
-                                                                                 v-model="selectedFile"
-                                                                                 required
-                                                                                 autofocus
-                                                                                class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-gray-100/50 bg-clip-padding pr-3 py-[0.32rem] font-normal leading-[2.15] text-neutral-700 transition duration-300 ease-in-out file:mr-2 file:-my-[0.32rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-100/30 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary" -->
+                                                                                <InputLabel for="file" :value="useTrans('page.chose_file')" class="text-grey" />
 
-
-                                                                                <!-- /> -->
-                                                                                <!-- <p v-if="selectedFile">Selected file: {{ selectedFile.name }}</p> -->
-                                                                                <!-- <label for="formFileLg" class="inline-block mb-2 text-neutral-700 dark:text-neutral-200">Large file input example</label>
-                                                                                <input
-                                                                                class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-gray-100/50 bg-clip-padding pr-3 py-[0.32rem] font-normal leading-[2.15] text-neutral-700 transition duration-300 ease-in-out file:mr-2 file:-my-[0.32rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-100/30 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
-                                                                                 id="formFileLg" type="file"> -->
-                                                                                 <!-- <input type="file"  v-model="form.file" multiple> -->
                                                                                  <div>
-                                                                                    <input type="file" @change="handleFileChange" multiple>
-                                                                                    <ul v-if="form.file.length">
-                                                                                    <li v-for="(file, index) in form.file" :key="index">{{ file.name }}</li>
-                                                                                    </ul>
+
+                                                                                    <div>
+                                                                                        <input type="file" multiple @change="handleFileUpload">
+
+                                                                                        <div v-if="previewUrls.length" class="preview-container">
+
+                                                                                            <!-- <img v-for="(url, index) in previewUrls" :key="index" :src="url" class="preview-img"> -->
+                                                                                            <div v-for="(url, index) in previewUrls" :key="index" class="preview-item">
+                                                                                                <img :src="url" class="preview-img">
+                                                                                                <i class="bx bx-trash delete-icon bg-green-500" @click="removeNewFile(index)"></i>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -384,8 +398,9 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
 
                                                             <!--end Change-password-->
                                                             <div class="mt-8 text-right">
-                                                                <button type="submit">Create Task</button>
-                                                                <a href="javascript:void(0)" class="text-white btn group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 border-transparent focus:ring group-data-[theme-color=violet]:focus:ring-violet-500/20 group-data-[theme-color=sky]:focus:ring-sky-500/20 group-data-[theme-color=red]:focus:ring-red-500/20 group-data-[theme-color=green]:focus:ring-green-500/20 group-data-[theme-color=pink]:focus:ring-pink-500/20 group-data-[theme-color=blue]:focus:ring-blue-500/20">Update</a>
+
+
+                                                                <button type="submit" class="text-white btn group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 border-transparent focus:ring group-data-[theme-color=violet]:focus:ring-violet-500/20 group-data-[theme-color=sky]:focus:ring-sky-500/20 group-data-[theme-color=red]:focus:ring-red-500/20 group-data-[theme-color=green]:focus:ring-green-500/20 group-data-[theme-color=pink]:focus:ring-pink-500/20 group-data-[theme-color=blue]:focus:ring-blue-500/20">{{ useTrans('form.create') }}</button>
                                                             </div>
                                                         </form>
                                                     </div>

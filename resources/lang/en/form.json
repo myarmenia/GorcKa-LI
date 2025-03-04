@@ -1,4 +1,6 @@
 {
+
+    "create": "Create",
     "name": "Name",
     "email": "Email",
     "phone": "Phone",
@@ -14,6 +16,7 @@
     "password_placeholder": "Enter your password",
     "password_confirmation_placeholder": "Confirm Password",
     "select_placeholder": "Select an option"
+
 
 
 

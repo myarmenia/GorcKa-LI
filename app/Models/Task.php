@@ -9,7 +9,7 @@ class Task extends Model
 {
     protected $guarded = [];
 
-    public function filables(): MorphMany
+    public function files(): MorphMany
     {
         return $this->morphMany(Filable::class, 'filable');
     }
