@@ -74,14 +74,10 @@ trait FilterTrait {
                 }
             }
 
-            if(request()->type == 'subscription' || request()->type == 'standart'){
-                $relationModel = request()->type == 'subscription' ? 'subscription_tickets' : 'standart_tickets';
-                $builder->whereHas($relationModel, function ($query) use ($filters) {
-                    $query->where('status', 1);
-                });
-            }
 
+            // dd($field, $relationFilter);
             if (isset ($relationFilter) && $this->getKeyFromValue($field, $relationFilter)) {
+
                 $relationModel  = $this->getKeyFromValue($field, $relationFilter);
 
                     $builder->whereHas($relationModel, function ($query) use ($filters) {

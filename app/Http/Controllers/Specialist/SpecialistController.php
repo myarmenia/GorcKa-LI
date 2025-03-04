@@ -21,12 +21,20 @@ class SpecialistController extends Controller
         $categories = Helper::getCategories();
         $specialists = $this->specialistService->getAll();
 
+
         return Inertia::render('Specialists/Index', ['locations' => $locations, 'categories' => $categories, 'specialists' => $specialists]);
     }
 
     public function filter(Request $request)
     {
+        $specialists = $this->specialistService->filterSpecialists($request->all());
 
-        dd($request->all());
+        return Inertia::render('Specialists/Index', ['specialists' => $specialists]);
+
+        // return response()->json([
+        //     'success' => true,
+        //     'data' => $specialists
+        // ]);
+
     }
 }

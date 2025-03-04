@@ -54,6 +54,15 @@ const handleBlur = () => {
     }, 200);
 };
 
+// Следим за очисткой поля
+watch(search, (newValue) => {
+    if (!newValue.length) {
+        emit('update:modelValue', null); // Отправляем null
+        lastSearch.value = '';
+        filteredOptions.value = props.options;
+    }
+});
+
 </script>
 
 <template>
