@@ -18,13 +18,18 @@ use Illuminate\Support\Facades\File;
         $taskTDO = Arr::except($dto->toArray(), ['file']);
         $task = $this->taskRepository->store($taskTDO);
 
-        foreach( $files_arr as $fle){
-            $path = FileUploadService::upload($fle,"task/".$task->id);
-            $task->files()->create([
-                'file_path' => $path,
-                'file_name' => $fle->getClientOriginalName()
-            ]);
+        if($files_arr!=null){
+            foreach( $files_arr as $fle){
+                $path = FileUploadService::upload($fle,"task/".$task->id);
+                $task->files()->create([
+                    'file_path' => $path,
+                    'file_name' => $fle->getClientOriginalName()
+                ]);
+            }
+
         }
+
+
 
     }
 

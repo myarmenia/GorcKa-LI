@@ -141,8 +141,8 @@
                                                         <div>
 
 
-
-                                                                <Link :href="route('task.create',{locale:usePage().props.locale})">Task Page</Link>
+                                                            <Link :href="route('task.index',{locale:usePage().props.locale})">Task Page</Link><br>
+                                                            <Link :href="route('task.create',{locale:usePage().props.locale})">Task create</Link>
 
                                                         </div>
                                                     </div>

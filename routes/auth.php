@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\Profile\UserProfileController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
@@ -47,8 +48,8 @@ Route::prefix('{locale}')
 
         Route::get('/profile_page', [ProfileController::class, 'profile_page'])->name('profile.profile_page');
 
-        Route::get('task',[TaskController::class,'index'])->name('task.create');
-        Route::post('task',[TaskController::class,'store'])->name('task.store');
+
+
         Route::post('update-profile-avatar',UpdateProfileAvatarController::class)->name('update-profile-avatar');
 
 
@@ -82,7 +83,7 @@ Route::middleware('auth')->group(function () {
 
         Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
         Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
@@ -92,6 +93,18 @@ Route::middleware('auth')->group(function () {
 
         Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
             ->name('logout');
+        Route::get('/profile',[UserProfileController::class,'index'])->name('user.profile');
+
+        // Route::get('task-index',[TaskController::class,'create'])->name('task.create');
+        Route::prefix('task')->group(function () {
+
+            Route::get('/index',[TaskController::class,'index'])->name('task.index');
+            Route::get('/create',[TaskController::class,'create'])->name('task.create');
+            Route::post('task',[TaskController::class,'store'])->name('task.store');
+
+        });
+
+
     });
 });
 

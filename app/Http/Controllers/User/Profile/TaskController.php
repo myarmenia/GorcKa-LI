@@ -19,11 +19,21 @@ class TaskController extends Controller
      */
     public function index()
     {
+        $task = auth()->user->tasks();
+        dd($task);
 
 
+
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
         $categories = Category::with(['translation','sub_categories.translation'])->get();
         $location = Location::with('translation')->get();
-        // dd($location);
+
 
 
         return  Inertia::render('Profile/Task',[
@@ -33,14 +43,6 @@ class TaskController extends Controller
 
 
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
