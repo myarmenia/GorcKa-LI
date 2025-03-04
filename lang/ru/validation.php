@@ -151,14 +151,16 @@ return [
     */
 
     'attributes' => [
-        "email" => "Эл. почта",
-        'title' => 'Имя задачи',
-        'location_id' => "Область",
-        'category_id' => "Категория",
-        'sub_category_id' => "Подкатегория",
+        "email" => "эл. почта",
+        'title' => 'имя задачи',
+        'location_id' => "область",
+        'category_id' => "категория",
+        'sub_category_id' => "подкатегория",
         'price_min' => "Минимальная цена",
         'price_max' => "Максимальная цена",
-        'end_date' => "Дата окончания",
+        'start_date'=> "дата начала",
+        'end_date' => "дата окончания",
+
 
     ]
 ];

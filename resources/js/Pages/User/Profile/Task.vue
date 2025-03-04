@@ -1,7 +1,7 @@
 <script setup>
 
 
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, router  } from '@inertiajs/vue3';
 import Index from './Index.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import Select from '@/Components/Select.vue';
@@ -18,18 +18,48 @@ import InputError from '@/Components/InputError.vue';
 
 
 // =====for lang =====
-const pathParts = window.location.pathname.split("/");
-const locale = pathParts[1] ?? "en"; // Извлекаем локаль из URL
+const props = defineProps({
+    categories: Array,
+    locations: Array,
+    locale: String
+});
+
 
 // ===== Получаем категории с подкатегориями из props
 const { categories } = usePage().props; //
 const { locations } = usePage().props;
+
+const {locale } = usePage().props;
 
 // ===== Подкатегории для выбранной категории
 const subcategories = ref([]);
 const selectedFiles = ref([]);
 
 
+// ======= file =========
+const previewUrls = ref([]);
+
+
+const handleFileUpload = (event) => {
+  const files = event.target.files;
+
+  if (files.length) {
+
+    for (let file of files) {
+            form.file.push(file);
+            previewUrls.value.push(URL.createObjectURL(file)); // Generate preview
+        }
+
+
+  }
+};
+
+
+// Remove file from preview and form data
+const removeNewFile = (index) => {
+    form.file.splice(index, 1);
+    previewUrls.value.splice(index, 1);
+};
 
 
 const form = useForm({
@@ -48,10 +78,7 @@ const form = useForm({
 
 });
 
-const props = defineProps({
-    categories: Array,
-    locations: Array
-});
+
 
 
 
@@ -78,34 +105,10 @@ const subcategoryOptions = computed(() => {
 console.log(subcategoryOptions)
 
 
-// ===============
-// // Функция для создания временного URL
-// const getFileUrl = (file) => {
-//     if (file instanceof File) {
-//         console.log(file)
-//     return URL.createObjectURL(file);
-//   } else {
-//     console.error("Invalid file object", file);
-//     return ''; // Return an empty string if the file is invalid
-//   }
-// };
-
-const handleFileChange = (event) => {
-  const files = event.target.files;
-  if (files && files.length > 0) {
-   form.value.file = Array.from(files).map((file) => ({
-      file,
-      url: URL.createObjectURL(file) // Generate preview URL
-    }));
-  }
-  console.log(form.value.file)
-};
 
 
-// Cleanup object URLs when component unmounts
-const revokeObjectURLs = () => {
-  form.value.file.forEach(({ url }) => URL.revokeObjectURL(url));
-};
+
+
 
 
 
@@ -113,6 +116,7 @@ const revokeObjectURLs = () => {
 const submitForm = () => {
     console.log(form.errors)
     form.post(route('task.store',{ locale: usePage().props.locale }));
+
 };
 
 // Инициализируем подкатегории при первом рендере
@@ -121,6 +125,37 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
 
 
 </script>
+<style>
+.preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  margin-top: 10px;
+
+}
+.preview-item {
+  position: relative;
+  display: inline-block;
+}
+.preview-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+
+}
+.delete-icon {
+  position: absolute;
+  top: -10px;
+  right: -30px;
+
+  color: white;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+</style>
 
 <template>
     <Index>
@@ -227,12 +262,12 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                 <InputLabel for="price_min" :value="useTrans('page.price_min')" class="text-grey" />
                                                                                 <TextInput
                                                                                     v-model="form.price_min"
-                                                                                    id="price_min"
-                                                                                    min="0"
-                                                                                    type="number"
-                                                                                    class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
+                                                                                    id = "price_min"
+                                                                                    min = "0"
+                                                                                    type = "number"
+                                                                                    class = "w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
                                                                                     autofocus
-                                                                                    :placeholder="useTrans('page.price_min')"
+                                                                                    :placeholder = "useTrans('page.price_min')"
 
                                                                                 />
                                                                                 <InputError class="mt-2 opacity-60" :message="form.errors.price_min" />
@@ -325,6 +360,7 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
 
 
 
+
                                                                         </div>
                                                                     </div>
                                                                     <!--end col-->
@@ -334,38 +370,22 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                         <div class="mb-3 ">
                                                                             <div class="mb-3">
                                                                                 <InputLabel for="file" :value="useTrans('page.chose_file')" class="text-grey" />
-                                                                                <!-- <FileInput
-                                                                                 id="file"
-                                                                                 type="file"
-                                                                                 v-model="selectedFile"
-                                                                                 required
-                                                                                 autofocus
-                                                                                class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-gray-100/50 bg-clip-padding pr-3 py-[0.32rem] font-normal leading-[2.15] text-neutral-700 transition duration-300 ease-in-out file:mr-2 file:-my-[0.32rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-100/30 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary" -->
 
-
-                                                                                <!-- /> -->
-                                                                                <!-- <p v-if="selectedFile">Selected file: {{ selectedFile.name }}</p> -->
-                                                                                <!-- <label for="formFileLg" class="inline-block mb-2 text-neutral-700 dark:text-neutral-200">Large file input example</label>
-                                                                                <input
-                                                                                class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-gray-100/50 bg-clip-padding pr-3 py-[0.32rem] font-normal leading-[2.15] text-neutral-700 transition duration-300 ease-in-out file:mr-2 file:-my-[0.32rem] file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-gray-100/30 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
-                                                                                 id="formFileLg" type="file"> -->
-                                                                                 <!-- <input type="file"  v-model="form.file" multiple> -->
                                                                                  <div>
-                                                                                    <input type="file"
-                                                                                          @change = "handleFileChange"
-                                                                                          multiple>
 
-                                                                                    <!-- <ul v-if="form.file.length">
-                                                                                      <li v-for="(file, index) in form.file" :key="index">{{ file.name }}</li>
-                                                                                      <img :src="getFileUrl(file)" :alt="file.image" class="w-24 h-24 object-cover rounded-lg" />
-                                                                                      <p>{{ file.url }}</p>
-                                                                                    </ul> -->
-                                                                                    <ul v-if="form.file.length">
-                                                                                        <li v-for="(item, index) in form.file" :key="index">
-                                                                                        <img :src="item.url" :alt="item.file.name" class="w-24 h-24 object-cover rounded-lg" />
-                                                                                        <p>{{ item.file.name }}</p>
-                                                                                        </li>
-                                                                                    </ul>
+                                                                                    <div>
+                                                                                        <input type="file" multiple @change="handleFileUpload">
+
+                                                                                        <div v-if="previewUrls.length" class="preview-container">
+
+                                                                                            <!-- <img v-for="(url, index) in previewUrls" :key="index" :src="url" class="preview-img"> -->
+                                                                                            <div v-for="(url, index) in previewUrls" :key="index" class="preview-item">
+                                                                                                <img :src="url" class="preview-img">
+                                                                                                <i class="bx bx-trash delete-icon bg-green-500" @click="removeNewFile(index)"></i>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>

@@ -161,12 +161,13 @@ return [
     'attributes' => [
       'email' => 'email',
       'title' => 'task name',
-      'location_id' => "Region",
-      'category_id'=> "Category",
-      'sub_category_id'=>"Subcategory",
-      'price_min'=> "Minimum price",
-      'price_max'=> "Max price",
-      'end_date' => "End date",
+      'location_id' => "region",
+      'category_id'=> "category",
+      'sub_category_id'=>"subcategory",
+      'price_min'=> "minimum price",
+      'price_max'=> "max price",
+      'start_date'=> "start date",
+      'end_date' => "end date",
 
     ],
 

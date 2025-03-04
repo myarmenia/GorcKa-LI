@@ -27,10 +27,8 @@ class TaskRequest extends FormRequest
             "category_id" => "required",
             "sub_category_id" => "required",
             "location_id" => "required",
-            "description" => "required",
             "price_max" => "required",
             "end_date" => 'required',
-
         ];
 
         if(isset($this->price_min) && isset($this->price_max)){
