@@ -98,9 +98,11 @@ Route::middleware('auth')->group(function () {
         // Route::get('task-index',[TaskController::class,'create'])->name('task.create');
         Route::prefix('task')->group(function () {
 
-            Route::get('/index',[TaskController::class,'index'])->name('task.index');
+            Route::get('/list',[TaskController::class,'index'])->name('task.list');
             Route::get('/create',[TaskController::class,'create'])->name('task.create');
-            Route::post('task',[TaskController::class,'store'])->name('task.store');
+            Route::post('/store',[TaskController::class,'store'])->name('task.store');
+            Route::get('{id}/edit',[TaskController::class,'edit'])->name('task.edit');
+            Route::put('{id}/update',[TaskController::class,'update'])->name('task.update');
 
         });
 

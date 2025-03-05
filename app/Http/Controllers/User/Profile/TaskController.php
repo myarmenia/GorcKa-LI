@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Category;
 use App\Models\Location;
+use App\Models\SubCategory;
 use App\Services\TaskService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -19,8 +20,17 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $task = auth()->user->tasks();
-        dd($task);
+
+        $data = $this->service->list();
+
+// dd( $data);
+        return Inertia::render('Profile/TaskList',[
+            "tasks" => $data,
+            "locale" => app()->getLocale()
+        ]);
+
+
+        // dd($data);
 
 
 
@@ -68,17 +78,35 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($lang, $id)
+
     {
-        //
+
+        $categories = Category::with(['translation','sub_categories.translation'])->get();
+        $location = Location::with('translation')->get();
+
+        $data = $this->service->edit($id);
+        // dd($data->sub_category_id );
+        $sub_category = SubCategory::find($data->sub_category_id);
+        // dd( $sub_category->category_id);
+        // $task_category = Category::where('id', $sub_category->category_id)->with('translation');
+// dd($task_category);
+        return Inertia::render('Profile/TaskEdit',[
+            'categories' => $categories,
+            'locations' => $location,
+            'task' => $data,
+            'task_category_id'=>$sub_category->category_id,
+            'locale' =>app()->getLocale()
+        ]);
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $lang,string $id)
     {
-        //
+        dd($request->all(), $id);
     }
 
     /**

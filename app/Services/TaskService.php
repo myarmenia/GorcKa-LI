@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\File;
     public function __construct(protected TaskInterface $taskRepository){
 
     }
+    public function list(){
+
+        $data = $this->taskRepository->index();
+        return $data;
+
+    }
     public function createTask($dto){
 
         $files_arr = $dto->file;
@@ -31,6 +37,9 @@ use Illuminate\Support\Facades\File;
 
 
 
+    }
+    public function edit ($id){
+        return $this->taskRepository->edit($id);
     }
 
      public function file_upload(){

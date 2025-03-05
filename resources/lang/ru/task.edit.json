@@ -1,0 +1,16 @@
+{
+    "edit_task": "Редактировать задачу",
+    "select_category": "Выберите категорию",
+    "select_sub_category": "Выберите подкатегорию",
+    "select_location": "Выберите регион",
+    "enter_task_name": "Введите название задачи",
+    "task_name": "Имя задачи",
+    "price_min": "Минимальная цена",
+    "price_max": "Максимальная цена",
+    "start_date": "Дата начала",
+    "end_date": "Дата окончания",
+    "description": "Описание",
+    "chose_file": "Выбрать файл",
+    "select_placeholder":"Выбрать"
+
+}
