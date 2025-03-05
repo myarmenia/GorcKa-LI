@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->integer('task_type')->default('0');//remote or local if remote 1
             $table->foreignId('sub_category_id')->constrained('sub_categories')->cascadeOnDelete();
             $table->foreignId('location_id')->constrained('locations')->cascadeOnDelete();
             $table->longText('title');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->integer('price_min')->nullable();
             $table->integer('price_max')->nullable();
             $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
-            $table->foreignId('executor_id')->constrained('users')->cascadeOnDelete();
+            $table->date('end_date');
+            $table->foreignId('executor_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->enum('status', ['active', 'in_process', 'done', 'expired'])->default('active');
             $table->timestamps();
         });

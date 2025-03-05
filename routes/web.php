@@ -1,8 +1,10 @@
 <?php
 
+
 use App\Http\Controllers\CategoryWithSubCategoryFilterController;
 use App\Http\Controllers\LocationFilterController;
 use App\Http\Controllers\SimpleFilterController;
+use App\Services\FileUploadService;
 use Inertia\Inertia;
 use App\Helpers\Helper;
 use Illuminate\Support\Facades\Route;
@@ -36,7 +38,7 @@ Route::prefix('{locale}')
         })->middleware(['auth', 'verified_with_locale'])->name('dashboard');
 
         Route::get('specialists', [SpecialistController::class, 'index'])->name('user.specialists');
-        Route::post('filter-specialists', [SpecialistController::class, 'filter'])->name('user.filter_specialists');
+        Route::post('specialists', [SpecialistController::class, 'filter'])->name('user.filter_specialists');
 
     });
 
@@ -44,6 +46,7 @@ Route::prefix('{locale}')
 Route::get('/admin', function () {
     return Inertia::render('WelcomeAdmin');
 });
+Route::get('get-file', [FileUploadService::class, 'get_file'])->name('get-file');
 
 
 Route::get('/location-filter/{value}', LocationFilterController::class)->name('location_filter');

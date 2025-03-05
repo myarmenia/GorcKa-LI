@@ -1,12 +1,13 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, defineExpose} from 'vue';
 import axios from 'axios';
 import { useTrans } from '/resources/js/trans';
 
 const props = defineProps({
     model: String,
     route: String,
-    options: Array
+    options: Array,
+    sss: String
 });
 
 const search = ref('');
@@ -58,10 +59,18 @@ const handleBlur = () => {
 watch(search, (newValue) => {
     if (!newValue.length) {
         emit('update:modelValue', null); // Отправляем null
-        lastSearch.value = '';
+        // lastSearch.value = '';
         filteredOptions.value = props.options;
     }
 });
+
+
+// Метод для очистки поиска
+const clearSearch = () => {
+  search.value = ''; // Очистить поле ввода
+};
+
+defineExpose({ clearSearch });
 
 </script>
 

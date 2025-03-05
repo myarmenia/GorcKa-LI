@@ -11,39 +11,41 @@ import { useTrans } from '/resources/js/trans';
 
 
 const props = defineProps({
-    status: {
-        type: String,
-    },
-
+    type: String,
     locations: Array,
     categories: Array,
     specialists: Array
 });
 
-console.log(props.specialists, 111112222233333)
+const specialists = ref(props.specialists.data);
+const pagination = ref(props.specialists.links);
+let activePage = ref(1)
 const currentLanguage = computed(() => usePage().props.locale);
+console.log(props.specialists, 33333333333333)
+// Сохраняем locations в отдельной переменной, которая не изменяется
+const initialLocations = ref(props.locations);
+const initialCategories = ref(props.categories);
 
-const locationOptions = computed(() =>
+const searchSelectLocation = ref('');
+const searchSelectCategory = ref('');
 
-    props.locations.map(location => ({
+
+// Перерасчитываем options для locations только на основе начальных данных
+const locationOptions = computed(() => {
+    return initialLocations.value.map(location => ({
         value: location.id,
         text: location.item_translations[0]?.name
-    }))
+    }));
+});
 
-);
 
-const categoryOptions = computed(() =>
-
-    props.categories.map(category => ({
+const categoryOptions = computed(() => {
+    return initialCategories.value.map(category => ({
         value: category.id,
         text: category.item_translations[0]?.name
-    }))
+    }));
+});
 
-);
-
-console.log(props.specialists)
-
-const selectedLocation = ref(null);
 
 watch(currentLanguage, () => {
   form.errors = {};
@@ -55,15 +57,21 @@ const form = useForm({
     category_id: ''
 });
 
+
+
+
 const submit = () => {
     form.post(route('user.filter_specialists', { locale: usePage().props.locale }), {
-        // onFinish: () => {
-        //     console.log(22)
-        // }
-
         onSuccess: (response) => {
             console.log('Успешно555:', response.props.specialists);
-            props.specialists = response.props.specialists
+console.log(response)
+            // Обновляем локальное свойство specialists
+            if (response.props.specialists) {
+                specialists.value = response.props.specialists;
+                pagination.value = response.props.specialists.links; // Get pagination info
+            } else {
+                console.error('Специалисты не найдены');
+            }
         },
         onError: (errors) => {
             console.error('Ошибка:', errors);
@@ -71,9 +79,86 @@ const submit = () => {
         onFinish: () => {
             console.log('Запрос завершен');
         }
-
     });
 };
+
+
+
+// Функция для сброса фильтров
+const clearFilters = () => {
+    form.location_id = '';
+    form.category_id = '';
+
+    searchSelectLocation.value.clearSearch() // Вызываем метод из дочернего компонента
+    searchSelectCategory.value.clearSearch() // Вызываем метод из дочернего компонента
+    form.name = null
+
+    // Если вы хотите сбросить список специалистов после очистки фильтра
+    form.post(route('user.filter_specialists', { locale: usePage().props.locale }), {
+        onSuccess: (response) => {
+        // Обновляем список специалистов, если они изменяются
+        // if (response.props.specialists) {
+        //     specialists.value = response.props.specialists;
+        // }
+        if (response.props.specialists) {
+                specialists.value = response.props.specialists.data; // Get current page's specialists
+                pagination.value = response.props.specialists.links; // Get pagination info
+            }
+        },
+        onError: (errors) => {
+            console.error('Ошибка при очистке фильтров:', errors);
+        },
+        onFinish: () => {
+            console.log('Запрос на сброс фильтров завершён');
+        }
+    });
+};
+
+
+const loadPage = (pageUrl) => {
+
+    if (!pageUrl) return;
+    form.get(pageUrl, {
+        onSuccess: (response) => {
+            if (response.props.specialists) {
+                specialists.value = response.props.specialists.data;
+                pagination.value = response.props.specialists;
+            }
+        },
+        onError: (errors) => {
+            console.error('Ошибка:', errors);
+        }
+    });
+};
+
+
+const changePage =(link) =>{
+    console.log(link)
+    if(!link.url || link.active){
+        return
+    }
+
+    activePage.value = link.label
+
+    // form.get(link.url)
+    //     .then((response) =>{
+    //        categories.value = response.data.result.data
+    //         links.value = response.data.result.links
+    //     })
+    form.get(link.url, {
+        onSuccess: (response) => {
+            if (response.props.specialists) {
+                specialists.value = response.props.specialists.data;
+                pagination.value = response.props.specialists.links;
+            }
+        },
+        onError: (errors) => {
+            console.error('Ошибка:', errors);
+        }
+    });
+}
+
+
 
 </script>
 
@@ -124,6 +209,7 @@ const submit = () => {
                                                     <i class="uil uil-location-point"></i>
                                                     <div class="">
                                                         <SearchSelect
+                                                            ref="searchSelect1"
                                                             v-model="form.location_id"
                                                             route="location-filter"
                                                             :options="locationOptions"
@@ -137,6 +223,7 @@ const submit = () => {
                                                     <i class="uil uil-clipboard-notes"></i>
                                                     <div class="">
                                                         <SearchSelect
+                                                            ref="searchSelect2"
                                                             v-model="form.category_id"
                                                             route="category-subcategory-filter"
                                                             :options="categoryOptions"
@@ -144,33 +231,15 @@ const submit = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                                            <!-- model="CategoryTranslation" -->
-
-                                            <!-- <div class="col-span-12 xl:col-span-4">
-                                                <div class="relative filler-job-form">
-                                                    <i class="uil uil-clipboard-notes"></i>
-                                                    <div class="">
-                                                        <SearchMultiSelect
-                                                            v-model="form.category_id"
-                                                            model="CategoryTranslation"
-                                                            :options="categoryOptions"
-                                                        />
-                                                    </div>
-                                                </div>
-                                            </div> -->
-
-
 
                                             <!--end col-->
-                                            <div class="col-span-12 xl:col-span-2">
+                                            <div class="col-span-12 xl:col-span-3">
                                                 <PrimaryButton :class="{ 'opacity-25': form.processing }"
-                                                @click="submit"
+                                                    @click="submit"
                                                     :disabled="form.processing">
                                                     <i class="uil uil-filter"></i> Fliter
-                                                    <!-- {{useTrans('page.filter')}} -->
                                                 </PrimaryButton>
-                                                <!-- <a href="javascript:void(0)" class="text-white border-transparent btn group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 focus:ring focus:ring-custom-500/30"><i class="uil uil-filter"></i> Fliter</a> -->
-                                                <!-- <a href="javascript:void(0)" class="text-white bg-green-500 border-transparent btn focus:ring focus:ring-green-500/30 ltr:ml-1 rtl:mr-1"><i class="uil uil-cog"></i> Advance</a> -->
+                                                <PrimaryButton @click="clearFilters">Очистить фильтры</PrimaryButton>
                                             </div>
                                             <!--end col-->
                                         </div>
@@ -188,14 +257,11 @@ const submit = () => {
                             </div>
 
                             <div class="mt-8 space-y-6">
-                                <div v-for="(specialist, index) in props.specialists" class="p-4 border border-gray-100/50 rounded-md relative hover:-translate-y-1.5 transition-all duration-500 ease-in-out group-data-[theme-color=violet]:hover:border-violet-500 group-data-[theme-color=sky]:hover:border-sky-500 group-data-[theme-color=red]:hover:border-red-500 group-data-[theme-color=green]:hover:border-green-500 group-data-[theme-color=pink]:hover:border-pink-500 group-data-[theme-color=blue]:hover:border-blue-500 hover:shadow-md hover:shadow-gray-100/30 dark:border-neutral-600 dark:hover:shadow-neutral-900">
+                                <div v-for="(specialist, index) in props.specialists.data" class="p-4 border border-gray-100/50 rounded-md relative hover:-translate-y-1.5 transition-all duration-500 ease-in-out group-data-[theme-color=violet]:hover:border-violet-500 group-data-[theme-color=sky]:hover:border-sky-500 group-data-[theme-color=red]:hover:border-red-500 group-data-[theme-color=green]:hover:border-green-500 group-data-[theme-color=pink]:hover:border-pink-500 group-data-[theme-color=blue]:hover:border-blue-500 hover:shadow-md hover:shadow-gray-100/30 dark:border-neutral-600 dark:hover:shadow-neutral-900">
                                     <div class="grid items-center grid-cols-12">
                                         <div class="col-span-12 md:col-auto">
                                             <div>
                                                 <a href="javascript:void(0)">
-                                                    <!-- <img src="/assets/user/images/user/img-01.jpg" alt="" class="w-16 h-16 p-1 rounded-full outline outline-2 outline-gray-100/50 dark:outline-neutral-600"> -->
-                                                    <!-- <img src="`/${specialist.avater}`" alt="" class="w-16 h-16 p-1 rounded-full outline outline-2 outline-gray-100/50 dark:outline-neutral-600"> -->
-
                                                     <img :src="`${specialist.avater}`" alt="Avatar" class="w-16 h-16 p-1 rounded-full outline outline-2 outline-gray-100/50 dark:outline-neutral-600 group-data-[theme-color=violet]:bg-violet-500" />
                                                 </a>
                                             </div>
@@ -206,14 +272,10 @@ const submit = () => {
                                                 <h5 class="mb-0 text-gray-900 text-19 dark:text-white"><a href="candidate-details.html">{{specialist.user_name}}</a>
                                                     <span class="px-2 py-1 mx-2 text-sm text-white bg-green-500 rounded"><i class="align-middle uil uil-star "></i> 4.8</span>
                                                 </h5>
-                                                <!-- <p class="mb-2 text-gray-500 text-muted dark:text-gray-300"> Project Manager</p> -->
                                                 <ul class="flex flex-wrap gap-3 text-gray-500 dark:text-gray-300">
                                                     <li class="list-inline-item">
                                                         <i class="uil uil-map-marker "></i> {{specialist.location}}
                                                     </li>
-                                                    <!-- <li class="list-inline-item">
-                                                        <i class="uil uil-wallet"></i> $650 / hours
-                                                    </li> -->
                                                 </ul>
                                             </div>
                                         </div><!--end col-->
@@ -231,15 +293,60 @@ const submit = () => {
 
 
                             </div>
+
+                            <div class="grid grid-cols-12">
+    <!-- <div class="col-span-12">
+        <ul class="flex justify-center gap-2 mt-8">
+            <li class="w-12 h-12 text-center border rounded-full cursor-pointer"
+                :class="{'disabled': !pagination.prev_page_url}"
+                @click="loadPage(pagination.prev_page_url)">
+                <i class="uil uil-chevron-left text-16 leading-[2.8]"></i>
+            </li>
+            <li v-for="page in pagination.last_page" :key="page"
+                :class="{'active': page === pagination.current_page}">
+                <a class="text-16 leading-[2.8]" @click="loadPage(page)">{{ page }}</a>
+            </li>
+            <li class="w-12 h-12 text-center border rounded-full cursor-pointer"
+                :class="{'disabled': !pagination.next_page_url}"
+                @click="loadPage(pagination.next_page_url)">
+                <i class="uil uil-chevron-right text-16 leading-[2.8]"></i>
+            </li>
+        </ul>
+    </div> -->
+</div>
+
+
+<!-- <nav aria-label=""  class="d-flex justify-content-end">
+                                <ul class="pagination">
+                                    <li class="page-item "
+                                        v-for="(link,index) in pagination"
+                                        :key="index"
+                                        :class="{active: link.active,disabled:!link.url }"
+                                        @click="changePage(link)"
+                                    >
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true" v-html="link.label"></a>
+                                    </li>
+
+                                </ul>
+                            </nav> -->
+
+
+
                             <div class="grid grid-cols-12">
                                 <div class="col-span-12">
                                     <ul class="flex justify-center gap-2 mt-8">
-                                        <li class="w-12 h-12 text-center border rounded-full cursor-default border-gray-100/50 dark:border-gray-100/20">
-                                            <a class="cursor-auto" href="javascript:void(0)" tabindex="-1">
-                                                <i class="uil uil-chevron-double-left text-16 leading-[2.8] dark:text-white"></i>
+                                        <li
+                                            v-for="(link,index) in pagination"
+                                            :key="index"
+                                            :class="{active: link.active,disabled:!link.url }"
+                                            @click="link.url && changePage(link)"
+                                        class="w-12 h-12 text-center border rounded-full cursor-default border-gray-100/50 dark:border-gray-100/20">
+                                            <a class="cursor-auto" href="javascript:void(0)" tabindex="-1"  > <span v-html="link.label"></span> <!-- Use v-html to render HTML -->
+                                                <!-- <i class="uil uil-chevron-double-left text-16 leading-[2.8] dark:text-white"></i> -->
+                                                 <!-- <i class="uil uil-chevron-double-left text-16 leading-[2.8] dark:text-white"></i> -->
                                             </a>
                                         </li>
-                                        <li class="w-12 h-12 text-center text-white border border-transparent rounded-full cursor-pointer group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500">
+                                        <!-- <li class="w-12 h-12 text-center text-white border border-transparent rounded-full cursor-pointer group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500">
                                             <a class="text-16 leading-[2.8]" href="javascript:void(0)">1</a>
                                         </li>
                                         <li class="w-12 h-12 text-center text-gray-900 transition-all duration-300 border rounded-full cursor-pointer border-gray-100/50 hover:bg-gray-100/30 focus:bg-gray-100/30 dark:border-gray-100/20 dark:text-gray-50 dark:hover:bg-gray-500/20">
@@ -255,7 +362,7 @@ const submit = () => {
                                             <a href="javascript:void(0)" tabindex="-1">
                                                 <i class="uil uil-chevron-double-right text-16 leading-[2.8]"></i>
                                             </a>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                                 <!--end col-->

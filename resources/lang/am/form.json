@@ -1,4 +1,6 @@
 {
+
+    "create": "Ստեղծել",
     "name": "Անուն",
     "email": "Էլ․ փոստ",
     "phone": "Հեռախոս",
@@ -14,4 +16,5 @@
     "password_placeholder": "Մուտքագրեք ձեր գաղտնաբառը",
     "password_confirmation_placeholder": "Հաստատեք գաղտնաբառը",
     "select_placeholder": "Ընտրեք տարբերակը"
+
 }

@@ -1,4 +1,6 @@
 {
+
+    "create": "Создать",
     "name": "Имя",
     "email": "Эл. почта",
     "phone": "Телефон",
@@ -15,5 +17,6 @@
     "password_placeholder": "Введите пароль",
     "password_confirmation_placeholder": "Подтвердить пароль",
     "select_placeholder": "Выберите вариант"
+
 }
 
