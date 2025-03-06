@@ -38,7 +38,7 @@ Route::prefix('{locale}')
         })->middleware(['auth', 'verified_with_locale'])->name('dashboard');
 
         Route::get('specialists', [SpecialistController::class, 'index'])->name('user.specialists');
-        Route::post('specialists', [SpecialistController::class, 'filter'])->name('user.filter_specialists');
+        // Route::get('specialists', [SpecialistController::class, 'filter'])->name('user.filter_specialists');
 
     });
 

@@ -27,7 +27,7 @@ class SpecialistService
 
     public function filterSpecialists($data){
         $data['status'] = 1;
-        $data['sub_category_id'] = $data['category_id'] ? SubCategory::where('category_id', $data['category_id'])->pluck('id')->toArray() : null;
+        $data['sub_category_id'] = isset($data['category_id']) ? SubCategory::where('category_id', $data['category_id'])->pluck('id')->toArray() : null;
 
 
         $data = array_filter($data, function ($value) {
