@@ -89,14 +89,15 @@ class TaskController extends Controller
         // dd($data->sub_category_id );
         $sub_category = SubCategory::find($data->sub_category_id);
         // dd( $sub_category->category_id);
-        // $task_category = Category::where('id', $sub_category->category_id)->with('translation');
+        $task_category = Category::where('id', $sub_category->category_id)->with('translation','sub_categories.translation')->get();
 // dd($task_category);
         return Inertia::render('Profile/TaskEdit',[
             'categories' => $categories,
             'locations' => $location,
             'task' => $data,
-            'task_category_id'=>$sub_category->category_id,
-            'locale' =>app()->getLocale()
+            'task_category_id' =>$sub_category->category_id,
+            'task_category' => $task_category,
+            'locale' => app()->getLocale()
         ]);
 
     }

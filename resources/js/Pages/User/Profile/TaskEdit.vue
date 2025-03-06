@@ -3,7 +3,7 @@ import { Head, useForm, router  } from '@inertiajs/vue3';
 import Index from './Index.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import Select from '@/Components/Select.vue';
-import { onMounted,ref, watch, computed} from 'vue';
+import { onMounted,ref, watch, computed,  watchEffect} from 'vue';
 
 import { usePage } from '@inertiajs/vue3';
 import TextInput from '@/Components/TextInput.vue';
@@ -13,20 +13,25 @@ import { useTrans } from '/resources/js/trans';
 import InputError from '@/Components/InputError.vue';
 import TaskEditSelect from '@/Components/TaskEditSelect.vue';
 
+const { categories } = usePage().props; //
+const { locations } = usePage().props;
+const { locale } = usePage().props;
+const { task } = usePage().props
+const { task_category_id } = usePage().props
+const { task_category } = usePage().props
+console.log(task_category,'task_category')
+
+
 const props = defineProps({
         task: Array,
         locale: String
 });
 
 
-const { categories } = usePage().props; //
-const { locations } = usePage().props;
-console.log(categories,'cat')
 
-const {locale } = usePage().props;
-const {task} = usePage().props
-const {task_category_id} =usePage().props
-console.log(task_category_id,'task_category_id')
+
+const subcategories = ref(task_category[0].sub_categories);
+
 
 
 const form = useForm({
@@ -44,13 +49,6 @@ const form = useForm({
     file: [],
 
 });
-console.log(form)
-
-const submitForm = () => {
-    console.log(form.errors)
-    form.put(route('task.update',{ id:task.id, locale: usePage().props.locale }));
-
-};
 
 // Computed property for select options
 const locationOptions = computed(() => {
@@ -68,18 +66,38 @@ const categoryOptions = computed(() => {
 });
 console.log(categoryOptions,'categories')
 
+
+
+
 const subcategoryOptions = computed(() => {
-    return subcategories.map(subcategory => ({
-        value: subcategory.id,
-        text: subcategory.translation?.name || 'Без названия'
-    }));
+  return subcategories.value.map(subcategory => ({
+    value: subcategory.id,
+    text: subcategory.translation?.name || 'Без названия'
+  }));
 });
+console.log(subcategoryOptions,45)
+
+const onCategoryChange = () => {
+  if (!props.categories) return;
+  console.log("form.category_id:", form.category_id);
+   const selectedCategory = props.categories.find(category => category.id === form.category_id);
+  subcategories.value = selectedCategory ? selectedCategory.sub_categories || [] : [];
+
+  console.log("subcategories.value:", subcategories.value);
+
+};
+// console.log(onCategoryChange,555)
+// Инициализируем подкатегории при первом рендере
+watch(() => form.category_id, onCategoryChange, { immediate: true });
 
 
-// const selectedIndex = computed(() => {
-//     return locationOptions.value.findIndex(option => option?.value === form.value.location_id);
-// });
-// console.log(selectedIndex,8989)
+
+const submitForm = () => {
+    console.log(form.errors)
+    form.put(route('task.update',{ id:task.id, locale: usePage().props.locale }));
+
+};
+
 
 
 </script>
@@ -88,6 +106,14 @@ const subcategoryOptions = computed(() => {
         <Head title = "Task" />
         <template #content>
             <div class="w-full tab-pane block" id="settings-tab">
+                <div>
+    <label for="subcategory">Выберите подкатегорию:</label>
+    <select id="subcategory" v-model="task.sub_category_id">
+      <option v-for="subcategory in subcategoryOptions" :key="subcategory.value" :value="subcategory.value">
+        {{subcategory.text }}
+      </option>
+    </select>
+  </div>
                                                     <div class="pt-8 space-x-8">
                                                         <form  @submit.prevent = submitForm >
                                                             <div>
@@ -196,13 +222,13 @@ const subcategoryOptions = computed(() => {
 
 
                                                                                 /> -->
-                                                                                <!-- <TaskEditSelect
+                                                                                 <TaskEditSelect
                                                                                     v-model = "form.sub_category_id"
                                                                                     :id = "'sub_category'"
-                                                                                    :label = "useTrans('page.select_category')"
+                                                                                    :label = "useTrans('page.select_sub_category')"
                                                                                     :options = "subcategoryOptions"
                                                                                     :placeholder = " useTrans('form.select_placeholder')"
-                                                                                /> -->
+                                                                                />
                                                                                 <InputError class="mt-2 opacity-60" :message="form.errors.sub_category_id" />
                                                                             </div>
                                                                         </div>

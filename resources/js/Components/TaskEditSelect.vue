@@ -9,10 +9,10 @@
     label: String,
     placeholder: String,
   });
-  console.log(props.modelValue,'from select edit')
+ 
 
   const emit = defineEmits(["update:modelValue"]);
-  console.log(emit,'emit')
+
 
   // Обновляем значение при изменении
   const selectedValue = computed({

@@ -15,8 +15,6 @@ class Category extends Model
         return $this->hasOne(CategoryTranslation::class)->where('lang',app()->getLocale());
     }
 
-
-
     public function sub_categories(){
         return $this->hasMany(SubCategory::class);
     }
