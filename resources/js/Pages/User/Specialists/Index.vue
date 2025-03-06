@@ -50,9 +50,9 @@ const form = useForm({
 
 
 const submit = () => {
-
+const savedFilters = { ...form.data() };
     form.get(route('user.specialists', { locale: locale }), {
-
+preserveState: true,
         onSuccess: (response) => {
             console.log('Успешно555:', response.props.specialists);
 
@@ -70,8 +70,11 @@ const submit = () => {
             console.error('Ошибка:', errors);
         },
         onFinish: () => {
-
-            console.log('Запрос завершен');
+// Восстанавливаем значения формы
+            form.name = savedFilters.name;
+            form.location_id = savedFilters.location_id;
+            form.category_id = savedFilters.category_id;
+            console.log(form, 'Запрос завершен');
         }
     });
 };
@@ -90,6 +93,7 @@ const clearFilters = () => {
 
     // Если вы хотите сбросить список специалистов после очистки фильтра
     form.get(route('user.specialists', { locale: locale }), {
+          preserveState: true,
         onSuccess: (response) => {
         // Обновляем список специалистов, если они изменяются
 
@@ -116,12 +120,12 @@ const changePage = (link) =>{
     }
 
     activePage.value = link.label
-
+console.log(form.get, '000000000')
     // form.location_id = 2
     console.log(form, 777777777777)
 
     form.get(link.url, {
-
+preserveState: true,
         onSuccess: (response) => {
             if (response?.props?.specialists) {
                 specialistsRef.value = response.props.specialists.data;
