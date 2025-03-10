@@ -16,6 +16,12 @@
     "password_placeholder": "Մուտքագրեք ձեր գաղտնաբառը",
     "password_confirmation_placeholder": "Հաստատեք գաղտնաբառը",
     "select_placeholder": "Ընտրեք տարբերակը",
-    "save": "Պահպանել"
+    "save": "Պահպանել",
+    "name_surname": "Անուն Ազգանուն",
+    "filter": "Ֆիլտր",
+    "cleare_filter": "Չեղարկել"
+
+
+
 
 }

@@ -41,4 +41,10 @@ class BaseRepository implements BaseInterface
     {
         return $this->model->destroy($id);
     }
+
+    public function getActiveRows()
+    {
+        return $this->model->where('status', 1)->get();
+    }
+
 }

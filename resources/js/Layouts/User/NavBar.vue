@@ -19,12 +19,17 @@ const changeLanguage = (lang) => {
 
     // Replace the current locale (first segment) with the new one
     path[1] = lang;
+
+    // Получаем текущие параметры запроса
+    const searchParams = new URLSearchParams(window.location.search);
+
+    // Формируем новый URL с параметрами запроса
+    const newUrl = `${path.join('/')}?${searchParams.toString()}`;
+
     // Construct the new URL using the updated path
-    const newUrl = path.join('/');
-    console.log(newUrl)
+
     // Navigate to the new URL without reloading the page
     router.get(newUrl, {}, { preserveState: true, preserveScroll: true });
-
 };
 
 </script>

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class SubCategory extends Model
 {
     protected $guarded = [];
-    public function categories(){
+    public function category(){
         return $this->belongsTo(Category::class,'category_id');
 
     }
@@ -18,6 +18,11 @@ class SubCategory extends Model
     }
     public function translation(){
         return $this->hasOne(SubCategoryTranslation::class)->where('lang',app()->getLocale());
+    }
+
+    public function executorInfos(): HasMany
+    {
+        return $this->hasMany(ExecutorInfo::class);
     }
 
 }

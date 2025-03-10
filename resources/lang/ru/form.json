@@ -17,7 +17,11 @@
     "password_placeholder": "Введите пароль",
     "password_confirmation_placeholder": "Подтвердить пароль",
     "select_placeholder": "Выберите вариант",
-    "save": "Сохранить"
+    "save": "Сохранить",
+    "name_surname": "Имя Фамилия",
+    "filter": "Фильтр",
+    "cleare_filter": "Сбросить"
+
 
 }
 

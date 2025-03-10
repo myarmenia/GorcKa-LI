@@ -12,7 +12,7 @@ return [
   |
    */
 
-  'previous' => '&laquo; Նախորդը',
-  'next' => 'Հաջորդը &raquo;',
+  'previous' => '&laquo;',
+  'next' => '&raquo;',
 
 ];
