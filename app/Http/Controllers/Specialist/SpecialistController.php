@@ -20,14 +20,14 @@ class SpecialistController extends Controller
     public function index(Request $request){
         // $page = request()->page ?? 1;
         $perPage = 1;
-// dd(request()->all());
+
         $locations = Helper::getLocations();
         $categories = Helper::getCategories();
         // $specialists = $this->specialistService->getAll();
         $specialists = $this->specialistService->filterSpecialists($request->all());
         $specialists = $this->arrayPaginator($specialists, $request, $perPage);
 
-        return Inertia::render('Specialists/Index', ['locations' => $locations, 'categories' => $categories, 'specialists' => $specialists]);
+        return Inertia::render('Specialists/Index', ['locations' => $locations, 'categories' => $categories, 'specialists' => $specialists, "locale" => app()->getLocale()]);
     }
 
     // public function filter(Request $request)

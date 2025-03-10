@@ -1,40 +1,72 @@
 <script setup>
 import Layout from '@/Layouts/User/Layout.vue';
 import SearchSelect from '@/Components/SearchSelect.vue';
-import SearchMultiSelect from '@/Components/SearchMultiSelect.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import axios from 'axios';
-import { computed, watch, ref } from "vue";
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { computed, ref, watch } from "vue";
+import { Head, useForm } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 import { useTrans } from '/resources/js/trans';
 
-const { locale, locations, categories, specialists } = usePage().props;
+const { specialists } = usePage().props;
+
+const props = defineProps({
+  locale: String,
+  locations: Array,
+  categories: Array
+});
 
 const specialistsRef = ref(specialists.data);
 const pagination = ref(specialists.links);
-console.log(pagination,666666666)
+
 let activePage = ref(1)
 
 // Сохраняем locations в отдельной переменной, которая не изменяется
-const initialLocations = ref(locations);
-const initialCategories = ref(categories);
+// const initialLocations = ref(locations);
+// const initialCategories = ref(categories);
 
 const searchSelectLocation = ref('');
 const searchSelectCategory = ref('');
 
+const currentLanguage = computed(() => props.locale);
+
 
 // Перерасчитываем options для locations только на основе начальных данных
 const locationOptions = computed(() => {
-    return initialLocations.value.map(location => ({
+    return props.locations.map(location => ({
         value: location.id,
         text: location.item_translations[0]?.name
     }));
 });
 
+// const locationOptions = computed(() =>
+
+//   props.locations.map(location => ({
+//     value: location.id,
+//     text: location.item_translations[0]?.name
+//   }))
+
+// );
+// watch(() => props.locale, (newLocale) => {
+//     console.log(newLocale, ' ------------newLocale')
+//   // Здесь вы можете обновить locations, если они зависят от языка
+//   // Например, если у вас есть API, который возвращает locations для нового языка, вы можете обновить данные
+//   // Но если locations уже переданы с сервера, просто обновляем данные
+//   initialLocations.value = locations;
+// });
+
+// watch(props.locale, () => {
+//     console.log(locale, '--------lllllll')
+//   initialLocations.value = locations;
+//   initialCategories.value = categories;
+// });
+
+// watch(locale, () => {
+//     specialistsRef.value = specialists.data;
+//     pagination.value = specialists.links;
+// });
 
 const categoryOptions = computed(() => {
-    return initialCategories.value.map(category => ({
+    return props.categories.map(category => ({
         value: category.id,
         text: category.item_translations[0]?.name
     }));
@@ -50,18 +82,16 @@ const form = useForm({
 
 
 const submit = () => {
-const savedFilters = { ...form.data() };
-    form.get(route('user.specialists', { locale: locale }), {
-preserveState: true,
-        onSuccess: (response) => {
-            console.log('Успешно555:', response.props.specialists);
 
+    form.get(route('specialists', { locale: locale }), {
+        preserveState: true,
+        onSuccess: (response) => {
 
             // Обновляем локальное свойство specialists
             if (response.props.specialists) {
                 specialistsRef.value = response.props.specialists.data;
                 pagination.value = response.props.specialists.links; // Get pagination info
-                console.log(response.props.specialists.links, 111111111111)
+
             } else {
                 console.error('Специалисты не найдены');
             }
@@ -70,11 +100,6 @@ preserveState: true,
             console.error('Ошибка:', errors);
         },
         onFinish: () => {
-// Восстанавливаем значения формы
-            form.name = savedFilters.name;
-            form.location_id = savedFilters.location_id;
-            form.category_id = savedFilters.category_id;
-            console.log(form, 'Запрос завершен');
         }
     });
 };
@@ -83,7 +108,7 @@ preserveState: true,
 
 // Функция для сброса фильтров
 const clearFilters = () => {
-    console.log(form, '++++++++++++++')
+
     form.location_id = '';
     form.category_id = '';
 
@@ -92,7 +117,7 @@ const clearFilters = () => {
     form.name = null
 
     // Если вы хотите сбросить список специалистов после очистки фильтра
-    form.get(route('user.specialists', { locale: locale }), {
+    form.get(route('specialists', { locale: locale }), {
           preserveState: true,
         onSuccess: (response) => {
         // Обновляем список специалистов, если они изменяются
@@ -114,18 +139,15 @@ const clearFilters = () => {
 
 
 const changePage = (link) =>{
-    console.log(link.url, 1000000008)
+
     if(!link.url || link.active){
         return
     }
 
     activePage.value = link.label
-console.log(form.get, '000000000')
-    // form.location_id = 2
-    console.log(form, 777777777777)
 
     form.get(link.url, {
-preserveState: true,
+        preserveState: true,
         onSuccess: (response) => {
             if (response?.props?.specialists) {
                 specialistsRef.value = response.props.specialists.data;
@@ -138,6 +160,8 @@ preserveState: true,
             console.error('Ошибка:', errors);
         }
     });
+
+
 }
 
 
@@ -153,13 +177,12 @@ preserveState: true,
                         <div class="grid">
                             <div class="col-span-12">
                                 <div class="text-center text-white">
-                                    <h3 class="mb-4 text-[26px]">Candidate List</h3>
+                                    <h3 class="mb-4 text-[26px]">{{useTrans('page.title')}}</h3>
                                     <div class="page-next">
                                         <nav class="inline-block" aria-label="breadcrumb text-center">
                                             <ol class="flex flex-wrap justify-center text-sm font-medium uppercase">
-                                                <li><a href="index.html">Home</a></li>
-                                                <li><i class="bx bxs-chevron-right align-middle px-2.5"></i><a href="javascript:void(0)">Pages</a></li>
-                                                <li class="active" aria-current="page"><i class="bx bxs-chevron-right align-middle px-2.5"></i>Candidate List</li>
+                                                <li><a href="index.html">{{useTrans('page.nav_home')}}</a></li>
+                                                <li class="active" aria-current="page"><i class="bx bxs-chevron-right align-middle px-2.5"></i>{{useTrans('page.title')}}</li>
                                             </ol>
                                         </nav>
                                     </div>
@@ -182,7 +205,7 @@ preserveState: true,
                                             <div class="col-span-12 xl:col-span-3">
                                                 <div class="relative filler-job-form">
                                                     <i class="uil uil-briefcase-alt"></i>
-                                                    <input type="text" v-model="form.name" class="w-full filter-job-input-box dark:text-gray-100" id="exampleFormControlInput1" placeholder="Job, company... ">
+                                                    <input type="text" v-model="form.name" class="w-full filter-job-input-box dark:text-gray-100" id="exampleFormControlInput1" :placeholder="useTrans('form.name_surname')">
                                                 </div>
                                             </div>
 
@@ -219,9 +242,9 @@ preserveState: true,
                                                 <PrimaryButton :class="{ 'opacity-25': form.processing }"
                                                     @click="submit"
                                                     :disabled="form.processing">
-                                                    <i class="uil uil-filter"></i> Fliter
+                                                    <i class="uil uil-filter"></i>{{useTrans('form.filter')}}
                                                 </PrimaryButton>
-                                                <PrimaryButton @click="clearFilters">Очистить фильтры</PrimaryButton>
+                                                <PrimaryButton @click="clearFilters">{{useTrans('form.cleare_filter')}}</PrimaryButton>
                                             </div>
                                             <!--end col-->
                                         </div>
@@ -290,7 +313,7 @@ preserveState: true,
                                             @click=" changePage(link)"
                                             class="w-12 h-12 text-center text-gray-900 transition-all duration-300 border rounded-full cursor-pointer border-gray-100/50 hover:bg-green-100/30 focus:bg-gray-100/30 dark:border-gray-100/20 dark:text-gray-50 dark:hover:bg-gray-500/20">
                                             <!-- <a class="cursor-auto" href="javascript:void(0)" > -->
-                                                <span class="text-16 leading-[2.8]" v-html="link.label.replace(/Հաջորդը|Նախորդը/, '')"></span> <!-- Use v-html to render HTML -->
+                                                <span class="text-16 leading-[2.8]" v-html="link.label"></span> <!-- Use v-html to render HTML -->
                                             <!-- </a> -->
                                         </li>
                                     </ul>

@@ -37,7 +37,7 @@ Route::prefix('{locale}')
             return Inertia::render('Dashboard');
         })->middleware(['auth', 'verified_with_locale'])->name('dashboard');
 
-        Route::get('specialists', [SpecialistController::class, 'index'])->name('user.specialists');
+        Route::get('specialists', [SpecialistController::class, 'index'])->name('specialists');
         // Route::get('specialists', [SpecialistController::class, 'filter'])->name('user.filter_specialists');
 
     });

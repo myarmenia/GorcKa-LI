@@ -63,15 +63,6 @@ watch(search, (newValue) => {
     }
 });
 
-// watch(search, (newSearch) => {
-//     filteredOptions.value = newSearch;  // Update the options based on the search term
-// });
-
-// watch(() => props.model, (newValue) => {
-//     if (newValue) {
-//         search.value = newValue;  // Восстанавливаем значение из props.model (параметр из URL)
-//     }
-// });
 
 // Метод для очистки поиска
 const clearSearch = () => {
