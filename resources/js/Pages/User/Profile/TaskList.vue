@@ -1,24 +1,33 @@
 <script setup>
-import { Head, usePage ,Link } from '@inertiajs/vue3';
+
+import {router, Head, usePage ,Link } from '@inertiajs/vue3';
 import Index from './Index.vue';
 import { useTrans } from '/resources/js/trans';
 
+const {tasks, locale} = usePage().props;
+const pagination = tasks.links
+console.log(pagination)
 
-const props = defineProps({
-        tasks: Array,
-        locale: String
-});
-const {tasks} = usePage().props;
-console.log(tasks)
+
+
+const fetchPage = (link) => {
+    console.log(link.url);
+    router.get(link.url, {  // <-- добавлена запятая после link
+        // preserveState: true, // Сохранение состояния при обновлении
+        // replace: true, // Меняет URL без перезагрузки
+    });
+};
+
 
 
 </script>
+
 <template>
     <Index>
         <Head title = "Task-list" />
         <template #content>
             <div class="mt-14">
-                <div v-for="task in tasks" class="relative mt-4 overflow-hidden transition-all duration-500 ease-in-out bg-white border rounded-md border-gray-100/50 group/job group-data-[theme-color=violet]:hover:border-violet-500 group-data-[theme-color=sky]:hover:border-sky-500 group-data-[theme-color=red]:hover:border-red-500 group-data-[theme-color=green]:hover:border-green-500 group-data-[theme-color=pink]:hover:border-pink-500 group-data-[theme-color=blue]:hover:border-blue-500 hover:-translate-y-2 dark:bg-neutral-900 dark:border-neutral-600">
+                <div v-for="task in tasks.data" class="relative mt-4 overflow-hidden transition-all duration-500 ease-in-out bg-white border rounded-md border-gray-100/50 group/job group-data-[theme-color=violet]:hover:border-violet-500 group-data-[theme-color=sky]:hover:border-sky-500 group-data-[theme-color=red]:hover:border-red-500 group-data-[theme-color=green]:hover:border-green-500 group-data-[theme-color=pink]:hover:border-pink-500 group-data-[theme-color=blue]:hover:border-blue-500 hover:-translate-y-2 dark:bg-neutral-900 dark:border-neutral-600">
                     <div class="w-48 absolute -top-[5px] -left-20 -rotate-45 group-data-[theme-color=violet]:bg-violet-500/20 group-data-[theme-color=sky]:bg-sky-500/20 group-data-[theme-color=red]:bg-red-500/20 group-data-[theme-color=green]:bg-green-500/20 group-data-[theme-color=pink]:bg-pink-500/20 group-data-[theme-color=blue]:bg-blue-500/20 group-data-[theme-color=violet]:group-hover/job:bg-violet-500 group-data-[theme-color=sky]:group-hover/job:bg-sky-500 group-data-[theme-color=red]:group-hover/job:bg-red-500 group-data-[theme-color=green]:group-hover/job:bg-green-500 group-data-[theme-color=pink]:group-hover/job:bg-pink-500 group-data-[theme-color=blue]:group-hover/job:bg-blue-500 transition-all duration-500 ease-in-out p-[6px] text-center dark:bg-violet-500/20">
                         <a href="javascript:void(0)" class="text-2xl text-white align-middle"><i class="mdi mdi-star"></i></a>
                     </div>
@@ -59,13 +68,17 @@ console.log(tasks)
 
                                         <Link :href="route('task.edit',{id:task.id,locale:usePage().props.locale})" >
                                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-600 hover:text-blue-500 cursor-pointer">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 3.487a2.25 2.25 0 1 1 3.182 3.182L8.317 18.397a4.5 4.5 0 0 1-1.89 1.128l-4.06 1.277a.375.375 0 0 1-.475-.474l1.277-4.06a4.5 4.5 0 0 1 1.128-1.89L16.862 3.487z" />
-                                        </svg>
+                                               <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 3.487a2.25 2.25 0 1 1 3.182 3.182L8.317 18.397a4.5 4.5 0 0 1-1.89 1.128l-4.06 1.277a.375.375 0 0 1-.475-.474l1.277-4.06a4.5 4.5 0 0 1 1.128-1.89L16.862 3.487z" />
+                                             </svg>
 
                                         </Link>
 
                                     </span>
-                                    <span class="bg-green-500/20 text-green-500 text-13 px-2 py-0.5 font-medium rounded">Full Time</span>
+                                    <span class="bg-green-500/20 text-green-500 text-13 px-2 py-0.5 font-medium rounded">
+                                        <i class="bx bx-trash delete-icon " data-db @click="removeNewFile(file.id, $event)"></i>
+
+
+                                    </span>
                                 </div>
 
                             </div>
@@ -91,7 +104,31 @@ console.log(tasks)
                         <!--end row-->
                     </div>
                 </div>
+
+
+                <!-- template  paginate -->
+                <div class="grid grid-cols-12"
+                 v-if="pagination.length > 3"
+                 >
+                                <div class="col-span-12">
+                                    <ul class="flex justify-center gap-2 mt-8">
+                                        <li v-for="(link,index) in pagination"
+                                            :key="index"
+                                            :class="{active: link.active, disabled: !link.url, 'group-data-[theme-color=green]:bg-green-500 text-white': link.active, 'group-data-[theme-color=green]:bg-gray-200 ': !link.url }"
+                                            @click="fetchPage(link)"
+                                            class="w-12 h-12 text-center text-gray-900 transition-all duration-300 border rounded-full cursor-pointer border-gray-100/50 hover:bg-green-100/30 focus:bg-gray-100/30 dark:border-gray-100/20 dark:text-gray-50 dark:hover:bg-gray-500/20">
+
+                                            <span class="text-16 leading-[2.8]" v-html="link.label.replace(/Հաջորդը|Նախորդը/, '')"></span> <!-- Use v-html to render HTML -->
+
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--end col-->
+                </div>
+
+
             </div>
+
         </template>
 
     </Index>

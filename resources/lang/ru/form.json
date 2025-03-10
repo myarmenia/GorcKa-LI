@@ -16,7 +16,8 @@
     "location_placeholder": "Location",
     "password_placeholder": "Введите пароль",
     "password_confirmation_placeholder": "Подтвердить пароль",
-    "select_placeholder": "Выберите вариант"
+    "select_placeholder": "Выберите вариант",
+    "save": "Сохранить"
 
 }
 

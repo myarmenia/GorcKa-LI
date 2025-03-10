@@ -12,6 +12,8 @@
      "end_date": "End date",
      "description": "Description",
      "chose_file": "Chose file",
-    "select_placeholder":"Do action"
+    "select_placeholder":"Do action",
+    "task_type": "Task type",
+    "remote_task": "Mark for remote work"
 
  }

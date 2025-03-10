@@ -12,6 +12,7 @@ onMounted(() => {
 });
 const changeLanguage = (lang) => {
 
+
     // localStorage.setItem('locale', lang);
 
     const path = window.location.pathname.split('/');
@@ -25,6 +26,7 @@ const changeLanguage = (lang) => {
     router.get(newUrl, {}, { preserveState: true, preserveScroll: true });
 
 };
+
 </script>
 
 <template>

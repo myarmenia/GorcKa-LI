@@ -16,6 +16,7 @@ class TaskDTO
         public ?int $executor_id,
         public ?string $status,
         public ?string $description,
+        public ?int $task_type,
         public ?array $file,
 
     )
@@ -33,6 +34,7 @@ class TaskDTO
             executor_id: $request->executor_id ? (int) $request->executor_id : null,
             status: $request->status ?? 'active',
             description: $request->description,
+            task_type: $request->task_type ?? 0,
             file: $request->hasFile('file') ? $request->file('file') : null
         );
 
@@ -50,6 +52,8 @@ class TaskDTO
             "end_date" => $this->end_date,
             "executor_id" => $this->executor_id,
             "status" => $this->status,
+            "description"=> $this->description,
+            "task_type" => $this->task_type,
             "file" => $this->file
 
 

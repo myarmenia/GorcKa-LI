@@ -168,7 +168,7 @@ return [
       'price_max'=> "max price",
       'start_date'=> "start date",
       'end_date' => "end date",
-
+      
     ],
 
 ];

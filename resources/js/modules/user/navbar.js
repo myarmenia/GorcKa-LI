@@ -47,7 +47,7 @@ function initActiveMenu() {
 
     var currentPath = location.pathname === "/" ? "index.html" : location.pathname.substring(1);
     currentPath = currentPath.substring(currentPath.lastIndexOf("/") + 1);
-    console.log(currentPath, 44444)
+    // console.log(currentPath, 44444)
     if (currentPath) {
         var a = navigationMenu.querySelector(`li a[href='${currentPath}']`);
         if (a) {

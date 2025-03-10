@@ -15,8 +15,9 @@ class FileUploadService
         $filename = md5(microtime()). '.' .$data->getClientOriginalExtension();
         // $filename = $data->getClientOriginalName();
 
-        $path = Storage::disk('local')->putFileAs(
-          'public/' . $folder_path,
+        $path = Storage::disk('public')->putFileAs(
+        //   'public/' . $folder_path,
+          $folder_path,
           $data,
           $filename
         );
@@ -30,7 +31,7 @@ class FileUploadService
         $path = $request['path'] ?? 'public/null_image.png';
         return response()->file(Storage::path($path));
     }
-    
+
 
 
 }

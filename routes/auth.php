@@ -100,9 +100,10 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/list',[TaskController::class,'index'])->name('task.list');
             Route::get('/create',[TaskController::class,'create'])->name('task.create');
-            Route::post('/store',[TaskController::class,'store'])->name('task.store');
+            Route::post('/list',[TaskController::class,'store'])->name('task.store');
             Route::get('{id}/edit',[TaskController::class,'edit'])->name('task.edit');
-            Route::put('{id}/update',[TaskController::class,'update'])->name('task.update');
+            // when make updateing file dont go it work only
+            Route::post('/{id}',[TaskController::class,'update'])->name('task.update');
 
         });
 

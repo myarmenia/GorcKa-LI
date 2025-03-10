@@ -8,6 +8,7 @@ use App\Http\Requests\TaskRequest;
 use App\Models\Category;
 use App\Models\Location;
 use App\Models\SubCategory;
+use App\Models\Task;
 use App\Services\TaskService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -18,21 +19,19 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $page = request()->page ?? 1;
+        $perPage = 5;
 
         $data = $this->service->list();
 
-// dd( $data);
+        $data = $data->paginate($perPage);
+
         return Inertia::render('Profile/TaskList',[
             "tasks" => $data,
             "locale" => app()->getLocale()
         ]);
-
-
-        // dd($data);
-
-
 
     }
 
@@ -43,6 +42,7 @@ class TaskController extends Controller
     {
         $categories = Category::with(['translation','sub_categories.translation'])->get();
         $location = Location::with('translation')->get();
+        // dd($location);
 
 
 
@@ -61,9 +61,30 @@ class TaskController extends Controller
     public function store(TaskRequest $request)
 
     {
+        // dd(app()->getLocale());
         // dd($request->all());
+        $categories = Category::with(['translation','sub_categories.translation'])->get();
+        $location = Location::with('translation')->get();
 
-        $data=$this->service->createTask(TaskDTO::fromRequestDto($request));
+        $data = $this->service->createTask(TaskDTO::fromRequestDto($request));
+
+        // return  Inertia::render('Profile/Task',[
+        //     'message' =>  __('messages.the_operation_was_successful'),
+        //     'categories'=>$categories,
+        //     'locations'=>$location,
+        //     'locale'=>app()->getLocale()
+
+
+        // ]);
+        $data = $this->service->list();
+
+        // dd( $data);
+                return Inertia::render('Profile/TaskList',[
+                    "tasks" => $data,
+                    "locale" => app()->getLocale()
+                ]);
+
+
 
     }
 
@@ -86,17 +107,31 @@ class TaskController extends Controller
         $location = Location::with('translation')->get();
 
         $data = $this->service->edit($id);
-        // dd($data->sub_category_id );
         $sub_category = SubCategory::find($data->sub_category_id);
-        // dd( $sub_category->category_id);
+
         $task_category = Category::where('id', $sub_category->category_id)->with('translation','sub_categories.translation')->get();
-// dd($task_category);
+        $files=[];
+
+
+            if(count($data['files'])>0){
+
+                foreach($data['files'] as $key=> $file ){
+                    $files[$key]['id'] = $file->id;
+                    $files[$key]['name'] = $file->name;
+                    $files[$key]['path'] = asset('storage/' . $file->path);
+
+                }
+            }
+
+        // dd($files);
+
         return Inertia::render('Profile/TaskEdit',[
             'categories' => $categories,
             'locations' => $location,
             'task' => $data,
             'task_category_id' =>$sub_category->category_id,
             'task_category' => $task_category,
+            'files' => $files,
             'locale' => app()->getLocale()
         ]);
 
@@ -105,9 +140,11 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $lang,string $id)
+    public function update(TaskRequest $request, $lang,string $id)
     {
-        dd($request->all(), $id);
+        // dd($request->all(),$lang, $id);
+
+        $data=$this->service->updateTask(TaskDTO::fromRequestDto($request),$id);
     }
 
     /**

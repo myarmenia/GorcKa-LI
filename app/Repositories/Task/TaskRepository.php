@@ -11,7 +11,7 @@ class TaskRepository implements TaskInterface
 {
     public function index(){
 
-        $data = auth()->user()->tasks()->with('files')->get();
+        $data = auth()->user()->tasks()->with('files')->latest();
         // dd($data->toArray());
 
         return $data;
@@ -22,11 +22,23 @@ class TaskRepository implements TaskInterface
         $taskTDO['user_id'] = Auth::id();
         $data = Task::create($taskTDO);
 
+
         return $data;
 
     }
     public function edit($id){
 
-        return Task::find($id);
+        return Task::where('id',$id)->with('files')->first();
+    }
+    public function update($taskTDO,$id){
+
+
+        $taskTDO['user_id'] = Auth::id();
+        $task = Task::find($id);
+        $task->update($taskTDO);
+        $task = Task::find($id);
+
+        return $task ? $task : false;
+
     }
 }
