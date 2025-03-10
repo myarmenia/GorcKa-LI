@@ -1,12 +1,18 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\ProfileController;
+
+use App\Http\Controllers\CategoryWithSubCategoryFilterController;
+use App\Http\Controllers\LocationFilterController;
+use App\Http\Controllers\SimpleFilterController;
 use App\Services\FileUploadService;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Helpers\Helper;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Specialist\SpecialistController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/', function () {
     return redirect('/am');
@@ -30,6 +36,10 @@ Route::prefix('{locale}')
         Route::get('dashboard', function () {
             return Inertia::render('Dashboard');
         })->middleware(['auth', 'verified_with_locale'])->name('dashboard');
+
+        Route::get('specialists', [SpecialistController::class, 'index'])->name('specialists');
+        // Route::get('specialists', [SpecialistController::class, 'filter'])->name('user.filter_specialists');
+
     });
 
 
@@ -39,14 +49,10 @@ Route::get('/admin', function () {
 Route::get('get-file', [FileUploadService::class, 'get_file'])->name('get-file');
 
 
+Route::get('/location-filter/{value}', LocationFilterController::class)->name('location_filter');
+Route::get('/category-subcategory-filter/{value}', CategoryWithSubCategoryFilterController::class)->name('category_subcategory_filter');
 
 
 
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
 
 require __DIR__.'/auth.php';

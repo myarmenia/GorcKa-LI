@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class LocationTranslation extends Model
 {
+
     protected $guarded = [];
 
     public function location(){

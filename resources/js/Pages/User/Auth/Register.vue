@@ -10,20 +10,22 @@ import TextInput from '@/Components/TextInput.vue';
 import Layout from '@/Layouts/User/Layout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
-import { usePage } from '@inertiajs/vue3';
 import { useTrans } from '/resources/js/trans';
 
 const props = defineProps({
-  locations: Array
+  locations: Array,
+  locale: String
 });
 
-const currentLanguage = computed(() => usePage().props.locale);
+console.log(props.locations)
+
+const currentLanguage = computed(() => props.locale);
 
 const locationOptions = computed(() =>
 
   props.locations.map(location => ({
     value: location.id,
-    text: location.translations[0]?.name
+    text: location.item_translations[0]?.name
   }))
 
 );
@@ -45,7 +47,7 @@ const form = useForm({
 
 const submit = () => {
 
-    form.post(route('register', { locale: usePage().props.locale }), {
+    form.post(route('register', { locale: props.locale }), {
         onFinish: () =>{ form.reset('password', 'password_confirmation')
         }
     });
@@ -165,7 +167,7 @@ const submit = () => {
 
                                                             <InputLabel for="flexCheckDefault" :value="useTrans('page.agree')"
                                                             class="text-white" />
-                                                            <Link :href="route('login', { locale: usePage().props.locale })" class="text-white underline fw-medium ml-2">
+                                                            <Link :href="route('login', { locale: props.locale })" class="text-white underline fw-medium ml-2">
                                                                   {{useTrans('page.terms_conditions')}} </Link>
 
                                                         </div>
@@ -182,7 +184,7 @@ const submit = () => {
                                                     </div>
                                                 </form>
                                                 <div class="text-center">
-                                                    <Link :href="route('login', { locale: usePage().props.locale })" class="text-white underline fw-medium">
+                                                    <Link :href="route('login', { locale: props.locale })" class="text-white underline fw-medium">
                                                       {{useTrans('form.sign_in')}}</Link>
                                                 </div>
                                             </div>

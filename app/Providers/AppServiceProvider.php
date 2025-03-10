@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Interfaces\Auth\RegisterInterface;
 use App\Interfaces\BaseInterface;
+use App\Interfaces\Specialist\SpecialistInterface;
 use App\Interfaces\Task\TaskInterface;
 use App\Mail\CustomResetPasswordToMail;
 use App\Repositories\Auth\RegisterRepository;
+use App\Repositories\Specialist\SpecialistRepository;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
@@ -33,8 +35,8 @@ class AppServiceProvider extends ServiceProvider
         App::instance('translator', $translator);
 
         $this->app->bind(BaseInterface::class, RegisterRepository::class);
+        $this->app->bind(SpecialistInterface::class, SpecialistRepository::class);
         $this->app->bind(TaskInterface::class, TaskRepository::class);
-
 
     }
 
