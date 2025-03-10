@@ -58,7 +58,6 @@ const handleBlur = () => {
 watch(search, (newValue) => {
     if (!newValue.length) {
         emit('update:modelValue', null); // Отправляем null
-        // lastSearch.value = '';
         filteredOptions.value = props.options;
     }
 });
@@ -69,7 +68,13 @@ const clearSearch = () => {
   search.value = ''; // Очистить поле ввода
 };
 
-defineExpose({ clearSearch });
+// add search input text before change language
+const addInputText = (inputText) => {
+    search.value = inputText;
+};
+
+
+defineExpose({ clearSearch, addInputText });
 
 </script>
 

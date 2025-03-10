@@ -18,13 +18,20 @@ const changeLanguage = (lang) => {
 
     // Replace the current locale (first segment) with the new one
     path[1] = lang;
+
+    // Получаем текущие параметры запроса
+    const searchParams = new URLSearchParams(window.location.search);
+
+    // Формируем новый URL с параметрами запроса
+    const newUrl = `${path.join('/')}?${searchParams.toString()}`;
+
     // Construct the new URL using the updated path
-    const newUrl = path.join('/');
-    console.log(newUrl)
+
     // Navigate to the new URL without reloading the page
     router.get(newUrl, {}, { preserveState: true, preserveScroll: true });
-
 };
+
+
 </script>
 
 <template>
@@ -163,7 +170,7 @@ const changeLanguage = (lang) => {
                                         <Link :href="route('logout', { locale: usePage().props.locale })" method="post" class="text-15 font-medium text-gray-800 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50">Logout</Link>
 
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                             <div v-else class="relative dropdown ltr:mr-4 rtl:ml-4">
