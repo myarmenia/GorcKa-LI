@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('filables', function (Blueprint $table) {
             $table->id();
             $table->morphs('filable'); // Creates `filable_id` and `filable_type`
-            $table->string('file_name');
-            $table->string('file_path');
+            $table->string('name');
+            $table->string('path');
             $table->timestamps();
         });
     }

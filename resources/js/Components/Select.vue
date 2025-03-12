@@ -1,5 +1,6 @@
 <script setup>
 import { defineEmits, ref, watch } from 'vue';
+import { useTrans } from '/resources/js/trans';
 
 const props = defineProps({
   id: String,
@@ -9,13 +10,16 @@ const props = defineProps({
   value: [String, Number],
   disabled: Boolean,
   error: String, // сообщение об ошибке
+  autoSelectFirst: Boolean,
+  selectedOptionValue: String,
 });
 
 
 const emit = defineEmits();
 
 // Синхронизация выбранного значения с родительским компонентом
-const selected = ref(props.value);
+// const selected = ref(props.value);
+const selected = ref( props.value ?? (props.autoSelectFirst && props.selectedOptionValue && props.options?.length ? props.options[props.selectedOptionValue].value : ''));
 
 watch(selected, (newValue) => {
   emit('update:modelValue', newValue);
@@ -31,9 +35,8 @@ watch(selected, (newValue) => {
       class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
       :name="name"
       :disabled="disabled"
-      required
     >
-      <option value="" disabled>Select an option</option>
+      <option v-if="!autoSelectFirst" value="" disabled>{{ useTrans('form.select_placeholder') }}</option>
       <option v-for="(option, index) in options" :key="index" :value="option.value">
         {{ option.text }}
       </option>

@@ -1,13 +1,41 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, inject } from "vue";
 import { initNavbar } from "@/modules/user/navbar.js";
+
+import { router, Link } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
+
+const locale_lng = usePage().props.locale; // Получаем локаль
 
 onMounted(() => {
     initNavbar(); // Запускаем `initNavbar` после монтирования компонента
 });
+const changeLanguage = (lang) => {
+
+
+    // localStorage.setItem('locale', lang);
+
+    const path = window.location.pathname.split('/');
+
+    // Replace the current locale (first segment) with the new one
+    path[1] = lang;
+
+    // Получаем текущие параметры запроса
+    const searchParams = new URLSearchParams(window.location.search);
+
+    // Формируем новый URL с параметрами запроса
+    const newUrl = `${path.join('/')}?${searchParams.toString()}`;
+
+    // Construct the new URL using the updated path
+
+    // Navigate to the new URL without reloading the page
+    router.get(newUrl, {}, { preserveState: true, preserveScroll: true });
+};
+
 </script>
 
 <template>
+
        <nav class="navbar fixed right-0 left-0 top-0 lg:top-[44.5px] px-5 lg:px-24 transition-all duration-500 ease shadow-lg shadow-gray-200/20 bg-white border-gray-200 dark:bg-neutral-800 z-40 dark:shadow-neutral-900" id="navbar">
             <div class="mx-auto container-fluid">
                 <div class="flex flex-wrap items-center justify-between mx-auto">
@@ -20,7 +48,7 @@ onMounted(() => {
                         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
                     </button>
                     <div class="flex items-center lg:order-2">
-                        <div>
+                        <div v-if="$page.props.auth.user">
                             <div class="relative dropdown">
                                 <div class="relative">
                                     <button type="button" class="btn border-0 h-[70px] dropdown-toggle px-4 text-gray-500 dark:text-gray-300" aria-expanded="false" data-dropdown-toggle="notification">
@@ -122,10 +150,11 @@ onMounted(() => {
                             </div>
                         </div>
                         <div>
-                            <div class="relative dropdown ltr:mr-4 rtl:ml-4">
+
+                            <div  v-if="$page.props.auth.user" class="relative dropdown ltr:mr-4 rtl:ml-4">
                                 <button type="button" class="flex items-center px-4 py-5 dropdown-toggle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     <img class="w-8 h-8 rounded-full ltr:xl:mr-2 rtl:xl:ml-2" src="assets/user/images/user/img-02.jpg" alt="Header Avatar">
-                                    <span class="hidden fw-medium xl:block dark:text-gray-50">Shawn L.</span>
+                                    <span class="hidden fw-medium xl:block dark:text-gray-50">{{$page.props.auth.user.name}}</span>
                                 </button>
                                 <ul class="absolute top-auto z-50 hidden w-48 p-3 list-none bg-white border rounded shadow-lg dropdown-menu border-gray-500/20 xl:ltr:-left-3 ltr:-left-32 rtl:-right-3 dark:bg-neutral-800" id="profile/log" aria-labelledby="navNotifications">
                                     <li class="p-2 dropdown-item group/dropdown dark:text-gray-300">
@@ -135,13 +164,48 @@ onMounted(() => {
                                         <a class="text-15 font-medium text-gray-800 group-data-[theme-color=violet]:group-hover/dropdown:text-violet-500 group-data-[theme-color=sky]:group-hover/dropdown:text-sky-500 group-data-[theme-color=red]:group-hover/dropdown:text-red-500 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-data-[theme-color=pink]:group-hover/dropdown:text-pink-500 group-data-[theme-color=blue]:group-hover/dropdown:text-blue-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50" href="bookmark-jobs.html">Bookmarks Jobs</a>
                                     </li>
                                     <li class="p-2 dropdown-item group/dropdown dark:text-gray-300">
-                                        <a class="text-15 font-medium text-gray-800 group-data-[theme-color=violet]:group-hover/dropdown:text-violet-500 group-data-[theme-color=sky]:group-hover/dropdown:text-sky-500 group-data-[theme-color=red]:group-hover/dropdown:text-red-500 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-data-[theme-color=pink]:group-hover/dropdown:text-pink-500 group-data-[theme-color=blue]:group-hover/dropdown:text-blue-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50" href="profile.html">My Profile</a>
+                                        <Link :href="route('user.profile',{locale: usePage().props.locale })" class="text-15 font-medium text-gray-800 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50">My Profile</Link>
+
                                     </li>
                                     <li class="p-2 dropdown-item group/dropdown dark:text-gray-300">
-                                        <a class="text-15 font-medium text-gray-800 group-data-[theme-color=violet]:group-hover/dropdown:text-violet-500 group-data-[theme-color=sky]:group-hover/dropdown:text-sky-500 group-data-[theme-color=red]:group-hover/dropdown:text-red-500 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-data-[theme-color=pink]:group-hover/dropdown:text-pink-500 group-data-[theme-color=blue]:group-hover/dropdown:text-blue-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50" href="sign-out.html">Logout</a>
+                                        <Link :href="route('logout', { locale: usePage().props.locale })" method="post" class="text-15 font-medium text-gray-800 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50">Logout</Link>
+
                                     </li>
+
                                 </ul>
                             </div>
+                            <div v-else class="relative dropdown ltr:mr-4 rtl:ml-4">
+                                <Link :href="route('login', { locale: usePage().props.locale })" class="text-white mr-4 border-transparent group-data-[theme-color=green]:bg-green-500 btn hover:-translate-y-2">Log In </Link>
+                                <Link :href="route('register', { locale: usePage().props.locale })" class="text-white border-transparent group-data-[theme-color=green]:bg-green-500 btn hover:-translate-y-2">Register</Link>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="relative dropdown ltr:mr-4 rtl:ml-4">
+                                <button type="button" class="flex items-center px-4 py-5 dropdown-toggle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <span class="mx-2 text-gray-800">{{ locale}}</span>
+                                    <span class="hidden fw-medium xl:block dark:text-gray-50">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="gray" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"></path>
+                                        </svg>
+                                    </span>
+                                </button>
+                                <ul class="absolute top-auto z-50 hidden w-48 p-3 list-none bg-white border rounded shadow-lg dropdown-menu border-gray-500/20 xl:ltr:-left-3 ltr:-left-32 rtl:-right-3 dark:bg-neutral-800" id="profile/log" aria-labelledby="navNotifications">
+                                    <li class="p-2 dropdown-item group/dropdown dark:text-gray-300">
+                                        <button class="text-15 font-medium text-gray-800  group-data-[theme-color=violet]:group-hover/dropdown:text-violet-500 group-data-[theme-color=sky]:group-hover/dropdown:text-sky-500 group-data-[theme-color=red]:group-hover/dropdown:text-red-500 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-data-[theme-color=pink]:group-hover/dropdown:text-pink-500 group-data-[theme-color=blue]:group-hover/dropdown:text-blue-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50" @click="changeLanguage('am')">am</button>
+                                    </li>
+                                    <li class="p-2 dropdown-item group/dropdown dark:text-gray-300">
+                                        <button class="text-15 font-medium text-gray-800 group-data-[theme-color=violet]:group-hover/dropdown:text-violet-500 group-data-[theme-color=sky]:group-hover/dropdown:text-sky-500 group-data-[theme-color=red]:group-hover/dropdown:text-red-500 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-data-[theme-color=pink]:group-hover/dropdown:text-pink-500 group-data-[theme-color=blue]:group-hover/dropdown:text-blue-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50" @click="changeLanguage('en')">en</button>
+                                    </li>
+                                    <li class="p-2 dropdown-item group/dropdown dark:text-gray-300">
+                                        <button class="text-15 font-medium text-gray-800 group-data-[theme-color=violet]:group-hover/dropdown:text-violet-500 group-data-[theme-color=sky]:group-hover/dropdown:text-sky-500 group-data-[theme-color=red]:group-hover/dropdown:text-red-500 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-data-[theme-color=pink]:group-hover/dropdown:text-pink-500 group-data-[theme-color=blue]:group-hover/dropdown:text-blue-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50" @click="changeLanguage('ru')">ru</button>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <!-- <div class="select-lng"><span>Arm <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe" viewBox="0 0 16 16"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855A7.97 7.97 0 0 0 5.145 4H7.5V1.077zM4.09 4a9.267 9.267 0 0 1 .64-1.539 6.7 6.7 0 0 1 .597-.933A7.025 7.025 0 0 0 2.255 4H4.09zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a6.958 6.958 0 0 0-.656 2.5h2.49zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5H4.847zM8.5 5v2.5h2.99a12.495 12.495 0 0 0-.337-2.5H8.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5H4.51zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5H8.5zM5.145 12c.138.386.295.744.468 1.068.552 1.035 1.218 1.65 1.887 1.855V12H5.145zm.182 2.472a6.696 6.696 0 0 1-.597-.933A9.268 9.268 0 0 1 4.09 12H2.255a7.024 7.024 0 0 0 3.072 2.472zM3.82 11a13.652 13.652 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5H3.82zm6.853 3.472A7.024 7.024 0 0 0 13.745 12H11.91a9.27 9.27 0 0 1-.64 1.539 6.688 6.688 0 0 1-.597.933zM8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855.173-.324.33-.682.468-1.068H8.5zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.65 13.65 0 0 1-.312 2.5zm2.802-3.5a6.959 6.959 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5h2.49zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7.024 7.024 0 0 0-3.072-2.472c.218.284.418.598.597.933zM10.855 4a7.966 7.966 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4h2.355z"></path></svg></span><ul class="lng-list"><li id="ru">Rus</li><li id="en">Eng</li></ul></div> -->
                         </div>
                     </div>
 

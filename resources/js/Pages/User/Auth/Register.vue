@@ -1,104 +1,63 @@
 <script setup>
-import GuestLayout from '@/Layouts/GuestLayout.vue';
+import { computed, watch } from "vue";
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
-// import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Select from '@/Components/Select.vue';
+import Checkbox from '@/Components/Checkbox.vue'
 import WhiteButton from '@/Components/WhiteButton.vue';
 
 import TextInput from '@/Components/TextInput.vue';
 import Layout from '@/Layouts/User/Layout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
+import { useTrans } from '/resources/js/trans';
+
+const props = defineProps({
+  locations: Array,
+  locale: String
+});
+
+console.log(props.locations)
+
+const currentLanguage = computed(() => props.locale);
+
+const locationOptions = computed(() =>
+
+  props.locations.map(location => ({
+    value: location.id,
+    text: location.item_translations[0]?.name
+  }))
+
+);
+
+
+watch(currentLanguage, () => {
+  form.errors = {};
+});
+
 const form = useForm({
     name: '',
     email: '',
+    phone: '',
+    location_id: '',
     password: '',
     password_confirmation: '',
+    agree_terms: ''
 });
 
 const submit = () => {
-    console.log(888)
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+
+    form.post(route('register', { locale: props.locale }), {
+        onFinish: () =>{ form.reset('password', 'password_confirmation')
+        }
     });
 };
 </script>
 
 <template>
-    <Layout title="Register">
-
-
-
-        <div class="fixed z-40 flex flex-col gap-3 ltr:left-0 rtl:right-0 top-[330px]">
-            <!-- light-dark mode button -->
-            <a href="javascript: void(0);" id="ltr-rtl"
-                class="z-40 px-3 py-3 font-medium text-white transition-all duration-300 ease-linear group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 text-14 hover:bg-violet-700 ltr:rounded-r rtl:rounded-l"
-                onclick="changeMode(event)">
-                <span class="ltr:hidden">LTR</span>
-                <span class="rtl:hidden">RTL</span>
-            </a>
-
-        </div>
-
-        <div class="fixed transition-all duration-300 ease-linear top-[27.5rem] switcher" id="style-switcher">
-            <div class="w-48 p-4 bg-white shadow-md">
-                <div>
-                    <h3 class="mb-2 font-semibold text-gray-900 text-16">Select your color</h3>
-                    <ul class="flex gap-3 ">
-                        <li>
-                            <a class="h-10 w-10 bg-[#815DF2] block rounded-full" data-color="violet"
-                                href="javascript: void(0);"></a>
-                        </li>
-                        <li>
-                            <a class="h-10 w-10 bg-[#69cdf1] block rounded-full" data-color="sky"
-                                href="javascript: void(0);"></a>
-                        </li>
-                        <li>
-                            <a class="h-10 w-10 bg-[#dd4948] block rounded-full" data-color="red"
-                                href="javascript: void(0);"></a>
-                        </li>
-                    </ul>
-                    <ul class="flex gap-3 mt-4">
-                        <li>
-                            <a class="h-10 w-10 bg-[#38c284] block rounded-full" data-color="green"
-                                href="javascript: void(0);"></a>
-                        </li>
-                        <li>
-                            <a class="h-10 w-10 bg-[#e35490] block rounded-full" data-color="pink"
-                                href="javascript: void(0);"></a>
-                        </li>
-                        <li>
-                            <a class="h-10 w-10 bg-[#5276f4] block rounded-full" data-color="blue"
-                                href="javascript: void(0);"></a>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="mt-5">
-                    <h3 class="mb-2 font-semibold text-gray-900 text-16">Light/dark Layout</h3>
-                    <div class="flex justify-center mt-2">
-                        <!-- light-dark mode button -->
-                        <a href="javascript: void(0);" id="mode"
-                            class="z-40 px-6 py-2 font-normal text-white transition-all duration-300 ease-linear rounded text-14 bg-zinc-800"
-                            onclick="changeMode(event)">
-                            <i class="hidden text-xl uil uil-brightness dark:text-white dark:inline-block"></i>
-                            <i class="inline-block text-xl uil uil-moon dark:text-zinc-800 dark:hidden"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- light-dark mode button -->
-        <a href="javascript: void(0);" onclick="toggleSwitcher()"
-            class="fixed z-40 flex flex-col gap-3 px-4 py-3 font-normal text-white  top-96 text-14 ltr:rounded-r rtl:rounded-l">
-            <i class="text-xl mdi mdi-cog mdi-spin"></i>
-        </a>
-
-
-        <div class="main-content">
-            <div class="page-content">
-
-                <section class="flex items-center justify-center min-h-screen py-10 dark:bg-neutral-700">
+    <Layout >
+        <Head :title="useTrans('page.title')" />
+                <section class="flex items-center justify-center min-h-screen pt-40 pb-20 group-data-[theme-color=green]:bg-green-500/10 dark:bg-neutral-700">
                     <div class="container mx-auto">
                         <div class="grid grid-cols-12">
                             <div class="col-span-12 lg:col-span-10 lg:col-start-2">
@@ -106,7 +65,7 @@ const submit = () => {
                                     <div class="grid flex-col grid-cols-12">
                                         <div class="col-span-6 ltr:rounded-l-lg rtl:rounded-r-lg">
                                             <div class="p-10">
-                                                <a href="index.html">
+                                                <a href="">
                                                     <img src="/assets/user/images/logo-light.png" alt=""
                                                         class="hidden mx-auto dark:block">
                                                     <img src="/assets/user/images/logo-dark.png" alt=""
@@ -121,23 +80,17 @@ const submit = () => {
                                             class="col-span-12 rounded-b-md lg:col-span-6 group-data-[theme-color=green]:bg-green-500  lg:ltr:rounded-r-lg rtl:rounded-l-lg">
                                             <div class="flex flex-col justify-center h-full p-12">
                                                 <div class="text-center">
-                                                    <h5 class="text-[18.5px] text-white">Let's Get Started</h5>
-                                                    <p class="mt-3 text-gray-50">Sign Up and get access to all the
-                                                        features
-                                                        of Jobcy</p>
+                                                    <h5 class="text-[18.5px] text-white">{{ useTrans('page.title_h5') }}</h5>
+                                                    <p class="mt-3 text-gray-50">{{ useTrans('page.title_p') }}</p>
                                                 </div>
                                                 <form @submit.prevent="submit" class="mt-8">
                                                     <div class="mb-5">
-                                                        <!-- <label for="usernameInput" class="text-white">Username</label> -->
-                                                        <InputLabel for="name" value="Name" class="text-white" />
-                                                        <!-- <input type="text"
-                                                            class="w-full mt-1 group-data-[theme-color=violet]:bg-violet-400/40 group-data-[theme-color=sky]:bg-sky-400/40 group-data-[theme-color=red]:bg-red-400/40 group-data-[theme-color=green]:bg-green-400/40 group-data-[theme-color=pink]:bg-pink-400/40 group-data-[theme-color=blue]:bg-blue-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
-                                                            required="" id="usernameInput"
-                                                            placeholder="Enter your username"> -->
+                                                        <InputLabel for="name" :value="useTrans('form.name')" class="text-white" />
+
                                                         <TextInput id="name" type="text"
-                                                            class="w-full mt-1 group-data-[theme-color=violet]:bg-violet-400/40 group-data-[theme-color=sky]:bg-sky-400/40 group-data-[theme-color=red]:bg-red-400/40 group-data-[theme-color=green]:bg-green-400/40 group-data-[theme-color=pink]:bg-pink-400/40 group-data-[theme-color=blue]:bg-blue-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
-                                                            v-model="form.name" required
-                                                            placeholder="Enter your username" />
+                                                            class="w-full mt-1 group-data-[theme-color=green]:bg-green-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
+                                                            v-model="form.name"
+                                                            :placeholder="useTrans('form.name_placeholder')" />
 
                                                         <InputError class="mt-2 opacity-60 "
                                                             :message="form.errors.name" />
@@ -145,37 +98,63 @@ const submit = () => {
 
 
                                                     <div class="mb-5">
-                                                        <InputLabel for="email" value="Email" class="text-white" />
+                                                        <InputLabel for="email" :value="useTrans('form.email')" class="text-white" />
 
                                                         <TextInput id="email" type="text"
-                                                            class="w-full mt-1 group-data-[theme-color=violet]:bg-violet-400/40 group-data-[theme-color=sky]:bg-sky-400/40 group-data-[theme-color=red]:bg-red-400/40 group-data-[theme-color=green]:bg-green-400/40 group-data-[theme-color=pink]:bg-pink-400/40 group-data-[theme-color=blue]:bg-blue-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
-                                                            v-model="form.email" required
-                                                            placeholder="Enter your email" />
+                                                            class="w-full mt-1 group-data-[theme-color=green]:bg-green-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
+                                                            v-model="form.email"
+                                                            :placeholder="useTrans('form.email_placeholder')" />
 
                                                         <InputError class="mt-2 opacity-60"
                                                             :message="form.errors.email" />
                                                     </div>
+
                                                     <div class="mb-5">
-                                                        <InputLabel for="password" value="Passworg"
+                                                        <InputLabel for="phone" :value="useTrans('form.phone')" class="text-white" />
+
+                                                        <TextInput id="phone" type="text"
+                                                            class="w-full mt-1 group-data-[theme-color=green]:bg-green-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
+                                                            v-model="form.phone"
+                                                            :placeholder="useTrans('form.phone_placeholder')" />
+
+                                                        <InputError class="mt-2 opacity-60"
+                                                            :message="form.errors.phone" />
+                                                    </div>
+
+                                                     <div class="mb-5 relative filler-job-form">
+                                                        <InputLabel for="location_id" :value="useTrans('form.location')" class="text-white"  />
+                                                        <Select
+                                                            id="location_id"
+                                                            :options="locationOptions"
+                                                            v-model="form.location_id"
+                                                            :autoSelectFirst="false"
+                                                        />
+                                                        <InputError :message="form.errors.location_id" />
+                                                    </div>
+
+                                                    <div class="mb-5">
+                                                        <InputLabel for="password" :value="useTrans('form.password')"
                                                             class="text-white" />
 
                                                         <TextInput id="password" type="password"
-                                                            class="w-full mt-1 group-data-[theme-color=violet]:bg-violet-400/40 group-data-[theme-color=sky]:bg-sky-400/40 group-data-[theme-color=red]:bg-red-400/40 group-data-[theme-color=green]:bg-green-400/40 group-data-[theme-color=pink]:bg-pink-400/40 group-data-[theme-color=blue]:bg-blue-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
-                                                            v-model="form.password" required
-                                                            placeholder="Enter your password" />
+                                                            class="w-full mt-1 group-data-[theme-color=green]:bg-green-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
+                                                            v-model="form.password"
+                                                            :placeholder="useTrans('form.password_placeholder')" />
 
                                                         <InputError class="mt-2 opacity-60"
                                                             :message="form.errors.password" />
                                                     </div>
 
+
+
                                                     <div class="mb-5">
-                                                        <InputLabel for="password_confirmation" value="Confirm Password"
+                                                        <InputLabel for="password_confirmation" :value="useTrans('form.password_confirmation')"
                                                             class="text-white" />
 
                                                         <TextInput id="password_confirmation" type="password"
-                                                            class="w-full mt-1 group-data-[theme-color=violet]:bg-violet-400/40 group-data-[theme-color=sky]:bg-sky-400/40 group-data-[theme-color=red]:bg-red-400/40 group-data-[theme-color=green]:bg-green-400/40 group-data-[theme-color=pink]:bg-pink-400/40 group-data-[theme-color=blue]:bg-blue-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
-                                                            v-model="form.password_confirmation" required
-                                                            placeholder="Confirm Password" />
+                                                            class="w-full mt-1 group-data-[theme-color=green]:bg-green-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
+                                                            v-model="form.password_confirmation"
+                                                            :placeholder="useTrans('form.password_placeholder')" />
 
                                                         <InputError class="mt-2 opacity-60"
                                                             :message="form.errors.password_confirmation" />
@@ -183,29 +162,30 @@ const submit = () => {
 
 
                                                     <div class="mb-4">
-                                                        <div><input
-                                                                class="align-middle border-transparent rounded focus:ring-0 focus:ring-offset-0 group-data-[theme-color=violet]:checked:bg-violet-500 group-data-[theme-color=sky]:checked:bg-sky-500 group-data-[theme-color=red]:checked:bg-red-500 group-data-[theme-color=green]:checked:bg-green-500 group-data-[theme-color=pink]:checked:bg-pink-500 group-data-[theme-color=blue]:checked:bg-blue-500"
-                                                                type="checkbox" id="flexCheckDefault">
-                                                            <label class="text-white align-middle"
-                                                                for="flexCheckDefault">I
-                                                                agree to the <a href="javascript:void(0)"
-                                                                    class="pb-1 text-white underline align-middle">Terms
-                                                                    and
-                                                                    conditions</a></label>
+                                                        <div class="flex">
+                                                            <Checkbox id="flexCheckDefault" v-model="form.agree_terms" class="align-middle border-transparent rounded focus:ring-0 focus:ring-offset-0 group-data-[theme-color=green]:checked:bg-green-500 mr-2"></Checkbox>
+
+                                                            <InputLabel for="flexCheckDefault" :value="useTrans('page.agree')"
+                                                            class="text-white" />
+                                                            <Link :href="route('login', { locale: props.locale })" class="text-white underline fw-medium ml-2">
+                                                                  {{useTrans('page.terms_conditions')}} </Link>
+
                                                         </div>
+                                                        <InputError class="mt-2 opacity-60"
+                                                                :message="form.errors.agree_terms" />
                                                     </div>
                                                     <div class="my-5 text-center">
 
                                                         <WhiteButton :class="{ 'opacity-25': form.processing }"
                                                             :disabled="form.processing">
-                                                            Register
+                                                            {{useTrans('page.register')}}
                                                         </WhiteButton>
 
                                                     </div>
                                                 </form>
                                                 <div class="text-center">
-                                                    <Link :href="route('login')" class="text-white underline fw-medium">
-                                                    Sign In </Link>
+                                                    <Link :href="route('login', { locale: props.locale })" class="text-white underline fw-medium">
+                                                      {{useTrans('form.sign_in')}}</Link>
                                                 </div>
                                             </div>
                                         </div>
@@ -216,97 +196,6 @@ const submit = () => {
                         </div>
                     </div>
                 </section>
-
-            </div>
-        </div>
     </Layout>
-    <!-- <GuestLayout>
-        <Head title="Register" />
 
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="name" value="Name" />
-
-                <TextInput
-                    id="name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.name"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-
-                <InputError class="mt-2" :message="form.errors.name" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
-
-                <TextInput
-                    id="password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password_confirmation"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError
-                    class="mt-2"
-                    :message="form.errors.password_confirmation"
-                />
-            </div>
-
-            <div class="mt-4 flex items-center justify-end">
-                <Link
-                    :href="route('login')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Already registered?
-                </Link>
-
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Register
-                </PrimaryButton>
-            </div>
-        </form>
-    </GuestLayout> -->
 </template>

@@ -1,0 +1,17 @@
+{
+   "select_category": "Select category",
+    "select_sub_category": "Select subcategory",
+    "create_task": "Create a task",
+    "select_location": "Select region",
+    "enter_task_name": "Enter a task name",
+    "task_name": "Task name",
+    "price_min": "Min price",
+    "price_max": "Maximum price",
+    "start_date": "Start date",
+    "end_date": "End date",
+    "description": "Description",
+    "chose_file": "Chose file",
+    "task_type": "Task type",
+    "remote_task": "Mark for remote work"
+
+}

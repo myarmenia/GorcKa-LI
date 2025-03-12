@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Filable extends Model
 {
-    protected $fillable = ['file_name', 'file_path'];
+    protected $fillable = ['name', 'path',];
     public function filable(): MorphTo
     {
         return $this->morphTo();
+
     }
 }

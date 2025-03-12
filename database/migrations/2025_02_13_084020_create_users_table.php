@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable();
             $table->foreignId('location_id')->nullable()->constrained('locations')->cascadeOnDelete();
-            $table->foreignId('lang_id')->nullable()->constrained('langs')->cascadeOnDelete();
+            $table->string('lang')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

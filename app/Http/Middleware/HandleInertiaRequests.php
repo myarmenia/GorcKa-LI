@@ -2,6 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App;
+use Auth;
+use File;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Closure;
@@ -35,11 +38,33 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $lang = in_array(request()->segment(1), ['am', 'ru', 'en']) ? request()->segment(1) : 'am';
+        $name = request()->route()->getName();
+        $file = lang_path($lang . '/'. $name . ".json" );
+        $formFile = lang_path($lang . '/form' . ".json" );
+
+
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                // 'user' => $request->user(),
+                'user' => Auth::user() ? [
+                    'id' => Auth::user()->id,
+                    'name' => Auth::user()->name,
+                    'email' => Auth::user()->email,
+                    'roles' => Auth::user()->roles
+                ] : null,
             ],
+            // 'translations' => File::exists($file) ? File::json($file) : []
+            'translations' => [
+                'form' => File::exists($formFile) ? File::json($formFile) : [],
+                'page' => File::exists($file) ? File::json($file) : []
+            ],
+            'err' => function () use ($request) {
+                return $request->session()->get('errors')
+                    ? $request->session()->get('errors')->getBag('default')->toArray()
+                    : (object) [];
+            },
         ];
     }
 }

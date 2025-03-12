@@ -10,6 +10,9 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+        {{-- <link rel="stylesheet" href="{{asset('assets/user/libs/choices.js/public/assets/styles/choices.min.css')}}"> --}}
+<link href="https://cdn.jsdelivr.net/npm/preline@1.0.0/dist/preline.min.css" rel="stylesheet">
+
 
 
         <!-- Scripts -->
@@ -19,11 +22,24 @@
 
         @inertiaHead
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased bg-white dark:bg-neutral-800">
+
         @inertia
 
-
         {{-- <script src="{{asset('assets/user/libs/choices.js/public/assets/scripts/choices.min.js')}}"></script> --}}
+        {{-- <script src="{{asset('assets/modules/user/job-list.init.js')}}"></script> --}}
+
+<script>
+//   var singleLocation = new Choices('#choices-single-location');
+
+// var singleCategorie = document.getElementById('choices-single-categories');
+// if (singleCategorie) {
+//     var singleCategories = new Choices('#choices-single-categories');
+// }
+
+
+</script>
+{{-- <script src="./node_modules/preline/dist/preline.js"></script> --}}
         <script src="https://unicons.iconscout.com/release/v4.0.0/script/monochrome/bundle.js"></script>
 
     </body>

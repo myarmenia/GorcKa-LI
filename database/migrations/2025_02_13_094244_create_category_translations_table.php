@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('category_translations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
-            $table->foreignId('lang_id')->constrained('langs')->cascadeOnDelete();
+            $table->string('lang');
             $table->string('name');
             $table->integer('status')->default(1);
             $table->timestamps();
