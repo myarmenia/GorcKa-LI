@@ -2,7 +2,7 @@
 import Layout from '@/Layouts/User/Layout.vue';
 import SearchSelect from '@/Components/SearchSelect.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { computed, ref, watch } from "vue";
+import { computed, ref, onMounted, watch } from "vue";
 import { Head, useForm } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 import { useTrans } from '/resources/js/trans';
@@ -24,10 +24,13 @@ let activePage = ref(1)
 const searchSelectLocation = ref('');
 const searchSelectCategory = ref('');
 
+// Используем query параметры из текущего запроса
+const query = new URLSearchParams(window.location.search);
+
 const form = useForm({
-    name: '',
-    location_id: '',
-    category_id: ''
+    category_id: query.get('category_id') || '',
+    location_id: query.get('location_id') || '',
+    name: query.get('name') || ''
 });
 
 // Перерасчитываем options для locations только на основе начальных данных
@@ -46,28 +49,35 @@ const categoryOptions = computed(() => {
     }));
 });
 
+onMounted(() => {
+    // submit();
+    updateSelectedFilters()
+
+});
+
 watch(() => props.locale, (newLocale) => {
 
-    // Ищем локацию, соответствующую выбранному location_id
-    const selectedLocation = props.locations.find(loc => loc.id == form.location_id);
-    const selectedCategory = props.categories.find(cat => cat.id == form.category_id);
-
-    if (selectedLocation) {
-        const locName = selectedLocation.item_translations[0].name
-
-        searchSelectLocation.value.addInputText(locName)
-    }
-
-    if (selectedCategory) {
-        const catName = selectedCategory.item_translations[0].name
-
-        searchSelectCategory.value.addInputText(catName)
-    }
+    updateSelectedFilters()
 
     specialistsRef.value = props.specialists.data;
     paginationInfo.value = props.specialists;
     pagination.value = props.specialists.links
 });
+
+
+// Функция для обновления выбранных фильтров
+function updateSelectedFilters() {
+    const selectedLocation = props.locations.find(loc => loc.id == form.location_id);
+    const selectedCategory = props.categories.find(cat => cat.id == form.category_id);
+
+    if (selectedLocation) {
+        searchSelectLocation.value.addInputText(selectedLocation.item_translations[0].name);
+    }
+
+    if (selectedCategory) {
+        searchSelectCategory.value.addInputText(selectedCategory.item_translations[0].name);
+    }
+}
 
 
 const submit = () => {
