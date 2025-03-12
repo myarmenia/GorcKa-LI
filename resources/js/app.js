@@ -1,6 +1,6 @@
 
 // import '../../public/assets/user/libs/choices.js/public/assets/styles/choices.min.css';
-import '../../public/assets/user/libs/swiper/swiper-bundle.min.css';
+// import '../../public/assets/user/libs/swiper/swiper-bundle.min.css';
 
 import '../css/user/app.css';
 import '../css/user/icons.css';
@@ -14,8 +14,8 @@ import './modules/user/switcher.js';
 // import './modules/user/job-list.init';
 import './modules/user/dropdown&modal.init.js';
 
-import '../../public/assets/user/libs/swiper/swiper-bundle.min';
-import './modules/user/swiper.init.js';
+// import '../../public/assets/user/libs/swiper/swiper-bundle.min';
+// import './modules/user/swiper.init.js';
 import '../../node_modules/preline/dist/preline.js'
 
 // import './bootstrap';
