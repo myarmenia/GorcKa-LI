@@ -10,7 +10,9 @@ return [
     'system_error' => 'The operation cannot be performed at this time',
     'ticket_not_selected' => 'Ticket is not selected.',
     'email_success' => 'The email has been successfully sent.',
-    'error' => 'Something went wrong :('
+    'error' => 'Something went wrong :(',
+    'the_operation_was_successful' =>'The operation was successful.',
+
 
 
 ];

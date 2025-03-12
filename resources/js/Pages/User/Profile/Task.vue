@@ -1,39 +1,58 @@
 <script setup>
 
 
-import { Head, useForm, router  } from '@inertiajs/vue3';
-import Index from './Index.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import Select from '@/Components/Select.vue';
-import { onMounted,ref, watch , computed} from 'vue';
+    import { Head, useForm, router  } from '@inertiajs/vue3';
+    import Index from './Index.vue';
+    import InputLabel from '@/Components/InputLabel.vue';
+    import Select from '@/Components/Select.vue';
+    import { onMounted,ref, watch , computed} from 'vue';
 
-import { usePage } from '@inertiajs/vue3';
-import TextInput from '@/Components/TextInput.vue';
-import TextArea from '@/Components/TextArea.vue';
-import FileInput from '@/Components/FileInput.vue';
-import { useTrans } from '/resources/js/trans';
-import InputError from '@/Components/InputError.vue';
-
-
+    import { usePage } from '@inertiajs/vue3';
+    import TextInput from '@/Components/TextInput.vue';
+    import TextArea from '@/Components/TextArea.vue';
+    import FileInput from '@/Components/FileInput.vue';
+    import { useTrans } from '/resources/js/trans';
+    import InputError from '@/Components/InputError.vue';
 
 
-// =====for lang =====
-const props = defineProps({
-    categories: Array,
-    locations: Array,
-    locale: String
+    const props = defineProps({
+        categories: Array,
+        locations: Array,
+        locale: String
+    });
+    const form = useForm({
+            category_id: props.categories.length > 0 ? props.categories[0].id : '',
+            sub_category_id: '',
+            location_id: '',
+            title: '',
+            price_min: '',
+            price_max: '',
+            description: '',
+            start_date: '',
+            end_date: "",
+            task_type: '',
+            lang: props.locale,
+            file: [],
+
+        });
+
+
+// Computed property for select options
+const locationOptions = computed(() => {
+    return props.locations.map(location => ({
+        value: location.id,
+        text: location.translation?.name || 'Без названия'
+    }));
 });
 
 
-// ===== Получаем категории с подкатегориями из props
-const { categories } = usePage().props; //
-const { locations } = usePage().props;
-
-const {locale } = usePage().props;
 
 // ===== Подкатегории для выбранной категории
 const subcategories = ref([]);
 const selectedFiles = ref([]);
+
+
+
 
 
 // ======= file =========
@@ -46,37 +65,54 @@ const handleFileUpload = (event) => {
   if (files.length) {
 
     for (let file of files) {
+        let fileName = file.name;
+        let filePreview = { url: URL.createObjectURL(file), name: fileName };
             form.file.push(file);
-            previewUrls.value.push(URL.createObjectURL(file)); // Generate preview
-        }
+            // form.file = [...form.file, file];
+            previewUrls.value.push(filePreview ); // Generate preview
+            console.log()
+    }
 
 
   }
+
+};
+console.log(form.file,'515')
+
+
+
+const isImage = (file) => {
+    // alert(1111)
+    console.log(file,'2222')
+  const imageFormats = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
+  const fileExtension = file.name.split('.').pop().toLowerCase();
+
+  return imageFormats.includes(fileExtension);
+};
+
+const isOther = (file) => {
+  const documentFormats = ['doc', 'docx', 'xls', 'xlsx', 'txt'];
+  const fileExtension = file.name.split('.').pop().toLowerCase();
+  return documentFormats.includes(fileExtension);
+};
+
+const isPdf = (file) => {
+  const fileExtension = file.name.split('.').pop().toLowerCase();
+  return fileExtension === 'pdf';
 };
 
 
 // Remove file from preview and form data
 const removeNewFile = (index) => {
+    console.log(index,'kkk')
     form.file.splice(index, 1);
+    console.log(previewUrls)
     previewUrls.value.splice(index, 1);
+    console.log(previewUrls,after)
 };
 
 
-const form = useForm({
 
-    category_id: categories.length > 0 ? categories[0].id : '',
-    sub_category_id: '',
-    location_id: '',
-    title: '',
-    price_min: '',
-    price_max: '',
-    description: '',
-    start_date: '',
-    end_date: "",
-    lang: locale,
-    file: [],
-
-});
 
 
 
@@ -90,6 +126,7 @@ const onCategoryChange = () => {
   if (!props.categories) return;
    const selectedCategory = props.categories.find(category => category.id === form.category_id);
   subcategories.value = selectedCategory ? selectedCategory.sub_categories || [] : [];
+  console.log(subcategories,"subcategories, onCategoryChange")
 
 };
 
@@ -102,26 +139,39 @@ const subcategoryOptions = computed(() => {
     text: subcategory.translation?.name || 'Без названия'
   }));
 });
-console.log(subcategoryOptions)
-
-
-
-
-
-
-
-
-
+// console.log(subcategoryOptions)
+const category_id = ref(null);
 
 const submitForm = () => {
-    console.log(form.errors)
-    form.post(route('task.store',{ locale: usePage().props.locale }));
+    // console.log(form.errors);
 
+    form.post(route('task.store', { locale: props.locale }), {
+        onSuccess: () => {
+            console.log(111)
+
+            const flashMessage = usePage().props.message;
+            if (flashMessage) {
+                console.log(flashMessage,"123"); // Выведет сообщение, если оно есть
+            }
+            form.reset(); // Очищает все поля формы
+            // form.category_id = null;  // or '' based on how your select element works
+            // form.sub_category_id = null;
+            // form.location_id = null;
+            // category_id.value = null;
+
+        },
+        onError:() =>{
+            console.log(4444)
+
+        }
+
+    });
 };
-
 // Инициализируем подкатегории при первом рендере
-watch(() => form.category_id, onCategoryChange, { immediate: true });
 
+watch([() => form.category_id, () => props.categories,() => props.locale], () => {
+  onCategoryChange();
+}, { immediate: true });
 
 
 </script>
@@ -135,7 +185,7 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
 }
 .preview-item {
   position: relative;
-  display: inline-block;
+  display: block;
 }
 .preview-img {
   width: 100px;
@@ -161,6 +211,10 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
     <Index>
         <Head title = "Task" />
         <template #content>
+            <!-- <div>
+                <p v-if="flash.message">{{ flash.message }}</p>
+
+            </div> -->
             <div class="w-full tab-pane block" id="settings-tab">
                                                     <div class="pt-8 space-x-8">
                                                         <form  @submit.prevent = submitForm >
@@ -201,13 +255,15 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                     :id="'location'"
                                                                                     :label="useTrans('page.select_location')"
                                                                                     :name="'location_id'"
-                                                                                    :options="locations.map(location => ({
-                                                                                        value: location.id,
-                                                                                        text: location.translation?.name || 'Без названия'
-                                                                                    }))"
+                                                                                    :options="locationOptions"
 
 
                                                                                 />
+                                                                                <!-- <select>
+                                                                                    <option disabled>aaaa</option>
+                                                                                    <option v-for="category in categories">{{ category.id }}</option>
+
+                                                                                </select> -->
                                                                                 <InputError class="mt-2 opacity-60" :message="form.errors.location_id" />
 
 
@@ -364,6 +420,22 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                         </div>
                                                                     </div>
                                                                     <!--end col-->
+                                                                    <div class="col-span-12">
+                                                                        <div class="mb-3">
+                                                                            <InputLabel for="checkbox" :value="useTrans('page.task_type')" class="text-grey" />
+                                                                            <div class="flex items-center space-x-2">
+                                                                                <input
+                                                                            type= "checkbox"
+                                                                            id = "checkbox"
+                                                                            v-model = "form.task_type"
+                                                                            true-value="1"
+                                                                            false-value="0"
+                                                                                >
+                                                                                <span>{{ useTrans('page.remote_task') }}</span>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
 
                                                                     <!--end col-->
                                                                     <div class="col-span-12">
@@ -376,12 +448,33 @@ watch(() => form.category_id, onCategoryChange, { immediate: true });
                                                                                     <div>
                                                                                         <input type="file" multiple @change="handleFileUpload">
 
-                                                                                        <div v-if="previewUrls.length" class="preview-container">
+                                                                                        <div v-if="previewUrls.length"  class="preview-container">
 
-                                                                                            <!-- <img v-for="(url, index) in previewUrls" :key="index" :src="url" class="preview-img"> -->
-                                                                                            <div v-for="(url, index) in previewUrls" :key="index" class="preview-item">
-                                                                                                <img :src="url" class="preview-img">
-                                                                                                <i class="bx bx-trash delete-icon bg-green-500" @click="removeNewFile(index)"></i>
+                                                                                            <div v-for="(file, index) in previewUrls" :key="index" class="preview-container" style="border:1px solid red">
+                                                                                                <div class="d-flex justify-content-start col-sm-9 flex-wrap" v-if="isImage(file)">
+                                                                                                    <img :src="file.url" class="preview-img">
+                                                                                                    <i class="bx bx-trash delete-icon bg-green-500" @click.prevent="removeNewFile(index)"></i>
+                                                                                                </div>
+                                                                                                <div v-else-if="isOther(file)">
+                                                                                                        <a :href="file.url" target="_blank" class="flex">
+
+                                                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                                                                                <path fill="currentColor" d="M6 2h7l5 5v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm7 1.5V8h4.5L13 3.5z"/>
+                                                                                                            </svg>
+                                                                                                             {{ file.name }}
+                                                                                                             <i class="bx bx-trash delete-icon bg-green-500" @click.prevent="removeNewFile(index)"></i>
+                                                                                                        </a>
+                                                                                                </div>
+                                                                                                <div v-else-if="isPdf(file)">
+                                                                                                    <a :href="file.path" target="_blank" class="flex">
+                                                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                                                                                            <path fill="currentColor" d="M6 2h7l5 5v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm7 1.5V8h4.5L13 3.5z"/>
+                                                                                                        </svg>
+                                                                                                        {{ file.name }}
+                                                                                                    </a>
+                                                                                                    <i class="bx bx-trash delete-icon bg-green-500" @click.prevent="removeNewFile(index)"></i>
+
+                                                                                                </div>
                                                                                             </div>
 
                                                                                         </div>

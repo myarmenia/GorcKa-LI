@@ -11,5 +11,6 @@ return [
     'ticket_not_selected' => 'Տոմսը ընտրված չէ։',
     'email_success' => 'Նամակը հաջողությամբ ուղարկվել է։',
     'error' => "Ինչ որ բան այն չէ:",
+    'the_operation_was_successful' =>'Գործողությունը  հաջողությամբ կատարվել է',
 
 ];
