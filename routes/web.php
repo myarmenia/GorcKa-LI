@@ -4,6 +4,8 @@
 use App\Http\Controllers\CategoryWithSubCategoryFilterController;
 use App\Http\Controllers\LocationFilterController;
 use App\Http\Controllers\SimpleFilterController;
+use App\Http\Controllers\Welcome\FindJobController;
+use App\Http\Controllers\WelcomeController;
 use App\Services\FileUploadService;
 use Inertia\Inertia;
 use App\Helpers\Helper;
@@ -23,15 +25,10 @@ Route::prefix('{locale}')
     ->where(['locale' => 'en|ru|am']) // Разрешенные языки
     ->group(function () {
 
-        Route::get('/', function () {
-            return Inertia::render('Welcome', [
-                'locale' => app()->getLocale(), // Локаль теперь берется из Middleware
-                'canLogin' => Route::has('login'),
-                'canRegister' => Route::has('register'),
-                'laravelVersion' => Application::VERSION,
-                'phpVersion' => PHP_VERSION,
-            ]);
-        })->name('welcome');
+
+        Route::get('/', WelcomeController::class)->name('welcome');
+
+
 
         Route::get('dashboard', function () {
             return Inertia::render('Dashboard');
