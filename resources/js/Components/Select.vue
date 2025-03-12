@@ -11,6 +11,7 @@ const props = defineProps({
   disabled: Boolean,
   error: String, // сообщение об ошибке
   autoSelectFirst: Boolean,
+  selectedOptionValue: String,
 });
 
 
@@ -18,7 +19,7 @@ const emit = defineEmits();
 
 // Синхронизация выбранного значения с родительским компонентом
 // const selected = ref(props.value);
-const selected = ref( props.value ?? (props.autoSelectFirst && props.options?.length ? props.options[0].value : ''));
+const selected = ref( props.value ?? (props.autoSelectFirst && props.selectedOptionValue && props.options?.length ? props.options[props.selectedOptionValue].value : ''));
 
 watch(selected, (newValue) => {
   emit('update:modelValue', newValue);
