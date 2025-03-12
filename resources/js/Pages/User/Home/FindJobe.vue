@@ -38,7 +38,7 @@ watch(() => props.locale, (newLocale) => {
 
 const submit = () => {
 
-    Inertia.get(route('specialists', { locale: props.locale }), {
+    Inertia.get(route('specialists', { locale: props.locale }), {  // petq e routy poxel taskeri ej erb ayn patrast lini
         category_id: form.category_id,
         name: form.name
     });
@@ -100,7 +100,7 @@ const submit = () => {
                 </div>
                 <div class="col-span-5">
                     <div class="mt-5">
-                        <img src="assets/images/process-02.png" alt="" class="mb-5 home-img max-w-none">
+                        <img src="assets/user/images/process-02.png" alt="" class="mb-5 home-img max-w-none">
                     </div>
                 </div>
             </div>
