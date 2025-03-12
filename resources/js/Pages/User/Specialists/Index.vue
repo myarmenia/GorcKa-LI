@@ -235,7 +235,7 @@ const changePage = (link) =>{
                                             :disabled="form.processing">
                                             <i class="uil uil-filter"></i>{{useTrans('form.filter')}}
                                         </PrimaryButton>
-                                        <PrimaryButton @click="clearFilters">{{useTrans('form.cleare_filter')}}</PrimaryButton>
+                                        <PrimaryButton @click="clearFilters" class="ml-2">{{useTrans('form.cleare_filter')}}</PrimaryButton>
                                     </div>
                                     <!--end col-->
                                 </div>

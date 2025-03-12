@@ -1,61 +1,13 @@
+<script setup>
+import FindJobe from '@/Pages/User/Home/FindJobe.vue';
+</script>
 <template>
 
-                <div class="fixed z-40 flex flex-col gap-3 ltr:left-0 rtl:right-0 top-[330px]">
-                    <!-- light-dark mode button -->
-                    <a href="javascript: void(0);" id="ltr-rtl" class="z-40 px-3 py-3 font-medium text-white transition-all duration-300 ease-linear group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 text-14 hover:bg-violet-700 ltr:rounded-r rtl:rounded-l" onclick="changeMode(event)">
-                                <span class="ltr:hidden">LTR</span>
-                                <span  class="rtl:hidden">RTL</span>
-                            </a>
+                <!-- start home -->
 
-                </div>
+<FindJobe />
 
-                <div class="fixed transition-all duration-300 ease-linear top-[27.5rem] switcher" id="style-switcher">
-                    <div class="w-48 p-4 bg-white shadow-md" >
-                        <div>
-                            <h3 class="mb-2 font-semibold text-gray-900 text-16">Select your color</h3>
-                            <ul class="flex gap-3 ">
-                                <li>
-                                    <a class="h-10 w-10 bg-[#815DF2] block rounded-full" data-color="violet" href="javascript: void(0);"></a>
-                                </li>
-                                <li>
-                                    <a class="h-10 w-10 bg-[#69cdf1] block rounded-full" data-color="sky" href="javascript: void(0);"></a>
-                                </li>
-                                <li>
-                                    <a class="h-10 w-10 bg-[#dd4948] block rounded-full" data-color="red" href="javascript: void(0);"></a>
-                                </li>
-                            </ul>
-                            <ul class="flex gap-3 mt-4">
-                                <li>
-                                    <a class="h-10 w-10 bg-[#38c284] block rounded-full" data-color="green" href="javascript: void(0);"></a>
-                                </li>
-                                 <li>
-                                    <a class="h-10 w-10 bg-[#e35490] block rounded-full" data-color="pink"  href="javascript: void(0);"></a>
-                                </li>
-                                <li>
-                                    <a class="h-10 w-10 bg-[#5276f4] block rounded-full" data-color="blue" href="javascript: void(0);"></a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="mt-5">
-                            <h3 class="mb-2 font-semibold text-gray-900 text-16">Light/dark Layout</h3>
-                            <div class="flex justify-center mt-2">
-                                   <!-- light-dark mode button -->
-                                <a href="javascript: void(0);" id="mode" class="z-40 px-6 py-2 font-normal text-white transition-all duration-300 ease-linear rounded text-14 bg-zinc-800" onclick="changeMode(event)">
-                                    <i class="hidden text-xl uil uil-brightness dark:text-white dark:inline-block"></i>
-                                    <i class="inline-block text-xl uil uil-moon dark:text-zinc-800 dark:hidden"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- light-dark mode button -->
-                <a href="javascript: void(0);" onclick="toggleSwitcher()" class="fixed z-40 flex flex-col gap-3 px-4 py-3 font-normal text-white group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 top-96 text-14 ltr:rounded-r rtl:rounded-l">
-                    <i class="text-xl mdi mdi-cog mdi-spin"></i>
-                </a>
-
-        <div class="main-content">
-            <div class="page-content">
+                <!-- end home -->
                 <!-- start home -->
                   <section class="relative bg-opacity-10 py-28 dark:bg-violet-900 group-data-[theme-color=violet]:bg-violet-500/20 group-data-[theme-color=sky]:bg-sky-500/20 group-data-[theme-color=red]:bg-red-500/20 group-data-[theme-color=green]:bg-green-500/20 group-data-[theme-color=pink]:bg-pink-500/20 group-data-[theme-color=blue]:bg-blue-500/20">
                         <div class="container mx-auto">
@@ -352,7 +304,7 @@
                 <!-- end home -->
 
                 <!-- start category -->
-                    <section class="py-20 dark:bg-neutral-800">
+                    <!-- <section class="py-20 dark:bg-neutral-800">
                         <div class="container mx-auto">
                             <div class="grid grid-cols-1 gap-5">
                                 <div class="text-center">
@@ -489,7 +441,7 @@
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section> -->
                 <!-- end category -->
 
                 <!-- start job list -->
@@ -1936,7 +1888,7 @@
                 <!-- end job list -->
 
                 <!-- start process -->
-                    <section class="py-20 dark:bg-neutral-800">
+                    <!-- <section class="py-20 dark:bg-neutral-800">
                         <div class="container mx-auto">
                             <div class="nav-tabs round-pill">
                                 <div class="grid items-center grid-cols-12 gap-5">
@@ -2011,11 +1963,11 @@
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section> -->
                 <!-- end process -->
 
                 <!-- start cta -->
-                    <section class="py-20 bg-gray-50 dark:bg-neutral-700">
+                    <!-- <section class="py-20 bg-gray-50 dark:bg-neutral-700">
                         <div class="container mx-auto">
                             <div class="nav-tabs round-pill">
                                 <div class="grid items-center grid-cols-12 gap-5">
@@ -2033,7 +1985,7 @@
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section> -->
                 <!-- end cta -->
 
                 <!-- start testimonial -->
@@ -2099,7 +2051,7 @@
                 <!-- end testimonial -->
 
                 <!-- start blog -->
-                    <section class="py-20 bg-gray-50 dark:bg-neutral-700">
+                    <!-- <section class="py-20 bg-gray-50 dark:bg-neutral-700">
                         <div class="container mx-auto">
                             <div class="grid grid-cols-1 gap-5">
                                 <div class="mb-5 text-center">
@@ -2186,11 +2138,11 @@
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </section> -->
                 <!-- end blog -->
 
                 <!-- start client -->
-                    <section class="py-10 dark:bg-neutral-800">
+                    <!-- <section class="py-10 dark:bg-neutral-800">
                         <div class="container mx-auto">
                             <div class="grid grid-cols-12 gap-5">
                                <div class="col-span-12 lg:col-span-2">
@@ -2217,11 +2169,10 @@
                                </div>
                             </div>
                         </div>
-                    </section>
+                    </section> -->
                 <!-- end client -->
 
-            </div>
-        </div>
+
 
 
         <!-- start subscribe -->
