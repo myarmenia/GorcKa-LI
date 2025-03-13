@@ -28,6 +28,7 @@ class LocationSeeder extends Seeder
 
 
         ];
-        Location::insert($locations);
+
+        Location::upsert($locations, ['id']);
     }
 }
