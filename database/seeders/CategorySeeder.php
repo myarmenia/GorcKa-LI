@@ -14,27 +14,86 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $categories = [
-            ['id' => 1, 'status' => '1'],
-            ['id' => 2, 'status' => '1'],
-            ['id' => 3, 'status' => '1'],
-            ['id' => 4, 'status' => '1'],
-            ['id' => 5, 'status' => '1'],
-            ['id' => 6, 'status' => '1'],
-            ['id' => 7, 'status' => '1'],
-            ['id' => 8, 'status' => '1'],
-            ['id' => 9, 'status' => '1'],
-            ['id' => 10, 'status' => '1'],
-            ['id' => 11, 'status' => '1'],
-            ['id' => 12, 'status' => '1'],
-            ['id' => 13, 'status' => '1'],
-            ['id' => 14, 'status' => '1'],
-            ['id' => 15, 'status' => '1'],
-            ['id' => 16, 'status' => '1'],
+            [
+                'id' => 1,
+                'color' => 'green',
+                'icon' => ''
+            ],
+            [
+                'id' => 2,
+                'color' => 'blue',
+                'icon' => ''
+            ],
+            [
+                'id' => 3,
+                'color' => 'violet',
+                'icon' => ''
+            ],
+            [
+                'id' => 4,
+                'color' => 'pink',
+                'icon' => ''
+            ],
+            [
+                'id' => 5,
+                'color' => 'yellow',
+                'icon' => ''
+            ],
+            [
+                'id' => 6,
+                'color' => 'sky',
+                'icon' => ''
+            ],
+            [
+                'id' => 7,
+                'color' => 'green',
+                'icon' => ''
+            ],
+            [
+                'id' => 8,
+                'color' => 'red',
+                'icon' => ''
+            ],
+            [
+                'id' => 9,
+                'color' => 'violet',
+                'icon' => ''
+            ],
+            [
+                'id' => 10,
+                'color' => 'sky',
+                'icon' => ''
+            ],
+            [
+                'id' => 11,
+                'color' => 'blue',
+                'icon' => ''
+            ],
+            [
+                'id' => 12,
+                'color' => 'yellow',
+                'icon' => ''
+            ],
+            [
+                'id' => 13,
+                'color' => 'green',
+                'icon' => ''
+            ],
+            [
+                'id' => 14,
+                'color' => 'blue',
+                'icon' => ''
+            ],
+            [
+                'id' => 15,
+                'color' => 'sky',
+                'icon' => ''
+            ]
+
 
         ];
 
-        foreach ($categories as $item) {
-            Category::create($item);
-        }
+        Category::upsert($categories, ['id']);
+
     }
 }

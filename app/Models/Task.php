@@ -23,5 +23,11 @@ class Task extends Model
         return $this->belongsTo(User::class,'user_id');
     }
 
+    public function sub_category(): BelongsTo
+    {
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
+
+    }
+
 
 }

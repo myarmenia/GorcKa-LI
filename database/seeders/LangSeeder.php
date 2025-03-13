@@ -20,7 +20,7 @@ class LangSeeder extends Seeder
         ];
 
         foreach ($langs as $lang) {
-            Lang::create($lang);
+            Lang::updateOrCreate(['name' => $lang['name']], $lang);
         }
     }
 }
