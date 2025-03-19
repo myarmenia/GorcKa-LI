@@ -36,7 +36,7 @@ Route::prefix('{locale}')
         Route::get('categories', CategoriesController::class)->name('categories');
 
 
-    });
+});
 
 
 Route::get('/admin', function () {
