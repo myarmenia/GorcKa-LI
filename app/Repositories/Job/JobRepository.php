@@ -25,11 +25,11 @@ class JobRepository implements JobInterface
         //     'location.translation:location_id,name', // Загрузим только нужные поля из translation
         // ])->get();
         // dd($data[0]->location_translation_name);
-        
+
 
         // $data = null when get for homepage
         $data = $data ?? $this->model;
-        $data = $data->where('tasks.status', 'active');
+        $data = $data->where('tasks.status', 'active')->orderBy('id', 'desc');
         $data = $this->getSelectedData($data);
 
         // dd($data);
