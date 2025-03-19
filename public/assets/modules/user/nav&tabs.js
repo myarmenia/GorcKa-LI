@@ -1,6 +1,8 @@
-// 
+//
 // nav-tabs
-// 
+//
+
+console.log('+++ --- +++')
 document.querySelectorAll(".nav-tabs").forEach(function (elem) {
     elem.querySelectorAll('[data-tw-toggle="tab"]').forEach(function (item) {
         item.addEventListener("click", function () {
@@ -26,9 +28,9 @@ document.querySelectorAll(".nav-tabs").forEach(function (elem) {
 });
 
 
-// 
+//
 // accordion
-// 
+//
 document.querySelectorAll('[data-tw-accordion="collapse"]').forEach(function (elem) {
     elem.querySelectorAll(".accordion-item").forEach(function (item) {
         item.querySelector(".accordion-header").addEventListener("click", function (event) {

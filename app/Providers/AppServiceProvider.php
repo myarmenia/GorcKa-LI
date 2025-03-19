@@ -2,14 +2,15 @@
 
 namespace App\Providers;
 
-use App\Interfaces\Auth\RegisterInterface;
 use App\Interfaces\BaseInterface;
 use App\Interfaces\Category\CategoryInterface;
+use App\Interfaces\Job\JobInterface;
 use App\Interfaces\Specialist\SpecialistInterface;
 use App\Interfaces\Task\TaskInterface;
 use App\Mail\CustomResetPasswordToMail;
 use App\Repositories\Auth\RegisterRepository;
 use App\Repositories\Category\CategoryRepository;
+use App\Repositories\Job\JobRepository;
 use App\Repositories\Specialist\SpecialistRepository;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Vite;
@@ -40,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SpecialistInterface::class, SpecialistRepository::class);
         $this->app->bind(TaskInterface::class, TaskRepository::class);
         $this->app->bind(CategoryInterface::class, CategoryRepository::class);
-
+        $this->app->bind(JobInterface::class, JobRepository::class);
 
     }
 

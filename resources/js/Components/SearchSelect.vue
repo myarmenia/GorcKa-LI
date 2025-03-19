@@ -7,6 +7,10 @@ const props = defineProps({
     model: String,
     route: String,
     options: Array,
+    border: {
+        type: Boolean,
+        default: true, // По умолчанию границы есть
+    }
 });
 
 const search = ref('');
@@ -90,7 +94,8 @@ defineExpose({ clearSearch, addInputText });
                 @blur="handleBlur"
                 type="text"
                 :placeholder="useTrans('form.select_placeholder')"
-                class="select-input filter-job-input-box w-full py-2 pl-5 pr-10 rounded border-gray-100 bg-white focus:outline-none input:outline-none"
+                :class="border ? 'bordered ' : 'no-border '"
+                class="filter-job-input-box w-full py-2 pl-5 pr-10 rounded border-gray-100 bg-white focus:outline-none input:outline-none"
             />
 
             <!-- Стрелка -->
@@ -120,15 +125,16 @@ defineExpose({ clearSearch, addInputText });
 <style scoped>
     /* Для стрелки */
     .bi-chevron-down {
-    transition: transform 0.3s ease;
+        transition: transform 0.3s ease;
     }
 
-    input:focus + .bi-chevron-down {
-    transform: rotate(180deg); /* Стрелка поворачивается при фокусе на поле */
+    .bordered {
+        border: 1px solid rgb(204 206 214 / 0.5) !important;
     }
 
-
-    .select-input{
-        border-color: rgb(204 206 214 / 0.5) !important;
+    /* Без границы */
+    .no-border {
+        border: none !important;
     }
+
 </style>
