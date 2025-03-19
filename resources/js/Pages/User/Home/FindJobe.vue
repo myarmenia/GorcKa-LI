@@ -38,7 +38,7 @@ watch(() => props.locale, (newLocale) => {
 
 const submit = () => {
 
-    Inertia.get(route('specialists', { locale: props.locale }), {
+    Inertia.get(route('jobs', { locale: props.locale }), {  // petq e routy poxel taskeri ej erb ayn patrast lini
         category_id: form.category_id,
         name: form.name
     });
@@ -79,6 +79,7 @@ const submit = () => {
                                                     v-model="form.category_id"
                                                     route="category-subcategory-filter"
                                                     :options="categoryOptions"
+                                                    :border="false"
                                                 />
                                             </div>
                                     </div>
@@ -100,27 +101,15 @@ const submit = () => {
                 </div>
                 <div class="col-span-5">
                     <div class="mt-5">
-                        <img src="assets/images/process-02.png" alt="" class="mb-5 home-img max-w-none">
+                        <img src="assets/user/images/process-02.png" alt="" class="mb-5 home-img max-w-none">
                     </div>
                 </div>
             </div>
         </div>
-        <img src="assets/images/bg-shape.png" alt="" class="absolute block -bottom-5 dark:hidden">
-        <img src="assets/images/bg-shape-dark.png" alt="" class="absolute hidden -bottom-5 dark:block">
+        <img src="assets/user/images/bg-shape.png" alt="" class="absolute block -bottom-5 dark:hidden">
+        <img src="assets/user/images/bg-shape-dark.png" alt="" class="absolute hidden -bottom-5 dark:block">
     </section>
 
 </template>
-<style >
 
-    .select-input{
-        border: none !important;
 
-    }
-
-    .select-input::placeholder{
-        font-size: 13px;
-        color: #80808080;
-
-    }
-
-</style>

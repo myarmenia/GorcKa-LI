@@ -31,11 +31,12 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
+        $user = Auth::user();
 
-        // return redirect()->intended(route('welcome', absolute: false));
-        return redirect()->route('dashboard', ['locale' => app()->getLocale()]);
+        return $user->hasVerifiedEmail() ?
+            redirect(route('welcome', ['locale' => app()->getLocale()], absolute: false)) :
+            redirect(route('dashboard', ['locale' => app()->getLocale()], absolute: false));
     }
 
     /**

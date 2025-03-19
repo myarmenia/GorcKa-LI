@@ -3,17 +3,18 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
 import Layout from '@/Layouts/User/Layout.vue';
 import Index from '@/Layouts/User/Index.vue';
 import FindJobe from '@/Pages/User/Home/FindJobe.vue';
+import Categories from '@/Pages/User/Home/Categories.vue';
+import Jobs from '@/Pages/User/Home/Jobs.vue';
+
 
 import { Head, Link } from '@inertiajs/vue3';
 
 const props = defineProps({
   locale: String,
   categories: Array,
+  categoriesWithTaskCount: Array,
+  jobs: Array
 });
-
-
-
-
 
 
 // defineProps({
@@ -49,6 +50,11 @@ const props = defineProps({
     <Layout >
         <!-- <Index /> -->
         <FindJobe :categories="props.categories" :locale="locale"/>
+        <Categories :categories="props.categoriesWithTaskCount" :locale="locale"/>
+        <Jobs :jobs="props.jobs" />
+
     </Layout>
 
 </template>
+
+

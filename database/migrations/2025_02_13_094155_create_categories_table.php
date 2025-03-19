@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('status')->default(1);
+            $table->integer('status')->default(1);
             $table->string('color')->default('green');
+            $table->string('icon');
             $table->timestamps();
         });
     }

@@ -42,7 +42,7 @@ class HandleInertiaRequests extends Middleware
         $name = request()->route()->getName();
         $file = lang_path($lang . '/'. $name . ".json" );
         $formFile = lang_path($lang . '/form' . ".json" );
-
+        $navbarFile = lang_path($lang . '/navbar' . ".json");
 
         return [
             ...parent::share($request),
@@ -58,7 +58,8 @@ class HandleInertiaRequests extends Middleware
             // 'translations' => File::exists($file) ? File::json($file) : []
             'translations' => [
                 'form' => File::exists($formFile) ? File::json($formFile) : [],
-                'page' => File::exists($file) ? File::json($file) : []
+                'page' => File::exists($file) ? File::json($file) : [],
+                'navbar' => File::exists($navbarFile) ? File::json($navbarFile) : []
             ],
             'err' => function () use ($request) {
                 return $request->session()->get('errors')

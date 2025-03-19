@@ -25,4 +25,10 @@ class SubCategory extends Model
         return $this->hasMany(ExecutorInfo::class);
     }
 
+
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class);
+    }
+
 }

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('location_id')->constrained('locations')->cascadeOnDelete();
             $table->string('lang');
             $table->string('name');
-            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

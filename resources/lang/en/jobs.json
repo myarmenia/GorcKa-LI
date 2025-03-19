@@ -1,0 +1,13 @@
+{
+    "title": "Jobs",
+    "categories": "Categories",
+    "job_type": "Job type",
+    "remote": "Remote",
+
+    "jobs": {
+        "remote": "Remote",
+        "execution_time": "Execution time: ",
+        "apply_now": "Apply Now",
+        "no_result": "No result"
+    }
+}

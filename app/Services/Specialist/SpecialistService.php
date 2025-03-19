@@ -35,7 +35,7 @@ class SpecialistService
         });
 
 
-        $filter= $this->executorInfo->filter($data);
+        $filter = $this->executorInfo->filter($data);
 
         return $this->exequtorResultFilter($filter);
     }

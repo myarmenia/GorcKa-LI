@@ -7,6 +7,8 @@ use App\Http\Controllers\DeleteItemController;
 use App\Http\Controllers\CategoryWithSubCategoryFilterController;
 use App\Http\Controllers\LocationFilterController;
 use App\Http\Controllers\SimpleFilterController;
+use App\Http\Controllers\User\Categories\CategoriesController;
+use App\Http\Controllers\User\Jobs\JobsController;
 use App\Http\Controllers\WelcomeController;
 use App\Services\FileUploadService;
 use Inertia\Inertia;
@@ -25,22 +27,18 @@ Route::prefix('{locale}')
     ->where(['locale' => 'en|ru|am']) // Разрешенные языки
     ->group(function () {
 
-
         Route::get('/', WelcomeController::class)->name('welcome');
-
-
 
         Route::get('dashboard', function () {
             return Inertia::render('Dashboard');
         })->middleware(['auth', 'verified_with_locale'])->name('dashboard');
 
-
-
         Route::get('specialists', [SpecialistController::class, 'index'])->name('specialists');
-        // Route::get('specialists', [SpecialistController::class, 'filter'])->name('user.filter_specialists');
+        Route::get('categories', CategoriesController::class)->name('categories');
+        Route::get('jobs', JobsController::class)->name('jobs');
 
 
-    });
+});
 
 
 Route::get('/admin', function () {

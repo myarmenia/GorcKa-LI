@@ -16,7 +16,6 @@ return new class extends Migration
             $table->foreignId('sub_category_id')->constrained('sub_categories')->cascadeOnDelete();
             $table->string('lang');
             $table->string('name');
-            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }

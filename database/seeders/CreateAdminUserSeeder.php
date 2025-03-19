@@ -15,7 +15,7 @@ class CreateAdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::create([
+        $user = User::updateOrCreate(['email' => 'info@webex.am'], [
             'name' => 'Admin',
             'email' => 'info@webex.am',
             'password' => bcrypt('123456')

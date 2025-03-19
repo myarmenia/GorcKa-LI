@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\SubCategory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,35 +14,49 @@ class SubCategoriesSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('sub_categories')->insert([
+        $data = [
             [
                 'id' => 1,
                 'category_id' => 1,
-                'status' => 1,
-                'created_at' => null,
-                'updated_at' => null
             ],
             [
                 'id' => 2,
                 'category_id' => 1,
-                'status' => 1,
-                'created_at' => null,
-                'updated_at' => null
             ],
             [
                 'id' => 3,
                 'category_id' => 2,
-                'status' => 1,
-                'created_at' => null,
-                'updated_at' => null
             ],
             [
                 'id' => 4,
                 'category_id' => 2,
-                'status' => 1,
-                'created_at' => null,
-                'updated_at' => null
+            ],
+            [
+                'id' => 5,
+                'category_id' => 2,
+            ],
+            [
+                'id' => 6,
+                'category_id' => 2,
+            ],
+            [
+                'id' => 7,
+                'category_id' => 3,
+            ],
+            [
+                'id' => 8,
+                'category_id' => 4,
+            ],
+            [
+                'id' => 9,
+                'category_id' => 4,
+            ],
+            [
+                'id' => 10,
+                'category_id' => 5,
             ]
-        ]);
+        ];
+
+        SubCategory::upsert($data, ['id']);
     }
 }
