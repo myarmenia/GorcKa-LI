@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryWithSubCategoryFilterController;
 use App\Http\Controllers\LocationFilterController;
 use App\Http\Controllers\SimpleFilterController;
 use App\Http\Controllers\User\Categories\CategoriesController;
+use App\Http\Controllers\User\Jobs\JobsController;
 use App\Http\Controllers\WelcomeController;
 use App\Services\FileUploadService;
 use Inertia\Inertia;
@@ -34,6 +35,7 @@ Route::prefix('{locale}')
 
         Route::get('specialists', [SpecialistController::class, 'index'])->name('specialists');
         Route::get('categories', CategoriesController::class)->name('categories');
+        Route::get('jobs', JobsController::class)->name('jobs');
 
 
     });

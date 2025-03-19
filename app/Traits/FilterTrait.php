@@ -22,6 +22,7 @@ trait FilterTrait {
         $filterDateRangeFields = $this->filterDateRangeFields;
         $boolFilterFields = $this->boolFilterFields;
         $likeFilterFields = $this->likeFilterFields;
+        $anyLikeFilterFields = $this->anyLikeFilterFields;
         $translationFilterFields = $this->translationFilterFields;
 
 
@@ -34,6 +35,16 @@ trait FilterTrait {
 
             if(isset($likeFilterFields) && in_array($field, $likeFilterFields)) {
                 $builder->where($tableName. '.' . $field, 'LIKE', "%$value%");
+            }
+
+            if (isset($anyLikeFilterFields) && in_array($field, $anyLikeFilterFields)) {
+                $builder->where(function ($query) use ($tableName, $filters, $anyLikeFilterFields) {
+                    foreach ($anyLikeFilterFields as $field) {
+                        if (isset($filters[$field]) && $filters[$field] !== null) {
+                            $query->orWhere($tableName . '.' . $field, 'LIKE', '%' . $filters[$field] . '%');
+                        }
+                    }
+                });
             }
 
             if ($field == "from_created_at" && $value != null) {
@@ -75,14 +86,15 @@ trait FilterTrait {
             }
 
 
-            // dd($field, $relationFilter);
-            if (isset ($relationFilter) && $this->getKeyFromValue($field, $relationFilter)) {
+            // dump($field, $relationFilter);
+            if (!empty($relationFilter)) {
 
                 $relationModel  = $this->getKeyFromValue($field, $relationFilter);
 
-                    $builder->whereHas($relationModel, function ($query) use ($filters) {
-                        $query->filter($filters);
-                    });
+                if ($relationModel !== false) {
+
+                    $builder->whereHas($relationModel, fn($query) => $query->filter($filters));
+                }
 
             }
 
@@ -92,7 +104,7 @@ trait FilterTrait {
                     $builder->whereIn($field, $value);
                 } else {
 
-                    $builder->where($field, $value);
+                    $builder->where("$tableName.$field", $value);    // $tableName.$field  nra hamar e, vor join-nerov sharunakutyan depqum xndir e talsi qani-vor location_id ka mi qni tablum ev petq e nshel, vor tabli masin e xosqy
                 }
             }
 
@@ -105,11 +117,13 @@ trait FilterTrait {
 
     public function getKeyFromValue($needle, $haystack)
     {
-        $collection = new Collection($haystack);
+        // $collection = new Collection($haystack);
 
-        return $collection->search(function ($values) use ($needle) {
-            return in_array($needle, $values);
-        });
+        // return $collection->search(function ($values) use ($needle) {
+        //     return in_array($needle, $values);
+        // });
+
+        return collect($haystack)->search(fn($values) => in_array($needle, $values));
     }
 
 

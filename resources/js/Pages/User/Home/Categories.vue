@@ -12,7 +12,7 @@ const categoryItems = computed(() => {
     return props.categories.map(category => ({
         name: category.translation?.name,
         icon: category.icon
-            ? `assets/user/icons/categories/${category.icon}.png`
+            ? `assets/user/icons/categories/${category.icon}.svg`
             : `assets/user/icons/categories/default.png`,
         tasks_count: category.tasks_count
     }));
@@ -35,7 +35,7 @@ const categoryItems = computed(() => {
                     <div class="mt-4">
                         <div class="px-6 py-5 transition-all duration-500 ease-in-out cursor-pointer lg:py-10 hover:-translate-y-2">
                             <div class="flex justify-center items-center job-categorie h-16 w-16 group-data-[theme-color=green]:bg-green-500/20 rounded-lg text-center leading-[4.4] mx-auto dark:bg-violet-900">
-                                <img :src="category.icon" class="w-1/2" />
+                                <img :src="category.icon" class="" />
                             </div>
                             <div class="mt-4 text-center">
                                 <a href="job-categories.html" class="text-gray-900">

@@ -38,7 +38,7 @@ watch(() => props.locale, (newLocale) => {
 
 const submit = () => {
 
-    Inertia.get(route('specialists', { locale: props.locale }), {  // petq e routy poxel taskeri ej erb ayn patrast lini
+    Inertia.get(route('jobs', { locale: props.locale }), {  // petq e routy poxel taskeri ej erb ayn patrast lini
         category_id: form.category_id,
         name: form.name
     });
@@ -79,6 +79,7 @@ const submit = () => {
                                                     v-model="form.category_id"
                                                     route="category-subcategory-filter"
                                                     :options="categoryOptions"
+                                                    :border="false"
                                                 />
                                             </div>
                                     </div>
@@ -110,17 +111,5 @@ const submit = () => {
     </section>
 
 </template>
-<style >
 
-    .select-input{
-        border: none !important;
 
-    }
-
-    .select-input::placeholder{
-        font-size: 13px;
-        color: #80808080;
-
-    }
-
-</style>

@@ -4,6 +4,17 @@
         "h3": "Browser Jobs Categories",
         "p": "Post a job to tell us about your project. We'll quickly match you with the right freelancers.",
         "link": "Browse All Categories"
+    },
+
+    "jobs": {
+        "h3": "New &amp; Random Jobs",
+        "p": "Post a job to tell us about your project. We'll quickly match you with the right <br> freelancers.",
+        "all": "All",
+        "remote": "Remote",
+        "execution_time": "Execution time: ",
+        "apply_now": "Apply Now",
+        "no_result": "No result",
+        "view_more": "View More"
     }
 
 }
