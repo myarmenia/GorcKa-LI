@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\EnsureEmailIsVerifiedWithLocale;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\MyGuest;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -24,7 +25,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
-            'verified_with_locale' => EnsureEmailIsVerifiedWithLocale::class
+            'verified_with_locale' => EnsureEmailIsVerifiedWithLocale::class,
+            'my_guest' => MyGuest::class
             // 'setLocale' => \App\Http\Middleware\SetLocale::class,
 
         ]);
