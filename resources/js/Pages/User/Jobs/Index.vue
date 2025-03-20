@@ -5,7 +5,7 @@ import SearchSelect from '@/Components/SearchSelect.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { computed, ref, onMounted, watch } from "vue";
 import { Head, useForm } from '@inertiajs/vue3';
-import { usePage } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { useTrans } from '/resources/js/trans';
 import initNavAndTabs from "@/modules/user/nav&tabs.js";
 
@@ -349,7 +349,7 @@ const changePage = (link) =>{
                         </div>
                     </div>
 
-                    
+
                     <div class="col-span-12 space-y-5 lg:col-span-3">
                         <div data-tw-accordion="collapse">
                             <div class="text-gray-700 accordion-item dark:text-gray-300">
