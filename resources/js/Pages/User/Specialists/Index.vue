@@ -299,7 +299,7 @@ const changePage = (link) =>{
 
 
                     <!-- pagination -->
-                    <div class="grid grid-cols-12" v-if="pagination.length > 3">
+                    <div class="grid grid-cols-12" v-if="paginationInfo.total > 3">
                         <div class="col-span-12">
                             <ul class="flex justify-center gap-2 mt-8">
                                 <li v-for="(link,index) in pagination"

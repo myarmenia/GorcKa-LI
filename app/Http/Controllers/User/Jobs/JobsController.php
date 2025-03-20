@@ -18,7 +18,7 @@ class JobsController extends Controller
     }
     public function __invoke(Request $request)
     {
-        $perPage = 1;
+        $perPage = 3;
 
         $locations = Helper::getLocations();
         $categories = Helper::getCategories();

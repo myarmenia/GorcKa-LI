@@ -19,7 +19,7 @@ const props = defineProps({
 const jobsRef = ref(props.jobs.data);
 const pagination = ref(props.jobs.links);
 const paginationInfo = ref(props.jobs);
-
+// console.log(props.jobs, '/////pppp')
 let activePage = ref(1)
 
 const searchSelectLocation = ref('');
@@ -93,7 +93,7 @@ watch(remoteValue, (newValue) => {
     if (newValue === null) {
         form.task_type = ''; // Очищаем task_type
     } else {
-        form.task_type = newValue ? 1 : 0; // Преобразуем true/false в 1/0
+        form.task_type = newValue ? 1 : ''; // Преобразуем true/false в 1/0
     }
 });
 
@@ -334,7 +334,7 @@ const changePage = (link) =>{
 
 
                          <!-- pagination -->
-                        <div class="grid grid-cols-12" v-if="pagination.length > 3">
+                        <div class="grid grid-cols-12" v-if="paginationInfo.total > 3">
                             <div class="col-span-12">
                                 <ul class="flex justify-center gap-2 mt-8">
                                     <li v-for="(link,index) in pagination"
