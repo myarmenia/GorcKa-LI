@@ -1,0 +1,22 @@
+{
+    "title": "Job",
+    "jobs_title": "Jobs",
+    "job_type": "Job type",
+    "remote": "Remote",
+    "job_overview": "Job Overview",
+    "view_profile": "View Profile",
+    "share_job": "Share this job",
+    "related_jobs": "Related Jobs",
+    "view_more": "View More",
+    "job_description": "Job Description",
+    "jobs": {
+        "title": "Title",
+        "remote": "Remote",
+        "execution_time": "Execution time",
+        "apply_now": "Apply Now",
+        "no_result": "No result",
+        "location": "Location",
+        "offered_salary": "Offered salary",
+        "date_posted": "Date posted"
+    }
+}

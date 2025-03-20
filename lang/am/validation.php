@@ -183,9 +183,9 @@ return [
    */
 
   'custom' => [
-    // 'attribute-name' => [
-    //     'rule-name' => 'custom-message',
-    // ],
+        'agree_terms' => [
+            'accepted' => 'Ընդունեք Պայմանները և դրույթները',
+        ],
 
   ],
 
@@ -233,7 +233,7 @@ return [
     'price_max'=> "Առավելագույն գին",
     'start_date' => "Մեկնարկի ամսաթիվ",
     'end_date' => "Ավարտի ամսաթիվ",
-    
+    'agree_terms' => 'Պայմանները և դրույթները'
 
 
   ]

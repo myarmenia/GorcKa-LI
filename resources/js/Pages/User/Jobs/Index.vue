@@ -5,7 +5,7 @@ import SearchSelect from '@/Components/SearchSelect.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { computed, ref, onMounted, watch } from "vue";
 import { Head, useForm } from '@inertiajs/vue3';
-import { usePage } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import { useTrans } from '/resources/js/trans';
 import initNavAndTabs from "@/modules/user/nav&tabs.js";
 
@@ -24,16 +24,22 @@ let activePage = ref(1)
 
 const searchSelectLocation = ref('');
 const searchSelectCategory = ref('');
+const remoteValue = ref(0);
 
 // Используем query параметры из текущего запроса
-const query = new URLSearchParams(window.location.search);
+const queryString = window.location.search;
+const urlParams = Object.fromEntries(new URLSearchParams(queryString));
+
+const categoryIds = Object.keys(urlParams)
+    .filter(key => key.startsWith('category_ids[')) // Ищем параметры вида category_ids[0], category_ids[1]...
+    .map(key => urlParams[key]);
 
 const form = useForm({
-    category_id: query.get('category_id') || '',
-    location_id: query.get('location_id') || '',
-    name: query.get('name') || '',
-    task_type: query.get('task_type') || '',
-    category_ids: query.get('category_ids') || []
+    category_id: urlParams.category_id || '',
+    location_id: urlParams.location_id || '',
+    name: urlParams.name || '',
+    task_type: urlParams.task_type || '',
+    category_ids: categoryIds
 });
 
 // Перерасчитываем options для locations только на основе начальных данных
@@ -53,7 +59,7 @@ const categoryOptions = computed(() => {
 });
 
 onMounted(() => {
-
+    remoteValue.value = form.task_type
     initNavAndTabs();
     updateSelectedFilters()
 
@@ -82,11 +88,8 @@ function updateSelectedFilters() {
     }
 }
 
-const remoteValue = ref(0);
 watch(remoteValue, (newValue) => {
 
-//    remoteValue.value = newValue;  // Преобразуем true/false в 1/0
-//    form.task_type = newValue ? 1 : 0             // task_type = remote
     if (newValue === null) {
         form.task_type = ''; // Очищаем task_type
     } else {
@@ -221,7 +224,7 @@ const changePage = (link) =>{
                                     <div class="col-span-12 xl:col-span-3">
                                         <div class="relative filler-job-form">
                                             <i class="uil uil-briefcase-alt"></i>
-                                            <input type="search" v-model="form.name" class="w-full filter-job-input-box dark:text-gray-100" id="exampleFormControlInput1" :placeholder="useTrans('form.name_surname')">
+                                            <input type="search" v-model="form.name" class="w-full filter-job-input-box dark:text-gray-100" id="exampleFormControlInput1" :placeholder="useTrans('page.form_name')">
                                         </div>
                                     </div>
                                     <!--end col-->
@@ -349,7 +352,7 @@ const changePage = (link) =>{
                         </div>
                     </div>
 
-                    
+
                     <div class="col-span-12 space-y-5 lg:col-span-3">
                         <div data-tw-accordion="collapse">
                             <div class="text-gray-700 accordion-item dark:text-gray-300">
@@ -362,7 +365,7 @@ const changePage = (link) =>{
                                 <div class="block accordion-body">
                                     <div class="p-5">
                                         <div class="mt-2">
-                                            <input  v-model="remoteValue"
+                                            <input  v-model="remoteValue" :checked="remoteValue == 1"
                                             class="rounded cursor-pointer group-data-[theme-color=green]:checked:bg-green-500 focus:ring-0 focus:ring-offset-0 dark:bg-neutral-600 dark:checked:bg-violet-500/20" type="checkbox" id="flexCheckChecked1">
                                             <label class="text-gray-500 cursor-pointer ltr:ml-2 rtl:mr-2 dark:text-gray-300">{{useTrans('page.remote')}}</label>
                                         </div>
@@ -382,7 +385,10 @@ const changePage = (link) =>{
                                 <div class="block accordion-body">
                                     <div class="p-5">
                                         <div v-for="(category, index) in categoryOptions" class="mt-2">
-                                            <input v-model="form.category_ids"  :value="category.value" class="rounded cursor-pointer group-data-[theme-color=green]:checked:bg-green-500 focus:ring-0 focus:ring-offset-0 dark:bg-neutral-600 dark:checked:bg-violet-500/20" type="checkbox" id="flexCheckChecked1">
+                                            <input
+                                                v-model="form.category_ids"
+                                                :value="category.value"
+                                                class="rounded cursor-pointer group-data-[theme-color=green]:checked:bg-green-500 focus:ring-0 focus:ring-offset-0 dark:bg-neutral-600 dark:checked:bg-violet-500/20" type="checkbox" id="flexCheckChecked1">
                                             <label class="text-gray-500 cursor-pointer ltr:ml-2 rtl:mr-2 dark:text-gray-300">{{ category.text }}</label>
                                         </div>
                                     </div>

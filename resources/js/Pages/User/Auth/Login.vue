@@ -69,7 +69,7 @@ const submit = () => {
                                             <div class="flex flex-col justify-center h-full p-12">
                                                 <div class="text-center">
                                                     <h5 class="text-[18.5px] text-white">{{useTrans('page.title_h5')}}</h5>
-                                                    <p class="mt-3 text-white/80">{{useTrans('page.title_p')}}</p>
+                                                    <!-- <p class="mt-3 text-white/80">{{useTrans('page.title_p')}}</p> -->
                                                 </div>
                                                  <div class="px-3 py-5 mt-2 mb-5 text-center text-yellow-800 rounded-md bg-yellow-50" role="alert"  v-if="status">
                                                     <p >{{status}}</p>

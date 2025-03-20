@@ -3,7 +3,7 @@
     "categories": "Categories",
     "job_type": "Job type",
     "remote": "Remote",
-
+    "form_name": "Name, description",
     "jobs": {
         "remote": "Remote",
         "execution_time": "Execution time: ",

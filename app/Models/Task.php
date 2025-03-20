@@ -12,7 +12,7 @@ class Task extends Model
 {
     use FilterTrait;
     protected $guarded = [];
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['updated_at'];
 
     protected $defaultFields = ['sub_category_id', 'location_id', 'status'];
     protected $anyLikeFilterFields = ['title', 'description'];  // or title or description

@@ -13,14 +13,26 @@ class JobService
     {
     }
 
+    public function getJob($id){
+        return $this->jobRepository->getActiveJob($id);
+
+    }
+
     public function activeJobs(){
         return $this->jobRepository->getActiveJobs();
+    }
+
+    public function relatedJobsExcludingThisId($id, $sub_category_id){
+
+        $data = $this->jobRepository->relatedJobsExcludingThisId($id, $sub_category_id);
+
+        return $data;
     }
 
     public function filterJobs($data)
     {
 
-        $data['sub_category_id'] = null;
+        $data['sub_category_id'] = !empty($data['sub_category_id']) ? $data['sub_category_id'] : null;
 
         if (!empty($data['category_id'])) {
             $data['sub_category_id'] = SubCategory::where('category_id', $data['category_id'])
