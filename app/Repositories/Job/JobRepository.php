@@ -2,19 +2,42 @@
 
 namespace App\Repositories\Job;
 
-use App\Interfaces\Job\JobInterface;
-use App\Models\Task;
-use Carbon\Carbon;
 use DB;
+use Carbon\Carbon;
+use App\Models\Task;
+use App\Interfaces\Job\JobInterface;
+use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
 
-class JobRepository implements JobInterface
+class JobRepository extends BaseRepository implements JobInterface
 {
+
+    // public function __construct(Task $model)
+    // {
+    //     parent::__construct($model);
+    // }
+
     protected Model $model;
 
     public function __construct(Task $model)
     {
         $this->model = $model;
+    }
+
+    public function getActiveJob($id)
+    {
+        $task = $this->model->with([
+            'user:id,name,email,phone',
+            'sub_category.category:id,icon',
+            'location.translation:location_id,name', // Загрузим только нужные поля из translation
+        ])->findOrFail($id);
+
+
+        if ($task && $task->status == 'active') {
+            return $task;
+        }
+
+        return null;
     }
 
 
@@ -37,6 +60,15 @@ class JobRepository implements JobInterface
         return $data;
 
     }
+
+    public function relatedJobsExcludingThisId($id, $sub_category_id){
+
+        $data = $this->model->where('sub_category_id', $sub_category_id)->where('tasks.id', '!=', $id);
+        $data = $this->getSelectedData($data);
+
+        return $data;
+    }
+
 
     private function getSelectedData($data){
 

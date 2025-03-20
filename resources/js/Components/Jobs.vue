@@ -1,8 +1,9 @@
 <script setup>
 import { useTrans } from '/resources/js/trans';
+import { Link } from '@inertiajs/vue3';
 
 const props = defineProps({
-  jobs: Array,
+    jobs: Array,
 });
 
 
@@ -73,7 +74,7 @@ const props = defineProps({
 
                     <div class="col-span-12 lg:col-span-5">
                         <div class="text-start lg:text-end dark:text-gray-50">
-                            <a href="#applyNow" data-bs-toggle="modal">{{useTrans('page.jobs.apply_now')}} <i class="uil uil-chevron-double-right"></i></a>
+                            <Link :href="route('single_job', { locale: $page.props.locale, id: job.id })">{{useTrans('page.jobs.apply_now')}} <i class="mdi mdi-chevron-double-right"></i></Link>
                         </div>
                     </div>
                     <!--end col-->
