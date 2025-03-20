@@ -43,16 +43,19 @@ class HandleInertiaRequests extends Middleware
         $file = lang_path($lang . '/'. $name . ".json" );
         $formFile = lang_path($lang . '/form' . ".json" );
         $navbarFile = lang_path($lang . '/navbar' . ".json");
+        $user = Auth::user();
 
         return [
             ...parent::share($request),
             'auth' => [
                 // 'user' => $request->user(),
-                'user' => Auth::user() ? [
-                    'id' => Auth::user()->id,
-                    'name' => Auth::user()->name,
-                    'email' => Auth::user()->email,
-                    'roles' => Auth::user()->roles
+                'user' => $user ? [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'roles' => $user->roles,
+                    'avatar' => $user->avatar,
+                    'verified' => $user->email_verified_at
                 ] : null,
             ],
             // 'translations' => File::exists($file) ? File::json($file) : []

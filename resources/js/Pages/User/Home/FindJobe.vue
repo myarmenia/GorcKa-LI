@@ -99,7 +99,7 @@ const submit = () => {
                 </div>
                 <div class="col-span-5">
                     <div class="mt-5">
-                        <img src="assets/user/images/process-02.png" alt="" class="mb-5 home-img max-w-none">
+                        <img src="assets/user/images/process-02.png" alt="" class="mb-5 home-img 2xl:max-w-none hidden lg:block">
                     </div>
                 </div>
             </div>
