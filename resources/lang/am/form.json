@@ -1,7 +1,7 @@
 {
 
     "create": "Ստեղծել",
-    "name": "Անուն",
+    "name": "Անուն ազգանուն",
     "email": "Էլ․ փոստ",
     "phone": "Հեռախոս",
     "location": "Մարզ",
@@ -10,7 +10,7 @@
     "sign_in": "Մուտք",
     "register": "Գրանցվել",
 
-    "name_placeholder": "Մուտքագրեք ձեր անունը",
+    "name_placeholder": "Մուտքագրեք ձեր անունը և ազգանունը",
     "email_placeholder": "Մուտքագրեք ձեր էլ․ փոստը",
     "phone_placeholder": "Մուտքագրեք ձեր հեռախոսահամարը",
     "password_placeholder": "Մուտքագրեք ձեր գաղտնաբառը",

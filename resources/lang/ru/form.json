@@ -1,7 +1,7 @@
 {
 
     "create": "Создать",
-    "name": "Имя",
+    "name": "Имя Фамилия",
     "email": "Эл. почта",
     "phone": "Телефон",
     "location": "Область",
@@ -10,7 +10,7 @@
     "sign_in": "Войти",
     "register": "Регистрация",
 
-    "name_placeholder": "Введите ваше имя",
+    "name_placeholder": "Введите ваше имя и фамилию",
     "email_placeholder": "Введите свою эл․ почту",
     "phone_placeholder": "Введите номер телефона",
     "location_placeholder": "Location",

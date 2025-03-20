@@ -1,7 +1,7 @@
 {
 
     "create": "Create",
-    "name": "Name",
+    "name": "Name Surname",
     "email": "Email",
     "phone": "Phone",
     "location": "Region",
@@ -10,7 +10,7 @@
     "sign_in": "Sign In",
     "register": "Register",
 
-    "name_placeholder": "Enter your name",
+    "name_placeholder": "Enter your name and surname",
     "email_placeholder": "Enter your email",
     "phone_placeholder": "Enter your phone number",
     "password_placeholder": "Enter your password",

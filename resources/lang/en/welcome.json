@@ -1,14 +1,24 @@
 {
     "title": "Home",
+    "find_job": {
+        "h1": "Find your job with our help. ",
+        "h1_1": "Find your job with",
+        "h1_2": "our",
+        "h1_3": "help",
+        "p": "Search for a job that suits you or post information for the jobs and positions you need to find an employee.",
+        "name": "Name",
+        "find_job": "Find Job"
+    },
+
     "categories": {
-        "h3": "Browser Jobs Categories",
-        "p": "Post a job to tell us about your project. We'll quickly match you with the right freelancers.",
+        "h3": "Job and Task Categories",
+        "p": "Search for your job by relevant categories.",
         "link": "Browse All Categories"
     },
 
     "jobs": {
-        "h3": "New &amp; Random Jobs",
-        "p": "Post a job to tell us about your project. We'll quickly match you with the right <br> freelancers.",
+        "h3": "Newly Posted Jobs",
+        "p": "See the latest jobs in all categories.",
         "all": "All",
         "remote": "Remote",
         "execution_time": "Execution time: ",

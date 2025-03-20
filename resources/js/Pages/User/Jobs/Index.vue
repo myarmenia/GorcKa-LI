@@ -224,7 +224,7 @@ const changePage = (link) =>{
                                     <div class="col-span-12 xl:col-span-3">
                                         <div class="relative filler-job-form">
                                             <i class="uil uil-briefcase-alt"></i>
-                                            <input type="search" v-model="form.name" class="w-full filter-job-input-box dark:text-gray-100" id="exampleFormControlInput1" :placeholder="useTrans('form.name_surname')">
+                                            <input type="search" v-model="form.name" class="w-full filter-job-input-box dark:text-gray-100" id="exampleFormControlInput1" :placeholder="useTrans('page.form_name')">
                                         </div>
                                     </div>
                                     <!--end col-->
