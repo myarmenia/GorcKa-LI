@@ -19,7 +19,7 @@ class SpecialistController extends Controller
 
     public function index(Request $request){
         // $page = request()->page ?? 1;
-        $perPage = 1;
+        $perPage = 3;
 
         $locations = Helper::getLocations();
         $categories = Helper::getCategories();
