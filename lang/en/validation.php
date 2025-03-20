@@ -142,8 +142,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'agree_terms' => [
+            'accepted' => 'Accept the Terms and Conditions',
         ],
     ],
 
@@ -168,7 +168,7 @@ return [
       'price_max'=> "max price",
       'start_date'=> "start date",
       'end_date' => "end date",
-      
+
     ],
 
 ];

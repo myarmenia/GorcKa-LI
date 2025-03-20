@@ -132,8 +132,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'agree_terms' => [
+            'accepted' => 'Примите Условия и положения',
         ],
 
 
@@ -160,8 +160,6 @@ return [
         'price_max' => "Максимальная цена",
         'start_date'=> "дата начала",
         'end_date' => "дата окончания",
-        
-
 
     ]
 ];
