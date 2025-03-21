@@ -25,6 +25,16 @@
         "apply_now": "Apply Now",
         "no_result": "No result",
         "view_more": "View More"
+    },
+
+    "site_guide": {
+        "h3": "Site Guide",
+        "h5_1": "Register on the site",
+        "p_1": "To register, fill in the appropriate fields and log in to the system to use all the features of the site.",
+        "h5_2": "Post a job or task",
+        "p_2": "As an employer, create a page on the site about a job or task to find interested people.",
+        "h5_3": "Search for a job or task that interests you",
+        "p_3": "Search for a job or task by categories and subcategories to find the job you want."
     }
 
 }
