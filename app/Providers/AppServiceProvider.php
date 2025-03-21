@@ -42,6 +42,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TaskInterface::class, TaskRepository::class);
         $this->app->bind(CategoryInterface::class, CategoryRepository::class);
         $this->app->bind(JobInterface::class, JobRepository::class);
+        $this->app->bind(RoomInterfac::class, RoomRepositry::class);
+        $this->app->bind(MessageInterface::class, MessageRepository::class);
+        $this->app->bind(UserInterface::class, UserRepository::class);
 
     }
 
