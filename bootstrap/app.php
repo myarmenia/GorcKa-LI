@@ -30,6 +30,12 @@ return Application::configure(basePath: dirname(__DIR__))
             // 'setLocale' => \App\Http\Middleware\SetLocale::class,
 
         ]);
+        $middleware->validateCsrfTokens(except: [
+            // 'https://citizen.trigger.ltd/*',
+            'http://127.0.0.1:8000/*',
+            'http://localhost:8000/*',
+
+        ]);
 
     })
     ->withExceptions(function (Exceptions $exceptions) {
