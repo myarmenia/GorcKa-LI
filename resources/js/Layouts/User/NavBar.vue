@@ -6,11 +6,24 @@ import { useTrans } from '/resources/js/trans';
 import { router, Link } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 
+import { initFirebase, requestPermission } from '../../firebase';
+
+const { auth, firebaseConfig, firebaseVapIdKey } = usePage().props;
 const locale_lng = usePage().props.locale; // Получаем локаль
+
+const user = ref(auth?.user || null);
 
 onMounted(() => {
     initNavbar(); // Запускаем `initNavbar` после монтирования компонента
+    initFirebase(firebaseConfig);
+
+    // Если пользователь авторизован и верифицирован, запрашиваем разрешение на уведомления
+    if (user.value && user.value.verified) {
+        requestPermission(firebaseVapIdKey);
+    }
 });
+
+
 const changeLanguage = (lang) => {
 
 
@@ -89,6 +102,7 @@ const changeLanguage = (lang) => {
                             <div class="relative">
                                 <button type="button" class="btn border-0 h-[70px] dropdown-toggle px-4 text-gray-500 dark:text-gray-300" aria-expanded="false" data-dropdown-toggle="notification">
                                     <i class="text-2xl uil uil-usd-circle group-data-[theme-color=green]:text-green-500"></i>
+                                    <img src="/assets/user/icons/gicon.png" alt="" >
                                 </button>
                                     <span class="absolute text-xs px-1.5 bg-green-500 text-white font-medium rounded-full left-6 top-3 ring-2 ring-white dark:ring-neutral-800">856</span>
                             </div>

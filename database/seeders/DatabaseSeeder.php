@@ -31,7 +31,9 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             CategoryTranslationsSeeder::class,
             SubCategoriesSeeder::class,
-            SubCategoryTranslationsSeeder::class
+            SubCategoryTranslationsSeeder::class,
+            NotificationCategorySeeder::class,
+            NotificationCatTranslationSeeder::class
 
         ]);
     }
