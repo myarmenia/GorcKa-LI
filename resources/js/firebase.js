@@ -1,54 +1,71 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBuSSfp8WVJIIOwbRREBtGxYACuC_PB9RY",
-    authDomain: "gorc-ka.firebaseapp.com",
-    projectId: "gorc-ka",
-    storageBucket: "gorc-ka.firebasestorage.app",
-    messagingSenderId: "454946792892",
-    appId: "1:454946792892:web:39fcbb115ee6c477bff7b9"
+let messaging = null; // Глобальная переменная для объекта messaging
+
+/**
+ * Инициализирует Firebase с переданной конфигурацией.
+ * Регистрирует Service Worker и настраивает обработчик входящих уведомлений.
+ * @param {Object} firebaseConfig - Объект клиентской конфигурации Firebase.
+ */
+
+export const initFirebase = (firebaseConfig) => {
+    // Инициализируем Firebase с переданной конфигурацией
+    const firebaseApp = initializeApp(firebaseConfig);
+    messaging = getMessaging(firebaseApp);
+
+    // Регистрация Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/firebase-messaging-sw.js')
+            .then((registration) => {
+                console.log('Service Worker зарегистрирован:', registration);
+            })
+            .catch((err) => {
+                console.log('Ошибка регистрации Service Worker:', err);
+            });
+    }
+
+    // Регистрация обработчика входящих уведомлений
+    onMessage(messaging, (payload) => {
+        console.log("Получено уведомление:", payload);
+        new Notification(payload.notification.title, {
+            body: payload.notification.body,
+            // При необходимости можно добавить icon: payload.notification.icon
+        });
+    });
 };
 
-
-
-// Инициализируем Firebase
-const firebaseApp = initializeApp(firebaseConfig);
-const messaging = getMessaging(firebaseApp);
-
-// Запрос на разрешение уведомлений
-export const requestPermission = async () => {
+/**
+ * Запрашивает разрешение на уведомления и, при успехе, получает FCM-токен.
+ * @param {string} firebaseVapIdKey - vapidKey, передаваемый из props.
+ */
+export const requestPermission = async (firebaseVapIdKey) => {
     try {
         const permission = await Notification.requestPermission();
         if (permission === "granted") {
-            const token = await getToken(messaging, { vapidKey: "BCXm3mH-6UsKToaIcsF8-cj16iyKGU5OWb999twsped9xOABiwlB-tIteRMx9wp4kqzprdytZFxoUrhNBhkiM5s" });
+            const token = await getToken(messaging, { vapidKey: firebaseVapIdKey });
             console.log("FCM Token:", token);
-            sendTokenToServer(token);
+            await sendTokenToServer(token);
+        } else {
+            console.log("Разрешение не предоставлено");
         }
     } catch (error) {
         console.error("Ошибка получения токена", error);
     }
 };
 
-// Отправка токена на сервер Laravel
+/**
+ * Отправляет полученный FCM-токен на сервер Laravel.
+ * @param {string} token - FCM-токен.
+ */
 const sendTokenToServer = async (token) => {
     const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
-
     await fetch("/save-fcm-token", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "X-CSRF-TOKEN": csrfToken,  // Добавляем CSRF токен
+            "X-CSRF-TOKEN": csrfToken,
         },
         body: JSON.stringify({ token }),
     });
 };
-
-// Ловим входящие уведомления
-onMessage(messaging, (payload) => {
-    console.log("Получено уведомление:", payload);
-    new Notification(payload.notification.title, {
-        body: payload.notification.body,
-        icon: payload.notification.icon
-    });
-});

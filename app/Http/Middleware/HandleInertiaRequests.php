@@ -45,8 +45,18 @@ class HandleInertiaRequests extends Middleware
         $navbarFile = lang_path($lang . '/navbar' . ".json");
         $user = Auth::user();
 
+
+        $firebaseConfigForJsPath = env('FIREBASE_CREDENTIALS_FOR_JS');
+
+        // Чтение конфигурации Firebase из JSON файла
+        $firebaseConfigForJsConfig = json_decode(File::get($firebaseConfigForJsPath), true);
+        $firebaseVapIdKey = env('FIREBASE_VAPIDKEY');
+
+
         return [
             ...parent::share($request),
+            'firebaseConfig' => $firebaseConfigForJsConfig,
+            'firebaseVapIdKey' => $firebaseVapIdKey,
             'auth' => [
                 // 'user' => $request->user(),
                 'user' => $user ? [

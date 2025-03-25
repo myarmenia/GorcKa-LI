@@ -15,9 +15,13 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
+    console.log("📩 [SW] Фоновое сообщение получено:", payload);
+
     self.registration.showNotification(payload.notification.title, {
         body: payload.notification.body,
-        icon: payload.notification.icon
+        // icon: payload.notification.icon
     });
+
+    // self.registration.showNotification(notificationTitle, notificationOptions);
 });
 

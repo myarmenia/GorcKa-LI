@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('notification_category_id')->constrained('notification_categories')->cascadeOnDelete();
             $table->longText('title');
             $table->longText('description');
-            $table->date('read_at');
+            $table->date('read_at')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });

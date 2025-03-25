@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Category;
 use App\Models\Location;
+use App\Models\NotificationCategory;
 use Illuminate\Support\Collection;
 use Request;
 
@@ -47,6 +48,22 @@ class Helper
         ])->get();
 
         return $categories;
+    }
+
+
+    public static function getNotificationCategoryId($type): string|null
+    {
+
+        if ($type) {
+            $category = NotificationCategory::where([
+                'type' => $type,
+                'status' => 1
+            ])->first();
+
+            return $category->id ?? null;
+        }
+
+        return $type;
     }
 
 
