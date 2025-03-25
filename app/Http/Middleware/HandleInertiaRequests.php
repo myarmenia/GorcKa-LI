@@ -40,8 +40,8 @@ class HandleInertiaRequests extends Middleware
     {
         $lang = in_array(request()->segment(1), ['am', 'ru', 'en']) ? request()->segment(1) : 'am';
         $name = request()->route()->getName();
-        $file = lang_path($lang . '/'. $name . ".json" );
-        $formFile = lang_path($lang . '/form' . ".json" );
+        $file = lang_path($lang . '/' . $name . ".json");
+        $formFile = lang_path($lang . '/form' . ".json");
         $navbarFile = lang_path($lang . '/navbar' . ".json");
         $user = Auth::user();
 
