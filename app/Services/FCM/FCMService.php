@@ -24,7 +24,7 @@ class FCMService
             ->createMessaging();
 
 
-        // dd($firebase);
+        dd($firebase);
 
 
         // Проверяем, есть ли у пользователя токен FCM

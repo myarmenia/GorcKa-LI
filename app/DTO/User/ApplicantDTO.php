@@ -3,7 +3,7 @@
 namespace App\DTO\User;
 
 
-class ApplicantsDTO
+class ApplicantDTO
 {
     public function __construct(
         public int $task_id,
