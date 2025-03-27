@@ -8,6 +8,7 @@
         "remote": "Remote",
         "execution_time": "Execution time: ",
         "apply_now": "Apply Now",
-        "no_result": "No result"
+        "no_result": "No result",
+        "you_applied": "You applied"
     }
 }

@@ -92,17 +92,16 @@ const changeLanguage = (lang) => {
                     <div v-if="$page.props.auth.user">
                         <Link :href="route('task.create', { locale: usePage().props.locale })" class="mr-2 text-white bg-yellow-600 border-transparent hover:bg-yellow-600 focus:bg-yellow-600 focus:ring ring-yellow-500/30 rounded hover:-translate-y-2 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-4 lg:py-3 py-2 px-3">{{useTrans('navbar.post_job')}} </Link>
                     </div>
-                    
 
-                    <div v-if="$page.props.auth.user">
 
+                    <div v-if="$page.props.auth.user && $page.props.auth.user.verified">
                         <div class="relative dropdown">
                             <div class="relative">
                                 <button type="button" class="btn border-0 h-[70px] dropdown-toggle px-4 text-gray-500 dark:text-gray-300" aria-expanded="false" data-dropdown-toggle="notification">
                                     <!-- <i class="text-2xl uil uil-usd-circle group-data-[theme-color=green]:text-green-500"></i> -->
                                     <img src="/assets/user/icons/gicon.png" alt="" >
                                 </button>
-                                    <span class="absolute text-xs px-1.5 bg-yellow-600 text-white font-medium rounded-full left-6 top-3 ring-2 ring-white dark:ring-neutral-800">856</span>
+                                    <span class="absolute text-xs px-1.5 bg-yellow-600 text-white font-medium rounded-full left-6 top-3 ring-2 ring-white dark:ring-neutral-800">{{$page.props.auth.user.point}}</span>
                             </div>
 
                         </div>

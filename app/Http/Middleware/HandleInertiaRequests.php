@@ -65,6 +65,7 @@ class HandleInertiaRequests extends Middleware
                     'email' => $user->email,
                     'roles' => $user->roles,
                     'avatar' => $user->avatar,
+                    'point' => $user->point,
                     'verified' => $user->email_verified_at
                 ] : null,
             ],

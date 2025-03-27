@@ -17,7 +17,7 @@ class NotificationCatTranslationSeeder extends Seeder
             [
                 'notification_category_id' => 1,
                 'lang' => 'am',
-                'name' => 'Ինֆո',
+                'name' => 'Տեղեկատվական',
             ],
             [
                 'notification_category_id' => 1,
@@ -47,48 +47,48 @@ class NotificationCatTranslationSeeder extends Seeder
             [
                 'notification_category_id' => 3,
                 'lang' => 'am',
-                'name' => 'Դիմել',
+                'name' => 'Աշխատանքին դիմել են',
             ],
             [
                 'notification_category_id' => 3,
                 'lang' => 'ru',
-                'name' => 'Подать заявку',
+                'name' => 'Подали заявку на работу',
             ],
             [
                 'notification_category_id' => 3,
                 'lang' => 'en',
-                'name' => 'Apply',
+                'name' => 'Job applied',
             ],
             [
                 'notification_category_id' => 4,
                 'lang' => 'am',
-                'name' => 'Մերժել',
+                'name' => 'Դիմումը մերժվել է',
             ],
             [
                 'notification_category_id' => 4,
                 'lang' => 'ru',
-                'name' => 'Отклонять',
+                'name' => 'Заявка отклонена',
             ],
             [
                 'notification_category_id' => 4,
                 'lang' => 'en',
-                'name' => 'Reject',
+                'name' => 'Application rejected',
             ],
             [
                 'notification_category_id' => 5,
 
                 'lang' => 'am',
-                'name' => 'Չատ',
+                'name' => 'Նոր հաղորդագրություն',
             ],
             [
                 'notification_category_id' => 5,
                 'lang' => 'ru',
-                'name' => 'Чат',
+                'name' => 'Новое сообщение',
             ],
             [
                 'notification_category_id' => 5,
                 'lang' => 'en',
-                'name' => 'Chat',
+                'name' => 'New message',
             ],
             [
                 'notification_category_id' => 6,

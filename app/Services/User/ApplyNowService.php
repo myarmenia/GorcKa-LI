@@ -5,6 +5,7 @@ use App\DTO\Message\MessageDTO;
 use App\DTO\Notification\NotificationDTO;
 use App\DTO\Room\RoomDTO;
 use App\DTO\User\ApplicantDTO;
+use App\DTO\User\UserDTO;
 use App\Helpers\Helper;
 use App\Interfaces\Applicant\ApplicantInterface;
 use App\Interfaces\Message\MessageInterface;
@@ -50,16 +51,19 @@ class ApplyNowService
                 point: 1,
                 user_id: $user->id
             );
+
             $this->applicantRepository->store($applicantData->toArray());
+
 
             // Creating notification
             $notifyData = new NotificationDTO(
                 user_id: $employerId,
-                notification_category_id: Helper::getNotificationCategoryId('apply'),
+                notification_category_id: Helper::getNotificationCategoryId('job_applied'),
                 title: 'Уведомление',
                 description: "$employerId - новый отклик на задачу"
             );
             $this->notificationRepository->store($notifyData->toArray());
+
 
             // Creating room
             $roomData = new RoomDTO(
@@ -68,6 +72,7 @@ class ApplyNowService
                 task_id: $data->id
             );
             $room = $this->roomRepository->store($roomData->toArray());
+
 
             // Creating first message in room
             $messageData = new MessageDTO(
@@ -78,14 +83,19 @@ class ApplyNowService
 
             $this->messageRepository->store($messageData->toArray());
 
+            // Updating user -1 point for click to job
+            $point = $user->point - 1;
+            $this->userRepository->update($user->id, ['point' => $point]);
+
             // send push-notification
             $employer = $this->userRepository->getById($employerId);
 
             if ($employer) {
+                Log::info("📢 Отправка FCM-уведомления работодателю {$employer->id}, токен: " . $employer->fcm_token);
                 FCMService::sendNotification($employer, 'Новый отклик', 'Вы получили новый отклик на задачу');
             }
 
-         
+
             // send mail to employer
             Mail::to($employer->email)->send(new JobApplicationSubmissionNotification('Новый отклик', 'Вы получили новый отклик на задачу'));
 

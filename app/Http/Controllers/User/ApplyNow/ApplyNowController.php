@@ -20,8 +20,9 @@ class ApplyNowController extends Controller
     {
 
         $this->applyNowService->applyNow($task);
-
-        return response()->json(['message' => 'User not found'], 404);
+        return redirect()->back()->with('success', 'Notification sent');
+        // return response()->json(['message' => 'Notification sent']);
+        // return response()->json(['message' => 'User not found'], 404);
 
     }
 }

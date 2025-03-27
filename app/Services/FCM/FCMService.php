@@ -10,9 +10,9 @@ class FCMService
 
     public static function sendNotification($user, $title, $body)
     {
-        $credentialsPath = env('FIREBASE_CREDENTIALS');
+        $credentialsPath = storage_path(env('FIREBASE_CREDENTIALS'));
+        // $credentialsPath = storage_path('app/public/fierbase/fierbase-credential.json');
 
-        // dd($credentialsPath);
         // Проверяем, что путь не пустой
         if (empty($credentialsPath)) {
             throw new \Exception('Firebase credentials path is not set.');
@@ -24,7 +24,6 @@ class FCMService
             ->createMessaging();
 
 
-        dd($firebase);
 
 
         // Проверяем, есть ли у пользователя токен FCM

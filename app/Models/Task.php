@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use App\Traits\FilterTrait;
+use Auth;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Task extends Model
@@ -39,6 +42,18 @@ class Task extends Model
         return $this->belongsTo(Location::class, 'location_id');
     }
 
+    public function applicants(): HasMany
+    {
+        return $this->hasMany(Applicant::class);
+    }
+
+    
+    protected function authApplicant(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => optional($this->applicants)->where('user_id', Auth::id())->isNotEmpty()
+        );
+    }
 
     protected function LocationTranslationName(): Attribute
     {
