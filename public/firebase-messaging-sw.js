@@ -15,13 +15,26 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-    console.log("📩 [SW] Фоновое сообщение получено:", payload);
+    try {
+        console.log("📩 [SW] Фоновое сообщение получено:", payload);
 
-    self.registration.showNotification(payload.notification.title, {
-        body: payload.notification.body,
-        // icon: payload.notification.icon
-    });
+        if (!payload.notification) {
+            console.warn("⚠️ Нет notification в payload!");
+            return;
+        }
 
-    // self.registration.showNotification(notificationTitle, notificationOptions);
+        const notificationTitle = payload.notification.title || "Новое уведомление";
+        const notificationBody = payload.notification.body || "У вас новое сообщение.";
+        const notificationIcon = payload.notification.icon || '/assets/user/icons/gicon.png';
+
+        console.log("✅ Уведомление:", { notificationTitle, notificationBody, notificationIcon });
+
+        self.registration.showNotification(notificationTitle, {
+            body: notificationBody,
+            icon: notificationIcon,
+            requireInteraction: true
+        });
+    } catch (error) {
+        console.error("❌ Ошибка обработки фонового сообщения:", error);
+    }
 });
-

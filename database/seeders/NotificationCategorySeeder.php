@@ -24,15 +24,15 @@ class NotificationCategorySeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'type' => 'apply'
+                'type' => 'job_applied'
             ],
             [
                 'id' => 4,
-                'type' => 'reject'
+                'type' => 'application_rejected'
             ],
             [
                 'id' => 5,
-                'type' => 'chat'
+                'type' => 'new_message'   // chat
             ],
             [
                 'id' => 6,

@@ -1,40 +1,20 @@
 <?php
 namespace App\Services;
 
-use Kreait\Firebase\Factory;
-use Kreait\Firebase\Messaging;
-use Kreait\Firebase\Messaging\CloudMessage;
-use Kreait\Firebase\Messaging\Notification;
-
+use App\Interfaces\User\UserInterface;
+use Auth;
 
 
 class FcmService
 {
+    public function __construct(protected UserInterface $userRepository) {
+    }
 
-    public function sendNotification($user, $title, $body)
+    public function saveToken($data)
     {
-        $credentialsPath = env('FIREBASE_CREDENTIALS');
+        $user = Auth::user();
+      
+        return $this->userRepository->update($user->id, ['fcm_token' => $data->token]);
 
-        // Проверяем, что путь не пустой
-        if (empty($credentialsPath)) {
-            throw new \Exception('Firebase credentials path is not set.');
-        }
-
-        // Создаем объект Firebase с использованием файла учетных данных
-        $firebase = (new Factory)
-            ->withServiceAccount($credentialsPath)  // Используем путь из конфигурации
-            ->createMessaging();
-
-        // Проверяем, есть ли у пользователя токен FCM
-        if (!$user->fcm_token) {
-            return false;
-        }
-
-        // Формируем сообщение
-        $message = CloudMessage::withTarget('token', $user->fcm_token)
-            ->withNotification(Notification::create($title, $body));
-
-        // Отправляем уведомление
-        $firebase->send($message);
     }
 }

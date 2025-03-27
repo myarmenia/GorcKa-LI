@@ -43,18 +43,9 @@ export const requestPermission = async (firebaseVapIdKey) => {
     try {
         const permission = await Notification.requestPermission();
         if (permission === "granted") {
-            // Проверяем, есть ли уже токен в localStorage
-            let token = localStorage.getItem("fcm_token");
-
-            if (!token) {
-                token = await getToken(messaging, { vapidKey: firebaseVapIdKey, forceRefresh: true });  // Обновляем токен, если нужно
-                console.log("FCM Token:", token);
-                localStorage.setItem("fcm_token", token);  // Сохраняем токен в localStorage
-                await sendTokenToServer(token);  // Отправляем токен на сервер
-            } else {
-                console.log("FCM Token из localStorage:", token);
-                await sendTokenToServer(token);  // Отправляем токен на сервер, если он уже есть
-            }
+            const token = await getToken(messaging, { vapidKey: firebaseVapIdKey });
+            console.log("FCM Token:", token);
+            await sendTokenToServer(token);
         } else {
             console.log("Разрешение не предоставлено");
         }

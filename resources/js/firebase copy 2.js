@@ -1,16 +1,14 @@
 import { initializeApp } from "firebase/app";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
-let messaging = null; // Глобальная переменная для объекта messaging
+let messaging = null;
 
 /**
  * Инициализирует Firebase с переданной конфигурацией.
  * Регистрирует Service Worker и настраивает обработчик входящих уведомлений.
  * @param {Object} firebaseConfig - Объект клиентской конфигурации Firebase.
  */
-
 export const initFirebase = (firebaseConfig) => {
-    // Инициализируем Firebase с переданной конфигурацией
     const firebaseApp = initializeApp(firebaseConfig);
     messaging = getMessaging(firebaseApp);
 
@@ -30,7 +28,6 @@ export const initFirebase = (firebaseConfig) => {
         console.log("Получено уведомление:", payload);
         new Notification(payload.notification.title, {
             body: payload.notification.body,
-            // При необходимости можно добавить icon: payload.notification.icon
         });
     });
 };
