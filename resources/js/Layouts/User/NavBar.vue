@@ -12,6 +12,7 @@ const { auth, firebaseConfig, firebaseVapIdKey } = usePage().props;
 const locale_lng = usePage().props.locale; // Получаем локаль
 
 const user = ref(auth?.user || null);
+const notificationCount = ref(0)
 
 onMounted(() => {
     initNavbar(); // Запускаем `initNavbar` после монтирования компонента
@@ -21,7 +22,61 @@ onMounted(() => {
     if (user.value && user.value.verified) {
         requestPermission(firebaseVapIdKey);
     }
+
+
+
 });
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    // window.Echo.channel('events')
+    //     .listen('.ev', (e) => {
+    //         console.log(445533333);
+    // });
+ window.Echo.channel('public.channel')
+    .listen('NotifyEvent', (data) => {
+        console.log('ooooooooooooofffff')
+    //   messages.value.push(data.message);
+    });
+})
+
+// const subscribeToChatMessagesChannel = (authId) => {
+//     const channelName = `notification-count.${authId}`;
+//     if (!activeSubscriptions[channelName]) {
+//         activeSubscriptions[channelName] = window.Echo.private(channelName).listen('ChatMessagesEvent', (e) => {
+//             chatMessageCount.value = e.count; // Обновляем chatMessageCount
+//             if (document.visibilityState !== 'visible') {
+//                 playNotificationSound();
+//                 blinkTitle(`Նոր հաղորդագրություն`);
+//             }
+//         });
+//     }
+// };
+
+// window.Echo.private(`notification-count.${auth.user.id}`)
+//     .listen('NotificationEvent', (e) => {
+//         console.log(11111)
+//         notificationCount.value = e.count;
+//         if (document.visibilityState !== 'visible') {
+//             playNotificationSound();
+//             blinkTitle(`Նոր հաղորդագրություն`);
+//         }
+//     });
+
+// window.Echo.channel('notification-count')
+//     .listen('NotificationEvent', (e) => {
+//         console.log(11111);
+//         notificationCount.value = e.count;
+//         if (document.visibilityState !== 'visible') {
+//             playNotificationSound();
+//             blinkTitle(`Նոր հաղորդագրություն`);
+//         }
+//     });
+
+    // window.Echo.channel('notification-channel') // Публичный канал
+    // .listen('NotifyEvent', (e) => {
+    //     console.log('Получено сообщение:', e.message);
+    //     alert('Новое уведомление: ' + e.message); // Пример уведомления
+    // });
 
 
 const changeLanguage = (lang) => {
@@ -113,7 +168,7 @@ const changeLanguage = (lang) => {
                                 <button type="button" class="btn border-0 h-[70px] dropdown-toggle px-4 text-gray-500 dark:text-gray-300" aria-expanded="false" data-dropdown-toggle="notification">
                                     <i class="text-2xl mdi mdi-bell"></i>
                                 </button>
-                                    <span class="absolute text-xs px-1.5 bg-red-500 text-white font-medium rounded-full left-6 top-3 ring-2 ring-white dark:ring-neutral-800">3</span>
+                                    <span class="absolute text-xs px-1.5 bg-red-500 text-white font-medium rounded-full left-6 top-3 ring-2 ring-white dark:ring-neutral-800">{{ notificationCount }}</span>
                             </div>
                             <div class="absolute right-0 top-auto left-auto z-50 hidden list-none bg-white rounded shadow dropdown-menu w-72 dark:bg-neutral-800 " id="notification">
                                 <div class="border rounded border-gray-50 dark:border-neutral-600" aria-labelledby="notification">

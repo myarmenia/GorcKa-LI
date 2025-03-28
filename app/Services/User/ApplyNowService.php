@@ -6,6 +6,8 @@ use App\DTO\Notification\NotificationDTO;
 use App\DTO\Room\RoomDTO;
 use App\DTO\User\ApplicantDTO;
 use App\DTO\User\UserDTO;
+use App\Events\NotificationEvent;
+use App\Events\NotifyEvent;
 use App\Helpers\Helper;
 use App\Interfaces\Applicant\ApplicantInterface;
 use App\Interfaces\Message\MessageInterface;
@@ -90,16 +92,20 @@ class ApplyNowService
             // send push-notification
             $employer = $this->userRepository->getById($employerId);
 
-            if ($employer) {
-                Log::info("📢 Отправка FCM-уведомления работодателю {$employer->id}, токен: " . $employer->fcm_token);
-                FCMService::sendNotification($employer, 'Новый отклик', 'Вы получили новый отклик на задачу');
-            }
+            // if ($employer) {
+            //     Log::info("📢 Отправка FCM-уведомления работодателю {$employer->id}, токен: " . $employer->fcm_token);
+            //     FCMService::sendNotification($employer, 'Новый отклик', 'Вы получили новый отклик на задачу');
+            // }
 
 
-            // send mail to employer
-            Mail::to($employer->email)->send(new JobApplicationSubmissionNotification('Новый отклик', 'Вы получили новый отклик на задачу'));
+            // // send mail to employer
+            // Mail::to($employer->email)->send(new JobApplicationSubmissionNotification('Новый отклик', 'Вы получили новый отклик на задачу'));
 
-
+            // event(
+            //     new NotificationEvent(5, 'job_applied', $employerId)
+            // );
+            $message = 'Это тестовое уведомление!';
+            event(new NotifyEvent($message)); // Отправка события
             //
             DB::commit();
             return response()->json(['message' => 'Заявка успешно отправлена']);
