@@ -26,6 +26,7 @@ class JobRepository extends BaseRepository implements JobInterface
 
     public function getActiveJob($id)
     {
+
         $task = $this->model->with([
             'user:id,name,email,phone',
             'sub_category.category:id,icon',
@@ -34,6 +35,8 @@ class JobRepository extends BaseRepository implements JobInterface
 
 
         if ($task && $task->status == 'active') {
+            $task['auth_applicant'] = $task->auth_applicant; // for vue
+
             return $task;
         }
 

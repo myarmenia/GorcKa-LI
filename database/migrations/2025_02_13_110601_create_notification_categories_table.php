@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('notification_categories', function (Blueprint $table) {
             $table->id();
+            $table->string('type')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });

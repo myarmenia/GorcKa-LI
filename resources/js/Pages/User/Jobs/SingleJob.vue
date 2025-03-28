@@ -13,7 +13,7 @@ const props = defineProps({
 
 const jobRef = ref(props.job);
 const relatedJobsRef = ref(props.related_jobs);
-
+console.log(jobRef.value.auth_applicant, 444444444)
 const formattedDates = computed(() => ({
     created_at: jobRef.value.created_at ? dayjs(jobRef.value.created_at).format('DD.MM.YYYY') : null,
     start: jobRef.value.start_date ? dayjs(jobRef.value.start_date).format('DD.MM.YYYY') : null,
@@ -182,7 +182,17 @@ const formattedDates = computed(() => ({
                                 </ul>
 
                                 <div class="mt-8 space-y-2">
-                                    <a href="#applyNow" data-bs-toggle="modal" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">{{ useTrans('page.jobs.apply_now') }}<i class="uil uil-arrow-right"></i></a>
+                                    <Link v-if="$page.props.auth.user != null && ($page.props.auth.user.id != jobRef.user.id) && !jobRef.auth_applicant" :href="route('apply_now', {locale: $page.props.locale, task: jobRef.id})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
+                                        {{ useTrans('page.jobs.apply_now') }}
+                                        <i class="uil uil-arrow-right"></i>
+                                    </Link>
+
+                                    <div v-else-if="jobRef.auth_applicant"  class="btn w-full bg-green-500/20 border-transparent text-white hover:-translate-y-1.5">
+                                        <i class="uil uil-exclamation-circle"></i>
+                                        {{ useTrans('page.jobs.you_applied') }}
+                                    </div>
+
+                                    <!-- <a href="#applyNow" data-bs-toggle="modal" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">{{ useTrans('page.jobs.apply_now') }}<i class="uil uil-arrow-right"></i></a> -->
                                 </div>
                             </div>
                         </div>
