@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NotificationEvent
+class NotificationEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -41,8 +41,8 @@ class NotificationEvent
 
         // return  new Channel('notification-count' );
         return [
-            // new Channel('notification-count.' . $this->user_id)
-            new PrivateChannel('notification-count' )
+            new PrivateChannel('notification-count.' . $this->user_id)
+            // new PrivateChannel('notification-count' )
         ];
     }
 

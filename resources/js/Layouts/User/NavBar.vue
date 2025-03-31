@@ -27,56 +27,20 @@ onMounted(() => {
 
 });
 
-document.addEventListener("DOMContentLoaded", function(event) {
-    // window.Echo.channel('events')
-    //     .listen('.ev', (e) => {
-    //         console.log(445533333);
-    // });
- window.Echo.channel('public.channel')
-    .listen('NotifyEvent', (data) => {
-        console.log('ooooooooooooofffff')
-    //   messages.value.push(data.message);
+
+console.log(555555);
+window.Echo.private(`notification-count.${auth.user.id}`)
+    .listen('.NotificationEvent', (e) => {
+        console.log(333111)
+        notificationCount.value = e.count;
+        console.log(notificationCount, '//////')
+        // if (document.visibilityState !== 'visible') {
+        //     playNotificationSound();
+        //     blinkTitle(`Նոր հաղորդագրություն`);
+        // }
     });
-})
+// })
 
-// const subscribeToChatMessagesChannel = (authId) => {
-//     const channelName = `notification-count.${authId}`;
-//     if (!activeSubscriptions[channelName]) {
-//         activeSubscriptions[channelName] = window.Echo.private(channelName).listen('ChatMessagesEvent', (e) => {
-//             chatMessageCount.value = e.count; // Обновляем chatMessageCount
-//             if (document.visibilityState !== 'visible') {
-//                 playNotificationSound();
-//                 blinkTitle(`Նոր հաղորդագրություն`);
-//             }
-//         });
-//     }
-// };
-
-// window.Echo.private(`notification-count.${auth.user.id}`)
-//     .listen('NotificationEvent', (e) => {
-//         console.log(11111)
-//         notificationCount.value = e.count;
-//         if (document.visibilityState !== 'visible') {
-//             playNotificationSound();
-//             blinkTitle(`Նոր հաղորդագրություն`);
-//         }
-//     });
-
-// window.Echo.channel('notification-count')
-//     .listen('NotificationEvent', (e) => {
-//         console.log(11111);
-//         notificationCount.value = e.count;
-//         if (document.visibilityState !== 'visible') {
-//             playNotificationSound();
-//             blinkTitle(`Նոր հաղորդագրություն`);
-//         }
-//     });
-
-    // window.Echo.channel('notification-channel') // Публичный канал
-    // .listen('NotifyEvent', (e) => {
-    //     console.log('Получено сообщение:', e.message);
-    //     alert('Новое уведомление: ' + e.message); // Пример уведомления
-    // });
 
 
 const changeLanguage = (lang) => {

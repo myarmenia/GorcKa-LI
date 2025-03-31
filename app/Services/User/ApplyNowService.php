@@ -101,11 +101,11 @@ class ApplyNowService
             // // send mail to employer
             // Mail::to($employer->email)->send(new JobApplicationSubmissionNotification('Новый отклик', 'Вы получили новый отклик на задачу'));
 
-            // event(
-            //     new NotificationEvent(5, 'job_applied', $employerId)
-            // );
+            event(
+                new NotificationEvent(5, 'job_applied', $employerId)
+            );
             $message = 'Это тестовое уведомление!';
-            event(new NotifyEvent($message)); // Отправка события
+            // event(new NotifyEvent($message)); // Отправка события
             //
             DB::commit();
             return response()->json(['message' => 'Заявка успешно отправлена']);

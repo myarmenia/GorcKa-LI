@@ -56,7 +56,6 @@ Route::prefix('{locale}')
     });
 
 
-
 Route::middleware('auth')->group(function () {
 
     Route::prefix('{locale}')
@@ -108,6 +107,9 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/apply-now/{task}', [ApplyNowController::class, 'applyNow'])->name('apply_now');
 
+            Broadcast::routes(['middleware' => ['auth']]);
+
+
         });
 
     // Route::post('/save-fcm-token', function (Request $request) {
@@ -120,6 +122,8 @@ Route::middleware('auth')->group(function () {
     // });
 
     Route::post('/save-fcm-token', [SaveFcmTokenController::class, 'saveFcmToken']);
+
+
 
 });
 // Route::post('/save-fcm-token', [ApplyNowController::class, 'sendPush']);
