@@ -13,8 +13,7 @@ const { auth, firebaseConfig, firebaseVapIdKey } = usePage().props;
 const locale_lng = usePage().props.locale; // Получаем локаль
 
 const user = ref(auth?.user || null);
-const notificationCount = ref(0)
-console.log(user, 'userrrrrr')
+
 onMounted(() => {
     initNavbar(); // Запускаем `initNavbar` после монтирования компонента
     initFirebase(firebaseConfig);
@@ -23,8 +22,6 @@ onMounted(() => {
     if (user.value && user.value.verified) {
         requestPermission(firebaseVapIdKey);
     }
-
-
 
 });
 
