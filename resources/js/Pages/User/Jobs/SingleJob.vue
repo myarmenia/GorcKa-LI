@@ -192,6 +192,13 @@ const formattedDates = computed(() => ({
                                         {{ useTrans('page.jobs.you_applied') }}
                                     </div>
 
+                                    
+                                    <!-- testi hamar -->
+                                    <!-- <Link  :href="route('apply_now', {locale: $page.props.locale, task: jobRef.id})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
+                                        {{ useTrans('page.jobs.apply_now') }}
+                                        <i class="uil uil-arrow-right"></i>
+                                    </Link> -->
+
                                     <!-- <a href="#applyNow" data-bs-toggle="modal" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">{{ useTrans('page.jobs.apply_now') }}<i class="uil uil-arrow-right"></i></a> -->
                                 </div>
                             </div>
