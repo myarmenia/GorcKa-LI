@@ -13,9 +13,11 @@ const user = ref(auth?.user || null);
 const notificationCount = ref(props.unread_notification_count);
 
 onMounted(() => {
+    console.log(notificationCount, 'onmmmmmm')
     if (user.value) {
         window.Echo.private(`notification-count.${user.value.id}`)
             .listen(".NotificationEvent", (e) => {
+                console.log( e.count, ' e.count')
                 notificationCount.value = e.count;
             });
     }
