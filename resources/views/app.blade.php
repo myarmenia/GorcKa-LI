@@ -21,10 +21,13 @@
         @vite(['resources/js/app.js'])
 
         @inertiaHead
+
+
     </head>
     <body class="font-sans antialiased bg-white dark:bg-neutral-800">
 
         @inertia
+
 
         {{-- <script src="{{asset('assets/user/libs/choices.js/public/assets/scripts/choices.min.js')}}"></script> --}}
         {{-- <script src="{{asset('assets/modules/user/job-list.init.js')}}"></script> --}}

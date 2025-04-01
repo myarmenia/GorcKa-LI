@@ -66,7 +66,7 @@ class HandleInertiaRequests extends Middleware
                     'roles' => $user->roles,
                     'avatar' => $user->avatar,
                     'point' => $user->point,
-                    'verified' => $user->email_verified_at
+                    'unread_notification_count' => $user->notifications()->unread()->count()
                 ] : null,
             ],
             // 'translations' => File::exists($file) ? File::json($file) : []

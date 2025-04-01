@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Models\Category;
 use App\Models\Location;
 use App\Models\NotificationCategory;
+use App\Models\NotificCatTrans;
 use Illuminate\Support\Collection;
 use Request;
 
@@ -64,6 +65,12 @@ class Helper
         }
 
         return $type;
+    }
+
+    public static function getNotificationTranslation($notification_category_id, $lang = 'am'): NotificCatTrans|null
+    {
+
+        return NotificCatTrans::where(['notification_category_id' => $notification_category_id, 'lang' => $lang])->first();
     }
 
 

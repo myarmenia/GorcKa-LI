@@ -78,5 +78,7 @@ class AppServiceProvider extends ServiceProvider
         Inertia::share([
             'locale' => fn() => Session::get('locale', config('app.locale')),
         ]);
+
+
     }
 }

@@ -18,7 +18,7 @@ import './modules/user/dropdown&modal.init.js';
 // import './modules/user/swiper.init.js';
 import '../../node_modules/preline/dist/preline.js'
 
-// import './bootstrap';
+import './bootstrap';
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
