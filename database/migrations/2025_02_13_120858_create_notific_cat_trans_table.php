@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('notification_category_id')->constrained('notification_categories')->cascadeOnDelete();
             $table->string('lang');
             $table->string('name');
+            $table->mediumText('description');
             $table->timestamps();
         });
     }

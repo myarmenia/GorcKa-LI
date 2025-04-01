@@ -42,7 +42,7 @@ class ApplyNowService
 
         try {
             $user = Auth::user();
-            $employerId = $data->user_id;
+            $employerId = $data->user_id;  // task creator id
 
             // Creating applicant
             // $data->point = 1;
@@ -58,11 +58,14 @@ class ApplyNowService
 
 
             // Creating notification
+            $notification_category_id = Helper::getNotificationCategoryId('job_applied');
+            $notification_trans = Helper::getNotificationTranslation($notification_category_id, app()->getLocale());   // app()->getLocale() kareli e poxanakel useri yntrats lezuyov, vory yntrvum e profilic
+
             $notifyData = new NotificationDTO(
                 user_id: $employerId,
-                notification_category_id: Helper::getNotificationCategoryId('job_applied'),
-                title: 'Уведомление',
-                description: "$employerId - новый отклик на задачу"
+                notification_category_id: $notification_category_id,
+                title: $notification_trans?->name ?? '',
+                description: $notification_trans?->description ?? ''
             );
             $this->notificationRepository->store($notifyData->toArray());
 
@@ -80,7 +83,7 @@ class ApplyNowService
             $messageData = new MessageDTO(
                 room_id: $room->id,
                 user_id: $employerId,
-                message: 'apply'
+                message: $notification_trans?->description ?? 'apply'
             );
 
             $this->messageRepository->store($messageData->toArray());
@@ -92,21 +95,24 @@ class ApplyNowService
             // send push-notification
             $employer = $this->userRepository->getById($employerId);
 
-            // if ($employer) {
-            //     Log::info("📢 Отправка FCM-уведомления работодателю {$employer->id}, токен: " . $employer->fcm_token);
-            //     FCMService::sendNotification($employer, 'Новый отклик', 'Вы получили новый отклик на задачу');
-            // }
+            if ($employer) {
+                Log::info("📢 Отправка FCM-уведомления работодателю {$employer->id}, токен: " . $employer->fcm_token);
+                FCMService::sendNotification($employer, 'Новый отклик', 'Вы получили новый отклик на задачу');
+            }
 
 
             // // send mail to employer
-            // Mail::to($employer->email)->send(new JobApplicationSubmissionNotification('Новый отклик', 'Вы получили новый отклик на задачу'));
+            Mail::to($employer->email)->send(new JobApplicationSubmissionNotification('Новый отклик', 'Вы получили новый отклик на задачу'));
+
+
+            // send employer unread notification count via socket
+            $unreadNotificationCount = $employer->notifications()->unread()->count();
 
             event(
-                new NotificationEvent(5, 'job_applied', $employerId)
+                new NotificationEvent($unreadNotificationCount, 'job_applied', $employerId)
             );
-            $message = 'Это тестовое уведомление!';
-            // event(new NotifyEvent($message)); // Отправка события
-            //
+
+
             DB::commit();
             return response()->json(['message' => 'Заявка успешно отправлена']);
         } catch (Exception $e) {

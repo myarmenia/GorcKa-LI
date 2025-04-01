@@ -182,19 +182,22 @@ const formattedDates = computed(() => ({
                                 </ul>
 
                                 <div class="mt-8 space-y-2">
-                                    <!-- <Link v-if="$page.props.auth.user != null && ($page.props.auth.user.id != jobRef.user.id) && !jobRef.auth_applicant" :href="route('apply_now', {locale: $page.props.locale, task: jobRef.id})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
-                                        {{ useTrans('page.jobs.apply_now') }}
-                                        <i class="uil uil-arrow-right"></i>
-                                    </Link> -->
-                                    <Link  :href="route('apply_now', {locale: $page.props.locale, task: jobRef.id})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
+                                    <Link v-if="$page.props.auth.user != null && ($page.props.auth.user.id != jobRef.user.id) && !jobRef.auth_applicant" :href="route('apply_now', {locale: $page.props.locale, task: jobRef.id})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
                                         {{ useTrans('page.jobs.apply_now') }}
                                         <i class="uil uil-arrow-right"></i>
                                     </Link>
 
-                                    <!-- <div v-else-if="jobRef.auth_applicant"  class="btn w-full bg-green-500/20 border-transparent text-white hover:-translate-y-1.5">
+                                    <div v-else-if="jobRef.auth_applicant"  class="btn w-full bg-green-500/20 border-transparent text-white hover:-translate-y-1.5">
                                         <i class="uil uil-exclamation-circle"></i>
                                         {{ useTrans('page.jobs.you_applied') }}
-                                    </div> -->
+                                    </div>
+
+                                    
+                                    <!-- testi hamar -->
+                                    <!-- <Link  :href="route('apply_now', {locale: $page.props.locale, task: jobRef.id})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
+                                        {{ useTrans('page.jobs.apply_now') }}
+                                        <i class="uil uil-arrow-right"></i>
+                                    </Link> -->
 
                                     <!-- <a href="#applyNow" data-bs-toggle="modal" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">{{ useTrans('page.jobs.apply_now') }}<i class="uil uil-arrow-right"></i></a> -->
                                 </div>
