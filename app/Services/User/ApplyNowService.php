@@ -107,7 +107,9 @@ class ApplyNowService
 
             // send employer unread notification count via socket
             $unreadNotificationCount = $employer->notifications()->unread()->count();
-
+            event(
+                new NotifyEvent('mmmmmessage')
+            );
             event(
                 new NotificationEvent($unreadNotificationCount, 'job_applied', $employerId)
             );
