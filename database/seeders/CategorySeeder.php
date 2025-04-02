@@ -17,27 +17,27 @@ class CategorySeeder extends Seeder
             [
                 'id' => 1,
                 'color' => 'green',
-                'icon' => ''
+                'icon' => 'IT'
             ],
             [
                 'id' => 2,
                 'color' => 'blue',
-                'icon' => ''
+                'icon' => 'car'
             ],
             [
                 'id' => 3,
                 'color' => 'violet',
-                'icon' => ''
+                'icon' => 'cargon'
             ],
             [
                 'id' => 4,
                 'color' => 'pink',
-                'icon' => ''
+                'icon' => 'veterninarian'
             ],
             [
                 'id' => 5,
                 'color' => 'yellow',
-                'icon' => ''
+                'icon' => 'repair'
             ],
             [
                 'id' => 6,

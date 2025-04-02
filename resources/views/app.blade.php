@@ -39,13 +39,13 @@
 // if (singleCategorie) {
 //     var singleCategories = new Choices('#choices-single-categories');
 // }
- document.addEventListener("DOMContentLoaded", () => {
-     window.Echo.channel('aaa')
-            .listen("NotifyEvent", (e) => {
-                console.log( 'ashxatum e aaa ---nnn', e.message)
+//  document.addEventListener("DOMContentLoaded", () => {
+//      window.Echo.channel('aaa')
+//             .listen("NotifyEvent", (e) => {
+//                 console.log( 'ashxatum e aaa ---nnn', e.message)
 
-            });
- })
+//             });
+//  })
 
 </script>
 {{-- <script src="./node_modules/preline/dist/preline.js"></script> --}}
