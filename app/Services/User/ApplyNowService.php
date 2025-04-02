@@ -60,12 +60,15 @@ class ApplyNowService
             // Creating notification
             $notification_category_id = Helper::getNotificationCategoryId('job_applied');
             $notification_trans = Helper::getNotificationTranslation($notification_category_id, app()->getLocale());   // app()->getLocale() kareli e poxanakel useri yntrats lezuyov, vory yntrvum e profilic
+            $notification_title = $notification_trans?->name ?? 'Աշխատանքին դիմել են';
+            $notification_description = $notification_trans?->description ?? 'Ձեր հրապարակած աշխատանքին դիմել են:';
+
 
             $notifyData = new NotificationDTO(
                 user_id: $employerId,
                 notification_category_id: $notification_category_id,
-                title: $notification_trans?->name ?? '',
-                description: $notification_trans?->description ?? ''
+                title: $notification_title,
+                description: $notification_description
             );
             $this->notificationRepository->store($notifyData->toArray());
 
@@ -83,7 +86,7 @@ class ApplyNowService
             $messageData = new MessageDTO(
                 room_id: $room->id,
                 user_id: $employerId,
-                message: $notification_trans?->description ?? 'apply'
+                message: $notification_description
             );
 
             $this->messageRepository->store($messageData->toArray());
@@ -97,19 +100,17 @@ class ApplyNowService
 
             if ($employer) {
                 Log::info("📢 Отправка FCM-уведомления работодателю {$employer->id}, токен: " . $employer->fcm_token);
-                FCMService::sendNotification($employer, 'Новый отклик', 'Вы получили новый отклик на задачу');
+                FCMService::sendNotification($employer, $notification_title, $notification_description);
             }
 
 
             // // send mail to employer
-            Mail::to($employer->email)->send(new JobApplicationSubmissionNotification('Новый отклик', 'Вы получили новый отклик на задачу'));
+            Mail::to($employer->email)->send(new JobApplicationSubmissionNotification($notification_title, $notification_description));
 
 
             // send employer unread notification count via socket
             $unreadNotificationCount = $employer->notifications()->unread()->count();
-            event(
-                new NotifyEvent('mmmmmessage')
-            );
+
             event(
                 new NotificationEvent($unreadNotificationCount, 'job_applied', $employerId)
             );
