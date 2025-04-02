@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, inject } from "vue";
 import { initNavbar } from "@/modules/user/navbar.js";
+import { initDropdowns } from '@/modules/user/dropdown&modal.init.js';
 import { useTrans } from '/resources/js/trans';
 import NotificationBell from '@/Components/NotificationBell.vue';
 
@@ -17,6 +18,7 @@ const user = ref(auth?.user || null);
 onMounted(() => {
     initNavbar(); // Запускаем `initNavbar` после монтирования компонента
     initFirebase(firebaseConfig);
+    initDropdowns();
 
     // Если пользователь авторизован и верифицирован, запрашиваем разрешение на уведомления
     if (user.value && user.value.verified) {
@@ -24,21 +26,6 @@ onMounted(() => {
     }
 
 });
-
-
-// console.log(555555);
-// window.Echo.private(`notification-count.${auth.user.id}`)
-//     .listen('.NotificationEvent', (e) => {
-//         console.log(333111)
-//         notificationCount.value = e.count;
-//         console.log(notificationCount, '//////')
-//         // if (document.visibilityState !== 'visible') {
-//         //     playNotificationSound();
-//         //     blinkTitle(`Նոր հաղորդագրություն`);
-//         // }
-//     });
-// // })
-
 
 
 const changeLanguage = (lang) => {
@@ -240,3 +227,5 @@ const changeLanguage = (lang) => {
         </div>
     </nav>
 </template>
+
+

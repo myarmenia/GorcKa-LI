@@ -7,7 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class CategoryTranslationsSeeder extends Seeder
+class CategoryTranslationsSeeder1 extends Seeder
 {
     /**
      * Run the database seeds.
@@ -81,62 +81,62 @@ class CategoryTranslationsSeeder extends Seeder
                 'category_id' => 5,
 
                 'lang' => 'am',
-                'name' => 'Վերանորոգում և ներքին հարդարանք ',
+                'name' => 'Վերանորոգում',
             ],
             [
                 'category_id' => 5,
                 'lang' => 'ru',
-                'name' => 'Ремонт и внутренняя отделка',
+                'name' => 'Ремонтные работы',
             ],
             [
                 'category_id' => 5,
                 'lang' => 'en',
-                'name' => 'Renovation and interior decoration',
+                'name' => 'Repair',
             ],
             [
                 'category_id' => 6,
                 'lang' => 'am',
-                'name' => 'Մաքրում, ախտահանում',
+                'name' => 'Cat-6-am',
             ],
             [
                 'category_id' => 6,
                 'lang' => 'ru',
-                'name' => ' Уборка, дезинфекция',
+                'name' => 'Cat-6-ru',
             ],
             [
                 'category_id' => 6,
                 'lang' => 'en',
-                'name' => 'Cleaning, disinfection',
+                'name' => 'Cat-6-en',
             ],
             [
                 'category_id' => 7,
                 'lang' => 'am',
-                'name' => 'Հաշվապահական հաշվառում և հարկեր',
+                'name' => 'Cat-7-am',
             ],
             [
                 'category_id' => 7,
                 'lang' => 'ru',
-                'name' => 'Бухгалтерский учет и налоги',
+                'name' => 'Cat-7-ru',
             ],
             [
                 'category_id' => 7,
                 'lang' => 'en',
-                'name' => 'Accounting and taxes',
+                'name' => 'Cat-7-en',
             ],
             [
                 'category_id' => 8,
                 'lang' => 'am',
-                'name' => 'Դիզայնի ծառայություններ',
+                'name' => 'Cat-8-am',
             ],
             [
                 'category_id' => 8,
                 'lang' => 'ru',
-                'name' => 'Дизайнерские услуги',
+                'name' => 'Cat-8-ru',
             ],
             [
                 'category_id' => 8,
                 'lang' => 'en',
-                'name' => 'Design services',
+                'name' => 'Cat-8-en',
             ],
             [
                 'category_id' => 9,
