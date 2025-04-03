@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Storage;
 
 class Task extends Model
 {
@@ -47,7 +48,7 @@ class Task extends Model
         return $this->hasMany(Applicant::class);
     }
 
-    
+
     protected function authApplicant(): Attribute
     {
         return Attribute::make(
@@ -61,4 +62,5 @@ class Task extends Model
             get: fn() => optional($this->location?->translation)->name
         );
     }
+
 }

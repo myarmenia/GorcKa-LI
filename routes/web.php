@@ -45,6 +45,7 @@ Route::prefix('{locale}')
 Route::get('/admin', function () {
     return Inertia::render('WelcomeAdmin');
 });
+
 Route::get('get-file', [FileUploadService::class, 'get_file'])->name('get-file');
 Route::delete('delete-item/{tb_name}/{id}', [DeleteItemController::class, 'index'])->name('delete_item');
 

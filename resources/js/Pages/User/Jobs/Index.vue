@@ -19,7 +19,7 @@ const props = defineProps({
 const jobsRef = ref(props.jobs.data);
 const pagination = ref(props.jobs.links);
 const paginationInfo = ref(props.jobs);
-// console.log(props.jobs, '/////pppp')
+console.log(props.jobs, '/////pppp')
 let activePage = ref(1)
 
 const searchSelectLocation = ref('');

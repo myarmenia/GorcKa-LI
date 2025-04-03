@@ -13,6 +13,8 @@ import './modules/user/switcher.js';
 
 // import './modules/user/job-list.init';
 import './modules/user/dropdown&modal.init.js';
+import './modules/user/glightbox.min';
+
 
 // import '../../public/assets/user/libs/swiper/swiper-bundle.min';
 // import './modules/user/swiper.init.js';

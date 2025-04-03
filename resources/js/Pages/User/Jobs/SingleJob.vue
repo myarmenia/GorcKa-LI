@@ -1,10 +1,23 @@
 <script setup>
+import '../../../../../public/assets/user/libs/glightbox/css/glightbox.min.css';
 import Layout from '@/Layouts/User/Layout.vue';
 import Jobs from '@/Components/Jobs.vue'
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import { Head, Link } from '@inertiajs/vue3';
 import { useTrans } from '/resources/js/trans';
 import dayjs from 'dayjs';
+
+
+import { initLightbox } from '@/modules/user/lightbox.init.js';
+import gFunLightbox from '@/modules/user/glightbox.min';
+
+
+onMounted(() => {
+    gFunLightbox();
+    initLightbox();
+
+});
+
 
 const props = defineProps({
     job: Object,
@@ -13,7 +26,7 @@ const props = defineProps({
 
 const jobRef = ref(props.job);
 const relatedJobsRef = ref(props.related_jobs);
-console.log(jobRef.value.auth_applicant, 444444444)
+console.log(jobRef, 4545454545)
 const formattedDates = computed(() => ({
     created_at: jobRef.value.created_at ? dayjs(jobRef.value.created_at).format('DD.MM.YYYY') : null,
     start: jobRef.value.start_date ? dayjs(jobRef.value.start_date).format('DD.MM.YYYY') : null,
@@ -91,6 +104,24 @@ const formattedDates = computed(() => ({
                                     <h5 class="mb-3 text-gray-900 dark:text-gray-50">{{useTrans('page.job_description')}}</h5>
                                     <div>
                                         <p class="mb-0 text-gray-500 dark:text-gray-300">{{ jobRef.description }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="pt-10 my-10">
+                                    <h6 class="mb-0 text-gray-900 text-17 fw-bold dark:text-gray-50">{{useTrans('page.images')}}</h6>
+                                    <div class="mt-4 ">
+                                        <div class="grid grid-cols-12 gap-5 ">
+                                            <div v-for="file in jobRef.files" class="col-span-4 ">
+                                                <div class="relative overflow-hidden rounded-md group/project h-[160px]">
+                                                    <img :src="file.file_path" alt="" class="transition-all duration-300 ease-in-out group-hover/project:scale-110">
+                                                    <div class="transition-all duration-300 ease-in-out group-hover/project:bg-black/40 group-hover/project:absolute group-hover/project:inset-0"></div>
+                                                    <div class="absolute top-[50%] left-[50%] -translate-x-5 -translate-y-5 group-hover/project:block hidden transition-all duration-300 ease-in-out text-2xl">
+                                                        <a :href="file.file_path" class="text-white image-popup" ><i class="uil uil-search-alt"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
 
@@ -182,9 +213,22 @@ const formattedDates = computed(() => ({
                                 </ul>
 
                                 <div class="mt-8 space-y-2">
-                                    <Link v-if="$page.props.auth.user != null && ($page.props.auth.user.id != jobRef.user.id) && !jobRef.auth_applicant" :href="route('apply_now', {locale: $page.props.locale, task: jobRef.id})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
-                                        {{ useTrans('page.jobs.apply_now') }}
-                                        <i class="uil uil-arrow-right"></i>
+                                    <Link v-if="$page.props.auth.user != null && ($page.props.auth.user.id != jobRef.user.id) && !jobRef.auth_applicant && $page.props.auth.user.verified != null"
+                                        :href="route('apply_now', {locale: $page.props.locale, task: jobRef.id})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
+                                            {{ useTrans('page.jobs.apply_now') }}
+                                            <i class="uil uil-arrow-right"></i>
+                                    </Link>
+
+                                    <Link v-else-if="$page.props.auth.user == null "
+                                        :href="route('login', {locale: $page.props.locale})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
+                                            {{ useTrans('page.jobs.sign_in_to_apply') }}
+                                            <i class="uil uil-arrow-right"></i>
+                                    </Link>
+
+                                    <Link v-else-if="$page.props.auth.user != null &&  $page.props.auth.user.verified == null"
+                                        :href="route('verification.notice', {locale: $page.props.locale})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
+                                            {{ useTrans('page.jobs.confirm_email_to_apply') }}
+                                            <i class="uil uil-arrow-right"></i>
                                     </Link>
 
                                     <div v-else-if="jobRef.auth_applicant"  class="btn w-full bg-green-500/20 border-transparent text-white hover:-translate-y-1.5">
@@ -192,7 +236,7 @@ const formattedDates = computed(() => ({
                                         {{ useTrans('page.jobs.you_applied') }}
                                     </div>
 
-                                    
+
                                     <!-- testi hamar -->
                                     <!-- <Link  :href="route('apply_now', {locale: $page.props.locale, task: jobRef.id})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
                                         {{ useTrans('page.jobs.apply_now') }}
@@ -245,8 +289,9 @@ const formattedDates = computed(() => ({
                     </div>
                 </div>
             </div>
+
+
         </section>
     </Layout>
-
 </template>
 

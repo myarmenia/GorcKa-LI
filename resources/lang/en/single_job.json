@@ -9,6 +9,7 @@
     "related_jobs": "Related Jobs",
     "view_more": "View More",
     "job_description": "Job Description",
+    "images": "Images",
     "jobs": {
         "title": "Title",
         "remote": "Remote",
@@ -18,6 +19,8 @@
         "location": "Location",
         "offered_salary": "Offered salary",
         "date_posted": "Date posted",
-        "you_applied": "You applied"
+        "you_applied": "You applied",
+        "sign_in_to_apply": "Sign in to apply",
+        "confirm_email_to_apply": "Confirm email to apply"
     }
 }

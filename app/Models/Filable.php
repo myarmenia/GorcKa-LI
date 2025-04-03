@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Storage;
 
 class Filable extends Model
 {
@@ -12,5 +13,10 @@ class Filable extends Model
     {
         return $this->morphTo();
 
+    }
+
+    public function getFilePathAttribute($value)
+    {
+        return asset('storage/'. $value);
     }
 }
