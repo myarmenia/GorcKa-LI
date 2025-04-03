@@ -19,20 +19,18 @@ const props = defineProps({
                 <div class="grid items-center grid-cols-12">
                     <div class="col-span-12 lg:col-span-2">
                         <div class="mb-4 text-center mb-md-0">
-                            <a href="company-details.html">
                                 <img :src="job.category_icon
-                                                ? `/assets/user/icons/categories/${job.category_icon}.svg`
-                                                : `/assets/user/icons/categories/it.svg`"
-                                        alt="" class="mx-auto img-fluid rounded-3 w-1/3">
-                            </a>
+                                        ? `/assets/user/icons/categories/${job.category_icon}.svg`
+                                        : `/assets/user/icons/categories/it.svg`"
+                                    alt="" class="mx-auto img-fluid rounded-3 w-1/3">
                         </div>
                     </div>
                     <!--end col-->
                     <div class="col-span-12 lg:col-span-3">
                         <div class="mb-2 mb-md-0">
-                            <h5 class="mb-1 fs-18"><a href="job-details.html" class="text-gray-900 dark:text-gray-50">{{job.title}}</a>
+                            <h5 class="mb-1 fs-18">
+                                <Link :href="route('single_job', { locale: $page.props.locale, id: job.id })">{{job.title}} </Link>
                             </h5>
-                            <!-- <p class="mb-0 text-gray-500 fs-14 dark:text-gray-300">Web Technology pvt.Ltd</p> -->
                         </div>
                     </div>
                     <!--end col-->
@@ -56,7 +54,6 @@ const props = defineProps({
                     <div v-if="job.task_type === 1" class="col-span-12 lg:col-span-2">
                         <div class="flex flex-wrap gap-1.5">
                             <span class="badge bg-green-500/20 text-green-500 text-13 px-2 py-0.5 font-medium rounded">{{useTrans('page.jobs.remote')}}</span>
-                            <!-- <span class="badge bg-sky-500/20 text-sky-500 text-13 px-2 py-0.5 font-medium rounded">Private</span> -->
                         </div>
                     </div>
                 </div>
@@ -74,7 +71,6 @@ const props = defineProps({
 
                     <div class="col-span-12 lg:col-span-5">
                         <div class="text-start lg:text-end dark:text-gray-50">
-                            <!-- <Link :href="route('single_job', { locale: $page.props.locale, id: job.id })">{{useTrans('page.jobs.apply_now')}} <i class="mdi mdi-chevron-double-right"></i></Link> -->
                             <Link v-if="$page.props.auth.user != null && ($page.props.auth.user.id == job.applicant_auth_id) "
                                     :href="route('single_job', { locale: $page.props.locale, id: job.id })" >
                                           {{ useTrans('page.jobs.you_applied') }}
