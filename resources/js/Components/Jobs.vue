@@ -74,7 +74,14 @@ const props = defineProps({
 
                     <div class="col-span-12 lg:col-span-5">
                         <div class="text-start lg:text-end dark:text-gray-50">
-                            <Link :href="route('single_job', { locale: $page.props.locale, id: job.id })">{{useTrans('page.jobs.apply_now')}} <i class="mdi mdi-chevron-double-right"></i></Link>
+                            <!-- <Link :href="route('single_job', { locale: $page.props.locale, id: job.id })">{{useTrans('page.jobs.apply_now')}} <i class="mdi mdi-chevron-double-right"></i></Link> -->
+                            <Link v-if="$page.props.auth.user != null && ($page.props.auth.user.id == job.applicant_auth_id) "
+                                    :href="route('single_job', { locale: $page.props.locale, id: job.id })" >
+                                          {{ useTrans('page.jobs.you_applied') }}
+                                        <i class="mdi mdi-chevron-double-right"></i>
+                            </Link>
+                            <Link v-else :href="route('single_job', { locale: $page.props.locale, id: job.id })">{{useTrans('page.jobs.apply_now')}} <i class="mdi mdi-chevron-double-right"></i></Link>
+
                         </div>
                     </div>
                     <!--end col-->

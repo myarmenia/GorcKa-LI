@@ -26,7 +26,7 @@ const props = defineProps({
 
 const jobRef = ref(props.job);
 const relatedJobsRef = ref(props.related_jobs);
-console.log(jobRef.value.files, 4545454545)
+console.log(jobRef, 4545454545)
 const formattedDates = computed(() => ({
     created_at: jobRef.value.created_at ? dayjs(jobRef.value.created_at).format('DD.MM.YYYY') : null,
     start: jobRef.value.start_date ? dayjs(jobRef.value.start_date).format('DD.MM.YYYY') : null,
@@ -213,9 +213,22 @@ const formattedDates = computed(() => ({
                                 </ul>
 
                                 <div class="mt-8 space-y-2">
-                                    <Link v-if="$page.props.auth.user != null && ($page.props.auth.user.id != jobRef.user.id) && !jobRef.auth_applicant" :href="route('apply_now', {locale: $page.props.locale, task: jobRef.id})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
-                                        {{ useTrans('page.jobs.apply_now') }}
-                                        <i class="uil uil-arrow-right"></i>
+                                    <Link v-if="$page.props.auth.user != null && ($page.props.auth.user.id != jobRef.user.id) && !jobRef.auth_applicant && $page.props.auth.user.verified != null"
+                                        :href="route('apply_now', {locale: $page.props.locale, task: jobRef.id})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
+                                            {{ useTrans('page.jobs.apply_now') }}
+                                            <i class="uil uil-arrow-right"></i>
+                                    </Link>
+
+                                    <Link v-else-if="$page.props.auth.user == null "
+                                        :href="route('login', {locale: $page.props.locale})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
+                                            {{ useTrans('page.jobs.sign_in_to_apply') }}
+                                            <i class="uil uil-arrow-right"></i>
+                                    </Link>
+
+                                    <Link v-else-if="$page.props.auth.user != null &&  $page.props.auth.user.verified == null"
+                                        :href="route('verification.notice', {locale: $page.props.locale})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
+                                            {{ useTrans('page.jobs.confirm_email_to_apply') }}
+                                            <i class="uil uil-arrow-right"></i>
                                     </Link>
 
                                     <div v-else-if="jobRef.auth_applicant"  class="btn w-full bg-green-500/20 border-transparent text-white hover:-translate-y-1.5">

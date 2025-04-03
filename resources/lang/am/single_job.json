@@ -19,6 +19,8 @@
         "location": "Գտնվելու վայրը",
         "offered_salary": "Առաջարկվող աշխատավարձ",
         "date_posted": "Տեղադրման ամսաթիվը",
-        "you_applied": "Դուք դիմել եք "
+        "you_applied": "Դուք դիմել եք ",
+        "sign_in_to_apply": "Դիմելու համար մուտք եղեք",
+        "confirm_email_to_apply": "Դիմելու համար հաստատեք էլ.փոստը"
     }
 }
