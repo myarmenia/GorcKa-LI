@@ -70,4 +70,30 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Notification::class);
 
     }
+
+    public function rooms()
+    {
+        return $this->hasMany(Room::class, 'employer_id');
+
+    }
+
+    public function roomsAll()
+    {
+        return Room::where(function ($query) {
+            $query->where('employer_id', $this->id)
+                ->orWhere('executor_id', $this->id);
+        });
+    }
+
+    public function hasAccessToRoom($roomId)
+    {        
+        return $this->roomsAll()->where('id', $roomId)->exists();
+    }
+
+    public function hasAccessToTask($taskId)
+    {        
+        return $this->tasks()->where('id', $taskId)->exists();
+    }
+
+    
 }

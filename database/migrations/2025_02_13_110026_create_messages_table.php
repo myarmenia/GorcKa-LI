@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->mediumText('message')->nullable();
             $table->date('read_at')->nullable();
+            $table->integer('from_app')->nullable();
             $table->timestamps();
         });
     }

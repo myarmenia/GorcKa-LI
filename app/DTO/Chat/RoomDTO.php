@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTO\Room;
+namespace App\DTO\Chat;
 
 
 class RoomDTO
