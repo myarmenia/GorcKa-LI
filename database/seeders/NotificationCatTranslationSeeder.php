@@ -136,6 +136,27 @@ class NotificationCatTranslationSeeder extends Seeder
                 'name' => 'Selected executor',
                 'description' => 'Your job application has been approved.'
 
+            ],
+            [
+                'notification_category_id' => 7,
+                'lang' => 'am',
+                'name' => 'Դուք դիմել եք',
+                'description' => 'Դուք դիմել եք աշխատանքի հայտարարությանը:'
+
+            ],
+            [
+                'notification_category_id' => 7,
+                'lang' => 'ru',
+                'name' => 'Вы откликнулись',
+                'description' => 'Вы откликнулись на заявку по работе'
+
+            ],
+            [
+                'notification_category_id' => 7,
+                'lang' => 'en',
+                'name' => 'You applied',
+                'description' => 'Your application was sent.'
+
             ]
 
 

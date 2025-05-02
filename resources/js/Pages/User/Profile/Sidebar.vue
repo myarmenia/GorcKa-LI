@@ -45,7 +45,7 @@
     }
 </style>
 <template>
-      <div class="col-span-12 lg:col-span-4">
+      <div class="col-span-12 lg:col-span-3">
                                     <div class="border rounded border-gray-100/50 dark:border-neutral-600">
                                         <div class="p-5 border-b border-gray-100/50 dark:border-neutral-600">
                                             <div class="text-center">
@@ -142,7 +142,9 @@
 
 
                                                             <Link :href="route('task.list',{locale:usePage().props.locale})">Task Page</Link><br>
-                                                            <Link :href="route('task.create',{locale:usePage().props.locale})">Task create</Link>
+                                                            <Link :href="route('task.create',{locale:usePage().props.locale})">Task create</Link><br>
+                                                            <Link :href="route('user.chat',{locale:usePage().props.locale})">Chat</Link>
+
 
                                                         </div>
                                                     </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, inject } from "vue";
+import { ref, onMounted, onUnmounted  } from "vue";
 import { initNavbar } from "@/modules/user/navbar.js";
 import { initDropdowns } from '@/modules/user/dropdown&modal.init.js';
 import { useTrans } from '/resources/js/trans';
@@ -9,11 +9,16 @@ import { router, Link } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 
 import { initFirebase, requestPermission } from '../../firebase';
+import { globalOnlineUsers } from '@/global/globalOnlineUsers';
 
 const { auth, firebaseConfig, firebaseVapIdKey } = usePage().props;
 const locale_lng = usePage().props.locale; // Получаем локаль
 
 const user = ref(auth?.user || null);
+
+
+// const globalOnlineUsers = ref([]);
+let presenceChannel = null;
 
 onMounted(() => {
     initNavbar(); // Запускаем `initNavbar` после монтирования компонента
@@ -25,6 +30,34 @@ onMounted(() => {
         requestPermission(firebaseVapIdKey);
     }
 
+
+    // Подключение к presence-каналу
+    if (user.value) {
+        window.Echo.join('presence-users')
+        .here((users) => {
+            globalOnlineUsers.value = users;
+        })
+        .joining((user) => {
+            if (!globalOnlineUsers.value.find(u => u.id === user.id)) {
+                globalOnlineUsers.value.push(user);
+            }
+        })
+        .leaving((user) => {
+            globalOnlineUsers.value = globalOnlineUsers.value.filter(u => u.id !== user.id);
+        });
+    }
+
+});
+
+
+
+onUnmounted(() => {
+    try {
+        if (presenceChannel) presenceChannel.leave();
+        window.Echo.leave('presence-users');
+    } catch (e) {
+        console.error("Ошибка при выходе из presence-канала:", e);
+    }
 });
 
 
@@ -173,7 +206,9 @@ const changeLanguage = (lang) => {
                 </div>
 
                 <div id="navbar-collapse" class="navbar-res items-center lg:justify-between md:justify-end w-full text-sm lg:flex lg:w-auto lg:order-1 group-focus:[.navbar-toggler]:block hidden">
-                    <ul class="flex flex-col items-start mt-5 mb-10 font-medium lg:mt-0 lg:mb-0 lg:items-center lg:flex-row" id="navigation-menu">
+                    <ul class="flex flex items-start mt-5 mb-10 font-medium lg:mt-0 lg:mb-0 lg:items-center lg:flex-row" id="navigation-menu">
+                    <!-- <ul class="flex flex-col items-start mt-5 mb-10 font-medium lg:mt-0 lg:mb-0 lg:items-center lg:flex-row" id="navigation-menu"> -->
+
                         <li class="py-5 lg:px-4">
                             <Link
                                 :href="route('welcome', { locale: $page.props.locale })"

@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\User\ApplyNow\ApplyNowController;
+use App\Http\Controllers\User\Profile\Chat\ChatController;
+use App\Http\Controllers\User\Profile\Chat\GetMessagesController;
+use App\Http\Controllers\User\Profile\Chat\ReadMessageController;
+use App\Http\Controllers\User\Profile\Chat\SendMessageController;
 use App\Http\Controllers\User\Profile\UserProfileController;
 use App\Http\Controllers\User\SaveFcmTokenController;
 use Inertia\Inertia;
@@ -105,10 +109,18 @@ Route::middleware('auth')->group(function () {
 
             });
 
+            Route::prefix('chat')->group(function () {
+
+                Route::get('/', ChatController::class)->name('user.chat');
+                Route::get('/messages/{room_id}', GetMessagesController::class)->name('user.chat.messages');
+                Route::get('/messages/{room_id}', GetMessagesController::class)->name('user.chat.messages');
+                Route::get('/messages/{romm_id}/{user_id}/read', ReadMessageController::class)->name('user.chat.messages');
+                Route::post('/messages/send', SendMessageController::class)->name('user.chat.send_message');
+            });
+
+
             Route::get('/apply-now/{task}', [ApplyNowController::class, 'applyNow'])->name('apply_now');
-
             Broadcast::routes(['middleware' => ['auth']]);
-
 
         });
 
