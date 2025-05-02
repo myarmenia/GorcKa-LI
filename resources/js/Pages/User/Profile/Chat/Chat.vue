@@ -98,6 +98,14 @@ onUnmounted(() => {
   }
 });
 
+const unreadCountsPerJob = computed(() => {
+  const result = {};
+  for (const [jobName, rooms] of Object.entries(jobs.value)) {
+    result[jobName] = rooms.reduce((sum, room) => sum + (room.unread_count || 0), 0);
+  }
+  return result;
+});
+
 </script>
 
 <template>
@@ -144,7 +152,7 @@ onUnmounted(() => {
                                                                                     <button type="button" class="flex items-center justify-between w-full px-4 py-2 font-medium text-left accordion-header  group group-data-[theme-color=green]:bg-green-500/20">
                                                                                         <span class="text-gray-900 text-15 dark:text-gray-50"> {{index}}</span>
                                                                                         <div>
-                                                                                            <span data-v-955ce5bf="" class="px-2 py-1 mr-2 text-red-500 rounded-full bg-red-500/20 text-11">02</span>
+                                                                                            <span  class="px-2 py-1 mr-2 text-red-500 rounded-full bg-red-500/20 text-11"> {{ unreadCountsPerJob[index] }}</span>
                                                                                             <i class="mdi mdi-chevron-down text-xl group-[.active]:rotate-180 text-gray-900 dark:text-gray-50"></i>
                                                                                         </div>
                                                                                     </button>
@@ -158,10 +166,8 @@ onUnmounted(() => {
                                                                                                 <div class="relative flex">
                                                                                                     <div class="relative self-center ltr:mr-3 rtl:ml-3">
                                                                                                         <img :src="room.interlocutor.avatar ? room.interlocutor.avatar : '/assets/user/images/user.svg'" class="rounded-full w-9 h-9" alt="">
-                                                                                                         <span v-if="isUserOnline(room.interlocutor.id)" class="text-green-500">● онлайн</span>
-                                                                                                        <span v-else class="text-gray-500">● офлайн</span>
-                                                                                                        <span class="absolute w-2.5 h-2.5 bg-yellow-500 border-2 border-white rounded-full top-7 ltr:right-1 rtl:left-1 dark:border-zinc-600"></span>
-                                                                                                    <!-- <span v-if="isInterlocutorOnline" class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span> -->
+                                                                                                         <span :class="isUserOnline(room.interlocutor.id) ? 'bg-green-600' : 'bg-yellow-700/20'"
+                                                                                                                class=" absolute w-3 h-3  border-2 border-white rounded-full top-7 ltr:right-1 rtl:left-1 dark:border-zinc-600"></span>
                                                                                                     </div>
                                                                                                     <div class="flex-grow overflow-hidden">
                                                                                                         <h5 class="mb-1 text-base truncate dark:text-gray-50">{{room.interlocutor.name}}</h5>
@@ -201,7 +207,12 @@ onUnmounted(() => {
                     <div class="w-full overflow-hidden transition-all duration-150 bg-white user-chat dark:bg-zinc-800">
                         <div class="lg:flex">
                             <!-- start chat conversation section -->
-                            <Messages :roomId="selectedRoomId" :interlocutor="selectedUser" @update:isInterlocutorOnline="isOnline = $event" />
+                            <!-- <Messages :roomId="selectedRoomId" :interlocutor="selectedUser"
+                                    @update:isInterlocutorOnline="isOnline = $event"
+                            /> -->
+                            <Messages :roomId="selectedRoomId" :interlocutor="selectedUser"
+
+                            />
 
                             <!-- end chat conversation section -->
 

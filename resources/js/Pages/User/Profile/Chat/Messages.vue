@@ -26,18 +26,7 @@ const usersOnlineGlobal = ref([]);
 
 const scrollContainer = ref(null)
 
-const usersInRoom = ref([])
-const isInterlocutorOnline = computed(() =>
-  usersOnlineGlobal.value.some(u => u.id === interlocutor.value?.id)
-);
-
-const emit = defineEmits(['update:isInterlocutorOnline'])
-
-
-watch(isInterlocutorOnline, (newStatus) => {
-  emit('update:isInterlocutorOnline', newStatus);
-});
-
+const usersInRoomIds = ref(new Set());
 
 watch(() => props.roomId, async (newId, oldId) => {
     if (newId) {
@@ -51,43 +40,34 @@ watch(() => props.roomId, async (newId, oldId) => {
             // Отписка от предыдущего канала
             if (echoChannel) {
                 echoChannel.stopListening(".MessageSent");
-                window.Echo.leave(`private-room.${oldId}`);
+                window.Echo.leave(`presence-room.${oldId}`);
+                console.log(`presence-room.${oldId}`, `anjatec room ${oldId}`)
             }
 
-            // Подписка на новый канал
-            // echoChannel = window.Echo.private(`room.${newId}`)
-            //     .listen(".MessageSent", (e) => {
-            //     console.log(e.message, ' получено событие MessageSent');
-
-            //     // const now = new Date().toISOString().split('T')[0]; // либо другой ключ
-            //     const now = dayjs().format('YYYY-MM-DD')
-
-            //     if (messages.value[now]) {
-            //         messages.value[now].other.push(e.message);
-            //     } else {
-            //         messages.value[now] = { other: [e.message] };
-            //     }
-
-            //      nextTick(() => {
-            //         scrollToBottom()
-            //     })
-            // });
-
+            console.log(newId,'nor id')
             echoChannel = window.Echo.join(`presence-room.${newId}`)
                 .here((users) => {
                     console.log('Пользователи уже в комнате:', users);
                     // можно сохранить в ref
-                    usersInRoom.value = users;
+                    // usersInRoom.value = users;
+                    usersInRoomIds.value = new Set(users.map(u => u.id));
                 })
                 .joining((user) => {
                     console.log('Пользователь вошел в комнату с id:', user.id); // Логируем только id
-                    usersInRoom.value.push(user);
-                    console.log('Обновленный список пользователей:', usersInRoom.value);
+                    // usersInRoom.value.push(user);
+                     usersInRoomIds.value.add(user.id);
+                    console.log('Обновленный список пользователей:', usersInRoomIds.value);
                 })
                 .leaving((user) => {
-                       console.log('Пользователь вышел из комнаты:', user);
-                        usersInRoom.value = usersInRoom.value.filter(u => u.id !== user.id);
-                        console.log('Обновленный список пользователей после ухода:', usersInRoom.value);
+                        console.log('Пользователь вышел из комнаты:', user);
+
+                        // usersInRoom.value = usersInRoom.value.filter(u => {
+                        //     console.log('Сравнение:', u.id, user.id);
+                        //     return u.id !== user.id;
+                        // });
+                        usersInRoomIds.value.delete(user.id);
+
+                        console.log('Обновленный список пользователей после ухода:', usersInRoomIds.value);
                 })
                 .listen(".MessageSent", (e) => {
                 console.log(e.message, ' получено событие MessageSent');
@@ -107,20 +87,12 @@ watch(() => props.roomId, async (newId, oldId) => {
             });
 
 
-
-
-        console.log(messages.value)
+        // console.log(messages.value)
     } catch (error) {
       console.error('Ошибка при загрузке сообщений:', error);
     }
   }
 });
-
-
-watch(isInterlocutorOnline, (newStatus) => {
-    emit('update:isInterlocutorOnline', newStatus);
-});
-
 
 
 const handleFileChange = (e) => {
@@ -171,7 +143,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   if (echoChannel) {
     echoChannel.stopListening(".MessageSent");
-    window.Echo.leave(`private-room.${props.roomId}`);
+    window.Echo.leave(`presence-room.${props.roomId}`);
   }
 
   try {
@@ -192,13 +164,10 @@ onBeforeUnmount(() => {
 });
 
 
-// const isInterlocutorInCurrentRoom = () => {
-//     console.log(usersInRoom.value)
-//     return usersInRoom.value.some(u => u.id === interlocutor.value?.id)
-//             && props.roomId !== null;
-// }
 
-
+const isInterlocutorInCurrentRoom = computed(() =>
+    usersInRoomIds.value.has(interlocutor.value.id)
+);
 
 const sendMessage = () => {
     if (!message.value.trim() && files.value.length === 0) return
@@ -212,19 +181,8 @@ const sendMessage = () => {
         formData.append(`files[${index}]`, file)
     })
 
-    // Проверяем, если собеседник в комнате
-console.log(usersInRoom.value, interlocutor.value.id, 'props.roomId-'+props.roomId)
-    // const isInterlocutorInRoom = usersInRoom.value.some(u => u.id === interlocutor.value.id);
-    const isInterlocutorInCurrentRoom = usersInRoom.value.some(user =>
-        user.id === interlocutor.value.id && user.room_id === props.roomId
-    );
 
-
-    // console.log('(user.id-'+user.id, 'interlocutor-'+interlocutor.value.id , 'user.room_id-'+user.room_id , 'props.roomId-'+props.roomId);
-
-    console.log(isInterlocutorInCurrentRoom, 'Собеседник в этой комнате?');
-
-    if (isInterlocutorInCurrentRoom) {
+    if (isInterlocutorInCurrentRoom.value) {
         formData.append('read_at', now);
     }
 
@@ -290,7 +248,7 @@ console.log(usersInRoom.value, interlocutor.value.id, 'props.roomId-'+props.room
                         </div>
                         <div class="rtl:ml-3 ltr:mr-3">
                             <img :src="interlocutor && interlocutor.avatar ? interlocutor.avatar : '/assets/user/images/user.svg'" class="rounded-full w-9 h-9" alt="">
-                            <span v-if="isInterlocutorOnline" class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full">yyyy</span>
+                            <!-- <span v-if="isInterlocutorOnline" class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full">yyyy</span> -->
 
                         </div>
                         <div class="flex-grow overflow-hidden">
