@@ -10,6 +10,6 @@ interface BaseInterface
     public function store(array $data);
     public function update(int $id, array $data);
     public function delete(int $id);
-
     public function getActiveRows();
+    public function getItemByIdWithRel(int $id, array $relations);
 }

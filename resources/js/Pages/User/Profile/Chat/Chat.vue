@@ -2,28 +2,37 @@
 import Index from '../Index.vue';
 import Messages from './Messages.vue';
 import axios from 'axios';
-import { computed, ref, onMounted, watch, onUnmounted } from "vue";
+import { computed, ref, reactive, onMounted, watch, onUnmounted, nextTick } from "vue";
 import { Head, useForm, usePage } from '@inertiajs/vue3';
 import initNavAndTabs from "@/modules/user/nav&tabs.js";
 import initChatApp from "@/modules/user/chat-app";
-// import '../../../../../css/user/tailwind2.css';
 
 import { globalOnlineUsers } from '@/global/globalOnlineUsers';
+
 
 const props = defineProps({
   rooms: Array,
 });
 
 const jobs = ref(props.rooms);
+
 const selectedRoomId = ref(null);
+const selectedRoomEmployerId = ref(null);
 const selectedUser = ref(null)
 const authUserId = ref(usePage().props?.auth?.user.id || null)
 const unreadCounts = ref({});
+const selectedJobExecutirId = ref({})
+const selectedJobStatus = ref({})
+const searchText = ref('');
 
 
 function selectRoom(room) {
+
     selectedUser.value = room.interlocutor
     selectedRoomId.value = room.id
+    selectedRoomEmployerId.value = room.employer_id
+    selectedJobExecutirId.value = room.task.executor_id
+    selectedJobStatus.value = room.task.status
 
     // сбросить индикатор
     unreadCounts.value[room.id] = 0;
@@ -34,6 +43,7 @@ function selectRoom(room) {
 function isUserOnline(userId) {
   return globalOnlineUsers.value.some(u => u.id === userId);
 }
+
 
 // сбросить индикатор
 function removeUnreadCount (roomId){
@@ -46,6 +56,24 @@ function removeUnreadCount (roomId){
 }
 
 
+const removeRoom = async (roomId) => {
+    try {
+        await axios.get(`chat/room/${roomId}/delete`);
+
+        for (const key in jobs.value) {
+            // Фильтруем и перезаписываем массив
+            jobs.value[key] = jobs.value[key].filter(room => room.id !== roomId);
+        }
+
+        selectedRoomId.value = null
+
+    } catch (error) {
+        console.error('Ошибка при удалении room:', error);
+    }
+};
+
+
+
 // read messages in room via auth user
 async function readMessages (roomId){
     try {
@@ -56,8 +84,30 @@ async function readMessages (roomId){
 }
 
 
+// ================= search ========================
+async function filterJobsBySearch() {
+  try {
+    const response = await axios.get('chat/search', {
+      params: { search: searchText.value }
+    })
 
-console.log(props.rooms, 7777777777)
+    jobs.value = response.data.rooms
+
+
+  } catch (error) {
+    console.error('Ошибка при поиске:', error)
+  }
+}
+
+
+watch(jobs, (newJobs, oldJobs) => {
+    // Немного задержим, чтобы DOM успел обновиться
+    nextTick(() => {
+        initNavAndTabs();
+    });
+});
+
+
 
 onMounted(() => {
     initNavAndTabs();
@@ -92,18 +142,18 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  const style = document.getElementById('chat-css');
-  if (style) {
-    style.remove();
-  }
+    const style = document.getElementById('chat-css');
+    if (style) {
+        style.remove();
+    }
 });
 
 const unreadCountsPerJob = computed(() => {
-  const result = {};
-  for (const [jobName, rooms] of Object.entries(jobs.value)) {
-    result[jobName] = rooms.reduce((sum, room) => sum + (room.unread_count || 0), 0);
-  }
-  return result;
+    const result = {};
+    for (const [jobName, rooms] of Object.entries(jobs.value)) {
+        result[jobName] = rooms.reduce((sum, room) => sum + (room.unread_count || 0), 0);
+    }
+    return result;
 });
 
 </script>
@@ -112,7 +162,7 @@ const unreadCountsPerJob = computed(() => {
     <Index>
         <Head title = "Chat" />
         <template #content>
-            <div class="flex ">
+            <div class="w-full flex tab-pane">
                 <div class="flex w-full">
                     <div class="chat-leftsidebar w-full lg:w-[380px] group-data-[theme-color=green]:bg-green-500/20  shadow overflow-y-hidden mb-[80px] lg:mb-0 group-data-[theme-color=green]:dark:bg-zinc-700">
                         <div>
@@ -123,10 +173,11 @@ const unreadCountsPerJob = computed(() => {
                                         <h4 class="mb-0 text-gray-700 dark:text-gray-50">Chats</h4>
 
                                         <div class="flex items-center  py-1 mt-5 mb-5 rounded bg-search group-data-[theme-color=green]:dark:bg-zinc-600 ">
-                                            <span class=" pe-1 ps-3  group-data-[theme-color=green]:dark:bg-zinc-600 " id="basic-addon1">
-                                                <i class="text-lg text-gray-400 uil uil-search search-icon dark:text-gray-200"></i>
+
+                                            <input v-model="searchText" type="text" class="w-5/6 border-0  bg-search placeholder:text-[14px] focus:ring-offset-0 focus:outline-none focus:ring-0  placeholder:text-gray-400" placeholder="Search messages or users" aria-label="Search messages or users" aria-describedby="basic-addon1">
+                                            <span @click="filterJobsBySearch" class=" pe-1 ps-3  group-data-[theme-color=green]:dark:bg-zinc-600 " id="basic-addon1">
+                                                <i class="text-lg text-gray-400 uil uil-search search-icon dark:text-gray-200 cursor-pointer"></i>
                                             </span>
-                                            <input type="text" class="w-5/6 border-0  bg-search placeholder:text-[14px] focus:ring-offset-0 focus:outline-none focus:ring-0  placeholder:text-gray-400" placeholder="Search messages or users" aria-label="Search messages or users" aria-describedby="basic-addon1">
                                         </div>
                                     </div>
 
@@ -206,21 +257,17 @@ const unreadCountsPerJob = computed(() => {
                     </div>
                     <div class="w-full overflow-hidden transition-all duration-150 bg-white user-chat dark:bg-zinc-800">
                         <div class="lg:flex">
-                            <!-- start chat conversation section -->
-                            <!-- <Messages :roomId="selectedRoomId" :interlocutor="selectedUser"
-                                    @update:isInterlocutorOnline="isOnline = $event"
-                            /> -->
-                            <Messages :roomId="selectedRoomId" :interlocutor="selectedUser"
+
+                            <Messages
+                                :roomId="selectedRoomId"
+                                :interlocutor="selectedUser"
+                                :removeRoom="removeRoom"
+                                :employerId="selectedRoomEmployerId"
+                                :selectedJobExecutirId="selectedJobExecutirId"
+                                :jobStatus="selectedJobStatus"
 
                             />
 
-                            <!-- end chat conversation section -->
-
-
-                            <!-- start User profile detail sidebar -->
-                            <!-- Start profile content -->
-
-                            <!-- end User profile detail sidebar -->
                         </div>
                     </div>
                 </div>

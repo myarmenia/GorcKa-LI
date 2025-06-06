@@ -4,6 +4,8 @@ namespace App\Repositories;
 
 use App\Interfaces\BaseInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Throwable;
 
 class BaseRepository implements BaseInterface
 {
@@ -21,7 +23,14 @@ class BaseRepository implements BaseInterface
 
     public function getById(int $id)
     {
-        return $this->model->findOrFail($id);
+        // return $this->model->findOrFail($id);
+
+        try {
+            return $this->model->find($id);
+
+        } catch (Throwable $e) {
+            return false;
+        }
     }
 
 
@@ -45,6 +54,11 @@ class BaseRepository implements BaseInterface
     public function getActiveRows()
     {
         return $this->model->where('status', 1)->get();
+    }
+
+    public function getItemByIdWithRel($id, $relations = [])
+    {
+        return $this->model->where('id', $id)->with($relations)->first();
     }
 
 }

@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('social_media', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('room_id')->constrained('rooms')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->mediumText('message')->nullable();
-            $table->date('read_at')->nullable();
-            $table->integer('from_app')->nullable();
-            $table->softDeletes();
+            $table->enum('type', ['facebook', 'linkedin', 'telegram', 'whatsapp'])->nullable();
+            $table->string('link');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('social_media');
     }
 };

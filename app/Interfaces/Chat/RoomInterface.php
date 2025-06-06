@@ -9,6 +9,6 @@ interface RoomInterface extends BaseInterface
 
     public function getInterlocutorId($roomId);
 
-    public function getRooms();
+    public function getRooms($request);
 
 }

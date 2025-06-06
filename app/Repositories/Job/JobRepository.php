@@ -9,6 +9,7 @@ use App\Models\Task;
 use App\Interfaces\Job\JobInterface;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class JobRepository extends BaseRepository implements JobInterface
 {
@@ -72,6 +73,11 @@ class JobRepository extends BaseRepository implements JobInterface
         $data = $this->getSelectedData($data);
 
         return $data;
+    }
+
+    public function getUnselectedApplicants($job,  $selected_user_id)
+    {
+        return $job->applicantUsers()->where('users.id', '!=', $selected_user_id)->get();
     }
 
 

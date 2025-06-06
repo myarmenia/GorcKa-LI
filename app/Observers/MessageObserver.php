@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Events\Chat\RoomUnreadMessageCount;
+use App\Events\ChatIndicatorEvent;
 use App\Models\Message;
 use App\Repositories\Chat\MessageRepository;
 
@@ -18,18 +19,34 @@ class MessageObserver
 
         if ($user_id) {
             $count = (new MessageRepository($message))->getUnreadMessagesCount($room_id, $user_id);
+            $allUnreadMessageCount = (new MessageRepository($message))->getAllUnreadMessagesCount( $user_id);
 
             event(new RoomUnreadMessageCount($count, $room_id, $user_id));
+            event(new ChatIndicatorEvent($allUnreadMessageCount,  $user_id));
+
+
         }
     }
+
 
     /**
      * Handle the Message "updated" event.
      */
     public function updated(Message $message): void
     {
-        //
+        dd(55);
+        $user_id = $message->user_id;  // message for user
+
+        if ($user_id) {
+            $allUnreadMessageCount = (new MessageRepository($message))->getAllUnreadMessagesCount( $user_id);
+
+            event(new ChatIndicatorEvent($allUnreadMessageCount,  $user_id));
+
+
+        }
     }
+
+
 
     /**
      * Handle the Message "deleted" event.
@@ -38,6 +55,8 @@ class MessageObserver
     {
         //
     }
+
+
 
     /**
      * Handle the Message "restored" event.

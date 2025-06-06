@@ -4,6 +4,8 @@ import { initNavbar } from "@/modules/user/navbar.js";
 import { initDropdowns } from '@/modules/user/dropdown&modal.init.js';
 import { useTrans } from '/resources/js/trans';
 import NotificationBell from '@/Components/NotificationBell.vue';
+import ChatIndicator from '@/Components/ChatIndicator.vue';
+
 
 import { router, Link } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
@@ -144,8 +146,10 @@ const changeLanguage = (lang) => {
                         </div>
                     </div>
                     <div v-if="$page.props.auth.user">
-
                         <NotificationBell :unread_notification_count="user.unread_notification_count"/>
+                    </div>
+                    <div v-if="$page.props.auth.user">
+                        <ChatIndicator :unread_messages_count="user.unread_messages_count"/>
                     </div>
                     <div>
                         <div  v-if="$page.props.auth.user" class="relative dropdown ltr:mr-4 rtl:ml-4">

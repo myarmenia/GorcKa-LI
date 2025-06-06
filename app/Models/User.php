@@ -7,6 +7,7 @@ use App\Traits\FilterTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -65,9 +66,26 @@ class User extends Authenticatable implements MustVerifyEmail
 
     }
 
+    public function files(): MorphMany
+    {
+        return $this->morphMany(Filable::class, 'filable');
+    }
+
+    public function social_medias()
+    {
+        return $this->hasMany(SocialMedia::class);
+
+    }
+
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
 
     }
 
@@ -95,5 +113,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->tasks()->where('id', $taskId)->exists();
     }
 
-    
+      
+    public function hasAccessToJobApplicant($taskId)
+    {        
+        
+        $has = $this->applicants()->where('task_id', $taskId)->exists();
+        return !$has ? $this->hasAccessToTask($taskId) : $has;
+    }
+
 }

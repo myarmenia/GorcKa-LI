@@ -33,7 +33,17 @@
 
         })
     }
+    onMounted(() => {
 
+    // ========== style =============
+      const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = '/assets/user/tailwind2.css'; // путь к стилю
+            link.id = 'chat-css';
+            document.head.appendChild(link);
+    // ==============================
+
+    })
 
 
 </script>
@@ -45,114 +55,125 @@
     }
 </style>
 <template>
-      <div class="col-span-12 lg:col-span-3">
-                                    <div class="border rounded border-gray-100/50 dark:border-neutral-600">
-                                        <div class="p-5 border-b border-gray-100/50 dark:border-neutral-600">
-                                            <div class="text-center">
-                                                <input  @change="handelFileChange" ref="fileInput" type="file" class="">
+      <div class="col-span-12 lg:col-span-1 h-full">
+            <div class="border rounded border-gray-100/50 dark:border-neutral-600 h-full">
+                <div class="sidebar-menu w-full lg:w-[75px] shadow lg:flex lg:flex-col z-10 flex flex-row justify-between items-center fixed lg:relative bottom-0 bg-white dark:bg-zinc-600 ">
+            <div class="hidden lg:my-5 lg:block">
+                <a href="index.html" class="block dark:hidden">
+                    <span>
+                        <img src="/assets/user/images/logo.svg" alt="" class="h-[30px]">
+                    </span>
+                </a>
 
-                                                <img @click="openFileInput" :src = "profilePictureUrl ?profilePictureUrl : '/assets/user/images/user/profile.jpg'" alt="" class="w-20 h-20 p-1 mx-auto border-2 rounded-full border-gray-200/20 profile-user-img">
-                                                <h6 class="mt-4 mb-0 text-lg text-gray-900 dark:text-gray-50">Jansh Dickens</h6>
-                                                <p class="mb-4 text-gray-500 dark:text-gray-300">Developer</p>
-                                                <ul class="flex flex-wrap justify-center gap-2 mb-0">
-                                                    <li class="w-10 h-10 text-lg leading-10 transition-all duration-300 ease-in-out rounded bg-violet-500/20 text-violet-500 hover:bg-violet-500 hover:text-white">
-                                                        <a href="javascript:void(0)" class="social-link rounded-3 "><i class="uil uil-facebook-f"></i></a>
-                                                    </li>
-                                                    <li class="w-10 h-10 text-lg leading-10 transition-all duration-300 ease-in-out rounded bg-sky-500/20 text-sky-500 hover:bg-sky-500 hover:text-white">
-                                                        <a href="javascript:void(0)" class="social-link rounded-3 btn-soft-info"><i class="uil uil-twitter-alt"></i></a>
-                                                    </li>
-                                                    <li class="w-10 h-10 text-lg leading-10 text-green-500 transition-all duration-300 ease-in-out rounded bg-green-500/20 hover:bg-green-500 hover:text-white">
-                                                        <a href="javascript:void(0)" class="social-link rounded-3 btn-soft-success"><i class="uil uil-whatsapp"></i></a>
-                                                    </li>
-                                                    <li class="w-10 h-10 text-lg leading-10 text-red-500 transition-all duration-300 ease-in-out rounded bg-red-500/20 hover:bg-red-500 hover:text-white">
-                                                        <a href="javascript:void(0)" class="social-link rounded-3 btn-soft-danger"><i class="uil uil-phone-alt"></i></a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="p-5">
-                                            <div class="pb-5 border-b border-gray-100/50 dark:border-neutral-600">
-                                                <h6 class="mb-5 font-semibold text-gray-900 text-17 dark:text-gray-50">Documents</h6>
-                                                <ul class="">
-                                                    <li>
-                                                        <div class="flex items-center mt-4 ">
-                                                            <div class="text-2xl text-gray-500 shrink-0">
-                                                                <i class="uil uil-file"></i>
-                                                            </div>
-                                                            <div class="ml-4">
-                                                                <h6 class="mb-0 text-gray-900 text-16 dark:text-gray-50">Resume.pdf</h6>
-                                                                <p class="mb-0 text-gray-500 dark:text-gray-300">1.25 MB</p>
-                                                            </div>
-                                                            <div class="ml-auto text-xl">
-                                                                <a href="assets/images/dark-logo.png" download="" class="text-gray-500 fs-20"><i class="uil uil-import"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="flex items-center mt-4 ">
-                                                            <div class="text-2xl text-gray-500 shrink-0">
-                                                                <i class="uil uil-file"></i>
-                                                            </div>
-                                                            <div class="ml-4">
-                                                                <h6 class="mb-0 text-gray-900 text-16 dark:text-gray-50">Cover-letter.pdf</h6>
-                                                                <p class="mb-0 text-gray-500 dark:text-gray-300">1.25 MB</p>
-                                                            </div>
-                                                            <div class="ml-auto text-xl">
-                                                                <a href="assets/images/dark-logo.png" download="" class="text-gray-500 fs-20"><i class="uil uil-import"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-
-                                        </div>
-                                        <div class="p-5 pt-0">
-                                            <h6 class="mb-3 font-semibold text-gray-900 text-17 dark:text-gray-50">Contacts</h6>
-                                            <ul class="mb-0">
-                                                <li class="pb-3">
-                                                    <div class="flex">
-                                                        <label class="w-32 font-medium text-gray-900 dark:text-gray-50">Email</label>
-                                                        <div>
-                                                            <p class="mb-0 text-gray-500 text-break dark:text-gray-300">
-                                                                Jansh@gmail.com
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="pb-3">
-                                                    <div class="flex">
-                                                        <label class="w-32 font-medium text-gray-900 dark:text-gray-50">Phone Number</label>
-                                                        <div>
-                                                            <p class="mb-0 text-gray-500 dark:text-gray-300">+2 345 678 0000</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="pb-3">
-                                                    <div class="flex">
-                                                        <label class="w-32 font-medium text-gray-900 dark:text-gray-50">Location</label>
-                                                        <div>
-                                                            <p class="mb-0 text-gray-500 dark:text-gray-300">New Caledonia</p>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="pb-3">
-                                                    <div class="flex">
-                                                        <label class="w-32 font-medium text-gray-900 dark:text-gray-50"></label>
-                                                        <div>
+                <a href="index.html" class="hidden dark:block">
+                    <span>
+                        <img src="/assets/user/images/logo.svg" alt="" class="h-[30px]">
+                    </span>
+                </a>
+            </div>
+            <!-- end navbar-brand-box -->
 
 
-                                                            <Link :href="route('task.list',{locale:usePage().props.locale})">Task Page</Link><br>
-                                                            <Link :href="route('task.create',{locale:usePage().props.locale})">Task create</Link><br>
-                                                            <Link :href="route('user.chat',{locale:usePage().props.locale})">Chat</Link>
+            <!-- Start side-menu nav -->
+            <!-- Tabs -->
+            <div class="w-full mx-auto lg:my-auto">
+                <ul id="tabs" class="flex flex-row justify-center w-full lg:flex-col lg:flex nav-tabs">
+                    <li class="flex-grow lg:flex-grow-0">
+                        <Link   :href="route('user.profile',{locale:usePage().props.locale})"
+                                :class="{
+                                            'active': route().current('user.profile')
+                                        }"
+                                class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
+                            <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
+                                <div class="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
+                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Profile</span>
+                            </div>
+                            <i class="uil uil-user-square text-2xl"></i>
+                        </Link>
+                    </li>
+                    <li class="flex-grow lg:flex-grow-0">
+                        <Link   :href="route('task.list',{locale:usePage().props.locale})"
+                                :class="{
+                                            'active': route().current('task.list')
+                                        }"
+                                class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
+                            <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
+                                <div class="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
+                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Task List</span>
+                            </div>
+                            <i class="uil uil-clipboard-notes text-2xl"></i>
+                        </Link>
+                    </li>
+                    <li class="flex-grow lg:flex-grow-0">
+                        <Link   :href="route('task.create',{locale:usePage().props.locale})"
+                                :class="{
+                                            'active': route().current('task.create')
+                                        }"
+                                class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
+                            <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
+                                <div class="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
+                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Task Creat</span>
+                            </div>
+                            <i class="uil uil-clipboard-blank text-2xl"></i>
+                        </Link>
+                    </li>
+                    <li class="flex-grow lg:flex-grow-0">
+                        <Link   :href="route('user.chat',{locale:usePage().props.locale})"
+                                :class="{
+                                            'active': route().current('user.chat')
+                                        }"
+                                class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
+                            <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
+                                <div class="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
+                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Chat</span>
+                            </div>
+                            <i class="uil uil-comments text-2xl"></i>
+                        </Link>
+                    </li>
+
+                </ul>
+            </div>
 
 
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
 
-                                    </div>
+        </div>
+                <!-- <div class="p-5 border-b border-gray-100/50 dark:border-neutral-600">
+                    <div class="text-center">
+
+                        <ul class="flex flex-column mx-auto my-auto justify-center gap-2 mb-0">
+                            <li>
+                                <Link :href="route('task.list',{locale:usePage().props.locale})">Task Page</Link><br>
+
+                            </li>
+                            <li>
+
+                                <Link :href="route('task.create',{locale:usePage().props.locale})">Task create</Link><br>
+
+                            </li>
+                            <li>
+
+                                <Link :href="route('user.chat',{locale:usePage().props.locale})">Chat</Link>
+
+                            </li>
+
+                        </ul>
+                    </div>
+                </div> -->
+
+            </div>
       </div>
 
 </template>
+
+<style scoped>
+
+/* .sidebar-menu {
+    height: 100% !important;
+} */
+
+@media (min-width: 960px) {
+    .sidebar-menu {
+        height: 100%;
+    }
+}
+</style>

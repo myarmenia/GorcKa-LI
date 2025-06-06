@@ -2,6 +2,8 @@
 
 namespace App\DTO\User;
 
+use Illuminate\Http\UploadedFile;
+
 
 class UserDTO
 {
@@ -10,9 +12,14 @@ class UserDTO
         public ?string $email,
         public ?string $phone,
         public ?int $location_id,
-        public ?string $avatar,
+        public UploadedFile|string|null $avatar = null,
         public ?string $lang,
-        public ?int $point
+        public ?int $point,
+        public ?string $description,
+        public ?SocialsDTO $socials = null,
+        public ?bool $remove_avatar = null,
+        public ?array $work_images = null
+
 
     ) {
     }
@@ -25,23 +32,34 @@ class UserDTO
             $data->email ?? null,
             $data->phone ?? null,
             $data->location_id ?? null,
-            $data->avatar ?? null,
+            $data->file('avatar') ?? null,
             $data->lang ?? null,
-            $data->point ?? null
+            $data->point ?? null,
+            $data->description ?? null,
+            SocialsDTO::fromArray($data->input('socials') ?? []),
+            $data->remove_avatar ?? null,
+            $data->work_images ?? null,
+
 
         );
     }
 
     public function toArray(): array
     {
-        return [
+        $data = [
             'name' => $this->name,
-            'email' => $this->email,
             'phone' => $this->phone,
             'location_id' => $this->location_id,
-            'avatar' => $this->avatar,
             'lang' => $this->lang,
-            'point' => $this->point
+            'description' => $this->description
         ];
+
+        if ($this->remove_avatar) {
+            $data['avatar'] = null;
+        } elseif ($this->avatar) {
+            $data['avatar'] = $this->avatar;
+        }
+
+        return $data;
     }
 }

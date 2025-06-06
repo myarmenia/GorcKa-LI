@@ -21,6 +21,7 @@ return [
     "reset_p2" => "To reset your password, please click on the button below:",
     "reset_pass" => "Reset password",
     "reset_p3" => "If you have not requested a password reset, ignore this email.",
+    "jobname" => "Job Name"
 
 ];
 

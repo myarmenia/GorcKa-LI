@@ -16,6 +16,7 @@ return new class extends Migration
             $table->morphs('filable'); // Creates `filable_id` and `filable_type`
             $table->string('name');
             $table->string('path');
+            $table->string('ext');
             $table->timestamps();
         });
     }

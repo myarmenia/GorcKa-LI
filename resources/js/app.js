@@ -28,6 +28,7 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 // import { requestPermission } from './firebase';
 // requestPermission();
+import { Inertia } from '@inertiajs/inertia';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -48,6 +49,17 @@ createInertiaApp({
     progress: {
         color: '#4B5563',
     },
+});
+
+
+Inertia.on('error', (errors) => {
+    if (errors.response?.status === 404) {
+        Inertia.visit('/404');
+    }
+
+    if (errors.response?.status === 500) {
+        Inertia.visit('/500');
+    }
 });
 
 

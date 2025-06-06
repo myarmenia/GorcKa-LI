@@ -45,13 +45,24 @@ class MessageSent implements ShouldBroadcast
 
     public function broadcastWith()
     {
+        
         return [
-            'message' => $this->message,
-            'user' => $this->message->user,
-            'id' => $this->user_id,  // Передаем id пользователя
-            'room_id' => $this->room_id
-            // 'name' => $this->user->name,
-            // Другие данные пользователя
+            'message' => [
+                'id' => $this->message->id,
+                'message' => $this->message->message,
+                'created_at' => $this->message->created_at,
+                'files' => $this->message->files->map(function ($file) {
+                    return [
+                        'filable_id' => $file->filable_id,
+                        'name' => $file->name,
+                        'file_path' => asset('storage/'. $file->path),
+                        'ext' => $file->ext
+                    ];
+                }),
+                'user_id' => $this->user_id,
+                'room_id' => $this->room_id,
+            ],
+
         ];
     }
 

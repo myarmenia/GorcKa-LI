@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\User\ApplyNow\ApplyNowController;
 use App\Http\Controllers\User\Profile\Chat\ChatController;
+use App\Http\Controllers\User\Profile\Chat\DeleteMessageController;
+use App\Http\Controllers\User\Profile\Chat\DeleteRoomController;
 use App\Http\Controllers\User\Profile\Chat\GetMessagesController;
 use App\Http\Controllers\User\Profile\Chat\ReadMessageController;
+use App\Http\Controllers\User\Profile\Chat\SelectExecutorController;
 use App\Http\Controllers\User\Profile\Chat\SendMessageController;
 use App\Http\Controllers\User\Profile\UserProfileController;
 use App\Http\Controllers\User\SaveFcmTokenController;
@@ -86,7 +89,7 @@ Route::middleware('auth')->group(function () {
             Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
             // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-            Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+            // Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
             Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
             Route::post('/roles/store', [RoleController::class, 'store'])->name('roles.store');
@@ -95,7 +98,10 @@ Route::middleware('auth')->group(function () {
 
             Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
+
             Route::get('/profile', [UserProfileController::class, 'index'])->name('user.profile');
+            Route::post('/profile', [UserProfileController::class, 'update'])->name('user.profile.update');
+
 
             // Route::get('task-index',[TaskController::class,'create'])->name('task.create');
             Route::prefix('task')->group(function () {
@@ -111,11 +117,19 @@ Route::middleware('auth')->group(function () {
 
             Route::prefix('chat')->group(function () {
 
-                Route::get('/', ChatController::class)->name('user.chat');
+                Route::get('/', [ChatController::class, 'index'])->name('user.chat');
+                Route::get('/search', [ChatController::class, 'search'])->name('user.chat.search');
                 Route::get('/messages/{room_id}', GetMessagesController::class)->name('user.chat.messages');
-                Route::get('/messages/{room_id}', GetMessagesController::class)->name('user.chat.messages');
+                // Route::get('/messages/{room_id}', GetMessagesController::class)->name('user.chat.messages');
                 Route::get('/messages/{romm_id}/{user_id}/read', ReadMessageController::class)->name('user.chat.messages');
                 Route::post('/messages/send', SendMessageController::class)->name('user.chat.send_message');
+                Route::get('/messages/{id}/delete', DeleteMessageController::class)->name('user.chat.delete_message');
+                Route::get('/room/{id}/delete', DeleteRoomController::class)->name('user.chat.delete_room');
+                Route::get('/select-executor/{id}/room', SelectExecutorController::class)->name('user.chat.select-executor');
+
+
+
+
             });
 
 

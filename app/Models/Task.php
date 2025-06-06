@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Storage;
@@ -62,5 +63,17 @@ class Task extends Model
             get: fn() => optional($this->location?->translation)->name
         );
     }
+
+    public function applicantUsers(): HasManyThrough
+    {
+        return $this->hasManyThrough(User::class, Applicant::class, 'task_id', 'id', 'id', 'user_id');
+    }
+
+    // public function hasAccessToJobApplicant($userId)
+    // {        
+    //     dd(22);
+    //     return $this->applicantUsers()->where('id', $userId)->exists();
+    // }
+
 
 }
