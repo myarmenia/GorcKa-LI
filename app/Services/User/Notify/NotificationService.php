@@ -9,10 +9,11 @@ class NotificationService
 
     ) {}
 
-    public function notify($user, string $type){
+    public function notify($user, string $type, string $taskName){
 
-        $notification = $this->notificationCreator->create($user, $type);
-        $this->notificationSender->dispatch($user, $notification);
+        $notification = $this->notificationCreator->create($user, $type );
+ 
+        $this->notificationSender->dispatch($user, $notification, $taskName);
 
         return $notification;
 

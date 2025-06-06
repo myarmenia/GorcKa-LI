@@ -8,7 +8,7 @@ class MessageDTO
     public function __construct(
         public int $room_id,
         public ?int $user_id,
-        public string $message,
+        public ?string $message = null,
         public ?string $from_app = null,
         public ?array $files = null,
         public ?string $read_at = null

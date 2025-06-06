@@ -13,6 +13,12 @@ Broadcast::channel('notification-count.{userId}', function ($user, $userId) {
     // return (int) $user->id === (int) $userId;
 });
 
+Broadcast::channel('unread-message-count.{userId}', function ($user, $userId) {
+
+    return (int) $user->id === (int) $userId ? $user : null;
+    // return (int) $user->id === (int) $userId;
+});
+
 
 // Broadcast::channel('presence-user.{id}', function ($user, $id) {
 
@@ -41,6 +47,7 @@ Broadcast::channel('presence-room.{id}', function ($user, $id) {
 Broadcast::channel('room-unread-message-count.{room_id}.{user_id}', function ($user, $room_id, $user_id) {
     return $user->hasAccessToRoom($room_id);
 });
+
 
 
 // Broadcast::channel('task-unread-message-count.{task_id}', function ($user, $task_id) {

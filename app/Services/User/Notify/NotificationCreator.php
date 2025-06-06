@@ -11,7 +11,7 @@ class NotificationCreator{
     ) {
     }
 
-    public function create($user, string $type)
+    public function create($user, string $type )
     {
         $notification_category_id = Helper::getNotificationCategoryId($type);
         $translation = Helper::getNotificationTranslation($notification_category_id, app()->getLocale());

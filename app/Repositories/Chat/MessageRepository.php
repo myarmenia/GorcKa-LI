@@ -29,7 +29,7 @@ class MessageRepository extends BaseRepository implements MessageInterface
 
     public function getRoomMessages(int $roomId):Collection
     {
-        return  $this->model->where('room_id', $roomId)
+        return  $this->model->with('files:filable_id,name,ext,path as file_path')->where('room_id', $roomId)
             ->orderBy('created_at')
             ->get()
             ->groupBy(function ($item) {
@@ -54,6 +54,14 @@ class MessageRepository extends BaseRepository implements MessageInterface
     public function getUnreadMessagesCount(int $roomId, int $userId): int
     {
         return $this->getUnreadMessages($roomId, $userId)->count();
+
+    }
+
+    public function getAllUnreadMessagesCount( int $userId): int
+    {
+        return $this->model
+            ->where('user_id', $userId)
+            ->whereNull('read_at')->count();
 
     }
 

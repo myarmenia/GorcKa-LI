@@ -1,31 +1,35 @@
 <?php
 
-namespace App\Events\Chat;
+namespace App\Events;
 
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class RoomUnreadMessageCount implements ShouldBroadcast
+class ChatIndicatorEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $count;
-    protected $room_id;
-    protected $user_id;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($count, $room_id, $user_id)
+
+    public $count;
+    // public $type;
+    public $user_id;
+
+    public function __construct(int $count,
+    // string $type,
+    $user_id)
     {
 
         $this->count = $count;
-        $this->room_id = $room_id;
+        // $this->type = $type;
         $this->user_id = $user_id;
-
     }
 
     /**
@@ -35,13 +39,18 @@ class RoomUnreadMessageCount implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
+
+
+        // return  new Channel('notification-count' );
         return [
-            new PrivateChannel("room-unread-message-count.$this->room_id.$this->user_id"),
+            new PrivateChannel('unread-message-count.' . $this->user_id)
+            // new PrivateChannel('notification-count' )
         ];
     }
 
+
     public function broadcastAs()
     {
-        return 'RoomUnreadMessageCount';
+        return 'ChatIndicatorEvent';
     }
 }

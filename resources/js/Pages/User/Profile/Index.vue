@@ -20,7 +20,7 @@ import Sidebar from './Sidebar.vue';
                             <div class="grid grid-cols-12 gap-y-10 lg:gap-10">
                                 <Sidebar /> <!-- Sidebar Component -->
 
-                                <div class="col-span-12 lg:col-span-9">
+                                <div class="col-span-12 lg:col-span-10">
                                     <div class="border rounded border-gray-100/50 dark:border-neutral-600 nav-tabs bottom-border-tab">
                                         <!-- <div class="px-6 py-0 border-b border-gray-100/50 dark:border-neutral-600">
 

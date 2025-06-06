@@ -1,17 +1,23 @@
 <script setup>
-import { watch, ref, onMounted, computed, nextTick, onBeforeUnmount } from 'vue';
+import { watch, ref, reactive, onMounted, computed, nextTick, onBeforeUnmount } from 'vue';
 import { router } from '@inertiajs/vue3'
 import axios from 'axios';
 import dayjs from 'dayjs';
+import { useTrans } from '/resources/js/trans';
 
 
 const props = defineProps({
   locale: String,
   roomId: Number,
-  interlocutor: Object
+  employerId: Number,
+  interlocutor: Object,
+  removeRoom: Function,
+  selectedJobExecutirId: Number,
+  jobStatus: String,
 });
 
 const messages = ref([])
+// const messages = reactive({});
 const interlocutor = computed(() => props.interlocutor)
 const currentYear = dayjs().year();
 const message = ref('')
@@ -19,20 +25,27 @@ const files = ref([])
 const successMessage = ref('')
 const errorMessage = ref('')
 const now = dayjs().format('YYYY-MM-DD')
+const usersOnlineGlobal = ref([]);
+const scrollContainer = ref(null)
+const usersInRoomIds = ref(new Set());
+const isSelected = ref(false)
 
 let echoChannel = null;
 let globalUsersChannel = null;
-const usersOnlineGlobal = ref([]);
 
-const scrollContainer = ref(null)
+const emit = defineEmits(['update:roomId']);
 
-const usersInRoomIds = ref(new Set());
+let jobStatusChannel = null;
+
+
 
 watch(() => props.roomId, async (newId, oldId) => {
     if (newId) {
         try {
             const response = await axios.get(`chat/messages/${newId}`);
             messages.value = response.data.messages;
+
+            console.log( response.data, 'MMMMMMMM')
 
             await nextTick();
             scrollToBottom();
@@ -43,6 +56,7 @@ watch(() => props.roomId, async (newId, oldId) => {
                 window.Echo.leave(`presence-room.${oldId}`);
                 console.log(`presence-room.${oldId}`, `anjatec room ${oldId}`)
             }
+
 
             console.log(newId,'nor id')
             echoChannel = window.Echo.join(`presence-room.${newId}`)
@@ -70,21 +84,45 @@ watch(() => props.roomId, async (newId, oldId) => {
                         console.log('Обновленный список пользователей после ухода:', usersInRoomIds.value);
                 })
                 .listen(".MessageSent", (e) => {
-                console.log(e.message, ' получено событие MessageSent');
+                    console.log(e.message, ' получено событие MessageSent');
 
-                // const now = new Date().toISOString().split('T')[0]; // либо другой ключ
-                const now = dayjs().format('YYYY-MM-DD')
+                    // const now = new Date().toISOString().split('T')[0]; // либо другой ключ
+                    const now = dayjs().format('YYYY-MM-DD')
 
-                if (messages.value[now]) {
+                    if (!messages.value[now]) {
+                        messages.value[now] = { other: [] };
+                    }
+
+                    if (!Array.isArray(messages.value[now].other)) {
+                        messages.value[now].other = [];
+                    }
+
+                    // Убедимся, что files хотя бы массив, даже если пустой
+                    if (!Array.isArray(e.message.files)) {
+                        e.message.files = [];
+                    }
+
                     messages.value[now].other.push(e.message);
-                } else {
-                    messages.value[now] = { other: [e.message] };
-                }
-
-                 nextTick(() => {
-                    scrollToBottom()
+                    // console.log(messages.value, 888888)
+                    nextTick(() => {
+                        scrollToBottom()
+                    })
                 })
-            });
+                  // Здесь добавляем обработчик события для удаления сообщения
+                .listen('.MessageDeleted', (e) => {
+                    const { messageId, date } = e;
+
+                    // Если сообщение на клиенте найдено, удаляем его
+                    if (messages.value[date]) {
+                        messages.value[date].other = messages.value[date].other.filter(msg => msg.id !== messageId);
+
+                        // Если после удаления сообщений по этой дате не осталось, удаляем саму дату
+                        if (messages.value[date].other.length === 0 && !messages.value[date]?.from_app) {
+                            delete messages.value[date];
+                        }
+
+                    }
+                });
 
 
         // console.log(messages.value)
@@ -105,6 +143,47 @@ const handleFileChange = (e) => {
 
   files.value = selected
 }
+
+// deleting upload file
+const removeFile = (index) => {
+  files.value.splice(index, 1)
+}
+
+//delete message
+const removeMessage = async (date, messageId) => {
+  try {
+
+    await axios.get(`chat/messages/${messageId}/delete`);
+
+  } catch (error) {
+    console.error('Ошибка при удалении сообщения:', error);
+  }
+};
+
+
+//select Executor
+const selectExecutor = async (roomId) => {
+  try {
+console.log(interlocutor.value.id, 'idididididid', `roomId-${roomId}`)
+    await axios.get(`chat/select-executor/${roomId}/room`);
+
+    isSelected.value = true
+
+  } catch (error) {
+    console.error('Ошибка при удалении сообщения:', error);
+  }
+};
+
+
+
+watch(successMessage, (val) => {
+  if (val) setTimeout(() => (successMessage.value = ''), 3000)
+})
+
+watch(errorMessage, (val) => {
+  if (val) setTimeout(() => (errorMessage.value = ''), 3000)
+})
+
 
 // Скроллинг в самый низ
 const scrollToBottom = () => {
@@ -186,48 +265,40 @@ const sendMessage = () => {
         formData.append('read_at', now);
     }
 
-
-    // if (isInterlocutorInRoom) {
-    //     formData.append('read_at', now)
-    // }
-    // if (isInterlocutorInCurrentRoom()) {
-    //     formData.append('read_at', dayjs().format('YYYY-MM-DD'))
-    // }
-    // formData.append('mark_as_read', isInterlocutorInRoom ? 1 : 0); // 👈 добавляем флаг
-
     router.post('chat/messages/send', formData, {
         preserveScroll: true,
         forceFormData: true,
+
         onSuccess: () => {
 
             successMessage.value = 'Сообщение отправлено!'
-            console.log(interlocutor.value.id, 333333)
-                // добавим новое сообщение в список
-                // const now = dayjs().format('YYYY-MM-DD')
-                const newMessage = {
-                    message: message.value,
-                    user_id: 2, // заменишь на текущего user_id, если знаешь
-                    created_at: dayjs().toISOString()
-        }
 
-        message.value = ''
-        files.value = []
+            message.value = ''
+            files.value = []
 
-        nextTick(() => {
-                scrollToBottom();
-            });
-        },
+            nextTick(() => {
+                    scrollToBottom();
+                });
+            },
 
         onError: (errors) => {
-        // Пример — показать первую ошибку
-        console.log(errors, 4444444)
-        errorMessage.value = errors.message || 'Ошибка при отправке сообщения'
+            // если вернули просто message
+            if (typeof errors === 'string') {
+                errorMessage.value = errors
+            }
+            else{
+                errorMessage.value = errors.message
+            }
+
         },
 
         onFinish: () => {
         // Можно использовать для скрытия лоадера
         }
-  })
+    })
+
+
+
 }
 
 
@@ -254,10 +325,10 @@ const sendMessage = () => {
                         <div class="flex-grow overflow-hidden">
                             <h5 class="mb-0 truncate text-16 ltr:block rtl:hidden">
                                 <a href="#" class="text-gray-800 dark:text-gray-50">{{ interlocutor ? interlocutor.name : '' }} </a>
-                                <i class="text-green-500 ltr:ml-1 rtl:mr-1 ri-record-circle-fill text-10 "></i></h5>
+                            </h5>
                             <h5 class="mb-0 truncate text-16 rtl:block ltr:hidden">
-                                <i class="text-green-500 ltr:ml-1 rtl:mr-1 ri-record-circle-fill text-10 "></i>
-                                <a href="#" class="text-gray-800 dark:text-gray-50">{{ interlocutor ? interlocutor.name : '' }}</a></h5>
+                                <a href="#" class="text-gray-800 dark:text-gray-50">{{ interlocutor ? interlocutor.name : '' }}</a>
+                            </h5>
                         </div>
                     </div>
                 </div>
@@ -268,27 +339,44 @@ const sendMessage = () => {
                                 <i class="text-xl ri-group-line"></i>
                             </a>
                         </li> -->
-
-                        <li class="px-3">
-                            <div class="relative dropdown">
-                                <button class="p-0 text-xl text-gray-500 border-0 btn dropdown-toggle dark:text-gray-300" type="button" data-bs-toggle="dropdown" id="dropdownMenuButton11">
-                                    <i class="uil uil-ellipsis-h"></i>
+                        <li v-if="props.employerId == $page.props.auth.user.id">
+                            <template v-if="props.jobStatus == 'active'">
+                                <button  v-if="!isSelected" @click="selectExecutor(props.roomId)" type="submit" class="btn text-green-500 transition-all duration-300 ease-in-out rounded bg-green-500/20 hover:bg-green-500 hover:text-white">
+                                    {{useTrans('page.select_specialist')}}
                                 </button>
-                                <ul class="absolute z-50 hidden w-40 py-2 mx-4 mt-2 text-left list-none bg-white border rounded shadow-lg ltr:-right-4 border-gray-50 dropdown-menu top-8 dark:bg-zinc-600 bg-clip-padding dark:border-gray-600/50 rtl:-left-5" aria-labelledby="dropdownMenuButton11">
-
-                                    <li>
-                                        <a class="block w-full px-4 py-2 text-sm font-normal text-gray-700 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-100/30 dark:text-gray-100 dark:hover:bg-zinc-700 ltr:text-left rtl:text-right" href="#">
-                                            Archive <i class="text-gray-500 rtl:float-left ltr:float-right dark:text-gray-300 uil uil-archive text-16"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="block w-full px-4 py-2 text-sm font-normal text-gray-700 bg-transparent dropdown-item whitespace-nowrap hover:bg-gray-100/30 dark:text-gray-100 dark:hover:bg-zinc-700 ltr:text-left rtl:text-right" href="#">
-                                            Delete <i class="text-gray-500 rtl:float-left ltr:float-right dark:text-gray-300 uil uil-trash-alt text-16"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                                <div v-else class="text-green-600">
+                                    <i class="uil uil-check-circle text-xl"></i> {{ useTrans('page.selected_specialist') }}
+                                </div>
+                            </template>
+                            <template v-if="props.jobStatus == 'in_process' || props.jobStatus == 'done'">
+                                <div v-if="props.selectedJobExecutirId == interlocutor.id" class="text-green-600">
+                                    <i class="uil uil-check-circle text-xl"></i> {{useTrans('page.selected_specialist')}}
+                                </div>
+                                <!-- <div v-else>merjvats user</div> -->
+                            </template>
                         </li>
+                        <li v-else>
+
+                            <template v-if="props.jobStatus !== 'active'">
+                                <div v-if="props.selectedJobExecutirId == $page.props.auth.user.id" class="text-green-600">
+                                    <i class="uil uil-check-circle text-xl"></i> {{useTrans('page.selected_specialist')}}
+                                </div>
+                                <!-- <div v-else>dzez merjvats user</div> -->
+                            </template>
+
+                        </li>
+
+                        <!-- <li>
+                            <button type="button" class="hidden text-xl text-gray-500 border-0 btn dark:text-gray-300 lg:block">
+                                <i class="uil uil-bookmark-full"></i>
+                            </button>
+                        </li> -->
+                        <li>
+                            <button  @click="props.removeRoom(props.roomId)" type="button" class="hidden text-xl text-gray-500 border-0 btn dark:text-gray-300 lg:block">
+                                <i class="uil uil-trash-alt"></i>
+                            </button>
+                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -302,7 +390,7 @@ const sendMessage = () => {
                 <div class="simplebar-content" style="padding: 24px;">
 
                     <ul class="mb-0">
-                        <template v-for="items,date in messages">
+                        <template  v-for="(items, date) in messages" :key="date">
                             <li  class="clear-both py-4">
                                 <div class="relative mt-3 mb-6 text-center">
                                     <div class="before:content-['] before:absolute before:w-full before:h-[1px] before:left-0 before:right-0 before:bg-gray-50 before:top-[10px] dark:before:bg-zinc-600"></div>
@@ -323,9 +411,9 @@ const sendMessage = () => {
                                                     <p class="mt-1 mb-0 text-xs text-right text-gray-700/50"><i class="align-middle uil uil-clock"></i> <span class="align-middle">{{dayjs(first.created_at).format('HH:mm')}}</span></p>
                                                     <div class="before:content-[''] before:absolute before:border-[5px] before:border-transparent   group-data-[theme-color=green]:ltr:before:border-l-green-500 group-data-[theme-color=green]:ltr:before:border-t-green-500 group-data-[theme-color=red]:ltr:before:border-l-red-500 group-data-[theme-color=red]:ltr:before:border-t-red-500 group-data-[theme-color=violet]:rtl:before:border-r-violet-500  group-data-[theme-color=green]:rtl:before:border-r-green-500 group-data-[theme-color=green]:rtl:before:border-t-green-500 group-data-[theme-color=red]:rtl:before:border-r-red-500 group-data-[theme-color=red]:rtl:before:border-t-red-500 ltr:before:left-0 rtl:before:right-0 before:-bottom-2"></div>
                                                 </div>
-                                                <a class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" href="#" role="button" data-bs-toggle="dropdown" :id="'dropdownMenuButton' + first.id">
+                                                <!-- <a class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" href="#" role="button" data-bs-toggle="dropdown" :id="'dropdownMenuButton' + first.id">
                                                     <i class="uil uil-trash-alt"></i>
-                                                </a>
+                                                </a> -->
                                             </div>
                                         </div>
                                         <!-- <div class="font-medium text-gray-700 text-14 dark:text-gray-300">Doris Brown</div> -->
@@ -341,9 +429,12 @@ const sendMessage = () => {
                                             <p class="mt-1 mb-0 text-xs text-left text-gray-500 dark:text-gray-300"><i class="align-middle uil uil-clock"></i> <span class="align-middle">{{dayjs(first.created_at).format('HH:mm')}}</span></p>
                                             <div class="before:content-[''] before:absolute before:border-[5px] before:border-transparent ltr:before:border-r-gray-50 ltr:before:border-t-gray-50 rtl:before:border-l-gray-50 rtl:before:border-t-gray-50 ltr:before:right-0 rtl:before:left-0 before:-bottom-2 ltr:dark:before:border-t-zinc-700 ltr:dark:before:border-r-zinc-700 rtl:dark:before:border-t-zinc-700 rtl:dark:before:border-l-zinc-700"></div>
                                         </div>
-                                        <a class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" href="#" role="button" data-bs-toggle="dropdown" :id="'dropdownMenuButton' + first.id">
+                                        <!-- <a class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" href="#" role="button" data-bs-toggle="dropdown" :id="'dropdownMenuButton' + first.id">
                                             <i class="uil uil-trash-alt"></i>
-                                        </a>
+                                        </a> -->
+                                        <!-- <button @click="removeMessage(date, first.id)" class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" role="button" >
+                                            <i class="uil uil-trash-alt"></i>
+                                        </button> -->
                                     </div>
                                 </li>
                             </template>
@@ -358,12 +449,57 @@ const sendMessage = () => {
                                                     <p class="mb-0">
                                                         {{item.message}}
                                                     </p>
+                                                    <template v-if="Array.isArray(item.files) && item.files.length > 0">
+                                                        <ul class="flex flex-wrap relative mb-0 mt-2">
+                                                            <li v-for="file in item.files" class="relative inline-block mr-2">
+                                                                <div v-if="['jpg', 'jpeg', 'png'].includes(file.ext)">
+                                                                    <div>
+                                                                        <a class="inline-block m-1 popup-img" :href="`${file.file_path}`" title="Project 1">
+                                                                            <img :src="`${file.file_path}`" alt="" class="border rounded h-28">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="absolute right-[10px] left-auto bottom-[10px]">
+                                                                        <a :download="`${file.name}`" :href="`${file.file_path}`" class="font-medium">
+                                                                            <i class="text-lg text-white uil uil-import"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div v-else>
+                                                                    <div class="p-2 mb-2 bg-white rounded dark:bg-zinc-800">
+                                                                        <div class="flex flex-wrap items-center gap-2 attached-file">
+                                                                            <div
+                                                                                class="flex items-center justify-center w-12 h-12 rounded group-data-[theme-color=violet]:bg-violet-500/20 group-data-[theme-color=green]:bg-green-500/20 group-data-[theme-color=red]:bg-red-500/20 group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=green]:text-green-500 group-data-[theme-color=red]:text-red-500">
+                                                                                <i class="uil uil-file-alt"></i>
+                                                                            </div>
+                                                                            <div class="overflow-hidden flex-grow-1">
+                                                                                <div class="text-start">
+                                                                                    <h5 class="mb-1 truncate text-14 dark:text-gray-50">
+                                                                                        {{file.name}}</h5>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div>
+                                                                                <a  :download="`${file.name}`"
+                                                                                    :href="`${file.file_path}`"
+                                                                                    class="font-medium ">
+                                                                                    <i class="text-lg group-data-[theme-color=green]:text-green-500 uil uil-import"></i>
+                                                                                </a>
+                                                                            </div>
+                                                                    </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </template>
                                                     <p class="mt-1 mb-0 text-xs text-right text-gray-700/50"><i class="align-middle uil uil-clock"></i> <span class="align-middle">{{dayjs(item.created_at).format('HH:mm')}}</span></p>
                                                     <div class="before:content-[''] before:absolute before:border-[5px] before:border-transparent   group-data-[theme-color=green]:ltr:before:border-l-green-500 group-data-[theme-color=green]:ltr:before:border-t-green-500 group-data-[theme-color=red]:ltr:before:border-l-red-500 group-data-[theme-color=red]:ltr:before:border-t-red-500 group-data-[theme-color=violet]:rtl:before:border-r-violet-500  group-data-[theme-color=green]:rtl:before:border-r-green-500 group-data-[theme-color=green]:rtl:before:border-t-green-500 group-data-[theme-color=red]:rtl:before:border-r-red-500 group-data-[theme-color=red]:rtl:before:border-t-red-500 ltr:before:left-0 rtl:before:right-0 before:-bottom-2"></div>
                                                 </div>
-                                                <a class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" href="#" role="button" data-bs-toggle="dropdown" :id="'dropdownMenuButton' + item.id">
+                                                <!-- <a class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" href="#" role="button" data-bs-toggle="dropdown" :id="'dropdownMenuButton' + item.id">
                                                     <i class="uil uil-trash-alt"></i>
-                                                </a>
+                                                </a> -->
+                                                <button @click="removeMessage(date, item.id)" class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" role="button" >
+                                                    <i class="uil uil-trash-alt"></i>
+                                                </button>
                                             </div>
                                         </div>
                                         <!-- <div class="font-medium text-gray-700 text-14 dark:text-gray-300">Doris Brown</div> -->
@@ -376,12 +512,63 @@ const sendMessage = () => {
                                             <p class="mb-0">
                                                 {{item.message}}
                                             </p>
+                                            <template v-if="Array.isArray(item.files) && item.files.length > 0">
+                                                <ul class="flex flex-wrap relative mb-0 mt-2">
+                                                    <li v-for="file in item.files" class="relative inline-block mr-2">
+                                                        <div v-if="['jpg', 'jpeg', 'png'].includes(file.ext)">
+                                                            <div>
+                                                                <a class="inline-block m-1 popup-img" :href="`${file.pile_path}`" title="Project 1">
+                                                                    <img :src="`${file.file_path}`" alt="" class="border rounded h-28">
+                                                                </a>
+                                                            </div>
+                                                            <div class="absolute right-[10px] left-auto bottom-[10px]">
+                                                                <ul>
+                                                                    <li class="inline-block p-2">
+                                                                        <a download="img-1.jpg" href="assets/images/small/img-1.jpg" class="font-medium">
+                                                                            <i class="text-lg text-white uil uil-import"></i>
+                                                                        </a>
+                                                                    </li>
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div v-else>
+                                                            <div class="p-2 mb-2 bg-white rounded dark:bg-zinc-800">
+                                                                <div class="flex flex-wrap items-center gap-2 attached-file">
+                                                                    <div
+                                                                        class="flex items-center justify-center w-12 h-12 rounded group-data-[theme-color=violet]:bg-violet-500/20 group-data-[theme-color=green]:bg-green-500/20 group-data-[theme-color=red]:bg-red-500/20 group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=green]:text-green-500 group-data-[theme-color=red]:text-red-500">
+                                                                        <i class="uil uil-file-alt"></i>
+                                                                    </div>
+                                                                    <div class="overflow-hidden flex-grow-1">
+                                                                        <div class="text-start">
+                                                                            <h5 class="mb-1 truncate text-14 dark:text-gray-50">
+                                                                                {{file.name}}</h5>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <a  :download="`${file.name}`"
+                                                                            :href="`${file.file_path}`"
+                                                                            class="font-medium ">
+                                                                            <i class="text-lg group-data-[theme-color=green]:text-green-500 uil uil-import"></i>
+                                                                        </a>
+                                                                    </div>
+                                                            </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </li>
+
+                                                </ul>
+                                            </template>
                                             <p class="mt-1 mb-0 text-xs text-left text-gray-500 dark:text-gray-300"><i class="align-middle uil uil-clock"></i> <span class="align-middle">{{dayjs(item.created_at).format('HH:mm')}}</span></p>
                                             <div class="before:content-[''] before:absolute before:border-[5px] before:border-transparent ltr:before:border-r-gray-50 ltr:before:border-t-gray-50 rtl:before:border-l-gray-50 rtl:before:border-t-gray-50 ltr:before:right-0 rtl:before:left-0 before:-bottom-2 ltr:dark:before:border-t-zinc-700 ltr:dark:before:border-r-zinc-700 rtl:dark:before:border-t-zinc-700 rtl:dark:before:border-l-zinc-700"></div>
                                         </div>
-                                        <a class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" href="#" role="button" data-bs-toggle="dropdown" :id="'dropdownMenuButton' + item.id">
+                                        <!-- <a class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" href="#" role="button" data-bs-toggle="dropdown" :id="'dropdownMenuButton' + item.id">
                                             <i class="uil uil-trash-alt"></i>
-                                        </a>
+                                        </a> -->
+                                        <button @click="removeMessage(date, item.id)" class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" role="button" >
+                                            <i class="uil uil-trash-alt"></i>
+                                        </button>
                                     </div>
                                 </li>
                             </template>
@@ -397,9 +584,7 @@ const sendMessage = () => {
 
         <!-- start chat input section ***-->
         <form @submit.prevent="sendMessage" class="z-40 w-full p-6 mb-0 bg-white border-t lg:mb-1 border-gray-50 dark:bg-zinc-800 dark:border-zinc-700">
-
             <div class="flex gap-2">
-
                 <div class="flex-grow">
                     <input
                         type="text"
@@ -419,11 +604,7 @@ const sendMessage = () => {
                                         class="hidden"
                                         multiple
                                         @change="handleFileChange"
-                                        accept="image/*,application/pdf,
-                                                application/msword,
-                                                application/vnd.openxmlformats-officedocument.wordprocessingml.document,
-                                                application/vnd.ms-excel,
-                                                application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                                        accept="image/*,.doc,.docx,.pdf,.xls,.xlsx"
                                     />
 
                                 </label>
@@ -435,16 +616,33 @@ const sendMessage = () => {
                             </li>
                         </ul>
                     </div>
-
                 </div>
-
             </div>
+
+            <!-- Список выбранных файлов -->
+            <ul v-if="files.length" class="mt-3 text-sm text-gray-700">
+                <li
+                    v-for="(file, index) in files"
+                    :key="index"
+                    class="flex items-center gap-2"
+                >
+                    📎 {{ file.name }}
+                <button
+                    type="button"
+                    @click="removeFile(index)"
+                    class="text-red-500 hover:underline text-xs"
+                    >
+                    <i class="uil uil-times-square text-sm"></i>
+                </button>
+                </li>
+            </ul>
+
             <div v-if="successMessage" class="text-green-500 text-sm mb-2">
-  {{ successMessage }}
-</div>
-<div v-if="errorMessage" class="text-red-500 text-sm mb-2">
-  {{ errorMessage }}
-</div>
+                {{ successMessage }}
+            </div>
+            <div v-if="errorMessage" class="text-red-500 text-sm mb-2">
+                {{ errorMessage }}
+            </div>
 
         </form>
         <!-- end chat input section -->
