@@ -5,6 +5,8 @@ import Index from '../Index.vue';
 import Update from './Update.vue';
 import Info from './Info.vue';
 import SelectedSubCategories from './SelectSubCategories.vue';
+import ChangePassword from './ChangePassword.vue';
+
 
 import { computed, ref, reactive, onMounted, watch, onUnmounted, nextTick } from "vue";
 import { Head} from '@inertiajs/vue3';
@@ -148,62 +150,17 @@ console.log(props.user, 11111111111111)
 
                                                 <div class="hidden w-full tab-pane" id="subcategories-tab">
                                                     <!-- Категория -->
-                                                    <SelectedSubCategories :categories="props.categories" />
-                                                    <!-- End Select -->
+                                                    <SelectedSubCategories
+                                                        :categories="props.categories"
+                                                        :selectedSubCategories="props.user.executor_sub_categories"
+                                                    />
                                                 </div>
 
-                                               <!-- Social Media -->
+                                               <!-- Change Password -->
                                                 <div class="hidden w-full tab-pane" id="password-tab">
-                                                    <div class="pt-8 space-x-8">
-                                                        <!-- <form action="#"> -->
-                                                        <form  class="mt-8">
-
-
-
-                                                            <!--end socia-media-->
-                                                            <div class="mt-4">
-                                                                <h5 class="mb-3 font-semibold text-17 dark:text-gray-50">
-                                                                    Change Password
-                                                                </h5>
-                                                                <div class="grid grid-cols-12 gap-5">
-                                                                    <div class="col-span-12">
-                                                                        <div class="mb-3">
-                                                                            <label for="current-password-input" class="text-sm text-gray-900 dark:text-gray-50">Current
-                                                                                password</label>
-                                                                            <input type="password" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" placeholder="Enter Current password" id="current-password-input">
-                                                                        </div>
-                                                                    </div>
-                                                                    <!--end col-->
-                                                                    <div class="col-span-12 lg:col-span-6">
-                                                                        <div class="mb-3">
-                                                                            <label for="new-password-input" class="text-sm text-gray-900 dark:text-gray-50">New
-                                                                                password</label>
-                                                                            <input type="password" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" placeholder="Enter new password" id="new-password-input">
-                                                                        </div>
-                                                                    </div>
-                                                                    <!--end col-->
-                                                                    <div class="col-span-12 lg:col-span-6">
-                                                                        <div class="mb-3">
-                                                                            <label for="confirm-password-input" class="text-sm text-gray-900 dark:text-gray-50">Confirm Password</label>
-                                                                            <input type="password" class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600" placeholder="Confirm Password" id="confirm-password-input">
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <!--end col-->
-                                                                </div>
-                                                                <!--end row-->
-                                                            </div>
-                                                            <!--end Change-password-->
-                                                            <div class="mt-8 text-right">
-                                                                <a href="javascript:void(0)" class="text-white btn group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500 border-transparent focus:ring group-data-[theme-color=violet]:focus:ring-violet-500/20 group-data-[theme-color=sky]:focus:ring-sky-500/20 group-data-[theme-color=red]:focus:ring-red-500/20 group-data-[theme-color=green]:focus:ring-green-500/20 group-data-[theme-color=pink]:focus:ring-pink-500/20 group-data-[theme-color=blue]:focus:ring-blue-500/20">Update</a>
-                                                            </div>
-                                                        </form>
-                                                    </div>
+                                                    <ChangePassword :locale="props.locale" />
                                                 </div>
                                             </div>
-
-
-
                                     </div>
                                 </div>
                             </div>

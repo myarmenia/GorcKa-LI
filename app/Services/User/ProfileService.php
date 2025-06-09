@@ -113,7 +113,36 @@ class ProfileService
     public function getUser()
     {
 
-        return $this->userRepository->getItemByIdWithRel(Auth::id(), ['social_medias:user_id,type,link', 'files:id,filable_id,path,name']);
+        return $this->userRepository->getItemByIdWithRel(Auth::id(),
+            [
+                'social_medias:user_id,type,link',
+                'files:id,filable_id,path,name',
+                'executor_sub_categories'
+            ]);
+
+    }
+
+
+    public function executorSelectedSubCategories($request){
+
+        $user = Auth::user();
+
+        $subCategoryIds = collect($request->input('sub_categories', []))
+            ->pluck('id')
+            ->toArray();
+
+
+        $user->executor_sub_categories()->detach();
+
+        return $user->executor_sub_categories()->sync($subCategoryIds);
+
+    }
+
+
+
+    public function updatePassword($request){
+
+        return $this->userRepository->updatePassword($request);
 
     }
 }

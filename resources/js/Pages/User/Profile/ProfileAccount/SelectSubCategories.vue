@@ -3,17 +3,50 @@
 import axios from 'axios';
 
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { computed, ref, defineProps, defineEmits } from "vue";
+import { computed, ref, defineProps, watch } from "vue";
+import { useModalStore } from '@/Stores/modalStore'
+
+const modal = useModalStore()
 
 const props = defineProps({
-    categories: Array
+    categories: Array,
+    locale: String,
+    selectedSubCategories: Array
 });
 
-    console.log(props.categories, 33333)
+    console.log(props.selectedSubCategories, 33333)
 
 const openCategories = ref([])
-const selectedIds = ref([])
+const selectedIds = ref(props.selectedSubCategories.map(sub => sub.id))
 const selectedSubCategories = ref([])
+
+
+watch(
+    () => props.selectedSubCategories,
+    (newValue) => {
+        if (Array.isArray(newValue)) {
+            selectedIds.value = newValue.map(sub => sub.id)
+
+            // Строим selectedSubCategories с именами из дерева категорий
+            selectedSubCategories.value = []
+
+            newValue.forEach(sub => {
+                // Ищем подкатегорию по ID в props.categories
+                props.categories.forEach(category => {
+                    const found = category.sub_categories.find(s => s.id === sub.id)
+                    if (found) {
+                        selectedSubCategories.value.push({
+                            id: found.id,
+                            name: found.name
+                        })
+                    }
+                })
+            })
+        }
+    },
+    { immediate: true }
+)
+
 
 // Метод: раскрыть/свернуть категорию
 function toggleCategory(categoryId) {
@@ -45,18 +78,21 @@ function removeSubCategory(subId) {
 
 
 function submitSelectedSubCategories() {
-console.log(selectedSubCategories.value, '++++++++++')
-    // axios.post('/api/submit-subcategories', {
-    //     sub_categories: selectedSubCategories.value
-    // })
-    // .then(response => {
-    //     console.log('Успешно отправлено:', response.data)
-    //     // можно тут добавить уведомление или очистку выбранных
-    // })
-    // .catch(error => {
-    //     console.error('Ошибка при отправке:', error)
-    // })
+
+    axios.post('submit-subcategories', {
+        sub_categories: selectedSubCategories.value
+    })
+    .then(response => {
+       
+        modal.showSuccess('Успешно сохранено!')
+
+    })
+    .catch(error => {
+        console.error('Ошибка при отправке:', error)
+    })
 }
+
+
 </script>
 
 <template>
@@ -122,13 +158,9 @@ console.log(selectedSubCategories.value, '++++++++++')
                 >
                 Отправить
             </PrimaryButton>
-            <!-- <button
-                @click="submitSelectedSubCategories"
-                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-            >
-                Отправить выбранные подкатегории
-            </button> -->
+
         </div>
     </div>
+
 </template>
 

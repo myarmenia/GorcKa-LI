@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\User\Profile;
 
+use App\DTO\User\PasswordDTO;
 use App\DTO\User\UserDTO;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\UpdatePasswordRequest;
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Category;
 use App\Services\User\ProfileService;
@@ -44,22 +46,28 @@ class UserProfileController extends Controller
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-
-
-        // $request->user()->fill($request->validated());
-
         $user = $this->profileService->update(UserDTO::fromUserDTO($request));
-
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        // dd(22);
-        // $request->user()->save();
 
         return Redirect::route('user.profile.update', app()->getLocale());
     }
+
+
+    public function executor_sub_categories(Request $request): RedirectResponse
+    {
+
+        $user = $this->profileService->executorSelectedSubCategories($request);
+
+        return Redirect::route('user.profile.update', app()->getLocale());
+    }
+
+    public function update_password(UpdatePasswordRequest $request): RedirectResponse
+    {
+
+        $user = $this->profileService->updatePassword($request);
+
+        return Redirect::route('user.profile.update', app()->getLocale());
+    }
+
 
 
 

@@ -27,7 +27,7 @@ const props = defineProps({
   },
 });
 
-console.log(props.user, 44444433333)
+console.log(props.user, props.socialMedias, 44444433333)
 
 const imagePreviews = ref([]);
 const selectedFiles = ref([]);
@@ -352,78 +352,76 @@ const submit = () => {
             </div>
             <!-- =============** -->
             <div class="mt-4">
-            <h5 class="mb-3 font-semibold text-gray-900 text-17 dark:text-gray-50"> Add works </h5>
+                <h5 class="mb-3 font-semibold text-gray-900 text-17 dark:text-gray-50"> Add works </h5>
 
-            <div class="grid grid-cols-12 gap-5 mt-4">
-            <!-- Сначала старые (из бэка) -->
-                <div
-                    v-for="(image, index) in existingImages"
-                    :key="'existing-' + index"
-                    class="relative col-span-3"
-                >
-                    <img
-                        :src="image.url"
-                        class="object-cover w-full h-32 border rounded"
-                        alt="Saved"
-                    />
-
-                    <button
-                        type="button"
-                        class="absolute top-0 right-0 p-1 text-white bg-red-600 rounded-bl"
-                        @click="deleteExistingImage(image.id, index)"
-                        >✕
-                    </button>
-                </div>
-
-                <!-- Потом новые загруженные -->
-                <div
-                    v-for="(image, index) in imagePreviews"
-                    :key="'preview-' + index"
-                    class="relative col-span-3"
+                <div class="grid grid-cols-12 gap-5 mt-4">
+                <!-- Сначала старые (из бэка) -->
+                    <div
+                        v-for="(image, index) in existingImages"
+                        :key="'existing-' + index"
+                        class="relative col-span-3"
                     >
                         <img
                             :src="image.url"
                             class="object-cover w-full h-32 border rounded"
-                            alt="Preview"
+                            alt="Saved"
                         />
+
                         <button
                             type="button"
                             class="absolute top-0 right-0 p-1 text-white bg-red-600 rounded-bl"
-                            @click="removeNewImage(index)"
-                            > ✕
+                            @click="deleteExistingImage(image.id, index)"
+                            >✕
                         </button>
-                </div>
+                    </div>
 
-                <!-- Кнопка +, если меньше 10 -->
-                <div
-                    v-if="totalImages < 10"
-                    class="col-span-3 flex items-center justify-center"
-                >
-                    <button
-                        type="button"
-                        @click="triggerFileInput"
-                        class="flex items-center justify-center w-full h-32 border-2 border-dashed rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+                    <!-- Потом новые загруженные -->
+                    <div
+                        v-for="(image, index) in imagePreviews"
+                        :key="'preview-' + index"
+                        class="relative col-span-3"
+                        >
+                            <img
+                                :src="image.url"
+                                class="object-cover w-full h-32 border rounded"
+                                alt="Preview"
+                            />
+                            <button
+                                type="button"
+                                class="absolute top-0 right-0 p-1 text-white bg-red-600 rounded-bl"
+                                @click="removeNewImage(index)"
+                                > ✕
+                            </button>
+                    </div>
+
+                    <!-- Кнопка +, если меньше 10 -->
+                    <div
+                        v-if="totalImages < 10"
+                        class="col-span-3 flex items-center justify-center"
                     >
-                        <span class="text-4xl text-gray-500">+</span>
-                    </button>
-                    <input
-                        ref="fileInput"
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        class="hidden"
-                        @change="handleFileChange"
-                    />
+                        <button
+                            type="button"
+                            @click="triggerFileInput"
+                            class="flex items-center justify-center w-full h-32 border-2 border-dashed rounded hover:bg-gray-100 dark:hover:bg-gray-800"
+                        >
+                            <span class="text-4xl text-gray-500">+</span>
+                        </button>
+                        <input
+                            ref="fileInput"
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            class="hidden"
+                            @change="handleFileChange"
+                        >
+                    </div>
                 </div>
-            </div>
 
-            <!-- <p v-if="totalImages < 3" class="mt-2 text-red-600">
-            Минимум 3 изображения обязательно
-            </p> -->
-            <p v-if="totalImages < 3" class="mt-2 text-red-600">
-
-            </p>
-            <p v-if="imageError" class="mt-2 text-red-600">{{ imageError }}</p>
+                <!-- <p v-if="totalImages < 3" class="mt-2 text-red-600">
+                Минимум 3 изображения обязательно
+                </p> -->
+                <p v-if="totalImages < 3" class="mt-2 text-red-600">  </p>
+                <p v-if="imageError" class="mt-2 text-red-600">{{ imageError }}</p>
             </div>
 
 
@@ -439,7 +437,7 @@ const submit = () => {
                         <TextInput id="phone" type="text"
                             class="w-full mt-1 text-gray-500 border rounded border-gray-100/80 text-13 dark:bg-transparent dark:border-neutral-600"
                             v-model="form.socials[socialType]"
-                            :placeholder="baseUrl" />
+                            :placeholder="baseUrl.link" />
 
                         <InputError class="mt-2 opacity-60"
                             :message="form.errors.social_link" />

@@ -7,4 +7,6 @@ use App\Interfaces\BaseInterface;
 interface UserInterface extends BaseInterface
 {
 
+    public function updatePassword($data);
+
 }
