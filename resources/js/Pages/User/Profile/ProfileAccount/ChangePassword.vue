@@ -1,6 +1,6 @@
 
 <script setup>
-import axios from 'axios';
+
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
@@ -15,6 +15,12 @@ const modal = useModalStore()
 
 const props = defineProps({
     locale: String,
+});
+
+const currentLanguage = computed(() => props.locale);
+
+watch(currentLanguage, () => {
+  form.errors = {};
 });
 
 
@@ -55,12 +61,12 @@ const submit = () => {
                     <div class="col-span-12">
 
                         <div class="mb-3">
-                            <InputLabel for="current-password-input" :value="useTrans('form.password')" class="text-sm text-gray-900 dark:text-gray-50" />
+                            <InputLabel for="current-password-input" :value="useTrans('form.current_password')" class="text-sm text-gray-900 dark:text-gray-50" />
 
                             <TextInput id="current-password-input" type="text"
                                 class="w-full mt-1 text-gray-500 border rounded border-gray-100/80 text-13 dark:bg-transparent dark:border-neutral-600"
                                 v-model="form.current_password"
-                                :placeholder="useTrans('form.phone_placeholder')" />
+                                :placeholder="useTrans('form.current_password_placeholder')" />
 
                             <InputError class="mt-2 opacity-60"
                                 :message="form.errors.current_password" />
@@ -74,7 +80,7 @@ const submit = () => {
                             <TextInput id="password" type="password"
                                 class="w-full mt-1 text-gray-500 border rounded border-gray-100/80 text-13 dark:bg-transparent dark:border-neutral-600"
                                 v-model="form.password"
-                                :placeholder="useTrans('form.phone_placeholder')" />
+                                :placeholder="useTrans('form.password_placeholder')" />
 
                             <InputError class="mt-2 opacity-60"
                                 :message="form.errors.password" />
@@ -88,7 +94,7 @@ const submit = () => {
                             <TextInput id="password_confirmation" type="password"
                                 class="w-full mt-1 text-gray-500 border rounded border-gray-100/80 text-13 dark:bg-transparent dark:border-neutral-600"
                                 v-model="form.password_confirmation"
-                                :placeholder="useTrans('form.password_confirmation')" />
+                                :placeholder="useTrans('form.password_confirmation_placeholder')" />
 
                             <InputError class="mt-2 opacity-60"
                                 :message="form.errors.password_confirmation" />

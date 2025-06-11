@@ -6,20 +6,18 @@ import Update from './Update.vue';
 import Info from './Info.vue';
 import SelectedSubCategories from './SelectSubCategories.vue';
 import ChangePassword from './ChangePassword.vue';
+import SubCategoryTags from './SubCategoryTags.vue'
 
-
-import { computed, ref, reactive, onMounted, watch, onUnmounted, nextTick } from "vue";
-import { Head} from '@inertiajs/vue3';
+import { ref, onMounted, watch } from "vue";
+import { Head } from '@inertiajs/vue3';
 import initNavAndTabs from "@/modules/user/nav&tabs.js";
 import { initLightbox } from '@/modules/user/lightbox.init.js';
 import gFunLightbox from '@/modules/user/glightbox.min';
-import { useTrans } from '/resources/js/trans';
 
 onMounted(() => {
     gFunLightbox();
     initLightbox();
     initNavAndTabs();
-
 });
 
 const props = defineProps({
@@ -35,10 +33,42 @@ const props = defineProps({
   },
 });
 
-console.log(props.user, 11111111111111)
+// Массив для ID выбранных подкатегорий
+const selectedIds = ref([]);
+
+// Подкатегории с именами
+const selectedSubCategories = ref(props.user.executor_sub_categories || []);
+
+watch(
+  () => props.user.executor_sub_categories,
+  (newValue) => {
+    const raw = newValue || [];
+    selectedIds.value = raw.map(sub => sub.id);
+
+    const updated = [];
+
+    raw.forEach(sub => {
+      props.categories.forEach(category => {
+        const found = category.sub_categories.find(s => s.id === sub.id);
+        if (found) {
+          updated.push({
+            id: found.id,
+            name: found.name,
+            color: category.color
+          });
+        }
+      });
+    });
+
+    selectedSubCategories.value = updated;
+  },
+  { immediate: true }
+);
+
 
 
 </script>
+
 
 <template>
     <Index>
@@ -117,24 +147,13 @@ console.log(props.user, 11111111111111)
 
                                                     <div class="mt-6">
                                                         <h6 class="text-lg font-bold text-gray-900 dark:text-gray-50">Skills</h6>
-                                                        <div class="flex flex-wrap gap-3 mt-3">
-                                                            <span class="mt-2 text-13 px-2 py-0.5 bg-violet-500/20 text-violet-500 rounded font-medium">Cloud Management</span>
-                                                            <span class="mt-2 text-13 px-2 py-0.5 bg-violet-500/20 text-violet-500 rounded font-medium">Responsive Design</span>
-                                                            <span class="mt-2 text-13 px-2 py-0.5 bg-violet-500/20 text-violet-500 rounded font-medium">Network Architecture</span>
-                                                            <span class="mt-2 text-13 px-2 py-0.5 bg-violet-500/20 text-violet-500 rounded font-medium">PHP</span>
-                                                            <span class="mt-2 text-13 px-2 py-0.5 bg-violet-500/20 text-violet-500 rounded font-medium">Bootstrap</span>
-                                                            <span class="mt-2 text-13 px-2 py-0.5 bg-violet-500/20 text-violet-500 rounded font-medium">UI &amp; UX Designer</span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-6">
-                                                        <h6 class="text-lg font-bold text-gray-900 dark:text-gray-50">Spoken languages</h6>
-                                                        <div class="flex flex-wrap gap-3 mt-3">
-                                                            <span class="mt-2 text-13 px-2 py-0.5 bg-red-500/20 text-red-500 rounded font-medium">English</span>
-                                                            <span class="mt-2 text-13 px-2 py-0.5 bg-green-500/20 text-green-500 rounded font-medium">German</span>
-                                                            <span class="mt-2 text-13 px-2 py-0.5 bg-sky-500/20 text-sky-500 rounded font-medium">French</span>
-                                                        </div>
+                                                        <SubCategoryTags
+                                                            :subCategories="selectedSubCategories"
+                                                            :withRemove="false"
+                                                        />
                                                     </div>
                                                 </div>
+
 
                                                 <div class="hidden w-full tab-pane" id="settings-tab">
                                                     <Update
@@ -145,14 +164,15 @@ console.log(props.user, 11111111111111)
                                                         :user="props.user"
                                                         :socialMedias="props.socialMedias"
                                                     />
-
                                                 </div>
+
 
                                                 <div class="hidden w-full tab-pane" id="subcategories-tab">
                                                     <!-- Категория -->
                                                     <SelectedSubCategories
                                                         :categories="props.categories"
                                                         :selectedSubCategories="props.user.executor_sub_categories"
+                                                        @update:selectedSubCategories="selectedSubCategories = $event"
                                                     />
                                                 </div>
 

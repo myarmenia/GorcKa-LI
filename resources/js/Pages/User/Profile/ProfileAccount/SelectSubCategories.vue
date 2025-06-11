@@ -5,6 +5,7 @@ import axios from 'axios';
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { computed, ref, defineProps, watch } from "vue";
 import { useModalStore } from '@/Stores/modalStore'
+import SubCategoryTags from './SubCategoryTags.vue'
 
 const modal = useModalStore()
 
@@ -14,12 +15,11 @@ const props = defineProps({
     selectedSubCategories: Array
 });
 
-    console.log(props.selectedSubCategories, 33333)
 
 const openCategories = ref([])
 const selectedIds = ref(props.selectedSubCategories.map(sub => sub.id))
 const selectedSubCategories = ref([])
-
+const emit = defineEmits(['update:selectedSubCategories'])
 
 watch(
     () => props.selectedSubCategories,
@@ -37,7 +37,8 @@ watch(
                     if (found) {
                         selectedSubCategories.value.push({
                             id: found.id,
-                            name: found.name
+                            name: found.name,
+                            color: category.color
                         })
                     }
                 })
@@ -64,7 +65,7 @@ function syncSelectedSubCategories() {
     props.categories.forEach(category => {
         category.sub_categories.forEach(sub => {
             if (selectedIds.value.includes(sub.id)) {
-                selectedSubCategories.value.push({ id: sub.id, name: sub.name })
+                selectedSubCategories.value.push({ id: sub.id, name: sub.name, color: category.color })
             }
         })
     })
@@ -83,7 +84,7 @@ function submitSelectedSubCategories() {
         sub_categories: selectedSubCategories.value
     })
     .then(response => {
-       
+        emit('update:selectedSubCategories', selectedSubCategories.value)
         modal.showSuccess('Успешно сохранено!')
 
     })
@@ -92,22 +93,17 @@ function submitSelectedSubCategories() {
     })
 }
 
-
 </script>
 
 <template>
     <div class="space-y-6">
         <!-- Теги выбранных подкатегорий -->
-        <div class="flex flex-wrap gap-2">
-            <span
-                v-for="sub in selectedSubCategories"
-                :key="sub.id"
-                class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center space-x-2"
-            >
-                <span>{{ sub.name }}</span>
-                <button @click="removeSubCategory(sub.id)" class="text-blue-600 hover:text-blue-800">&times;</button>
-            </span>
-        </div>
+
+        <SubCategoryTags
+            :subCategories="selectedSubCategories"
+            :withRemove="true"
+            :onRemove="removeSubCategory"
+        />
 
         <!-- Категории и подкатегории -->
         <div class="space-y-4">

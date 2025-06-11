@@ -7,6 +7,7 @@
     "location": "Область",
     "password": "Пароль",
     "password_confirmation": "Подтвердить пароль",
+    "current_password": "Текущий пароль",
     "sign_in": "Войти",
     "register": "Регистрация",
 
@@ -16,6 +17,7 @@
     "location_placeholder": "Location",
     "password_placeholder": "Введите пароль",
     "password_confirmation_placeholder": "Подтвердить пароль",
+    "current_password_placeholder": "Введите текущий пароль",
     "select_placeholder": "Выберите вариант",
     "save": "Сохранить",
     "name_surname": "Имя Фамилия",

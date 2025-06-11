@@ -135,6 +135,9 @@ return [
         'agree_terms' => [
             'accepted' => 'Примите Условия и положения',
         ],
+        'current_password' => [
+            'current_password' => 'Поле :attribute недействительно'
+        ]
 
 
     ],
@@ -160,6 +163,9 @@ return [
         'price_max' => "Максимальная цена",
         'start_date'=> "дата начала",
         'end_date' => "дата окончания",
+        'password' => 'пароль',
+        'current_password' => 'Текущий пароль',
+
 
     ]
 ];
