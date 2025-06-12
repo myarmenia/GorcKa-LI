@@ -2,12 +2,14 @@
 
 namespace App\Repositories\Job;
 
+use Auth;
 use DB;
 use Carbon\Carbon;
 use App\Models\Task;
 use App\Interfaces\Job\JobInterface;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class JobRepository extends BaseRepository implements JobInterface
 {
@@ -31,6 +33,7 @@ class JobRepository extends BaseRepository implements JobInterface
             'user:id,name,email,phone',
             'sub_category.category:id,icon',
             'location.translation:location_id,name', // Загрузим только нужные поля из translation
+            'files:filable_id,path as file_path'
         ])->findOrFail($id);
 
 
@@ -72,12 +75,21 @@ class JobRepository extends BaseRepository implements JobInterface
         return $data;
     }
 
+    public function getUnselectedApplicants($job,  $selected_user_id)
+    {
+        return $job->applicantUsers()->where('users.id', '!=', $selected_user_id)->get();
+    }
+
 
     private function getSelectedData($data){
 
         $result = $data
             ->leftJoin('sub_categories', 'tasks.sub_category_id', '=', 'sub_categories.id')
             ->leftJoin('categories', 'sub_categories.category_id', '=', 'categories.id')
+            ->leftJoin('applicants', function ($join) {
+                $join->on('tasks.id', '=', 'applicants.task_id')
+                    ->where('applicants.user_id', '=', Auth::id());      //  for applicants in job list /  you applied
+            })
             ->leftJoin('locations', 'tasks.location_id', '=', 'locations.id')
             ->leftJoin('location_translations', function ($join) {
                 $join->on('locations.id', '=', 'location_translations.location_id')
@@ -97,6 +109,7 @@ class JobRepository extends BaseRepository implements JobInterface
                 'tasks.price_max',
                 'tasks.start_date',
                 'tasks.end_date',
+                'applicants.user_id as applicant_auth_id',
                 'sub_categories.category_id',
                 'categories.icon as category_icon',
                 'categories.color as category_color',

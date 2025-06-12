@@ -37,7 +37,12 @@ class NotificationCategorySeeder extends Seeder
             [
                 'id' => 6,
                 'type' => 'selected_executor'
-            ]
+            ],
+            [
+                'id' => 7,
+                'type' => 'you_applied'
+            ],
+
 
         ];
 

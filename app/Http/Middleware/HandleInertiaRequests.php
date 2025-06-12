@@ -67,7 +67,8 @@ class HandleInertiaRequests extends Middleware
                     'avatar' => $user->avatar,
                     'point' => $user->point,
                     'verified' => $user->email_verified_at,
-                    'unread_notification_count' => $user->notifications()->unread()->count()
+                    'unread_notification_count' => $user->notifications()->unread()->count(),
+                    'unread_messages_count' => $user->messages()->unread()->count(),
 
                 ] : null,
             ],

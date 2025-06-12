@@ -73,6 +73,8 @@
         <div class="container ">
             <div class="content">
                 <h2> {{ $title }}  </h2>
+                <h3>{{__('email.jobname')}}։ {{ $task_name }}  </h3>
+
                 <h4>{{ $description }} </h4>
 
                 <p>{{__('email.regards')}}, <br>{{__('email.team')}} {{ config('app.name') }}</p>

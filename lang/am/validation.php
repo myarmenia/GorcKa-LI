@@ -186,6 +186,9 @@ return [
         'agree_terms' => [
             'accepted' => 'Ընդունեք Պայմանները և դրույթները',
         ],
+        'current_password' => [
+            'current_password' => ':attribute դաշտը սխալ է'
+        ]
 
   ],
 
@@ -204,8 +207,10 @@ return [
     'name' => 'Անուն',
     'surname' => 'Ազգանուն',
     'email' => 'Էլ․ հասցե',
+    'password' => 'գաղտնաբառ',
     'confirm-password' => 'Կրկնել գաղտնաբառ',
-    'password' => 'Գաղտնաբառի',
+    'password' => 'Գաղտնաբառ',
+    'current_password' => 'Ընթացիկ գաղտնաբառ',
     'phone' => 'Հեռախոս',
     'roles' => 'Դերեր',
     'status' => 'Կարգավիճակ',

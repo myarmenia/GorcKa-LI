@@ -5,21 +5,25 @@ namespace App\Providers;
 use App\Interfaces\Applicant\ApplicantInterface;
 use App\Interfaces\BaseInterface;
 use App\Interfaces\Category\CategoryInterface;
+use App\Interfaces\Chat\ChatInterface;
+use App\Interfaces\Chat\MessageInterface;
+use App\Interfaces\Chat\RoomInterface;
 use App\Interfaces\Job\JobInterface;
-use App\Interfaces\Message\MessageInterface;
 use App\Interfaces\Notification\NotificationInterface;
-use App\Interfaces\Room\RoomInterface;
 use App\Interfaces\Specialist\SpecialistInterface;
 use App\Interfaces\Task\TaskInterface;
 use App\Interfaces\User\UserInterface;
 use App\Mail\CustomResetPasswordToMail;
+use App\Models\Message;
+use App\Observers\MessageObserver;
 use App\Repositories\Applicant\ApplicantRepositry;
 use App\Repositories\Auth\RegisterRepository;
 use App\Repositories\Category\CategoryRepository;
+use App\Repositories\Chat\ChatRepository;
+use App\Repositories\Chat\MessageRepository;
+use App\Repositories\Chat\RoomRepositry;
 use App\Repositories\Job\JobRepository;
-use App\Repositories\Message\MessageRepository;
 use App\Repositories\Notification\NotificationRepository;
-use App\Repositories\Room\RoomRepositry;
 use App\Repositories\Specialist\SpecialistRepository;
 use App\Repositories\User\UserRepository;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -57,6 +61,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(RoomInterface::class, RoomRepositry::class);
         $this->app->bind(MessageInterface::class, MessageRepository::class);
         $this->app->bind(UserInterface::class, UserRepository::class);
+        $this->app->bind(ChatInterface::class, ChatRepository::class);
+
 
     }
 
@@ -78,6 +84,8 @@ class AppServiceProvider extends ServiceProvider
         Inertia::share([
             'locale' => fn() => Session::get('locale', config('app.locale')),
         ]);
+
+        Message::observe(MessageObserver::class);
 
 
     }

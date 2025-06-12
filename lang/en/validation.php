@@ -145,6 +145,9 @@ return [
         'agree_terms' => [
             'accepted' => 'Accept the Terms and Conditions',
         ],
+        'current_password' => [
+            'current_password' => ':attribute field is incorrect'
+        ]
     ],
 
     /*
@@ -159,15 +162,17 @@ return [
     */
 
     'attributes' => [
-      'email' => 'email',
-      'title' => 'task name',
-      'location_id' => "region",
-      'category_id'=> "category",
-      'sub_category_id'=>"subcategory",
-      'price_min'=> "minimum price",
-      'price_max'=> "max price",
-      'start_date'=> "start date",
-      'end_date' => "end date",
+        'email' => 'email',
+        'title' => 'task name',
+        'location_id' => "region",
+        'category_id'=> "category",
+        'sub_category_id'=>"subcategory",
+        'price_min'=> "minimum price",
+        'price_max'=> "max price",
+        'start_date'=> "start date",
+        'end_date' => "end date",
+        'current_password' => 'current password',
+
 
     ],
 

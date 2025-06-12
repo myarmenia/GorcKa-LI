@@ -7,19 +7,24 @@ use App\Models\Task;
 use App\Models\User;
 use App\Services\FcmService;
 use App\Services\User\ApplyNowService;
+use App\Services\User\Notify\NotifyService;
 use Auth;
 use Illuminate\Http\Request;
 
 class ApplyNowController extends Controller
 {
 
-    public function __construct(protected ApplyNowService $applyNowService)
+    // public function __construct(protected ApplyNowService $applyNowService)
+    // {
+    public function __construct(protected NotifyService $notifyService)
     {
     }
     public function applyNow(Request $request, $locale, Task $task)
     {
 
-        $this->applyNowService->applyNow($task);
+        // $this->applyNowService->applyNow($task);
+        $this->notifyService->applyNow($task);
+
         return redirect()->back()->with('success', 'Notification sent');
         // return response()->json(['message' => 'Notification sent']);
         // return response()->json(['message' => 'User not found'], 404);

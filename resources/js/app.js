@@ -13,6 +13,8 @@ import './modules/user/switcher.js';
 
 // import './modules/user/job-list.init';
 import './modules/user/dropdown&modal.init.js';
+import './modules/user/glightbox.min';
+
 
 // import '../../public/assets/user/libs/swiper/swiper-bundle.min';
 // import './modules/user/swiper.init.js';
@@ -24,10 +26,13 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
+import { createPinia } from 'pinia'
 // import { requestPermission } from './firebase';
 // requestPermission();
+import { Inertia } from '@inertiajs/inertia';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const pinia = createPinia()
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -41,11 +46,23 @@ createInertiaApp({
         return createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .use(pinia)
             .mount(el);
     },
     progress: {
         color: '#4B5563',
     },
+});
+
+
+Inertia.on('error', (errors) => {
+    if (errors.response?.status === 404) {
+        Inertia.visit('/404');
+    }
+
+    if (errors.response?.status === 500) {
+        Inertia.visit('/500');
+    }
 });
 
 

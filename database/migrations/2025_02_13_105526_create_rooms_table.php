@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('executor_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('task_id')->constrained('tasks')->cascadeOnDelete();
             $table->integer('status')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

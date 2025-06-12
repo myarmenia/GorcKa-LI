@@ -18,10 +18,13 @@ class JobApplicationSubmissionNotification extends Mailable
      */
     public string $title;
     public string $description;
+    public string $task_name;
 
-    public function __construct(string $title, string $description)
+
+    public function __construct(string $title, string $description, string $taskName)
     {
         $this->title = $title;
+        $this->task_name = $taskName;
         $this->description = $description;
 
     }
