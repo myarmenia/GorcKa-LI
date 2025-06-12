@@ -7,6 +7,7 @@ use App\Traits\FilterTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -101,6 +102,17 @@ class User extends Authenticatable implements MustVerifyEmail
             $query->where('employer_id', $this->id)
                 ->orWhere('executor_id', $this->id);
         });
+    }
+
+
+    public function executor_sub_categories(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            SubCategory::class,
+            'executor_sl_sub_categories', // имя pivot-таблицы
+            // 'user_id',                    // внешний ключ пользователя
+            // 'sub_category_id'            // внешний ключ подкатегории
+        );
     }
 
     public function hasAccessToRoom($roomId)

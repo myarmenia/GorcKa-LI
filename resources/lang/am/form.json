@@ -7,6 +7,7 @@
     "location": "Մարզ",
     "password": "Գաղտնաբառ",
     "password_confirmation": "Հաստատեք գաղտնաբառը",
+    "current_password": "Ընթացիկ գաղտնաբառ",
     "sign_in": "Մուտք",
     "register": "Գրանցվել",
 
@@ -15,6 +16,7 @@
     "phone_placeholder": "Մուտքագրեք ձեր հեռախոսահամարը",
     "password_placeholder": "Մուտքագրեք ձեր գաղտնաբառը",
     "password_confirmation_placeholder": "Հաստատեք գաղտնաբառը",
+    "current_password_placeholder": "Մուտքագրեք ընթացիկ գաղտնաբառը",
     "select_placeholder": "Ընտրեք տարբերակը",
     "save": "Պահպանել",
     "name_surname": "Անուն Ազգանուն",

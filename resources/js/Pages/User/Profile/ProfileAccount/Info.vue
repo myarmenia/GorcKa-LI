@@ -1,5 +1,5 @@
 <script setup>
-import {  Link } from '@inertiajs/vue3';
+
 import { computed, ref, reactive, onMounted, watch, onUnmounted, nextTick } from "vue";
 import { useTrans } from '/resources/js/trans';
 

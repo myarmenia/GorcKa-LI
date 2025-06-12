@@ -3,6 +3,8 @@ import { Link } from '@inertiajs/vue3';
 import Footer from '@/Layouts/User/Footer.vue';
 import NavBar from '@/Layouts/User/NavBar.vue';
 import { provide, computed } from 'vue';
+
+import ResultModal from '@/Components/ResultModal.vue'
 // import { usePage } from '@inertiajs/vue3';
 
 // const page = usePage();
@@ -18,6 +20,8 @@ import { provide, computed } from 'vue';
         <div class="main-content">
             <div class="page-content">
                 <slot></slot>
+                <ResultModal />
+
             </div>
         </div>
     <Footer></Footer>

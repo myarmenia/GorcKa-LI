@@ -101,7 +101,8 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/profile', [UserProfileController::class, 'index'])->name('user.profile');
             Route::post('/profile', [UserProfileController::class, 'update'])->name('user.profile.update');
-
+            Route::post('/submit-subcategories', [UserProfileController::class, 'executor_sub_categories'])->name('user.executor_sub_categories');
+            Route::post('/profile/password', [UserProfileController::class, 'update_password'])->name('profile.password.update');
 
             // Route::get('task-index',[TaskController::class,'create'])->name('task.create');
             Route::prefix('task')->group(function () {

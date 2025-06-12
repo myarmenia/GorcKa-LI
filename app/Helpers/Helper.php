@@ -76,6 +76,7 @@ class Helper
             return [
                 'id' => $category->id,
                 'name' => optional($category->item_translations->first())->name ?? 'Без названия',
+                'color' => $category->color ?? null,
                 'sub_categories' => $category->sub_categories->map(function ($sub) {
                     return [
                         'id' => $sub->id,
