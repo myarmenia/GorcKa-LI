@@ -54,7 +54,7 @@ const submit = () => {
                 <div class="col-span-12 lg:col-span-7">
                     <div class="mb-3 ltr:mr-14 rtl:ml-14">
                         <h1 class="hidden">{{ useTrans('page.find_job.h1') }}</h1>
-                        <h2 class="mb-3 text-5xl font-semibold leading-tight text-gray-900 dark:text-gray-50">{{ useTrans('page.find_job.h1_1') }} <br>  <span class="font-bold group-data-[theme-color=green]:text-green-500 "> {{ useTrans('page.find_job.h1_2') }}</span> {{ useTrans('page.find_job.h1_3') }}   </h2>
+                        <h2 class="mb-3 text-4xl font-semibold leading-tight text-gray-900 dark:text-gray-50">{{ useTrans('page.find_job.h1_1') }} <br>  <span class="font-bold group-data-[theme-color=green]:text-green-500 "> {{ useTrans('page.find_job.h1_2') }}</span> {{ useTrans('page.find_job.h1_3') }}   </h2>
                         <p class="text-lg font-light text-gray-500 whitespace-pre-line dark:text-gray-300">{{ useTrans('page.find_job.p') }}</p>
                     </div>
                     <form @submit.prevent="submit">
@@ -97,11 +97,11 @@ const submit = () => {
                         </div>
                     </form>
                 </div>
-                <div class="col-span-5">
-                    <div class="mt-5">
-                        <img src="assets/user/images/process-02.png" alt="" class="mb-5 home-img 2xl:max-w-none hidden lg:block">
-                    </div>
-                </div>
+                <div class="col-span-12 lg:col-span-5 flex justify-end">
+    <div class="mt-5 ml-auto">
+        <img src="assets/user/images/process-02.png" alt="" class="mb-5 home-img max-w-[300px] hidden lg:block">
+    </div>
+</div>
             </div>
         </div>
         <img src="assets/user/images/bg-shape.png" alt="" class="absolute block -bottom-5 dark:hidden">

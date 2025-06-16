@@ -81,6 +81,43 @@ class JobRepository extends BaseRepository implements JobInterface
     }
 
 
+    public function topCategoriesJobs(){
+    //     $topCategoryIds = DB::table('tasks')
+    //     ->join('sub_categories', 'tasks.sub_category_id', '=', 'sub_categories.id')
+    //     ->select('sub_categories.category_id', DB::raw('COUNT(tasks.id) as task_count'))
+    //     ->groupBy('sub_categories.category_id')
+    //     ->orderByDesc('task_count')
+    //     ->limit(3) // например, топ-3 категории
+    //     ->pluck('sub_categories.category_id'); // получаем только ID категорий
+
+    // // Шаг 2: Получаем ID подкатегорий из этих категорий
+    // $subCategoryIds = DB::table('sub_categories')
+    //     ->whereIn('category_id', $topCategoryIds)
+    //     ->pluck('id');
+
+    // // Шаг 3: Получаем 6 случайных задач из этих подкатегорий
+    // $tasks = Task::whereIn('sub_category_id', $subCategoryIds)
+    //     ->inRandomOrder()
+    //     ->limit(6)
+    //     ->get();
+
+
+    // ===== ok ============
+        // $tasks = Task::whereIn('sub_category_id', function ($query) {
+        //     $query->select('sub_categories.id')
+        //         ->from('sub_categories')
+        //         ->join('categories', 'sub_categories.category_id', '=', 'categories.id')
+        //         ->join('tasks', 'tasks.sub_category_id', '=', 'sub_categories.id')
+        //         ->select('sub_categories.id')
+        //         ->groupBy('categories.id', 'sub_categories.id')
+        //         ->orderByRaw('COUNT(tasks.id) DESC')
+        //         ->limit(100); // расширенный лимит категорий + подкатегорий
+        // })
+        //     ->inRandomOrder()
+        //     ->limit(6)
+        //     ->get();
+    }
+
     private function getSelectedData($data){
 
         $result = $data
