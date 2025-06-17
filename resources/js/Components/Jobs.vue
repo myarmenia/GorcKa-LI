@@ -64,7 +64,12 @@ const props = defineProps({
                 <div class="grid grid-cols-12">
                     <div class="col-span-12 lg:col-span-6">
                         <div>
-                            <p class="mb-0 text-gray-500 dark:text-gray-300"><span class="text-gray-900 dark:text-gray-50">{{useTrans('page.jobs.execution_time')}} </span> {{job.start_date ? job.start_date + ' - ' : ' ' }}  {{ job.end_date }}</p>
+                            <p class="mb-0 text-gray-500 dark:text-gray-300">
+                                <span class="text-gray-900 dark:text-gray-50">
+                                    <!-- {{useTrans('page.jobs.execution_time')}} -->
+                                    <i class="uil uil-clock"></i>
+                                </span>
+                                {{job.start_date ? job.start_date + ' - ' : ' ' }}  {{ job.end_date }}</p>
                         </div>
                     </div>
                     <!--end col-->

@@ -69,6 +69,16 @@ class Task extends Model
         return $this->hasManyThrough(User::class, Applicant::class, 'task_id', 'id', 'id', 'user_id');
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    public function scopeActiveByTable($query)
+    {
+        return $query->where('tasks.status', 'active');
+    }
+
     // public function hasAccessToJobApplicant($userId)
     // {        
     //     dd(22);
