@@ -20,14 +20,14 @@ class WelcomeController extends Controller
         $categories = Helper::getCategories();
         $categoriesWithTaskCount = $this->categoryService->categoriesWithTaskCount()->take(8);
         $jobs = $this->jobService->activeJobs()->take(10);
-        $topCategoriesJobs = $this->jobService->topCategoriesJobs()->take(4);
-        // dd($jobs);
+        $topCategoriesJobs = $this->jobService->topCategoriesJobs();
 
         return Inertia::render('Welcome',
                 [
                     'categories' => $categories,
                     'categoriesWithTaskCount' => $categoriesWithTaskCount,
-                    'jobs' => $jobs
+                    'jobs' => $jobs,
+                    'topCategoriesJobs' => $topCategoriesJobs
                 ]);
     }
 

@@ -98,10 +98,10 @@ const submit = () => {
                     </form>
                 </div>
                 <div class="col-span-12 lg:col-span-5 flex justify-end">
-    <div class="mt-5 ml-auto">
-        <img src="assets/user/images/process-02.png" alt="" class="mb-5 home-img max-w-[300px] hidden lg:block">
-    </div>
-</div>
+                    <div class="mt-5 ml-auto">
+                        <img src="assets/user/images/process-02.png" alt="" class="mb-5 home-img max-w-[300px] hidden lg:block">
+                    </div>
+                </div>
             </div>
         </div>
         <img src="assets/user/images/bg-shape.png" alt="" class="absolute block -bottom-5 dark:hidden">
