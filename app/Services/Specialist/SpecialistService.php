@@ -4,6 +4,7 @@ namespace App\Services\Specialist;
 use App\Interfaces\Specialist\SpecialistInterface;
 use App\Models\Category;
 use App\Models\ExecutorInfo;
+use App\Models\ExecutorSlSubCategory;
 use App\Models\SubCategory;
 use App\Traits\FilterTrait;
 use Storage;
@@ -14,13 +15,13 @@ use Storage;
 class SpecialistService
 {
     use FilterTrait;
-    public function __construct(protected SpecialistInterface $specialistRepository, protected ExecutorInfo $executorInfo)
+    public function __construct(protected SpecialistInterface $specialistRepository, protected ExecutorSlSubCategory $executor)
     {
     }
 
     public function getAll()
     {
-        return $this->exequtorResultFilter(ExecutorInfo::query());
+        return $this->exequtorResultFilter(ExecutorSlSubCategory::query());
     }
 
 
@@ -35,7 +36,7 @@ class SpecialistService
         });
 
 
-        $filter = $this->executorInfo->filter($data);
+        $filter = $this->executor->filter($data);
 
         return $this->exequtorResultFilter($filter);
     }
