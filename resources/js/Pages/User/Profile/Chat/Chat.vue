@@ -142,11 +142,14 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-    const style = document.getElementById('chat-css');
-    if (style) {
-        style.remove();
+    const link = document.getElementById('chat-css');
+
+    console.log(link,333333)
+    if (link) {
+        link.remove(); // удаляет элемент <link>
     }
 });
+
 
 const unreadCountsPerJob = computed(() => {
     const result = {};
