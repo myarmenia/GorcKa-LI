@@ -4,6 +4,7 @@ namespace App\Services\User\Notify;
 use App\Interfaces\Job\JobInterface;
 use App\Models\Task;
 use App\Services\User\UserPointUpdaterService;
+use Log;
 
 
 class SelectExecutorService extends SenderService
@@ -17,43 +18,40 @@ class SelectExecutorService extends SenderService
         parent::__construct($notificationService, $messageCreatorService);
     }
 
-    public function handle($task, $room, $employer, $executor): void
+    public function handle($task, $room, $employer, $executor): mixed
     {
 
         $taskName = $task->title;
 
         $unselected_users = $this->jobRepository->getUnselectedApplicants($task, $executor->id);
-        // $update = $task->update(['executor_id' => $executor->id, 'status' => 'in_process']);
-        $task = Task::find(1);
-        $task->executor_id = $executor->id;
-        $task->status = 'in_process';
-        $task->save();
-// dd($update);
-        // if($update){
-        //     try {
-        //         foreach ($unselected_users as $key => $value) {
-        //             $notif = $this->notificationService->notify($value, 'application_rejected', $taskName);
-        //             $this->messageCreatorService->create($room, $value, $notif->description);
-        //         }
-        //     } catch (\Throwable $e) {
-        //         Log::error('Ошибка при обработке unselected_users: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
-        //         throw $e; // пробрасывай дальше, чтобы сработал rollBack
-        //     }
-        //     // foreach ($unselected_users as $key => $value) {
+        $update = $task->update(['executor_id' => $executor->id, 'status' => 'in_process']);
+        // $task = Task::find(1);
+        // $task->executor_id = $executor->id;
+        // $task->status = 'in_process';
+        // $task->save();
 
-        //     //     $unselected_user_notification = $this->notificationService->notify($value, 'application_rejected', $taskName);
+        if($update){
+            try {
+                foreach ($unselected_users as $key => $value) {
+                    $notif = $this->notificationService->notify($value, 'application_rejected', $task);
+                    $this->messageCreatorService->create($room, $value, $notif->description);
+                }
+            } catch (\Throwable $e) {
+                Log::error('Ошибка при обработке unselected_users: ' . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
+                throw $e; // пробрасывай дальше, чтобы сработал rollBack
+            }
 
-        //     //     $this->messageCreatorService->create($room, $value, $unselected_user_notification->description);
 
-        //     // }
+            $employer_notification = $this->notificationService->notify($employer, 'selected_executor', $taskName);
+            // $executor_notification = $this->notificationService->notify($executor, 'selected_executor', $taskName);
+dd($employer_notification);
+            $this->messageCreatorService->create($room, $employer, $employer_notification->description);
+            $this->messageCreatorService->create($room, $executor, $executor_notification->description);
 
-        //     $employer_notification = $this->notificationService->notify($employer, 'selected_executor', $taskName);
-        //     $executor_notification = $this->notificationService->notify($executor, 'selected_executor', $taskName);
 
-        //     $this->messageCreatorService->create($room, $employer, $employer_notification->description);
-        //     $this->messageCreatorService->create($room, $executor, $executor_notification->description);
-
-        // }
+        }
+        dd($update);
+        return $update;
 
     }
 
