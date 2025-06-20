@@ -40,6 +40,8 @@ function selectRoom(room) {
     readMessages(room.id)
 }
 
+
+
 function isUserOnline(userId) {
   return globalOnlineUsers.value.some(u => u.id === userId);
 }
@@ -53,6 +55,37 @@ function removeUnreadCount (roomId){
             foundRoom.unread_count = 0;
         }
     });
+}
+
+
+
+function updateRoomExecutor(roomId, executorId, status) {
+  Object.values(jobs.value).forEach(group => {
+    let targetJobId = null;
+
+    // Сначала найдём ту комнату, где был выбор исполнителя
+    group.forEach(room => {
+      if (room.id === roomId) {
+        room.task.executor_id = executorId;
+        room.task.status = status;
+        targetJobId = room.task.id; // сохраняем id задачи
+      }
+    });
+
+    // Потом обновим статус у остальных комнат той же задачи
+    if (targetJobId) {
+      group.forEach(room => {
+        if (room.task.id === targetJobId && room.id !== roomId) {
+          room.task.status = status;
+          room.task.executor_id = null; // можно сбросить, если это важно
+        }
+      });
+    }
+  });
+
+  // Обновим текущую выбранную комнату
+  selectedJobExecutirId.value = executorId;
+  selectedJobStatus.value = status;
 }
 
 
@@ -141,6 +174,8 @@ onMounted(() => {
 
 });
 
+
+
 onUnmounted(() => {
     const link = document.getElementById('chat-css');
 
@@ -151,6 +186,7 @@ onUnmounted(() => {
 });
 
 
+
 const unreadCountsPerJob = computed(() => {
     const result = {};
     for (const [jobName, rooms] of Object.entries(jobs.value)) {
@@ -158,6 +194,7 @@ const unreadCountsPerJob = computed(() => {
     }
     return result;
 });
+
 
 </script>
 
@@ -268,7 +305,7 @@ const unreadCountsPerJob = computed(() => {
                                 :employerId="selectedRoomEmployerId"
                                 :selectedJobExecutirId="selectedJobExecutirId"
                                 :jobStatus="selectedJobStatus"
-
+                                :updateRoomExecutor="updateRoomExecutor"
                             />
 
                         </div>

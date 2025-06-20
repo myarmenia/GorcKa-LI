@@ -19,9 +19,11 @@ class NotificationService
     public function getUserNotifications()
     {
         $user = Auth::user();
-        // dd($user->notifications);
 
-        return $user->notifications;
+        return  $user->notifications()
+            ->with('task:id,title')
+            ->orderBy('id', 'desc')
+            ->get();
 
     }
 

@@ -17,4 +17,9 @@ class Notification extends Model
     {
         return $query->whereNull('read_at');
     }
+
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
 }
