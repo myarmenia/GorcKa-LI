@@ -29,6 +29,12 @@ class JobService
         return $data;
     }
 
+    public function topCategoriesJobs(){
+        $data = $this->jobRepository->topCategoriesJobs();
+
+        return $data;
+    }
+
     public function filterJobs($data)
     {
 

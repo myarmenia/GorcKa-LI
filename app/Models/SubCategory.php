@@ -20,9 +20,14 @@ class SubCategory extends Model
         return $this->hasOne(SubCategoryTranslation::class)->where('lang',app()->getLocale());
     }
 
-    public function executorInfos(): HasMany
+    // public function executorInfos(): HasMany
+    // {
+    //     return $this->hasMany(ExecutorInfo::class);
+    // }
+
+    public function executor_sl_sub_category(): HasMany
     {
-        return $this->hasMany(ExecutorInfo::class);
+        return $this->hasMany(ExecutorSlSubCategory::class);
     }
 
 

@@ -58,7 +58,7 @@ class JobRepository extends BaseRepository implements JobInterface
 
         // $data = null when get for homepage
         $data = $data ?? $this->model;
-        $data = $data->where('tasks.status', 'active')->orderBy('id', 'desc');
+        $data = $data->activeByTable()->orderBy('id', 'desc');
         $data = $this->getSelectedData($data);
 
         // dd($data);
@@ -80,6 +80,30 @@ class JobRepository extends BaseRepository implements JobInterface
         return $job->applicantUsers()->where('users.id', '!=', $selected_user_id)->get();
     }
 
+
+    public function topCategoriesJobs(){
+
+        $topCategoryIds = Task::select('sub_categories.category_id', DB::raw('COUNT(tasks.id) as task_count'))
+            ->join('sub_categories', 'tasks.sub_category_id', '=', 'sub_categories.id')
+            ->groupBy('sub_categories.category_id')
+            ->orderByDesc('task_count')
+            ->limit(2)
+            ->pluck('sub_categories.category_id');
+
+
+
+        $tasks = Task::whereHas('sub_category', function ($query) use ($topCategoryIds) {
+            $query->whereIn('category_id', $topCategoryIds);
+        })
+            ->activeByTable()
+            ->inRandomOrder()
+            ->limit(6);
+            // ->get();
+
+        $data = $this->getSelectedData($tasks);
+
+        return $data;
+    }
 
     private function getSelectedData($data){
 
