@@ -12,6 +12,10 @@
     "description": "Description",
     "chose_file": "Chose file",
     "task_type": "Task type",
-    "remote_task": "Mark for remote work"
+    "remote_task": "Mark for remote work",
+    "files_not_selected": "Files not selected",
+    "one_file_selected":"1 file selected",
+    "multiple_files_selected":"Selected :count files",
+    "task":"Task"
 
 }

@@ -1,7 +1,12 @@
 {
     "task": "Task",
     "start_date": "start date",
-    "end_date": "end date"
+    "end_date": "end date",
+    "form_name": "Name, description",
+    "your_tasks_can_be_here":"Here can be your tasks",
+    "task_list":"Task list",
+    "no_results_found": "No results found."
+
 
 
 }
