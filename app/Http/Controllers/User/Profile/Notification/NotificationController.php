@@ -15,18 +15,21 @@ class NotificationController extends Controller
     public function index(Request $request)
     {
 
-        // $locations = Helper::getLocations();
-        // $langs = Helper::getLanguages();
-        // $categories = Helper::getCategoriesWithSubCategories();
-        // $socialMedias = Helper::socialMedias();
-
-        // $user = $this->profileService->getUser();
-        $notifications = $this->notificationService->getUserNotifications();
+        $notifications = $this->notificationService->getUserNotifications()->paginate(2);
 
         return Inertia::render('Profile/Notifications/NotificationPage', [
                         'notifications' => $notifications
                 ]);
 
     }
+
+
+    public function deleteAll(){
+       
+        $delete = $this->notificationService->deleteAllNotifications();
+
+        return redirect()->back();
+    }
+
 
 }

@@ -22,8 +22,14 @@ class NotificationService
 
         return  $user->notifications()
             ->with('task:id,title')
-            ->orderBy('id', 'desc')
-            ->get();
+            ->orderBy('id', 'desc');
+            // ->get();
+
+    }
+
+
+    public function deleteAllNotifications(){
+        return auth()->user()->notifications()->delete();
 
     }
 

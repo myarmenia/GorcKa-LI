@@ -106,6 +106,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/profile/password', [UserProfileController::class, 'update_password'])->name('profile.password.update');
 
             Route::get('/notifications', [NotificationController::class, 'index'])->name('user.notifications');
+            Route::get('/notifications/delete_all', [NotificationController::class, 'deleteAll'])->name('user.notifications.delete_all');
 
 
             // Route::get('task-index',[TaskController::class,'create'])->name('task.create');
