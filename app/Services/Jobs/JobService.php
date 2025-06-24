@@ -44,7 +44,9 @@ class JobService
             $data['sub_category_id'] = SubCategory::where('category_id', $data['category_id'])
                 ->pluck('id')
                 ->toArray();
+
         }
+
 
         if (!empty($data['category_ids'])) {
             $additionalSubCategories = SubCategory::whereIn('category_id', $data['category_ids'])
@@ -64,6 +66,7 @@ class JobService
 
 
         $filter = $this->task->filter($data);
+        
 
         $result = $this->jobRepository->getActiveJobs($filter);
 

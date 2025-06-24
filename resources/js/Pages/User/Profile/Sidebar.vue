@@ -114,19 +114,6 @@
                         </Link>
                     </li>
                     <li class="flex-grow lg:flex-grow-0">
-                        <Link   :href="route('task.create',{locale:usePage().props.locale})"
-                                :class="{
-                                            'active group-data-[theme-color=green]:text-green-500': route().current('task.create')
-                                        }"
-                                class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
-                            <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
-                                <div class="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Task Creat</span>
-                            </div>
-                            <i class="uil uil-clipboard-blank text-2xl"></i>
-                        </Link>
-                    </li>
-                    <li class="flex-grow lg:flex-grow-0">
                         <Link   :href="route('user.chat',{locale:usePage().props.locale})"
                                 :class="{
                                             'active group-data-[theme-color=green]:text-green-500': route().current('user.chat')

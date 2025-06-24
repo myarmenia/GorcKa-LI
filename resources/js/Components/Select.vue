@@ -12,6 +12,10 @@ const props = defineProps({
   error: String, // сообщение об ошибке
   autoSelectFirst: Boolean,
   selectedOptionValue: String,
+  required: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 
@@ -28,11 +32,14 @@ watch(selected, (newValue) => {
 
 <template>
   <div>
-    <label :for="id" class="block text-sm font-medium text-gray-700">{{ label }}</label>
+    <label :for="id" class="block text-sm font-medium text-gray-700">
+        {{ label }}
+        <span v-if="required" class="text-red-500">*</span>
+    </label>
     <select
       :id="id"
       v-model="selected"
-      class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
       :name="name"
       :disabled="disabled"
     >

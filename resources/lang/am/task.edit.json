@@ -13,6 +13,10 @@
     "chose_file": "Ընտրեք ֆայլը",
     "select_placeholder":"Կատարել գործողություն",
     "task_type": "Առաջադրանքի տեսակը",
-    "remote_task": "Հեռավար աշխատանքի համար նշել"
+    "remote_task": "Հեռավար աշխատանքի համար նշել",
+    "files_not_selected": "Ֆայլեր չեն ընտրվել",
+    "one_file_selected":"Ընտրված է 1 ֆայլ",
+    "multiple_files_selected":"Ընտրված է :count ֆայլեր",
+    "task_edit":"Առաջադրանքի խմբագրում"
 
 }

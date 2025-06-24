@@ -8,8 +8,12 @@
     id: String,
     label: String,
     placeholder: String,
+    required: {
+        type: Boolean,
+        default: false,
+    },
   });
- 
+
 
   const emit = defineEmits(["update:modelValue"]);
 
@@ -25,6 +29,7 @@
     <div>
       <label v-if="label" class="block text-sm font-medium text-gray-700">
         {{ label }}
+         <span v-if="required" class="text-red-500">*</span>
       </label>
       <select
         :id="id"
