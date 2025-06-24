@@ -52050,7 +52050,7 @@ h6 {
 
 .bg-green-500 {
     --tw-bg-opacity: 1 !important;
-    background-color: rgb(212 240 229 / var(--tw-bg-opacity)) !important
+    background-color: rgb(4 133 101 / var(--tw-bg-opacity)) !important
 }
 
 .bg-green-500\/20 {
@@ -52619,7 +52619,7 @@ h6 {
 
 .text-green-500 {
     --tw-text-opacity: 1 !important;
-    color: rgb(42 181 125 / var(--tw-text-opacity)) !important
+    color: rgb(4 133 101 / var(--tw-text-opacity)) !important
 }
 
 .text-green-800 {
@@ -53958,7 +53958,7 @@ input:checked~.dot {
 
 .group[data-theme-color=green] .group-data-\[theme-color\=green\]\:bg-green-500 {
     --tw-bg-opacity: 1 !important;
-    background-color: rgb(212 240 229 / var(--tw-bg-opacity)) !important
+    background-color: rgb(4 133 101 / var(--tw-bg-opacity)) !important
 }
 
 .group[data-theme-color=green] .group-data-\[theme-color\=green\]\:bg-green-500\/20 {
@@ -54040,7 +54040,7 @@ input:checked~.dot {
 
 .group[data-theme-color=green] .group-data-\[theme-color\=green\]\:text-green-500 {
     --tw-text-opacity: 1 !important;
-    color: rgb(42 181 125 / var(--tw-text-opacity)) !important
+    color: rgb(4 133 101 / var(--tw-text-opacity)) !important
 }
 
 .group[data-theme-color=red] .group-data-\[theme-color\=red\]\:text-red-500 {

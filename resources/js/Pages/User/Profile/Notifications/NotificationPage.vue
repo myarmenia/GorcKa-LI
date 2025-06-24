@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from "vue";
-import { Head, router } from '@inertiajs/vue3';
+import { Head, router, Link } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import Index from '../Index.vue';
 
@@ -22,7 +22,6 @@ const props = defineProps({
 const localNotifications = ref([...props.notifications.data]);
 const paginationLinks = ref([...props.notifications.links]);
 
-console.log(props.notifications, 777777777)
 watch(
   () => props.notifications,
   (newVal) => {
@@ -34,21 +33,25 @@ watch(
 
 // Удаление уведомления
 const deleteNotification = async (id, index) => {
-//   if (!confirm('Вы уверены, что хотите удалить это уведомление?')) return;
-    try {
-        await axios.delete(`/delete-item/notifications/${id}`);
-            localNotifications.value.splice(index, 1);
+  try {
+    const isLastOnPage = localNotifications.value.length === 1;
+    const currentPage = props.notifications.current_page;
 
-            if (localNotifications.value.length === 0 ) {
-                props.notifications.current_page > 1 ?
-                router.get(props.notifications.prev_page_url) :
-                router.get(props.notifications.first_page_url);
-            }
+      // Если это последнее уведомление - сначала переходим на предыдущую страницу
+      await axios.delete(`/delete-item/notifications/${id}`);
+      localNotifications.value.splice(index, 1);
+      localNotifications.value = [...props.notifications.data];
 
-    } catch (error) {
-        console.error('Ошибка при удалении notification:', error);
-    }
+      if(currentPage > 1){
+        await router.get(props.notifications.prev_page_url);
+      }
+      else{
+        await router.get(props.notifications.first_page_url);
+      }
 
+  } catch (error) {
+    console.error('Ошибка при удалении:', error);
+  }
 };
 
 
@@ -57,7 +60,7 @@ const deleteAllNotifications = async () => {
     if (!confirm('Вы уверены, что хотите удалить это уведомление?')) return;
     try {
         await axios.get(route('user.notifications.delete_all', { locale: 'am' } ));
-        localNotifications.value = null
+        localNotifications.value = [];
 
     } catch (error) {
         console.error('Ошибка при удалении notification:', error);
@@ -68,8 +71,7 @@ const deleteAllNotifications = async () => {
 
 // Пагинация через Inertia
 const changePage = (url) => {
-  if (!url ) return;
-
+    if (!url ) return;
 
   router.get(url, {}, {
     // preserveState: true,
@@ -79,15 +81,19 @@ const changePage = (url) => {
     }
   });
 };
+
 </script>
 
 <template>
   <Index>
     <Head title="Notifications" />
+    
     <template #content>
       <section class="py-20">
         <div class="container mx-auto">
-          <div class="mt-5 flex justify-end">
+
+          <div class="mt-5 flex justify-between">
+            <h4 class=" text-gray-900 fs-16 dark:text-gray-50"> Notifications </h4>
             <button
               @click="deleteAllNotifications"
               class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
@@ -121,9 +127,9 @@ const changePage = (url) => {
                       <p class="text-gray-500 text-muted dark:text-gray-300">
                         {{ notification.description }}
                       </p>
-                      <p v-if="notification.task" class="text-gray-500 text-muted dark:text-gray-300">
-                        Task name: {{ notification.task.title }}
-                      </p>
+                      <Link :href="route('single_job', { locale: $page.props.locale, id: notification.task.id })" v-if="notification.task" class="text-gray-500 text-muted dark:text-gray-300">
+                        Task name: <span class=" font-bold group-data-[theme-color=green]:text-green-500">{{ notification.task.title }}</span>
+                      </Link>
                       <p class="text-gray-500 text-muted dark:text-gray-300">
                         <i class="uil uil-clock"></i>
                         {{ dayjs(notification.created_at).format('DD-MM-YY') }}
@@ -135,7 +141,7 @@ const changePage = (url) => {
                 <div class="absolute top-4 ltr:right-4 rtl:left-4">
                   <button
                     @click="deleteNotification(notification.id, index)"
-                    class="w-10 h-10 text-lg text-red-500 rounded-full bg-red-500/20 flex items-center justify-center hover:bg-red-500/30 transition"
+                    class="w-10 h-10 text-lg text-red-500 rounded bg-red-500/20 flex items-center justify-center hover:bg-red-500/30 transition"
                   >
                     <i class="uil uil-trash-alt"></i>
                   </button>
@@ -151,45 +157,23 @@ const changePage = (url) => {
           <!-- Пагинация -->
           <div class="grid grid-cols-12 mt-8" v-if="paginationLinks.length > 3">
             <div class="col-span-12">
-              <div class="flex justify-center">
-                <nav class="flex items-center gap-1">
-                  <template v-for="(link, index) in paginationLinks" :key="index">
-                    <button
-                      v-if="link.url"
-                      @click="changePage(link.url)"
-                      :disabled="link.active"
-                      :class="{
-                        'bg-green-500 text-white': link.active,
-                        'hover:bg-gray-100 dark:hover:bg-gray-700': !link.active,
-
-                      }"
-                      class="min-w-10 h-10 flex items-center justify-center px-3 rounded-full transition"
-                      v-html="link.label"
-                    />
-                    <span
-                      v-else
-                      class="min-w-10 h-10 flex items-center justify-center px-3 rounded-full text-gray-400"
-                      v-html="link.label"
-                    />
-                  </template>
-                </nav>
-              </div>
+                <ul class="flex justify-center gap-2 mt-8">
+                    <li v-for="(link,index) in paginationLinks"
+                        :key="index"
+                        :class="{active: link.active, disabled: !link.url, 'group-data-[theme-color=green]:bg-green-500 text-white': link.active, 'group-data-[theme-color=green]:bg-gray-200 ': !link.url }"
+                        @click=" changePage(link.url)"
+                        class="w-12 h-12 text-center text-gray-900 transition-all duration-300 border rounded cursor-pointer border-gray-100/50 hover:bg-green-100/30 focus:bg-gray-100/30 dark:border-gray-100/20 dark:text-gray-50 dark:hover:bg-gray-500/20">
+                        <!-- <a class="cursor-auto" href="javascript:void(0)" > -->
+                            <span class="text-16 leading-[2.8]" v-html="link.label"></span> <!-- Use v-html to render HTML -->
+                        <!-- </a> -->
+                    </li>
+                </ul>
             </div>
           </div>
         </div>
       </section>
     </template>
+
   </Index>
 </template>
 
-<!-- <style scoped>
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
-}
-.list-enter-from,
-.list-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
-}
-</style> -->
