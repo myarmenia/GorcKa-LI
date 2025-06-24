@@ -40,6 +40,8 @@ function selectRoom(room) {
     readMessages(room.id)
 }
 
+
+
 function isUserOnline(userId) {
   return globalOnlineUsers.value.some(u => u.id === userId);
 }
@@ -53,6 +55,37 @@ function removeUnreadCount (roomId){
             foundRoom.unread_count = 0;
         }
     });
+}
+
+
+
+function updateRoomExecutor(roomId, executorId, status) {
+  Object.values(jobs.value).forEach(group => {
+    let targetJobId = null;
+
+    // Сначала найдём ту комнату, где был выбор исполнителя
+    group.forEach(room => {
+      if (room.id === roomId) {
+        room.task.executor_id = executorId;
+        room.task.status = status;
+        targetJobId = room.task.id; // сохраняем id задачи
+      }
+    });
+
+    // Потом обновим статус у остальных комнат той же задачи
+    if (targetJobId) {
+      group.forEach(room => {
+        if (room.task.id === targetJobId && room.id !== roomId) {
+          room.task.status = status;
+          room.task.executor_id = null; // можно сбросить, если это важно
+        }
+      });
+    }
+  });
+
+  // Обновим текущую выбранную комнату
+  selectedJobExecutirId.value = executorId;
+  selectedJobStatus.value = status;
 }
 
 
@@ -114,11 +147,11 @@ onMounted(() => {
     initChatApp();
 
     // ========== style =============
-      const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = '/assets/user/tailwind2.css'; // путь к стилю
-            link.id = 'chat-css';
-            document.head.appendChild(link);
+    //   const link = document.createElement('link');
+    //         link.rel = 'stylesheet';
+    //         link.href = '/assets/user/tailwind2.css'; // путь к стилю
+    //         link.id = 'chat-css';
+    //         document.head.appendChild(link);
     // ==============================
 
     Object.values(props.rooms).forEach((roomArray) => {
@@ -141,12 +174,18 @@ onMounted(() => {
 
 });
 
+
+
 onUnmounted(() => {
-    const style = document.getElementById('chat-css');
-    if (style) {
-        style.remove();
+    const link = document.getElementById('chat-css');
+
+    console.log(link,333333)
+    if (link) {
+        link.remove(); // удаляет элемент <link>
     }
 });
+
+
 
 const unreadCountsPerJob = computed(() => {
     const result = {};
@@ -155,6 +194,7 @@ const unreadCountsPerJob = computed(() => {
     }
     return result;
 });
+
 
 </script>
 
@@ -265,7 +305,7 @@ const unreadCountsPerJob = computed(() => {
                                 :employerId="selectedRoomEmployerId"
                                 :selectedJobExecutirId="selectedJobExecutirId"
                                 :jobStatus="selectedJobStatus"
-
+                                :updateRoomExecutor="updateRoomExecutor"
                             />
 
                         </div>

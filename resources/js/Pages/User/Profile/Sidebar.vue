@@ -3,7 +3,7 @@
     import { usePage, Link } from '@inertiajs/vue3';
     import axios from 'axios';
 
-    import { onMounted,ref, watch , computed} from 'vue';
+    import { onMounted,ref,onUnmounted, watch , computed} from 'vue';
     const locale_lng = usePage().props.locale;
 
     const fileInput = ref(null);
@@ -45,6 +45,15 @@
 
     })
 
+    // onUnmounted(() => {
+    //     const link = document.getElementById('chat-css');
+
+    //     if (link) {
+    //         link.remove(); // удаляет элемент <link>
+    //     }
+    // });
+
+
 
 </script>
 <style>
@@ -81,7 +90,7 @@
                     <li class="flex-grow lg:flex-grow-0">
                         <Link   :href="route('user.profile',{locale:usePage().props.locale})"
                                 :class="{
-                                            'active': route().current('user.profile')
+                                            'active group-data-[theme-color=green]:text-green-500': route().current('user.profile')
                                         }"
                                 class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
                             <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
@@ -94,7 +103,7 @@
                     <li class="flex-grow lg:flex-grow-0">
                         <Link   :href="route('task.list',{locale:usePage().props.locale})"
                                 :class="{
-                                            'active': route().current('task.list')
+                                            'active group-data-[theme-color=green]:text-green-500': route().current('task.list')
                                         }"
                                 class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
                             <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
@@ -104,18 +113,31 @@
                             <i class="uil uil-clipboard-notes text-2xl"></i>
                         </Link>
                     </li>
-                   
                     <li class="flex-grow lg:flex-grow-0">
                         <Link   :href="route('user.chat',{locale:usePage().props.locale})"
                                 :class="{
-                                            'active': route().current('user.chat')
+                                            'active group-data-[theme-color=green]:text-green-500': route().current('user.chat')
                                         }"
                                 class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
                             <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                                 <div class="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
                                 <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Chat</span>
                             </div>
-                            <i class="uil uil-comments text-2xl"></i>
+                            <i class="uil uil-comments  text-2xl"></i>
+                        </Link>
+                    </li>
+
+                    <li class="flex-grow lg:flex-grow-0">
+                        <Link   :href="route('user.notifications',{locale:usePage().props.locale})"
+                                :class="{
+                                            'active group-data-[theme-color=green]:text-green-500': route().current('user.notifications')
+                                        }"
+                                class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
+                            <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
+                                <div class="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
+                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Notifications</span>
+                            </div>
+                            <i class="uil uil-bell text-2xl"></i>
                         </Link>
                     </li>
 

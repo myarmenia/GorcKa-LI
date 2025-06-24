@@ -4,6 +4,7 @@ import { router } from '@inertiajs/vue3'
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { useTrans } from '/resources/js/trans';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 
 const props = defineProps({
@@ -14,7 +15,9 @@ const props = defineProps({
   removeRoom: Function,
   selectedJobExecutirId: Number,
   jobStatus: String,
+  updateRoomExecutor: Function
 });
+
 
 const messages = ref([])
 // const messages = reactive({});
@@ -29,6 +32,7 @@ const usersOnlineGlobal = ref([]);
 const scrollContainer = ref(null)
 const usersInRoomIds = ref(new Set());
 const isSelected = ref(false)
+const isExecutorSelecting = ref(false);
 
 let echoChannel = null;
 let globalUsersChannel = null;
@@ -44,8 +48,12 @@ watch(() => props.roomId, async (newId, oldId) => {
         try {
             const response = await axios.get(`chat/messages/${newId}`);
             messages.value = response.data.messages;
+            isSelected.value = false
+            isExecutorSelecting.value = false
 
             console.log( response.data, 'MMMMMMMM')
+            console.log(props.selectedJobExecutirId, props.jobStatus, '- 222222222222 -');
+
 
             await nextTick();
             scrollToBottom();
@@ -63,7 +71,7 @@ watch(() => props.roomId, async (newId, oldId) => {
                 .here((users) => {
                     console.log('Пользователи уже в комнате:', users);
                     // можно сохранить в ref
-                    // usersInRoom.value = users;
+
                     usersInRoomIds.value = new Set(users.map(u => u.id));
                 })
                 .joining((user) => {
@@ -144,10 +152,12 @@ const handleFileChange = (e) => {
   files.value = selected
 }
 
+
 // deleting upload file
 const removeFile = (index) => {
   files.value.splice(index, 1)
 }
+
 
 //delete message
 const removeMessage = async (date, messageId) => {
@@ -164,10 +174,13 @@ const removeMessage = async (date, messageId) => {
 //select Executor
 const selectExecutor = async (roomId) => {
   try {
-console.log(interlocutor.value.id, 'idididididid', `roomId-${roomId}`)
+    isExecutorSelecting.value = true;
+
     await axios.get(`chat/select-executor/${roomId}/room`);
 
     isSelected.value = true
+    const executorId = interlocutor.value.id;
+    props.updateRoomExecutor(roomId, executorId, 'in_process');
 
   } catch (error) {
     console.error('Ошибка при удалении сообщения:', error);
@@ -297,14 +310,7 @@ const sendMessage = () => {
         }
     })
 
-
-
 }
-
-
-
-
-
 </script>
 
 <template>
@@ -340,10 +346,15 @@ const sendMessage = () => {
                             </a>
                         </li> -->
                         <li v-if="props.employerId == $page.props.auth.user.id">
+
                             <template v-if="props.jobStatus == 'active'">
-                                <button  v-if="!isSelected" @click="selectExecutor(props.roomId)" type="submit" class="btn text-green-500 transition-all duration-300 ease-in-out rounded bg-green-500/20 hover:bg-green-500 hover:text-white">
+                                <button  v-if="!isSelected" @click="selectExecutor(props.roomId)" :disabled="isExecutorSelecting" type="submit"
+                                    class="btn transition-all duration-300 ease-in-out rounded cursor-pointer"
+                                    :class="isExecutorSelecting ? 'bg-gray-500/20 text-gray' : 'bg-green-500 text-green-500'"
+                                    >
                                     {{useTrans('page.select_specialist')}}
                                 </button>
+
                                 <div v-else class="text-green-600">
                                     <i class="uil uil-check-circle text-xl"></i> {{ useTrans('page.selected_specialist') }}
                                 </div>

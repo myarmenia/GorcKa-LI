@@ -29,12 +29,13 @@ onMounted(() => {
 <template>
    <div class="relative dropdown">
         <div class="relative">
-            <button type="button" class="btn border-0 h-[70px] dropdown-toggle px-4 text-gray-500 dark:text-gray-300" aria-expanded="false" data-dropdown-toggle="notification">
-                <!-- <i class="uil uil-chat-bubble-user chat-indicator"></i> -->
-                <i class="uil uil-comments chat-indicator"></i>
-            </button>
+            <Link :href="route('user.chat', { locale: usePage().props.locale })">
+                <button type="button" class="btn border-0 h-[70px]  px-4 text-gray-500 dark:text-gray-300" >
+                    <i class="uil uil-comments chat-indicator"></i>
+                </button>
                 <span class="absolute text-xs px-1.5 bg-red-500 text-white font-medium rounded-full left-6 top-3 ring-2 ring-white dark:ring-neutral-800">{{ messagesCount }}</span>
-        </div>
+            </Link>
+            </div>
     </div>
 </template>
 

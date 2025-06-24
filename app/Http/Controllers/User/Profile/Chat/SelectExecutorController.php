@@ -17,6 +17,8 @@ class SelectExecutorController extends Controller
     {
 
         $this->notifyService->selectExecutor($request->id);
+        return redirect()->back()->with('success', 'Notification sent');
+
     }
 }
 
