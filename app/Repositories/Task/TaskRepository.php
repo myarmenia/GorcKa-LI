@@ -11,8 +11,7 @@ class TaskRepository implements TaskInterface
 {
     public function index(){
 
-        $data = auth()->user()->tasks()->with('files')->latest();
-        // dd($data->toArray());
+        $data = auth()->user()->tasks()->with('files',"location.translation")->latest();
 
         return $data;
 

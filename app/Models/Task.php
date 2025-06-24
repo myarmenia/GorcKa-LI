@@ -17,6 +17,7 @@ class Task extends Model
 {
     use FilterTrait;
     protected $guarded = [];
+   
     protected $hidden = ['updated_at'];
 
     protected $defaultFields = ['sub_category_id', 'location_id', 'status'];
