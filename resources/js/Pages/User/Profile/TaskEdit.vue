@@ -235,8 +235,7 @@ const triggerFileInput = () => {
 }
 </style>
 <template>
-    <Index>
-        <Head title = "Task" />
+    <Index :title = "useTrans('page.task_edit')">
         <template #content>
             <div class="tab-pane block" id="settings-tab">
 
@@ -245,11 +244,9 @@ const triggerFileInput = () => {
                         <div >
                             <h5 class="mb-3 text-gray-900 fs-17 fw-semibold dark:text-gray-50">{{ useTrans('page.edit_task') }}</h5>
                             <div class="mt-5" >
-                                <div class="grid grid-cols-12 gap-5">
+                                    <div class="grid grid-cols-12 gap-5">
                                         <div class="col-span-12 lg:col-span-6">
                                             <div class="mb-3">
-
-
                                                 <InputLabel for="title" :value="$page.props.translations.page.task_name" class="text-grey" required/>
                                                 <TextInput
                                                     v-model="form.title"
@@ -264,85 +261,79 @@ const triggerFileInput = () => {
                                                 <InputError class="mt-2 opacity-60" :message="form.errors.title" />
                                             </div>
                                         </div>
-
                                         <div class="col-span-12 lg:col-span-6">
-                                        <div class="mb-3">
-                                            <TaskEditSelect
-                                                v-model="form.location_id"
-                                                :id="location"
-                                                :label="useTrans('page.select_location')"
-                                                :options="locationOptions"
-                                                :placeholder=" useTrans('form.select_placeholder')"
-                                                required
-                                            />
-                                            <InputError class="mt-2 opacity-60" :message="form.errors.location_id" />
+                                            <div class="mb-3">
+                                                <TaskEditSelect
+                                                    v-model="form.location_id"
+                                                    :id="location"
+                                                    :label="useTrans('page.select_location')"
+                                                    :options="locationOptions"
+                                                    :placeholder=" useTrans('form.select_placeholder')"
+                                                    required
+                                                />
+                                                <InputError class="mt-2 opacity-60" :message="form.errors.location_id" />
+                                            </div>
                                         </div>
+                                        <div class="col-span-12 lg:col-span-6">
+                                            <div class="mb-3">
+                                                <TaskEditSelect
+                                                    v-model="form.category_id"
+                                                    :id="'category'"
+                                                    :label="useTrans('page.select_category')"
+                                                    :options="categoryOptions"
+                                                    :placeholder=" useTrans('form.select_placeholder')"
+                                                    @change="handleCategoryChange"
+                                                />
+                                                <InputError class="mt-2 opacity-60" :message="form.errors.category_id" />
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-6">
+                                            <div class="mb-3">
+                                                <TaskEditSelect
+                                                    v-model = "form.sub_category_id"
+                                                    :id = "'sub_category'"
+                                                    :label = "useTrans('page.select_sub_category')"
+                                                    :options = "subcategoryOptions"
+                                                    :placeholder = " useTrans('form.select_placeholder')"
+                                                    required
+                                                />
+                                                <InputError class="mt-2 opacity-60" :message="form.errors.sub_category_id" />
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-6">
+                                            <div class="mb-3">
+                                                <InputLabel for="price_min" :value="useTrans('page.price_min')" class="text-grey" />
+                                                <TextInput
+                                                    v-model="form.price_min"
+                                                    id="price_min"
+                                                    type="number"
+                                                    min="0"
+                                                    class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
+
+                                                    autofocus
+                                                    :placeholder="useTrans('page.price_min')"
+                                                />
+                                                <InputError class="mt-2 opacity-60" :message="form.errors.price_min" />
+                                            </div>
+                                        </div>
+                                        <div class="col-span-12 lg:col-span-6">
+                                            <div class="mb-3">
+                                                <InputLabel for="price_max" :value="useTrans('page.price_max')" class="text-grey" required />
+                                                <TextInput
+                                                    v-model="form.price_max"
+                                                    id="price_max"
+                                                    type="number"
+                                                    min="0"
+                                                    class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
+
+                                                    autofocus
+                                                    :placeholder="useTrans('page.price_max')"
+                                                />
+                                                <InputError class="mt-2 opacity-60" :message="form.errors.price_max" />
+                                            </div>
                                         </div>
 
-                                    <div class="col-span-12 lg:col-span-6">
-                                        <div class="mb-3">
-                                            <TaskEditSelect
-                                                v-model="form.category_id"
-                                                :id="'category'"
-                                                :label="useTrans('page.select_category')"
-                                                :options="categoryOptions"
-                                                :placeholder=" useTrans('form.select_placeholder')"
-                                                @change="handleCategoryChange"
-                                            />
-                                            <InputError class="mt-2 opacity-60" :message="form.errors.category_id" />
-
-                                        </div>
                                     </div>
-                                    <div class="col-span-12 lg:col-span-6">
-                                        <div class="mb-3">
-                                            <TaskEditSelect
-                                                v-model = "form.sub_category_id"
-                                                :id = "'sub_category'"
-                                                :label = "useTrans('page.select_sub_category')"
-                                                :options = "subcategoryOptions"
-                                                :placeholder = " useTrans('form.select_placeholder')"
-                                                required
-                                            />
-                                            <InputError class="mt-2 opacity-60" :message="form.errors.sub_category_id" />
-                                        </div>
-                                    </div>
-
-                                    <div class="col-span-12 lg:col-span-6">
-                                        <div class="mb-3">
-                                            <InputLabel for="price_min" :value="useTrans('page.price_min')" class="text-grey" />
-                                            <TextInput
-                                                v-model="form.price_min"
-                                                id="price_min"
-                                                type="number"
-                                                min="0"
-                                                class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-
-                                                autofocus
-                                                :placeholder="useTrans('page.price_min')"
-
-                                            />
-                                            <InputError class="mt-2 opacity-60" :message="form.errors.price_min" />
-                                        </div>
-                                    </div>
-
-                                    <div class="col-span-12 lg:col-span-6">
-                                        <div class="mb-3">
-                                            <InputLabel for="price_max" :value="useTrans('page.price_max')" class="text-grey" required />
-                                            <TextInput
-                                                v-model="form.price_max"
-                                                id="price_max"
-                                                type="number"
-                                                min="0"
-                                                class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-
-                                                autofocus
-                                                :placeholder="useTrans('page.price_max')"
-                                            />
-                                            <InputError class="mt-2 opacity-60" :message="form.errors.price_max" />
-                                        </div>
-                                    </div>
-
-                                </div>
                             </div>
 
                             <div class="mt-5">
@@ -420,7 +411,6 @@ const triggerFileInput = () => {
                                                 <div>
 
                                                 <div>
-
                                                     <button type="button" @click="triggerFileInput" class="text-blue-600 hover:text-blue-800">
                                                         <i class="uil uil-download-alt text-4xl"></i>
                                                     </button>

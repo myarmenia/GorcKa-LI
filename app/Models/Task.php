@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Helper;
 use App\Traits\FilterTrait;
 use Auth;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -17,6 +18,7 @@ class Task extends Model
 {
     use FilterTrait;
     protected $guarded = [];
+    protected $appends =['translated_status'];
    
     protected $hidden = ['updated_at'];
 
@@ -85,6 +87,11 @@ class Task extends Model
     //     dd(22);
     //     return $this->applicantUsers()->where('id', $userId)->exists();
     // }
+    public function getTranslatedStatusAttribute(): string
+{
+
+    return Helper::translateStatus($this->status);
+}
 
 
 }

@@ -102,7 +102,7 @@ const deleteElement =async (id,index) => {
                 await router.get(props.tasks.first_page_url)
              }
 
-           
+
 
         } catch (error) {
             console.error('Error deleting file:', error.response?.data || error.message);
@@ -139,9 +139,22 @@ const submitForm = () => {
         form.name = null
          searchSelectCategory.value.clearSearch()
     };
-    console.log( props.tasks.data.length,"task data length")
+// =================================
+const getStatusClass = (status) => {
+  switch (status) {
+    case 'active':
+      return 'bg-green-500/20 text-green-500';
+    case 'in_process':
+      return 'bg-yellow-500/20 text-yellow-600';
+    case 'done':
+      return 'bg-blue-500/20 text-blue-800';
+    case 'expired':
+      return 'bg-red-500/20 text-red-700';
+    default:
+      return 'bg-gray-200 text-gray-600';
+  }
+};
 
-const emit = defineEmits(['update:title']);
 
 </script>
 
@@ -196,7 +209,7 @@ const emit = defineEmits(['update:title']);
                                     <a href="javascript:void(0)" class="text-2xl text-white align-middle"><i class="mdi mdi-star"></i></a>
                                 </div>
                                 <div class="p-4">
-                                    <div class="grid items-center grid-cols-12">
+                                    <div class="grid items-center grid-cols-12 gap-4">
                                         <div class="col-span-12 lg:col-span-2">
                                             <div class="mb-4 text-center mb-md-0">
                                                 <img :src="task.sub_category.category.icon
@@ -227,11 +240,17 @@ const emit = defineEmits(['update:title']);
                                             </div>
                                         </div>
 
-                                        <div class="col-span-12 lg:col-span-2">
-                                            <div>
-
+                                        <div class="col-span-12 lg:col-span-2" >
+                                            <div class=" h-10 text-lg leading-10 text-center rounded "
+                                             :class="getStatusClass(task.status)"
+                                             >
+                                                <!-- <a  class="text-center avatar-sm danger-bg-subtle d-inline-block rounded-circle fs-18"> -->
+                                                        {{ task.translated_status }}
+                                                <!-- </a> -->
                                             </div>
                                         </div>
+
+
 
                                         <div class="col-span-12 lg:col-span-2">
                                             <div class="flex flex-wrap gap-1.5">
@@ -249,6 +268,7 @@ const emit = defineEmits(['update:title']);
                                                         <i class="uil uil-trash-alt" data-db @click="deleteElement(task.id, index)"></i>
                                                     </a>
                                                 </div>
+
                                             </div>
 
                                         </div>
