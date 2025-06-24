@@ -23,16 +23,17 @@ const props = defineProps({
 
 
 })
-const isLoading = ref(true);
-console.log(props.tasks.data,"tasks")
+
+
 // 2) Создаём локальный реф и инициализируем
 const taskList = ref([...props.tasks.data])
+console.log(taskList,'first taskList')
 // 3) Смотрим за props.tasks.data и при изменении обновляем taskList
 watch(
   () => props.tasks.data,
   (newData) => {
     taskList.value = [...newData];
-    isLoading.value = false;
+
   },
   { immediate: true }
 )
@@ -92,29 +93,16 @@ const deleteElement =async (id,index) => {
             const response = await axios.delete(`/delete-item/tasks/${id}`);
 
             taskList.value.splice(index,1)
-            // если список стал пустым и мы НЕ на первой странице
-                if (taskList.value.length === 0 ) {
-                  const currentPage = props.tasks.current_page;
-            const targetPage = currentPage > 1 ? currentPage - 1 : 1;
-               isLoading.value = true;
+            taskList.value = [...props.tasks.data]
+             await router.get(props.tasks.first_page_url)
+               const currentPage = props.tasks.current_page;
+             if(currentPage>1){
+                  await router.get(props.tasks.prev_page_url)
+             }else{
+                await router.get(props.tasks.first_page_url)
+             }
 
-                form.get(route('task.list', {
-                    ...form.data(), // если у тебя фильтры есть
-                    page: targetPage,
-                    locale: props.locale,
-                }), {
-                    preserveState: true,
-                       replace: true,
-                        onSuccess: () => {
-                            // ✅ после обновления пропсов — taskList обновится через watch
-                            isLoading.value = false;
-                        },
-                        onError: () => {
-                            isLoading.value = false;
-                        }
-                });
-                }
-
+           
 
         } catch (error) {
             console.error('Error deleting file:', error.response?.data || error.message);

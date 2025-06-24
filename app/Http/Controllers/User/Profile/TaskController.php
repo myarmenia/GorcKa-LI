@@ -27,7 +27,7 @@ class TaskController extends Controller
     {
         // dd(777);
         $page = request()->page ?? 1;
-        $perPage = 2;
+        $perPage = 1;
         // dd($request->all());
 
         $data = $this->service->list($request->all());
