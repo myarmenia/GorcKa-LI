@@ -229,7 +229,7 @@ watch([() => form.category_id, () => props.categories,() => props.locale], () =>
 
 <template>
     <Index :title = "useTrans('page.task')">
-        <Head title = "Task" />
+      
 
             <template #content>
                 <!-- <div>

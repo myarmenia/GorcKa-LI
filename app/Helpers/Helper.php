@@ -133,6 +133,17 @@ class Helper
         ];
 
     }
+    public static function translateStatus(string $status): string
+    {
+    
+        return match ($status) {
+            'active' => __('task_status.active'),
+            'in_process' => __('task_status.in_process'),
+            'done' => __('task_status.done'),
+            'expired' => __('task_status.expired'),
+            default => ucfirst($status),
+        };
+    }
 
 
 }

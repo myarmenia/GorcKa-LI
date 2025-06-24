@@ -25,19 +25,14 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        // dd(777);
+
         $page = request()->page ?? 1;
         $perPage = 1;
-        // dd($request->all());
 
         $data = $this->service->list($request->all());
         $categories = Helper::getCategories();
-        // dd($data);
-
 
         $data = $data->paginate($perPage);
-        //   $data = $this->arrayPaginator($data , $request, $perPage);
-        // dd($data);
 
         return Inertia::render('Profile/TaskList',[
             "tasks" => $data,
