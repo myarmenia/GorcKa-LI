@@ -67,14 +67,14 @@ class UpdateOverdueTasks extends Command
             if ($d_task->user) {
                 $executor = User::whereId($d_task->executor_id)->first();
                 $this->notificationService->notify($d_task->user, 'job_done', $d_task, 1);
-                $this->notificationService->notify($$executor, 'job_done', $d_task, 1);
+                $this->notificationService->notify($executor, 'job_done', $d_task, 1);
 
             }
 
-            $task->status = 'done';
-            $task->save();
+            $d_task->status = 'done';
+            $d_task->save();
 
-            $this->info("Обновлено задач: Task - $task->id - done");
+            $this->info("Обновлено задач: Task - $d_task->id - done");
 
         }
 

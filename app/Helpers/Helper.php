@@ -133,9 +133,9 @@ class Helper
         ];
 
     }
-    public static function translateStatus(string $status): string
+    public static function translateStatus(string $status = null): string
     {
-    
+
         return match ($status) {
             'active' => __('task_status.active'),
             'in_process' => __('task_status.in_process'),
