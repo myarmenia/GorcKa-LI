@@ -8,6 +8,7 @@ use App\Http\Controllers\User\Profile\Chat\GetMessagesController;
 use App\Http\Controllers\User\Profile\Chat\ReadMessageController;
 use App\Http\Controllers\User\Profile\Chat\SelectExecutorController;
 use App\Http\Controllers\User\Profile\Chat\SendMessageController;
+use App\Http\Controllers\User\Profile\Comment\CommentController;
 use App\Http\Controllers\User\Profile\Notification\NotificationController;
 use App\Http\Controllers\User\Profile\UserProfileController;
 use App\Http\Controllers\User\SaveFcmTokenController;
@@ -107,6 +108,10 @@ Route::middleware('auth')->group(function () {
 
             Route::get('/notifications', [NotificationController::class, 'index'])->name('user.notifications');
             Route::get('/notifications/delete_all', [NotificationController::class, 'deleteAll'])->name('user.notifications.delete_all');
+
+
+
+            Route::post('/comment-mark', [CommentController::class, 'sendComment'])->name('user.comment_mark');
 
 
             // Route::get('task-index',[TaskController::class,'create'])->name('task.create');

@@ -161,42 +161,42 @@ class NotificationCatTranslationSeeder extends Seeder
             [
                 'notification_category_id' => 8,
                 'lang' => 'am',
-                'name' => 'Դուք դիմել եք',
+                'name' => 'Ժամանակը լրացել է',
                 'description' => 'Առաջադրանքի իրականացման ժամկետը ավարտվել է:'
 
             ],
             [
                 'notification_category_id' => 8,
                 'lang' => 'ru',
-                'name' => 'Вы откликнулись',
+                'name' => 'Время истекло',
                 'description' => 'Срок выполнения задачи истек.'
 
             ],
             [
                 'notification_category_id' => 8,
                 'lang' => 'en',
-                'name' => 'You applied',
+                'name' => 'Time is over',
                 'description' => 'The task has expired.'
 
             ],
             [
                 'notification_category_id' => 9,
                 'lang' => 'am',
-                'name' => 'Դուք դիմել եք',
+                'name' => 'Ժամանակը լրացել է',
                 'description' => 'Առաջադրանքի իրականացման ժամկետը ավարտվել է: Խնդրում ենք գնահատել ձեր գործընկերոջ աշխատանքը:'
 
             ],
             [
                 'notification_category_id' => 9,
                 'lang' => 'ru',
-                'name' => 'Вы откликнулись',
+                'name' => 'Время истекло',
                 'description' => 'Срок выполнения задачи истек. Оцените работу партнера.'
 
             ],
             [
                 'notification_category_id' => 9,
                 'lang' => 'en',
-                'name' => 'You applied',
+                'name' => 'Time is over',
                 'description' => 'The task deadline has expired. Please rate your partner is work.'
 
             ]
