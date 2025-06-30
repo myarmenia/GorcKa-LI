@@ -34,7 +34,8 @@ const submit = () => {
     <teleport to="body">
         <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             <div class="bg-white p-6 rounded-xl w-full max-w-md relative shadow-xl">
-                <button class="absolute top-2 right-2 text-xl" @click="$emit('close')">&times;</button>
+                <!-- <button class="absolute top-2 right-2 text-xl" @click="$emit('close')"><i class="uil uil-times"></i></button> -->
+                <button @click="$emit('close')" class="w-10 h-10 text-lg absolute top-2 right-2 text-red-500 rounded bg-red-500/20 flex items-center justify-center hover:bg-red-500/30 transition"><i class="uil uil-multiply"></i></button>
 
                 <h2 class="text-xl font-bold mb-4">Оставьте отзыв</h2>
 

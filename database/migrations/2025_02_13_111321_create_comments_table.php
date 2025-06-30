@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employer_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('executor_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('task_id')->constrained('tasks')->cascadeOnDelete();
+            $table->foreignId('author_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('recipient_id')->constrained('users')->cascadeOnDelete();
             $table->longText('description');
-            $table->integer('mark');
+            $table->tinyInteger('mark');
             $table->integer('status')->default(1);
+            // Опционально: кто оставил отзыв
+            $table->enum('role_from', ['executor', 'employer'])->nullable();
+            // Опционально: кому адресован
+            $table->enum('role_to', ['executor', 'employer'])->nullable();
             $table->timestamps();
         });
     }
