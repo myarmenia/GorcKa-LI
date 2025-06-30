@@ -12,8 +12,9 @@ class CommentService
     }
 
 
-    public function getUserNotifications()
+    public function storeComment($data)
     {
+        dd($data);
         $user = Auth::user();
 
         return $user->notifications()
@@ -24,11 +25,6 @@ class CommentService
     }
 
 
-    public function deleteAllNotifications()
-    {
-        return auth()->user()->notifications()->delete();
-
-    }
 
 
 }

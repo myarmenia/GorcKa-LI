@@ -5,14 +5,14 @@ import { locale } from 'dayjs';
 
 const props = defineProps({
     locale: String,
-    notificationId: Number,
+    taskId: Number,
 })
 
 const emit = defineEmits(['close', 'submitted'])
 
 const form = useForm({
-  notification_id: props.notificationId,
-  comment: '',
+  task_id: props.taskId,
+  description: '',
   mark: 0,
 })
 
@@ -41,7 +41,7 @@ const submit = () => {
 
                 <form @submit.prevent="submit">
                     <textarea
-                        v-model="form.comment"
+                        v-model="form.description"
                         class="w-full border rounded p-2 mb-4"
                         rows="4"
                         placeholder="Комментарий..."

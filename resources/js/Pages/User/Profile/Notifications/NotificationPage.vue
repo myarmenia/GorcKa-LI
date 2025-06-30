@@ -161,7 +161,7 @@ const changePage = (url) => {
 
                         <CommentMarkModal
                             v-if="openModal"
-                            :notification-id="notification.id"
+                            :task-id="notification.task_id"
                             :locale="$page.props.locale"
                             @close="openModal = false"
                             @submitted="handleFeedbackSubmitted"
