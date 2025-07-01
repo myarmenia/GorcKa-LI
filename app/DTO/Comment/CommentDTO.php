@@ -7,6 +7,7 @@ class CommentDTO
 {
     public function __construct(
         public int $task_id,
+        public int $notification_id,
         public ?int $author_id,
         public ?int $recipient_id,
         public ?string $description,
@@ -22,6 +23,7 @@ class CommentDTO
 
         return new self(
             $data->task_id,
+            $data->notification_id,
             $data->author_id ?? null,
             $data->recipient_id ?? null,
             $data->description ?? null,

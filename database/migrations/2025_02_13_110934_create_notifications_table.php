@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('task_id')->nullable()->constrained('tasks')->cascadeOnDelete();
             $table->longText('title');
             $table->longText('description');
-            $table->integer('is_comment')->default(0);
-            $table->integer('has_comment')->default(0);
+            $table->integer('is_comment')->default(0)->nullable();
+            $table->integer('has_comment')->default(0)->nullable();
             $table->date('read_at')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();

@@ -19,17 +19,15 @@ class CommentController extends Controller
             $result = $this->commentService->storeComment(CommentDTO::fromCommentDTO($request));
 
             if (!$result) {
-                return response()->json([
-                    'message' => 'Не удалось сохранить комментарий.',
-                ], 500);
+
+                return back()->with('error', 'Не удалось сохранить комментарий.');
             }
 
-            return response()->json(['message' => 'Комментарий сохранён.']);
+            return back()->with('success', 'Комментарий сохранён.');
         } catch (\Throwable $e) {
             Log::error('Ошибка при сохранении комментария: ' . $e->getMessage());
-            return response()->json([
-                'message' => 'Произошла внутренняя ошибка.',
-            ], 500);
+            return back()->with('error', 'Произошла внутренняя ошибка.');
+
         }
     }
 }

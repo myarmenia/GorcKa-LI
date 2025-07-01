@@ -24,6 +24,7 @@ class CommentService
 
     public function storeComment($data)
     {
+
         $exists = $this->commentRepository->existComment($data->task_id);
 
         if ($exists) {
@@ -33,8 +34,8 @@ class CommentService
         $auth_user = Auth::user();
         $task = Task::find($data->task_id);
 
-        $employer = $task->user();
-        $executor = $task->executor();
+        $employer = $task->user;
+        $executor = $task->executor;
         $data->author_id = $auth_user->id;
 
         if ($auth_user->id === $employer->id) {
@@ -50,13 +51,19 @@ class CommentService
             $data->role_to = 'employer';
         }
 
+
         $storeComment = $this->commentRepository->store($data->toArray());
 
         if($storeComment){
+
             $this->notificationRepository->update($data->notification_id, ['has_comment' => 1]);
 
-            $this->notificationService->notify($employer, 'comment_mark', $task);
-            $this->notificationService->notify($executor, 'comment_mark', $task);
+            if ($auth_user->id === $employer->id) {
+                $this->notificationService->notify($executor, 'comment_mark', $task);
+            }
+            else{
+                $this->notificationService->notify($employer, 'comment_mark', $task);
+            }
 
         }
 

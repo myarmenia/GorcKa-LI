@@ -3,13 +3,14 @@
 namespace App\Repositories\Comment;
 
 use App\Interfaces\Comment\CommentInterface;
+use App\Models\Comment;
 use App\Models\Notification;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Auth;
 
 class CommentRepository extends BaseRepository implements CommentInterface
 {
-    public function __construct(Notification $model)
+    public function __construct(Comment $model)
     {
         parent::__construct($model);
     }

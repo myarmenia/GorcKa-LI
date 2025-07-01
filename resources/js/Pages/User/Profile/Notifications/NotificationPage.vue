@@ -17,12 +17,14 @@ const props = defineProps({
   socialMedias: {
     type: Array,
     default: () => []
-  }
+  },
+  notificationIcons: Array
 });
 
 
 const localNotifications = ref([...props.notifications.data]);
 const paginationLinks = ref([...props.notifications.links]);
+
 
 watch(
   () => props.notifications,
@@ -123,7 +125,8 @@ const changePage = (url) => {
                     <div class="col-span-12 md:col-auto">
                         <div>
                         <span class="text-5xl w-16 h-16 p-1 px-2 rounded-full outline outline-2 outline-gray-100/50 dark:outline-neutral-600 inline-flex items-center justify-center">
-                            <i class="uil uil-user-check text-green-700"></i>
+                            <i class="text-green-700" :class="props.notificationIcons[notification.notification_category_id]"></i>
+
                         </span>
                         </div>
                     </div>
@@ -162,6 +165,7 @@ const changePage = (url) => {
                         <CommentMarkModal
                             v-if="openModal"
                             :task-id="notification.task_id"
+                            :notification-id="notification.id"
                             :locale="$page.props.locale"
                             @close="openModal = false"
                             @submitted="handleFeedbackSubmitted"

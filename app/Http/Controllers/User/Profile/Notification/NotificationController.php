@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User\Profile\Notification;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Services\User\NotificationService;
 use Illuminate\Http\Request;
@@ -16,16 +17,18 @@ class NotificationController extends Controller
     {
 
         $notifications = $this->notificationService->getUserNotifications()->paginate(1);
+        $notificationIcons = Helper::notificationIcons();
 
         return Inertia::render('Profile/Notifications/NotificationPage', [
-                        'notifications' => $notifications
+                        'notifications' => $notifications,
+                        'notificationIcons' => $notificationIcons
                 ]);
 
     }
 
 
     public function deleteAll(){
-       
+
         $delete = $this->notificationService->deleteAllNotifications();
 
         return redirect()->back();

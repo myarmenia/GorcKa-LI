@@ -6,12 +6,14 @@ import { locale } from 'dayjs';
 const props = defineProps({
     locale: String,
     taskId: Number,
+    notificationId: Number
 })
 
 const emit = defineEmits(['close', 'submitted'])
 
 const form = useForm({
   task_id: props.taskId,
+  notification_id: props.notificationId,
   description: '',
   mark: 0,
 })
@@ -25,6 +27,8 @@ const submit = () => {
             emit('submitted');
             emit('close');
             form.reset();
+
+            modal.showSuccess('Комментарий сохранён.')
         },
         onError: (errors) => {
             console.error('Ошибка:', errors);

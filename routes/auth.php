@@ -126,6 +126,7 @@ Route::middleware('auth')->group(function () {
 
             });
 
+
             Route::prefix('chat')->group(function () {
 
                 Route::get('/', [ChatController::class, 'index'])->name('user.chat');
@@ -137,9 +138,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('/messages/{id}/delete', DeleteMessageController::class)->name('user.chat.delete_message');
                 Route::get('/room/{id}/delete', DeleteRoomController::class)->name('user.chat.delete_room');
                 Route::get('/select-executor/{id}/room', SelectExecutorController::class)->name('user.chat.select-executor');
-
-
-
+                
 
             });
 
