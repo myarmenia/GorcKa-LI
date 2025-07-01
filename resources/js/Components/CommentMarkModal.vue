@@ -21,10 +21,13 @@ const submit = () => {
 
     form.post(route('user.comment_mark', { locale: props.locale }), {
 
-        onFinish: () =>{
-            emit('submitted')
-            emit('close')
-            form.reset()
+        onSuccess: () => {
+            emit('submitted');
+            emit('close');
+            form.reset();
+        },
+        onError: (errors) => {
+            console.error('Ошибка:', errors);
         }
     });
 };

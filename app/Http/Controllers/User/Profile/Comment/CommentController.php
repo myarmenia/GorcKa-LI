@@ -6,6 +6,7 @@ use App\DTO\Comment\CommentDTO;
 use App\Http\Controllers\Controller;
 use App\Services\User\Comments\CommentService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
@@ -13,12 +14,22 @@ class CommentController extends Controller
     {
     }
     public function sendComment(Request $request){
-        // dd($request->all());
 
-        $addComment = $this->commentService->storeComment(CommentDTO::fromCommentDTO($request));
+        try {
+            $result = $this->commentService->storeComment(CommentDTO::fromCommentDTO($request));
 
-        // return Inertia::render('Profile/Notifications/NotificationPage', [
-        //     'notifications' => $notifications
-        // ]);
+            if (!$result) {
+                return response()->json([
+                    'message' => 'Не удалось сохранить комментарий.',
+                ], 500);
+            }
+
+            return response()->json(['message' => 'Комментарий сохранён.']);
+        } catch (\Throwable $e) {
+            Log::error('Ошибка при сохранении комментария: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Произошла внутренняя ошибка.',
+            ], 500);
+        }
     }
 }
