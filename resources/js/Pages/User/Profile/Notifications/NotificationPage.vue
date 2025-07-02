@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import Index from '../Index.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import CommentMarkModal from '@/Components/CommentMarkModal.vue'
+import { useTrans } from '/resources/js/trans';
 
 const props = defineProps({
   notifications: {
@@ -104,12 +105,12 @@ const changePage = (url) => {
             <div class="container mx-auto">
 
             <div class="mt-5 flex justify-between">
-                <h4 class=" text-gray-900 fs-16 dark:text-gray-50"> Notifications </h4>
+                <h4 class=" text-gray-900 fs-16 dark:text-gray-50">{{useTrans('page.title')}} </h4>
                 <button
                 @click="deleteAllNotifications"
                 class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
                 >
-                Delete all
+                {{useTrans('page.delete_all')}}
                 </button>
             </div>
 
@@ -159,7 +160,7 @@ const changePage = (url) => {
                         </button>
 
                         <PrimaryButton v-if="notification.is_comment" @click="openModal = true">
-                            Update
+                            {{useTrans('page.button_comment')}}
                         </PrimaryButton>
 
                         <CommentMarkModal

@@ -20,13 +20,15 @@ class CommentController extends Controller
 
             if (!$result) {
 
-                return back()->with('error', 'Не удалось сохранить комментарий.');
+                return response()->json(['message' => 'Не удалось сохранить комментарий.'], 404);
             }
 
-            return back()->with('success', 'Комментарий сохранён.');
+            return response()->json(['message' => 'Комментарий сохранён.']);
+
         } catch (\Throwable $e) {
             Log::error('Ошибка при сохранении комментария: ' . $e->getMessage());
-            return back()->with('error', 'Произошла внутренняя ошибка.');
+            return response()->json(['message' => 'Произошла внутренняя ошибка.']);
+
 
         }
     }

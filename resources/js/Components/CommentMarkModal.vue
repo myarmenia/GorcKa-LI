@@ -1,7 +1,9 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3'
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { locale } from 'dayjs';
+import { useModalStore } from '@/Stores/modalStore'
+
+const modal = useModalStore()
 
 const props = defineProps({
     locale: String,
@@ -19,22 +21,24 @@ const form = useForm({
 })
 
 
-const submit = () => {
 
-    form.post(route('user.comment_mark', { locale: props.locale }), {
+const submit = async () => {
+    try {
+        const response = await axios.post(route('user.comment_mark', { locale: props.locale }), form)
 
-        onSuccess: () => {
-            emit('submitted');
-            emit('close');
-            form.reset();
+        modal.showSuccess(response?.data?.message)
 
-            modal.showSuccess('Комментарий сохранён.')
-        },
-        onError: (errors) => {
-            console.error('Ошибка:', errors);
-        }
-    });
-};
+        emit('submitted')
+        emit('close')
+        form.reset()
+    } catch (error) {
+        // Получаем сообщение об ошибке
+        const message = error?.response?.data?.message || 'Произошла ошибка при отправке комментария.'
+
+        modal.showError(message)
+        console.error('Ошибка при отправке:', error)
+    }
+}
 </script>
 
 <template>

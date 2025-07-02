@@ -16,7 +16,7 @@ class NotificationController extends Controller
     public function index(Request $request)
     {
 
-        $notifications = $this->notificationService->getUserNotifications()->paginate(1);
+        $notifications = $this->notificationService->getUserNotifications()->paginate(3);
         $notificationIcons = Helper::notificationIcons();
 
         return Inertia::render('Profile/Notifications/NotificationPage', [

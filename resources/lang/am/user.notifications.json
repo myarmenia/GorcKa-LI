@@ -1,0 +1,11 @@
+{
+    "title": "Ծանուցումներ",
+    "delete_all": "Ջնջել բոլորը",
+    "button_comment": "Գնահատել",
+
+    "comments": {
+        "comment_label": "Գրել մեկնաբանություն",
+        "comment_placeholder": "Մեկնաբանություն ․․․",
+        "button_sավե": "Պահպանել"
+    }
+}

@@ -1,0 +1,11 @@
+{
+    "title": "Уведомления",
+    "delete_all": "Удалить все",
+    "button_comment": "Поставить оценку",
+
+    "comments": {
+        "comment_label": "Оставьте отзыв",
+        "comment_placeholder": "Комментарий ․․․",
+        "button_sավե": "Сохранить"
+    }
+}
