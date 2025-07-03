@@ -35,4 +35,15 @@ class NotificationController extends Controller
     }
 
 
+    public function read(Request $request){
+
+        $ids = $request->all();
+
+        $read = $this->notificationService->readNotificationsInPage($ids);
+
+        return redirect()->back();
+
+    }
+
+
 }

@@ -19,14 +19,12 @@ class NotificationEvent implements ShouldBroadcast
      */
 
     public $count;
-    public $type;
     public $user_id;
 
-    public function __construct(int $count, string $type, $user_id)
+    public function __construct(int $count, $user_id)
     {
 
         $this->count = $count;
-        $this->type = $type;
         $this->user_id = $user_id;
     }
 

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { Head, router, Link } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import Index from '../Index.vue';
@@ -25,6 +25,17 @@ const props = defineProps({
 
 const localNotifications = ref([...props.notifications.data]);
 const paginationLinks = ref([...props.notifications.links]);
+
+onMounted(() => {
+    // Отфильтруем только непрочитанные уведомления
+    const unreadIds = props.notifications.data
+        .filter(n => n.read_at === null)
+        .map(n => n.id)
+
+    if (unreadIds.length > 0) {
+        readNotifications(unreadIds)
+    }
+})
 
 
 watch(
@@ -80,6 +91,22 @@ function handleFeedbackSubmitted(feedback) {
   // например, показываем тост или обновляем список
   console.log('Получен отзыв:', feedback)
 }
+
+// read notifications in page via auth user
+async function readNotifications(ids) {
+  try {
+    await axios.post('notifications/read', { ids })
+    props.notifications.data.forEach(n => {
+        if (ids.includes(n.id)) {
+            n.read_at = new Date().toISOString()
+        }
+    })
+  } catch (error) {
+    console.error('Ошибка при обновлении уведомлений:', error)
+  }
+}
+
+
 
 // Пагинация через Inertia
 const changePage = (url) => {

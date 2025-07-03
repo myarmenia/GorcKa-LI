@@ -39,7 +39,6 @@ class NotificationSender{
     {
         event(new NotificationEvent(
             $user->notifications()->unread()->count(),
-            'job_applied',
             $user->id
         ));
     }

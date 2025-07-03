@@ -109,6 +109,8 @@ Route::middleware('auth')->group(function () {
             Route::prefix('notifications')->group(function () {
                 Route::get('/', [NotificationController::class, 'index'])->name('user.notifications');
                 Route::get('/delete_all', [NotificationController::class, 'deleteAll'])->name('user.notifications.delete_all');
+                Route::post('/read', [NotificationController::class, 'read'])->name('user.notifications.read');
+
             });
 
 

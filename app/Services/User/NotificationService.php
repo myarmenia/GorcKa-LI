@@ -2,12 +2,9 @@
 namespace App\Services\User;
 
 
-use App\Helpers\Helper;
+use App\Events\NotificationEvent;
 use App\Interfaces\User\UserInterface;
-use App\Models\User;
-use App\Services\FileUploadService;
 use Auth;
-use Illuminate\Support\Facades\Storage;
 
 class NotificationService
 {
@@ -30,6 +27,21 @@ class NotificationService
 
     public function deleteAllNotifications(){
         return auth()->user()->notifications()->delete();
+
+    }
+
+    public function readNotificationsInPage($data){
+
+        $user = Auth::user();
+
+        $read = $user->notifications()->whereIn('id', $data['ids'])->update(['read_at' => now()]);
+
+        event(new NotificationEvent(
+            $user->notifications()->unread()->count(),
+            $user->id
+        ));
+
+        return $read;
 
     }
 
