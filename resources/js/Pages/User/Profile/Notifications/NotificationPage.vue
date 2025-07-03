@@ -47,23 +47,27 @@ watch(
   { deep: true }
 );
 
-// Удаление уведомления
+
 const deleteNotification = async (id, index) => {
   try {
-    const isLastOnPage = localNotifications.value.length === 1;
     const currentPage = props.notifications.current_page;
+    const prevPageUrl = props.notifications.prev_page_url;
+    const currentPageUrl = window.location.href;
 
-      // Если это последнее уведомление - сначала переходим на предыдущую страницу
-      await axios.delete(`/delete-item/notifications/${id}`);
-      localNotifications.value.splice(index, 1);
-      localNotifications.value = [...props.notifications.data];
+    //Сохраняем длину до удаления
+    const totalOnPage = props.notifications.data.length;
+    const isLastOnPage = totalOnPage === 1;
 
-      if(currentPage > 1){
-        await router.get(props.notifications.prev_page_url);
-      }
-      else{
-        await router.get(props.notifications.first_page_url);
-      }
+    // Удаляем на сервере
+    await axios.delete(`/delete-item/notifications/${id}`);
+
+    localNotifications.value.splice(index, 1);
+
+    if (isLastOnPage && currentPage > 1) {
+        await router.get(prevPageUrl);
+    } else {
+        await router.get(currentPageUrl);
+    }
 
   } catch (error) {
     console.error('Ошибка при удалении:', error);
@@ -128,7 +132,7 @@ const changePage = (url) => {
     <Head title="Notifications" />
 
     <template #content>
-        <section class="py-20">
+        <section class="py-16 m-6">
             <div class="container mx-auto">
 
             <div class="mt-5 flex justify-between">
@@ -142,13 +146,12 @@ const changePage = (url) => {
             </div>
 
             <div class="mt-8 space-y-6">
-                <!-- <transition-group name="list"> -->
                 <div
                     v-for="(notification, index) in localNotifications"
                     :key="notification.id"
                     class="p-4 border border-gray-100/50 rounded-md relative hover:-translate-y-1.5 transition-all duration-500 ease-in-out group-data-[theme-color=violet]:hover:border-violet-500 group-data-[theme-color=sky]:hover:border-sky-500 group-data-[theme-color=red]:hover:border-red-500 group-data-[theme-color=green]:hover:border-green-500 group-data-[theme-color=pink]:hover:border-pink-500 group-data-[theme-color=blue]:hover:border-blue-500 hover:shadow-md hover:shadow-gray-100/30 dark:border-neutral-600 dark:hover:shadow-neutral-900"
                 >
-                    <!-- Содержимое уведомления -->
+
                     <div class="grid items-center grid-cols-12">
                     <div class="col-span-12 md:col-auto">
                         <div>
@@ -201,7 +204,6 @@ const changePage = (url) => {
                     </div>
 
                 </div>
-                <!-- </transition-group> -->
 
                 <div v-if="localNotifications.length === 0" class="text-center py-10">
                 <p class="text-gray-500">No notifications found</p>
@@ -217,9 +219,7 @@ const changePage = (url) => {
                             :class="{active: link.active, disabled: !link.url, 'group-data-[theme-color=green]:bg-green-500 text-white': link.active, 'group-data-[theme-color=green]:bg-gray-200 ': !link.url }"
                             @click=" changePage(link.url)"
                             class="w-12 h-12 text-center text-gray-900 transition-all duration-300 border rounded cursor-pointer border-gray-100/50 hover:bg-green-100/30 focus:bg-gray-100/30 dark:border-gray-100/20 dark:text-gray-50 dark:hover:bg-gray-500/20">
-                            <!-- <a class="cursor-auto" href="javascript:void(0)" > -->
                                 <span class="text-16 leading-[2.8]" v-html="link.label"></span> <!-- Use v-html to render HTML -->
-                            <!-- </a> -->
                         </li>
                     </ul>
                 </div>

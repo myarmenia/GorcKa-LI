@@ -203,44 +203,40 @@ return [
   |
    */
 
-  'attributes' => [
-    'name' => 'Անուն',
-    'surname' => 'Ազգանուն',
-    'email' => 'Էլ․ հասցե',
-    'password' => 'գաղտնաբառ',
-    'confirm-password' => 'Կրկնել գաղտնաբառ',
-    'password' => 'Գաղտնաբառ',
-    'current_password' => 'Ընթացիկ գաղտնաբառ',
-    'phone' => 'Հեռախոս',
-    'roles' => 'Դերեր',
-    'status' => 'Կարգավիճակ',
-    'quantity'=> "Քանակ",
-    'price'=> "Գին",
-    'translate.*.description' => 'Նկարագրություն',
-    'translate.*.name' => 'Վերնագիր',
-    'max_quantity' => 'Առավելագույն քանակ',
-    'min_quantity' => 'Նվազագույն քանակ',
+    'attributes' => [
 
-    'time' => 'Ժամ',
-    'date' => 'Օր',
+        'name' => 'Անուն',
+        'surname' => 'Ազգանուն',
+        'email' => 'Էլ․ հասցե',
+        'password' => 'գաղտնաբառ',
+        'confirm-password' => 'Կրկնել գաղտնաբառ',
+        'password' => 'Գաղտնաբառ',
+        'current_password' => 'Ընթացիկ գաղտնաբառ',
+        'phone' => 'Հեռախոս',
+        'roles' => 'Դերեր',
+        'status' => 'Կարգավիճակ',
+        'quantity'=> "Քանակ",
+        'price'=> "Գին",
+        'translate.*.description' => 'Նկարագրություն',
+        'translate.*.name' => 'Վերնագիր',
+        'max_quantity' => 'Առավելագույն քանակ',
+        'min_quantity' => 'Նվազագույն քանակ',
+        'time' => 'Ժամ',
+        'date' => 'Օր',
+        'price_am' => 'Գին',
+        'price_other' => 'Գին',
+        'title' => 'Առաջադրանքի անվանում',
+        'location_id' => "Մարզ",
+        'category_id'=> "Կատեգորիա",
+        'sub_category_id'=>"Ենթակատեգորիա",
+        'price_min'=> "Նվազագույն գին",
+        'price_max'=> "Առավելագույն գին",
+        'start_date' => "Մեկնարկի ամսաթիվ",
+        'end_date' => "Ավարտի ամսաթիվ",
+        'agree_terms' => 'Պայմանները և դրույթները',
+        'description' => 'բովանդակություն',
+        'mark' => 'Գնահատական'
 
-
-    'price_am' => 'Գին',
-    'price_other' => 'Գին',
-
-
-
-    'title' => 'Առաջադրանքի անվանում',
-    'location_id' => "Մարզ",
-    'category_id'=> "Կատեգորիա",
-    'sub_category_id'=>"Ենթակատեգորիա",
-    'price_min'=> "Նվազագույն գին",
-    'price_max'=> "Առավելագույն գին",
-    'start_date' => "Մեկնարկի ամսաթիվ",
-    'end_date' => "Ավարտի ամսաթիվ",
-    'agree_terms' => 'Պայմանները և դրույթները'
-
-
-  ]
+    ]
 
 ];

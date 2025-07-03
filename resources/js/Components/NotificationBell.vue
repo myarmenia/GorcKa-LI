@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import { Link } from '@inertiajs/vue3';
 
@@ -21,6 +21,10 @@ onMounted(() => {
                 notificationCount.value = e.count;
             });
     }
+});
+
+watch(() => props.unread_notification_count, (newVal) => {
+    notificationCount.value = newVal;
 });
 
 
