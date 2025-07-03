@@ -17,7 +17,7 @@ const form = useForm({
   task_id: props.taskId,
   notification_id: props.notificationId,
   description: '',
-  mark: 0,
+  mark: null,
 })
 
 
@@ -32,13 +32,16 @@ const submit = async () => {
         emit('close')
         form.reset()
     } catch (error) {
-        // Получаем сообщение об ошибке
-        const message = error?.response?.data?.message || 'Произошла ошибка при отправке комментария.'
+        
+        let message = error?.response?.data?.message || 'Произошла ошибка при отправке комментария.'
+        message = message.replace(/\s?\(and.*?\)$/i, '')
 
         modal.showError(message)
         console.error('Ошибка при отправке:', error)
     }
 }
+
+
 </script>
 
 <template>
@@ -74,12 +77,6 @@ const submit = async () => {
                     {{ form.processing ? 'Отправка...' : 'Отправить' }}
                     </PrimaryButton>
 
-                    <div v-if="form.errors.comment" class="text-red-500 mt-2 text-sm">
-                    {{ form.errors.comment }}
-                    </div>
-                    <div v-if="form.errors.mark" class="text-red-500 mt-2 text-sm">
-                    {{ form.errors.mark }}
-                    </div>
                 </form>
             </div>
         </div>

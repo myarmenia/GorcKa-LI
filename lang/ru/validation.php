@@ -165,7 +165,8 @@ return [
         'end_date' => "дата окончания",
         'password' => 'пароль',
         'current_password' => 'Текущий пароль',
-
+        'description' => 'содержание',
+        'mark' => 'оценка'
 
     ]
 ];
