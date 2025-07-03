@@ -199,8 +199,28 @@ class NotificationCatTranslationSeeder extends Seeder
                 'name' => 'Time is over',
                 'description' => 'The task deadline has expired. Please rate your partner is work.'
 
-            ]
+            ],
+            [
+                'notification_category_id' => 10,
+                'lang' => 'am',
+                'name' => 'Դուք ստացել եք գնահատական գործընկերոջ կողմից',
+                'description' => 'Գնահատականը տեսնելու համար սեղմեք Այստեղ:'
 
+            ],
+            [
+                'notification_category_id' => 10,
+                'lang' => 'ru',
+                'name' => 'Вы получили оценку от партнера',
+                'description' => 'Нажмите здесь, чтобы увидеть оценку.'
+
+            ],
+            [
+                'notification_category_id' => 10,
+                'lang' => 'en',
+                'name' => 'You have received a rating from a partner',
+                'description' => 'Click Here to see the ratingk.'
+
+            ]
 
         ];
 

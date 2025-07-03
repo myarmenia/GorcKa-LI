@@ -50,6 +50,10 @@ class NotificationCategorySeeder extends Seeder
                 'id' => 9,
                 'type' => 'job_done'
             ],
+            [
+                'id' => 10,
+                'type' => 'comment_mark'
+            ]
 
 
         ];

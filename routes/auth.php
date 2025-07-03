@@ -106,9 +106,12 @@ Route::middleware('auth')->group(function () {
             Route::post('/submit-subcategories', [UserProfileController::class, 'executor_sub_categories'])->name('user.executor_sub_categories');
             Route::post('/profile/password', [UserProfileController::class, 'update_password'])->name('profile.password.update');
 
-            Route::get('/notifications', [NotificationController::class, 'index'])->name('user.notifications');
-            Route::get('/notifications/delete_all', [NotificationController::class, 'deleteAll'])->name('user.notifications.delete_all');
+            Route::prefix('notifications')->group(function () {
+                Route::get('/', [NotificationController::class, 'index'])->name('user.notifications');
+                Route::get('/delete_all', [NotificationController::class, 'deleteAll'])->name('user.notifications.delete_all');
+                Route::post('/read', [NotificationController::class, 'read'])->name('user.notifications.read');
 
+            });
 
 
             Route::post('/comment-mark', [CommentController::class, 'sendComment'])->name('user.comment_mark');
@@ -126,6 +129,7 @@ Route::middleware('auth')->group(function () {
 
             });
 
+
             Route::prefix('chat')->group(function () {
 
                 Route::get('/', [ChatController::class, 'index'])->name('user.chat');
@@ -137,8 +141,6 @@ Route::middleware('auth')->group(function () {
                 Route::get('/messages/{id}/delete', DeleteMessageController::class)->name('user.chat.delete_message');
                 Route::get('/room/{id}/delete', DeleteRoomController::class)->name('user.chat.delete_room');
                 Route::get('/select-executor/{id}/room', SelectExecutorController::class)->name('user.chat.select-executor');
-
-
 
 
             });

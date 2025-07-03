@@ -1,0 +1,11 @@
+{
+    "title": "Comments",
+    "delete_all": "Delete All",
+    "button_comment": "Rate",
+
+    "comments": {
+        "comment_label": "Write a comment",
+        "comment_placeholder": "Comment ․․․",
+        "button_sավե": "Save"
+    }
+}

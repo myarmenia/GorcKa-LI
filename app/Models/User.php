@@ -98,7 +98,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     }
 
-    public function roomsAll(): Room
+    public function roomsAll()
     {
         return Room::where(function ($query) {
             $query->where('employer_id', $this->id)

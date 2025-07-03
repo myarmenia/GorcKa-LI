@@ -1,33 +1,44 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3'
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { locale } from 'dayjs';
+import { useModalStore } from '@/Stores/modalStore'
+
+const modal = useModalStore()
 
 const props = defineProps({
     locale: String,
-    notificationId: Number,
+    taskId: Number,
+    notificationId: Number
 })
 
 const emit = defineEmits(['close', 'submitted'])
 
 const form = useForm({
+  task_id: props.taskId,
   notification_id: props.notificationId,
-  comment: '',
+  description: '',
   mark: 0,
 })
 
 
-const submit = () => {
 
-    form.post(route('user.comment_mark', { locale: props.locale }), {
+const submit = async () => {
+    try {
+        const response = await axios.post(route('user.comment_mark', { locale: props.locale }), form)
 
-        onFinish: () =>{
-            emit('submitted')
-            emit('close')
-            form.reset()
-        }
-    });
-};
+        modal.showSuccess(response?.data?.message)
+
+        emit('submitted')
+        emit('close')
+        form.reset()
+    } catch (error) {
+        // Получаем сообщение об ошибке
+        const message = error?.response?.data?.message || 'Произошла ошибка при отправке комментария.'
+
+        modal.showError(message)
+        console.error('Ошибка при отправке:', error)
+    }
+}
 </script>
 
 <template>
@@ -41,7 +52,7 @@ const submit = () => {
 
                 <form @submit.prevent="submit">
                     <textarea
-                        v-model="form.comment"
+                        v-model="form.description"
                         class="w-full border rounded p-2 mb-4"
                         rows="4"
                         placeholder="Комментарий..."

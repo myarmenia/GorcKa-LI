@@ -2,21 +2,34 @@
 
 namespace App\Http\Controllers\User\Profile\Comment;
 
+use App\DTO\Comment\CommentDTO;
 use App\Http\Controllers\Controller;
+use App\Services\User\Comments\CommentService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
-    // public function __construct(protected NotificationService $notificationService)
-    // {
-    // }
+    public function __construct(protected CommentService $commentService)
+    {
+    }
     public function sendComment(Request $request){
-        dd($request->all());
 
-        // $addComment = $this->notificationService->getUserNotifications()->paginate(1);
+        try {
+            $result = $this->commentService->storeComment(CommentDTO::fromCommentDTO($request));
 
-        // return Inertia::render('Profile/Notifications/NotificationPage', [
-        //     'notifications' => $notifications
-        // ]);
+            if (!$result) {
+
+                return response()->json(['message' => 'Не удалось сохранить комментарий.'], 404);
+            }
+
+            return response()->json(['message' => 'Комментарий сохранён.']);
+
+        } catch (\Throwable $e) {
+            Log::error('Ошибка при сохранении комментария: ' . $e->getMessage());
+            return response()->json(['message' => 'Произошла внутренняя ошибка.']);
+
+
+        }
     }
 }

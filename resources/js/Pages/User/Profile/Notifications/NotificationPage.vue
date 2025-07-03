@@ -1,10 +1,11 @@
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { Head, router, Link } from '@inertiajs/vue3';
 import dayjs from 'dayjs';
 import Index from '../Index.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import CommentMarkModal from '@/Components/CommentMarkModal.vue'
+import { useTrans } from '/resources/js/trans';
 
 const props = defineProps({
   notifications: {
@@ -17,12 +18,25 @@ const props = defineProps({
   socialMedias: {
     type: Array,
     default: () => []
-  }
+  },
+  notificationIcons: Array
 });
 
 
 const localNotifications = ref([...props.notifications.data]);
 const paginationLinks = ref([...props.notifications.links]);
+
+onMounted(() => {
+    // Отфильтруем только непрочитанные уведомления
+    const unreadIds = props.notifications.data
+        .filter(n => n.read_at === null)
+        .map(n => n.id)
+
+    if (unreadIds.length > 0) {
+        readNotifications(unreadIds)
+    }
+})
+
 
 watch(
   () => props.notifications,
@@ -78,6 +92,22 @@ function handleFeedbackSubmitted(feedback) {
   console.log('Получен отзыв:', feedback)
 }
 
+// read notifications in page via auth user
+async function readNotifications(ids) {
+  try {
+    await axios.post('notifications/read', { ids })
+    props.notifications.data.forEach(n => {
+        if (ids.includes(n.id)) {
+            n.read_at = new Date().toISOString()
+        }
+    })
+  } catch (error) {
+    console.error('Ошибка при обновлении уведомлений:', error)
+  }
+}
+
+
+
 // Пагинация через Inertia
 const changePage = (url) => {
     if (!url ) return;
@@ -102,12 +132,12 @@ const changePage = (url) => {
             <div class="container mx-auto">
 
             <div class="mt-5 flex justify-between">
-                <h4 class=" text-gray-900 fs-16 dark:text-gray-50"> Notifications </h4>
+                <h4 class=" text-gray-900 fs-16 dark:text-gray-50">{{useTrans('page.title')}} </h4>
                 <button
                 @click="deleteAllNotifications"
                 class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
                 >
-                Delete all
+                {{useTrans('page.delete_all')}}
                 </button>
             </div>
 
@@ -123,7 +153,8 @@ const changePage = (url) => {
                     <div class="col-span-12 md:col-auto">
                         <div>
                         <span class="text-5xl w-16 h-16 p-1 px-2 rounded-full outline outline-2 outline-gray-100/50 dark:outline-neutral-600 inline-flex items-center justify-center">
-                            <i class="uil uil-user-check text-green-700"></i>
+                            <i class="text-green-700" :class="props.notificationIcons[notification.notification_category_id]"></i>
+
                         </span>
                         </div>
                     </div>
@@ -156,11 +187,12 @@ const changePage = (url) => {
                         </button>
 
                         <PrimaryButton v-if="notification.is_comment" @click="openModal = true">
-                            Update
+                            {{useTrans('page.button_comment')}}
                         </PrimaryButton>
 
                         <CommentMarkModal
                             v-if="openModal"
+                            :task-id="notification.task_id"
                             :notification-id="notification.id"
                             :locale="$page.props.locale"
                             @close="openModal = false"
