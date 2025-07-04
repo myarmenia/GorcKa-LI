@@ -32,7 +32,7 @@ const submit = async () => {
         emit('close')
         form.reset()
     } catch (error) {
-        
+
         let message = error?.response?.data?.message || 'Произошла ошибка при отправке комментария.'
         message = message.replace(/\s?\(and.*?\)$/i, '')
 
@@ -62,15 +62,15 @@ const submit = async () => {
                     ></textarea>
 
                     <div class="flex items-center gap-1 mb-4">
-                    <span
-                        v-for="n in 5"
-                        :key="n"
-                        @click="form.mark = n"
-                        class="cursor-pointer text-2xl"
-                        :class="form.mark >= n ? 'text-yellow-400' : 'text-gray-300'"
-                    >
-                        ★
-                    </span>
+                        <span
+                            v-for="n in 5"
+                            :key="n"
+                            @click="form.mark = n"
+                            class="cursor-pointer text-2xl"
+                            :class="form.mark >= n ? 'text-yellow-400' : 'text-gray-300'"
+                        >
+                            ★
+                        </span>
                     </div>
 
                     <PrimaryButton type="submit" :disabled="form.processing">

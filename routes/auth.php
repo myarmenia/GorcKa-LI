@@ -113,9 +113,11 @@ Route::middleware('auth')->group(function () {
 
             });
 
+            Route::prefix('comments')->group(function () {
+                Route::get('/', [CommentController::class, 'index'])->name('user.comments');
+            });
 
             Route::post('/comment-mark', [CommentController::class, 'sendComment'])->name('user.comment_mark');
-
 
             // Route::get('task-index',[TaskController::class,'create'])->name('task.create');
             Route::prefix('task')->group(function () {

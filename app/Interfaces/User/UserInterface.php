@@ -8,5 +8,6 @@ interface UserInterface extends BaseInterface
 {
 
     public function updatePassword($data);
+    public function userComment();
 
 }
