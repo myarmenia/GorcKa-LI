@@ -28,7 +28,7 @@ class UserRepository extends BaseRepository implements UserInterface
     public function userComment(){
         $user = Auth::user();
 
-        return $user->receivedComments()->with(['task:id,title', 'author:id,name,avatar']);
+        return $user->receivedComments()->with(['task:id,title', 'author']);
     }
 
 }

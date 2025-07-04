@@ -8,9 +8,10 @@ use Storage;
 
 class Filable extends Model
 {
-    // protected $fillable = ['name', 'path',];
 
     protected $guarded = [];
+
+    protected $appends = ['file_path'];
 
     public function filable(): MorphTo
     {
@@ -20,6 +21,6 @@ class Filable extends Model
 
     public function getFilePathAttribute()
     {
-        return asset('storage/'. $this->path);
+        return  asset('storage/'. $this->path);
     }
 }

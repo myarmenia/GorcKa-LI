@@ -144,7 +144,7 @@
                     <li class="flex-grow lg:flex-grow-0">
                         <Link   :href="route('user.comments',{locale:usePage().props.locale})"
                                 :class="{
-                                            'active group-data-[theme-color=green]:text-green-500': route().current('user.notifications')
+                                            'active group-data-[theme-color=green]:text-green-500': route().current('user.comments')
                                         }"
                                 class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
                             <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
@@ -158,34 +158,10 @@
                 </ul>
             </div>
 
-
-
         </div>
-                <!-- <div class="p-5 border-b border-gray-100/50 dark:border-neutral-600">
-                    <div class="text-center">
 
-                        <ul class="flex flex-column mx-auto my-auto justify-center gap-2 mb-0">
-                            <li>
-                                <Link :href="route('task.list',{locale:usePage().props.locale})">Task Page</Link><br>
-
-                            </li>
-                            <li>
-
-                                <Link :href="route('task.create',{locale:usePage().props.locale})">Task create</Link><br>
-
-                            </li>
-                            <li>
-
-                                <Link :href="route('user.chat',{locale:usePage().props.locale})">Chat</Link>
-
-                            </li>
-
-                        </ul>
-                    </div>
-                </div> -->
-
-            </div>
-      </div>
+    </div>
+    </div>
 
 </template>
 

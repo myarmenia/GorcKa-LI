@@ -1,7 +1,7 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref } from "vue";
 import { Head, router, Link } from '@inertiajs/vue3';
-import dayjs from 'dayjs';
+import { useTrans } from '/resources/js/trans';
 import Index from '../Index.vue';
 import Comment from '@/Components/Comment.vue'
 
@@ -21,26 +21,16 @@ const localComments = ref([...props.comments.data]);
 const paginationLinks = ref([...props.comments.links]);
 
 console.log(props.comments.data, 'ddddddddddddd')
-watch(
-  () => props.comments,
-  (newVal) => {
-    localComments.value = [...newVal.data];
-    paginationLinks.value = [...newVal.links];
-  },
-  { deep: true }
-);
-
-
 
 // Пагинация через Inertia
 const changePage = (url) => {
     if (!url ) return;
 
   router.get(url, {}, {
-    // preserveState: true,
     preserveScroll: false,
-    only: ['notifications'],
+    only: ['comments'],
     onFinish: () => {
+
     }
   });
 };
@@ -56,16 +46,12 @@ const changePage = (url) => {
             <div class="container mx-auto">
 
             <div class="mt-5 flex justify-between">
-                <h4 class=" text-gray-900 fs-16 dark:text-gray-50">Comments </h4>
+                <h4 class=" text-gray-900 fs-16 dark:text-gray-50">{{useTrans('page.title')}} </h4>
             </div>
 
             <div class="mt-8 space-y-6">
 
                 <Comment :comments="localComments"  />
-
-                <div v-if="localComments.length === 0" class="text-center py-10">
-                <p class="text-gray-500">No comments found</p>
-                </div>
             </div>
 
             <!-- Пагинация -->

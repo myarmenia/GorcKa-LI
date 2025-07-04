@@ -148,11 +148,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return !$has ? $this->hasAccessToTask($taskId) : $has;
     }
 
-      protected function avatarUrl(): Attribute
+    protected function avatarUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->avatar ? asset('storage/' . $this->avatar) : null,
+            get: fn() => $this->avatar ? asset('storage/' . $this->avatar) : asset('assets/user/images/user.svg'),
         );
     }
 
+    
 }
