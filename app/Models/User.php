@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Traits\FilterTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var list<string>
      */
     protected $guarded = [];
+    protected $appends = ['avatar_url'];
     protected $defaultFields = ['location_id'];
     protected $likeFilterFields = ['name'];
     protected $boolFilterFields = ['status'];
@@ -144,6 +146,13 @@ class User extends Authenticatable implements MustVerifyEmail
         
         $has = $this->applicants()->where('task_id', $taskId)->exists();
         return !$has ? $this->hasAccessToTask($taskId) : $has;
+    }
+
+      protected function avatarUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->avatar ? asset('storage/' . $this->avatar) : null,
+        );
     }
 
 }
