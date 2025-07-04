@@ -135,11 +135,11 @@ const changePage = (url) => {
         <section class="py-16 m-6">
             <div class="container mx-auto">
 
-            <div class="mt-5 flex justify-between">
+            <div class="mt-5 flex justify-between" >
                 <h4 class=" text-gray-900 fs-16 dark:text-gray-50">{{useTrans('page.title')}} </h4>
-                <button
-                @click="deleteAllNotifications"
-                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+                <button v-if="localNotifications.length > 1"
+                    @click="deleteAllNotifications"
+                    class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
                 >
                 {{useTrans('page.delete_all')}}
                 </button>
@@ -171,7 +171,7 @@ const changePage = (url) => {
                             {{ notification.description }}
                         </p>
                         <Link :href="route('single_job', { locale: $page.props.locale, id: notification.task.id })" v-if="notification.task" class="text-gray-500 text-muted dark:text-gray-300">
-                            Task name: <span class=" font-bold group-data-[theme-color=green]:text-green-500">{{ notification.task.title }}</span>
+                            {{useTrans('page.task_name')}} <span class=" font-bold group-data-[theme-color=green]:text-green-500">{{ notification.task.title }}</span>
                         </Link>
                         <p class="text-gray-500 text-muted dark:text-gray-300">
                             <i class="uil uil-clock"></i>
@@ -206,7 +206,7 @@ const changePage = (url) => {
                 </div>
 
                 <div v-if="localNotifications.length === 0" class="text-center py-10">
-                <p class="text-gray-500">No notifications found</p>
+                <p class="text-gray-500">{{useTrans('page.no_result')}}</p>
                 </div>
             </div>
 

@@ -151,7 +151,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected function avatarUrl(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->avatar ? asset('storage/' . $this->avatar) : null,
+            get: fn() => $this->avatar ? asset('storage/' . $this->avatar) : asset('assets/user/images/user.svg'),
         );
     }
     protected function locationTranslation(): Attribute
@@ -161,4 +161,5 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
+    
 }

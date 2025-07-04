@@ -33,7 +33,6 @@ class CommentService
     {
 
         $exists = $this->commentRepository->existComment($data->task_id);
-
         if ($exists) {
             return false;
         }
@@ -44,6 +43,7 @@ class CommentService
         $employer = $task->user;
         $executor = $task->executor;
         $data->author_id = $auth_user->id;
+
 
         if ($auth_user->id === $employer->id) {
             // Работодатель пишет исполнителю

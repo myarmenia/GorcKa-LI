@@ -153,14 +153,7 @@ Route::middleware('auth')->group(function () {
 
         });
 
-    // Route::post('/save-fcm-token', function (Request $request) {
-    //     $user = Auth::user();
-    //     // dd($user);
-    //     dd($request->all());
-    //     $user->fcm_token = $request->token;
-    //     $user->save();
-    //     return response()->json(['message' => 'Token saved']);
-    // });
+  
 
     Route::post('/save-fcm-token', [SaveFcmTokenController::class, 'saveFcmToken']);
 

@@ -40,6 +40,7 @@ class CommentController extends Controller
             return response()->json(['message' => 'Комментарий сохранён.']);
 
         } catch (\Throwable $e) {
+           
             Log::error('Ошибка при сохранении комментария: ' . $e->getMessage());
             return response()->json(['message' => 'Произошла внутренняя ошибка.']);
 

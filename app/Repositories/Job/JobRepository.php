@@ -33,7 +33,7 @@ class JobRepository extends BaseRepository implements JobInterface
             'user:id,name,email,phone',
             'sub_category.category:id,icon',
             'location.translation:location_id,name', // Загрузим только нужные поля из translation
-            'files:filable_id,path as file_path'
+            'files:filable_id,path,ext,name'
         ])->findOrFail($id);
 
 
