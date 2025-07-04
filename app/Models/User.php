@@ -26,7 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var list<string>
      */
     protected $guarded = [];
-    protected $appends = ['avatar_url'];
+    protected $appends = ['avatar_url','location_translation'];
     protected $defaultFields = ['location_id'];
     protected $likeFilterFields = ['name'];
     protected $boolFilterFields = ['status'];
@@ -148,10 +148,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return !$has ? $this->hasAccessToTask($taskId) : $has;
     }
 
-      protected function avatarUrl(): Attribute
+    protected function avatarUrl(): Attribute
     {
         return Attribute::make(
             get: fn() => $this->avatar ? asset('storage/' . $this->avatar) : null,
+        );
+    }
+    protected function locationTranslation(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => optional($this->location?->translation)->name
         );
     }
 

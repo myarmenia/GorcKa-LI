@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Interfaces\Specialist;
+use App\Models\User;
 
-use App\Interfaces\BaseInterface;
-
-interface SpecialistDetailsInterface 
+interface SpecialistDetailsInterface
 
 {
-    public function getById($specialist);
+    public function getById($specialist): User;
 }

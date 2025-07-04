@@ -1,18 +1,15 @@
 <?php
 
 namespace App\Repositories\Specialist;
-
 use App\Interfaces\Specialist\SpecialistDetailsInterface;
-use App\Interfaces\Specialist\SpecialistInterface;
-use App\Models\ExecutorInfo;
-use App\Repositories\BaseRepository;
+use App\Models\User;
 
 class SpecialistDetailsRepository implements SpecialistDetailsInterface
 {
-    public function getById($specialist)
+    public function getById($specialist): User
     {
 
-      return $specialist->load('social_medias','executor_sub_categories');
+      return $specialist->load('social_medias','executor_sub_categories','location.translation','receivedComments.author');
 
     }
 }
