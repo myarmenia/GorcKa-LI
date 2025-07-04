@@ -48,18 +48,18 @@ class FCMService
         } catch (NotFound $e) {
             // Firebase сообщил, что токен не существует — удаляем его
             Log::warning("FCM token not found. Deleting token for user ID {$user->id}");
-            dd(1);
+            // dd(1);
             return false;
 
         } catch (InvalidArgument $e) {
             Log::error("FCM InvalidArgument for user ID {$user->id}: " . $e->getMessage());
-            dd(2);
+            // dd(2);
 
             return false;
 
         } catch (Exception $e) {
             Log::error("FCM general error for user ID {$user->id}: " . $e->getMessage());
-            dd(3);
+            // dd(3);
 
             return false;
         }

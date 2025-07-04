@@ -11,6 +11,7 @@ use App\Interfaces\Chat\RoomInterface;
 use App\Interfaces\Comment\CommentInterface;
 use App\Interfaces\Job\JobInterface;
 use App\Interfaces\Notification\NotificationInterface;
+use App\Interfaces\Specialist\SpecialistDetailsInterface;
 use App\Interfaces\Specialist\SpecialistInterface;
 use App\Interfaces\Task\TaskInterface;
 use App\Interfaces\User\UserInterface;
@@ -33,6 +34,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use App\Mail\VerifyEmail as CustomVerifyEmail;
 use App\Repositories\Comment\CommentRepository;
+use App\Repositories\Specialist\SpecialistDetailsRepository;
 use App\Repositories\Task\TaskRepository;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
@@ -65,6 +67,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserInterface::class, UserRepository::class);
         $this->app->bind(ChatInterface::class, ChatRepository::class);
         $this->app->bind(CommentInterface::class, CommentRepository::class);
+        $this->app->bind(SpecialistDetailsInterface::class,SpecialistDetailsRepository::class);
 
 
     }
