@@ -16,9 +16,16 @@ class CommentService
         protected NotificationInterface $notificationRepository,
         protected NotificationService $notificationService
 
-
         )
     {
+    }
+
+
+
+    public function getComments(){
+
+        return $this->userRepository->userComment();
+
     }
 
 
@@ -50,7 +57,6 @@ class CommentService
             $data->role_from = 'executor';
             $data->role_to = 'employer';
         }
-
 
         $storeComment = $this->commentRepository->store($data->toArray());
 

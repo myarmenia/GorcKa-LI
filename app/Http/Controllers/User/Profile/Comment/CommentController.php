@@ -8,12 +8,25 @@ use App\Http\Requests\Comment\CommentRequest;
 use App\Services\User\Comments\CommentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class CommentController extends Controller
 {
     public function __construct(protected CommentService $commentService)
     {
     }
+
+    public function index(){
+
+        $comments = $this->commentService->getComments()->paginate(3);
+
+        return Inertia::render('Profile/Comments/CommentPage', [
+                        'comments' => $comments
+                ]);
+    }
+
+
+
     public function sendComment(CommentRequest $request){
 
         try {
