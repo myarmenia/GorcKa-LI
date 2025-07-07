@@ -20,7 +20,7 @@ const form = useForm({
   mark: null,
 })
 
-
+console.log(form, 3333333)
 
 const submit = async () => {
     try {
@@ -28,7 +28,12 @@ const submit = async () => {
 
         modal.showSuccess(response?.data?.message)
 
-        emit('submitted')
+        emit('submitted', {
+            notificationId: props.notificationId,
+            taskId: props.taskId,
+            message: response?.data?.message,
+        })
+
         emit('close')
         form.reset()
     } catch (error) {
