@@ -89,11 +89,17 @@ const deleteAllNotifications = async () => {
 };
 
 
-const openModal = ref(false)
+// const openModal = ref(false)
+const openModal = ref({ show: false, taskId: null, notificationId: null })
 
 function handleFeedbackSubmitted(feedback) {
   // например, показываем тост или обновляем список
   console.log('Получен отзыв:', feedback)
+
+//   const item =  props.notifications.find(n => n.id === notificationId)
+//     if (item) {
+//         item.has_comment = true
+//     }
 }
 
 // read notifications in page via auth user
@@ -132,10 +138,10 @@ const changePage = (url) => {
     <Head title="Notifications" />
 
     <template #content>
-        <section class="py-16 m-6">
+        <section class="py-6 m-6">
             <div class="container mx-auto">
 
-            <div class="mt-5 flex justify-between" >
+            <div class="flex justify-between" >
                 <h4 class=" text-gray-900 fs-16 dark:text-gray-50">{{useTrans('page.title')}} </h4>
                 <button v-if="localNotifications.length > 1"
                     @click="deleteAllNotifications"
@@ -189,18 +195,22 @@ const changePage = (url) => {
                             <i class="uil uil-trash-alt"></i>
                         </button>
 
-                        <PrimaryButton v-if="notification.is_comment" @click="openModal = true">
-                            {{useTrans('page.button_comment')}}
+                        <PrimaryButton
+                            v-if="notification.is_comment && !notification.has_comment"
+                            @click="openModal = { show: true, taskId: notification.task_id, notificationId: notification.id }"
+                        >
+                            {{ useTrans('page.button_comment') }}
                         </PrimaryButton>
 
                         <CommentMarkModal
-                            v-if="openModal"
-                            :task-id="notification.task_id"
-                            :notification-id="notification.id"
+                            v-if="openModal.show"
+                            :task-id="openModal.taskId"
+                            :notification-id="openModal.notificationId"
                             :locale="$page.props.locale"
-                            @close="openModal = false"
+                            @close="openModal.show = false"
                             @submitted="handleFeedbackSubmitted"
                         />
+
                     </div>
 
                 </div>
