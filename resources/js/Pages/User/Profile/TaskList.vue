@@ -118,9 +118,9 @@ const submitForm = () => {
         // դնում ենք  որ ֆիլտրացիայից հետո կատեգորիան բերի
         preserveState: true,
         onSuccess: () => {
-             if (!props.tasks?.data?.length) {
-                   alert('Դատարկ է, տվյալներ չեն գտնվել');
-             }
+            //  if (!props.tasks?.data?.length) {
+            //        alert('Դատարկ է, տվյալներ չեն գտնվել');
+            //  }
 
 
         },
@@ -162,9 +162,9 @@ const getStatusClass = (status) => {
      <Index :title = "useTrans('page.task_list')">
             <template #content>
                 <div class="mt-14">
-
                     <div>
-                         <div  v-if="taskList.length" class="flex justify-center">
+                        <!-- v-if="taskList.length" -->
+                         <div    class="flex justify-center">
                                 <form @submit.prevent="submitForm" class="inline-block   p-4 rounded">
                                     <div class="flex flex-wrap gap-4">
 
@@ -180,11 +180,11 @@ const getStatusClass = (status) => {
                                         <div class="filler-job-form relative">
                                             <i class="uil uil-clipboard-notes"></i>
                                             <SearchSelect
-                                            ref="searchSelectCategory"
-                                            v-model="form.category_id"
-                                            route="category-subcategory-filter"
-                                            :options="categoryOptions"
-                                            :border="true"
+                                                ref="searchSelectCategory"
+                                                v-model="form.category_id"
+                                                route="category-subcategory-filter"
+                                                :options="categoryOptions"
+                                                :border="true"
                                             />
                                         </div>
 
@@ -241,12 +241,12 @@ const getStatusClass = (status) => {
                                         </div>
 
                                         <div class="col-span-12 lg:col-span-2" >
-                                            <div class=" h-10 text-lg leading-10 text-center rounded "
+                                            <div class=" h-10 text-13 leading-10 text-center rounded "
                                              :class="getStatusClass(task.status)"
                                              >
-                                                <!-- <a  class="text-center avatar-sm danger-bg-subtle d-inline-block rounded-circle fs-18"> -->
-                                                        {{ task.translated_status }}
-                                                <!-- </a> -->
+
+                                              {{ task.translated_status }}
+
                                             </div>
                                         </div>
 
@@ -264,7 +264,7 @@ const getStatusClass = (status) => {
                                                 </div>
 
                                                 <div class="w-10 h-10 text-lg leading-10 text-center text-red-500 rounded bg-red-500/20" >
-                                                    <a  class="text-center avatar-sm danger-bg-subtle d-inline-block rounded-circle fs-18">
+                                                    <a  class="text-center avatar-sm danger-bg-subtle d-inline-block rounded-circle fs-18 cursor-pointer">
                                                         <i class="uil uil-trash-alt" data-db @click="deleteElement(task.id, index)"></i>
                                                     </a>
                                                 </div>
@@ -290,14 +290,10 @@ const getStatusClass = (status) => {
                             </div>
 
                         </div>
-                        <div v-else-if="form.name || form.category_id" class="space-y-8 text-center m-4 text-2xl">
+                        <div v-else-if="form.name || form.category_id" class="space-y-8 text-center m-4">
                              {{ useTrans('page.no_results_found') }} <!-- Например: «Տվյալներ չեն գտնվել» -->
                         </div>
-                        <div v-else class="space-y-8 text-center m-4 text-2xl">{{ useTrans('page.your_tasks_can_be_here') }}</div>
-
-
-
-
+                        <div v-else class="space-y-8 text-center m-4 ">{{ useTrans('page.your_tasks_can_be_here') }}</div>
 
                         <div class="grid grid-cols-12 mb-2 w-[95%]"
                             v-if="pagination?.length > 3"

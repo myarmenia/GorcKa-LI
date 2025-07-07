@@ -135,6 +135,7 @@ class TaskController extends Controller
         // dd($request->all(),$lang, $id);
 
         $data=$this->service->updateTask(TaskDTO::fromRequestDto($request),$id);
+         return redirect()->route('task.list', ["locale" => app()->getLocale()]);
     }
 
     /**

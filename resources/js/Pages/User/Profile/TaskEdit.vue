@@ -302,7 +302,7 @@ const triggerFileInput = () => {
                                         </div>
                                         <div class="col-span-12 lg:col-span-6">
                                             <div class="mb-3">
-                                                <InputLabel for="price_min" :value="useTrans('page.price_min')" class="text-grey" />
+                                                <InputLabel for="price_min" :value="useTrans('page.price_min')" class="text-grey" :showCurrency="true" />
                                                 <TextInput
                                                     v-model="form.price_min"
                                                     id="price_min"
@@ -318,7 +318,7 @@ const triggerFileInput = () => {
                                         </div>
                                         <div class="col-span-12 lg:col-span-6">
                                             <div class="mb-3">
-                                                <InputLabel for="price_max" :value="useTrans('page.price_max')" class="text-grey" required />
+                                                <InputLabel for="price_max" :value="useTrans('page.price_max')" class="text-grey" required :showCurrency="true"/>
                                                 <TextInput
                                                     v-model="form.price_max"
                                                     id="price_max"
@@ -411,7 +411,7 @@ const triggerFileInput = () => {
                                                 <div>
 
                                                 <div>
-                                                    <button type="button" @click="triggerFileInput" class="text-blue-600 hover:text-blue-800">
+                                                    <button type="button" @click="triggerFileInput" class="text-green-500">
                                                         <i class="uil uil-download-alt text-4xl"></i>
                                                     </button>
                                                     <input

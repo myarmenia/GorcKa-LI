@@ -1,28 +1,17 @@
 <script setup>
-import { defineProps, computed } from 'vue';
-
+import { defineProps } from 'vue';
 
 const props = defineProps({
   locale: String,
   user: Object,
   socialMedias:Array,
-  defaultAvatar: {
-    type: String,
-    default: '/assets/user/images/user.svg',
-  },
-})
 
-const avatarUrl = computed(() => {
-  return props.user.avatar
-    ? '/storage/' + props.user.avatar
-    : props.defaultAvatar;
-});
-console.log(props.user.executor_sub_categories,'executor_sub_categories')
+})
 
 </script>
 <template>
     <div class="text-center">
-        <img :src="avatarUrl" alt="" class="w-20 h-20 mx-auto rounded-full">
+        <img :src="props.user.avatar_url" alt="" class="w-20 h-20 mx-auto rounded-full">
         <h6 class="mt-4 mb-0 text-lg text-gray-900 dark:text-gray-50">{{props.user.name}}</h6>
         <!-- <p class="mb-4 text-gray-500 dark:text-gray-300">Creative Designer</p> -->
 

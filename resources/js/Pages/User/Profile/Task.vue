@@ -229,7 +229,7 @@ watch([() => form.category_id, () => props.categories,() => props.locale], () =>
 
 <template>
     <Index :title = "useTrans('page.task')">
-      
+
 
             <template #content>
                 <!-- <div>
@@ -310,7 +310,7 @@ watch([() => form.category_id, () => props.categories,() => props.locale], () =>
                                                                             <!-- min price start -->
                                                                             <div class="col-span-12 lg:col-span-6">
                                                                                 <div class="mb-3">
-                                                                                    <InputLabel for="price_min" :value="useTrans('page.price_min')" class="text-grey" />
+                                                                                    <InputLabel for="price_min" :value="useTrans('page.price_min')" class="text-grey" :showCurrency="true" />
                                                                                     <TextInput
                                                                                         v-model="form.price_min"
                                                                                         id = "price_min"
@@ -328,7 +328,7 @@ watch([() => form.category_id, () => props.categories,() => props.locale], () =>
                                                                                 <!-- location end -->
                                                                             <div class="col-span-12 lg:col-span-6">
                                                                                 <div class="mb-3">
-                                                                                    <InputLabel for="price_max" :value="useTrans('page.price_max')" class="text-grey" required/>
+                                                                                    <InputLabel for="price_max" :value="useTrans('page.price_max')" class="text-grey" required :showCurrency="true" />
                                                                                     <TextInput
                                                                                     v-model="form.price_max"
                                                                                     id="price_max"
@@ -435,8 +435,8 @@ watch([() => form.category_id, () => props.categories,() => props.locale], () =>
                                                                                     <div>
                                                                                         <div>
                                                                                             <!-- ========= file section start -->
-                                                                                            <button type="button" @click="triggerFileInput" class="text-blue-600 hover:text-blue-800">
-                                                                                                <i class="uil uil-download-alt text-4xl"></i>
+                                                                                            <button type="button" @click="triggerFileInput" class="text-green-500">
+                                                                                                <i class="uil uil-download-alt text-4xl "></i>
                                                                                             </button>
 
 
