@@ -9,7 +9,7 @@ class SpecialistDetailsRepository implements SpecialistDetailsInterface
     public function getById($specialist): User
     {
 
-      return $specialist->load('social_medias','executor_sub_categories','location.translation','receivedComments.author');
+      return $specialist->load('files','social_medias','executor_sub_categories','location.translation','receivedComments.author', 'receivedComments.task');
 
     }
 }

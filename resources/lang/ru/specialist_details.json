@@ -4,6 +4,9 @@
     "email": "Электронная почта",
     "address": "Адрес",
     "phone": "Телефон",
-    "about_specialist":"О специалисте"
+    "about_specialist":"О специалисте",
+    "task_name": "Задание: ",
+    "comments": "Комментарии",
+    "works": "Работы"
 
 }

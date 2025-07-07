@@ -7,6 +7,10 @@ defineProps({
         type: Boolean,
         default: false,
     },
+    showCurrency: {
+        type: Boolean,
+        default: false,
+    }
 });
 </script>
 
@@ -16,5 +20,7 @@ defineProps({
 
         <span v-else><slot /></span>
         <span  v-if="required" class="text-red-500">*</span>
+        <span v-if="showCurrency"> (֏)</span>
+
     </label>
 </template>
