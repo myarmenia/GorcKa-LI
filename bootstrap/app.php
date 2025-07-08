@@ -43,6 +43,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
     })
     ->withSchedule(function (Schedule $schedule) {
-        $schedule->command('tasks:update-status')->dailyAt('08:00');
+        $schedule->command('tasks:update-status')->dailyAt('12:00');
     })
     ->create();
