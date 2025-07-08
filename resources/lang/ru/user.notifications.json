@@ -3,10 +3,5 @@
     "delete_all": "Удалить все",
     "button_comment": "Поставить оценку",
     "task_name": "Задание: ",
-    "no_result": "Нет результата",
-    "comments": {
-        "comment_label": "Оставьте отзыв",
-        "comment_placeholder": "Комментарий ․․․",
-        "button_sավե": "Сохранить"
-    }
+    "no_result": "Нет результата"
 }
