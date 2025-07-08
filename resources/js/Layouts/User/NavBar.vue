@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted  } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import { initNavbar } from "@/modules/user/navbar.js";
 import { initDropdowns } from '@/modules/user/dropdown&modal.init.js';
 import { useTrans } from '/resources/js/trans';
@@ -62,9 +62,16 @@ onUnmounted(() => {
     }
 });
 
+const avatarUrl = computed(() => {
+  return user.value.avatar
+    ? '/storage/' + user.value.avatar
+    : '/assets/user/images/user.svg';
+});
+
+
+
 
 const changeLanguage = (lang) => {
-
 
     // localStorage.setItem('locale', lang);
 
@@ -119,8 +126,8 @@ const changeLanguage = (lang) => {
         <div class="mx-auto container-fluid">
             <div class="flex flex-wrap items-center justify-between mx-auto">
                 <a href="index.html" class="flex items-center">
-                    <img src="/assets/user/images/logo-dark.png" alt="" class="logo-dark h-[22px] block dark:hidden">
-                    <img src="/assets/user/images/logo-light.png" alt="" class="logo-dark h-[22px] hidden dark:block">
+                    <img src="/assets/user/images/logo.jpg" alt="" class="logo-dark h-[22px] block dark:hidden">
+                    <img src="/assets/user/images/logo.jpg" alt="" class="logo-dark h-[22px] hidden dark:block">
                 </a>
                 <button data-collapse-toggle="navbar-collapse" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg navbar-toggler group lg:hidden hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
@@ -156,7 +163,7 @@ const changeLanguage = (lang) => {
 
                             <button type="button" class="flex items-center px-4 py-5 dropdown-toggle" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 <img class="w-8 h-8 rounded-full ltr:xl:mr-2 rtl:xl:ml-2"
-                                    :src="$page.props.auth.user?.avatar ?? '/assets/user/images/user.svg'" alt="Header Avatar">
+                                    :src="avatarUrl" alt="Header Avatar">
                                 <span class="hidden fw-medium xl:block dark:text-gray-50">{{$page.props.auth.user.name}}</span>
                             </button>
                             <ul class="absolute top-auto z-50 hidden w-48 p-3 list-none bg-white border rounded shadow-lg dropdown-menu border-gray-500/20 xl:ltr:-left-3 ltr:-left-32 rtl:-right-3 dark:bg-neutral-800" id="profile/log" aria-labelledby="navNotifications">

@@ -8,6 +8,8 @@ use App\Http\Controllers\User\Profile\Chat\GetMessagesController;
 use App\Http\Controllers\User\Profile\Chat\ReadMessageController;
 use App\Http\Controllers\User\Profile\Chat\SelectExecutorController;
 use App\Http\Controllers\User\Profile\Chat\SendMessageController;
+use App\Http\Controllers\User\Profile\Comment\CommentController;
+use App\Http\Controllers\User\Profile\Notification\NotificationController;
 use App\Http\Controllers\User\Profile\UserProfileController;
 use App\Http\Controllers\User\SaveFcmTokenController;
 use Inertia\Inertia;
@@ -104,6 +106,19 @@ Route::middleware('auth')->group(function () {
             Route::post('/submit-subcategories', [UserProfileController::class, 'executor_sub_categories'])->name('user.executor_sub_categories');
             Route::post('/profile/password', [UserProfileController::class, 'update_password'])->name('profile.password.update');
 
+            Route::prefix('notifications')->group(function () {
+                Route::get('/', [NotificationController::class, 'index'])->name('user.notifications');
+                Route::get('/delete_all', [NotificationController::class, 'deleteAll'])->name('user.notifications.delete_all');
+                Route::post('/read', [NotificationController::class, 'read'])->name('user.notifications.read');
+
+            });
+
+            Route::prefix('comments')->group(function () {
+                Route::get('/', [CommentController::class, 'index'])->name('user.comments');
+            });
+
+            Route::post('/comment-mark', [CommentController::class, 'sendComment'])->name('user.comment_mark');
+
             // Route::get('task-index',[TaskController::class,'create'])->name('task.create');
             Route::prefix('task')->group(function () {
 
@@ -115,6 +130,7 @@ Route::middleware('auth')->group(function () {
                 Route::post('/{id}', [TaskController::class, 'update'])->name('task.update');
 
             });
+
 
             Route::prefix('chat')->group(function () {
 
@@ -129,8 +145,6 @@ Route::middleware('auth')->group(function () {
                 Route::get('/select-executor/{id}/room', SelectExecutorController::class)->name('user.chat.select-executor');
 
 
-
-
             });
 
 
@@ -139,14 +153,7 @@ Route::middleware('auth')->group(function () {
 
         });
 
-    // Route::post('/save-fcm-token', function (Request $request) {
-    //     $user = Auth::user();
-    //     // dd($user);
-    //     dd($request->all());
-    //     $user->fcm_token = $request->token;
-    //     $user->save();
-    //     return response()->json(['message' => 'Token saved']);
-    // });
+  
 
     Route::post('/save-fcm-token', [SaveFcmTokenController::class, 'saveFcmToken']);
 

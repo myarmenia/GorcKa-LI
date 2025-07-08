@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import { Link } from '@inertiajs/vue3';
 
@@ -23,16 +23,22 @@ onMounted(() => {
     }
 });
 
+watch(() => props.unread_notification_count, (newVal) => {
+    notificationCount.value = newVal;
+});
+
 
 </script>
 
 <template>
    <div class="relative dropdown">
         <div class="relative">
-            <button type="button" class="btn border-0 h-[70px] dropdown-toggle px-4 text-gray-500 dark:text-gray-300" aria-expanded="false" data-dropdown-toggle="notification">
-                <i class="text-2xl uil uil-bell bell-notify"></i>
-            </button>
+            <Link :href="route('user.notifications', { locale: usePage().props.locale })">
+                <button type="button" class="btn border-0 h-[70px] px-4 text-gray-500 dark:text-gray-300" >
+                    <i class="text-2xl uil uil-bell bell-notify"></i>
+                </button>
                 <span class="absolute text-xs px-1.5 bg-red-500 text-white font-medium rounded-full left-6 top-3 ring-2 ring-white dark:ring-neutral-800">{{ notificationCount }}</span>
+            </Link>
         </div>
     </div>
 </template>

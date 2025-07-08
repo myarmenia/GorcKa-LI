@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Profile;
 
 use App\DTO\TaskDTO;
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskRequest;
 use App\Models\Category;
@@ -10,27 +11,33 @@ use App\Models\Location;
 use App\Models\SubCategory;
 use App\Models\Task;
 use App\Services\TaskService;
+use App\Traits\Paginator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class TaskController extends Controller
 {
+     use Paginator;
         public function __construct(protected TaskService $service ){}
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $page = request()->page ?? 1;
-        $perPage = 5;
 
-        $data = $this->service->list();
+        $page = request()->page ?? 1;
+        $perPage = 1;
+
+        $data = $this->service->list($request->all());
+        $categories = Helper::getCategories();
 
         $data = $data->paginate($perPage);
 
         return Inertia::render('Profile/TaskList',[
             "tasks" => $data,
-            "locale" => app()->getLocale()
+            "locale" => app()->getLocale(),
+            "categories" => $categories
         ]);
 
     }
@@ -42,9 +49,6 @@ class TaskController extends Controller
     {
         $categories = Category::with(['translation','sub_categories.translation'])->get();
         $location = Location::with('translation')->get();
-        // dd($location);
-
-
 
         return  Inertia::render('Profile/Task',[
             'categories'=>$categories,
@@ -59,30 +63,16 @@ class TaskController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(TaskRequest $request)
-
     {
-        // dd(app()->getLocale());
-        // dd($request->all());
+
         $categories = Category::with(['translation','sub_categories.translation'])->get();
         $location = Location::with('translation')->get();
 
         $data = $this->service->createTask(TaskDTO::fromRequestDto($request));
 
-        // return  Inertia::render('Profile/Task',[
-        //     'message' =>  __('messages.the_operation_was_successful'),
-        //     'categories'=>$categories,
-        //     'locations'=>$location,
-        //     'locale'=>app()->getLocale()
+        // $data = $this->service->list();
 
-
-        // ]);
-        $data = $this->service->list();
-
-        // dd( $data);
-                return Inertia::render('Profile/TaskList',[
-                    "tasks" => $data,
-                    "locale" => app()->getLocale()
-                ]);
+        return redirect()->route('task.list', ["locale" => app()->getLocale()]);
 
 
 
@@ -145,6 +135,7 @@ class TaskController extends Controller
         // dd($request->all(),$lang, $id);
 
         $data=$this->service->updateTask(TaskDTO::fromRequestDto($request),$id);
+         return redirect()->route('task.list', ["locale" => app()->getLocale()]);
     }
 
     /**

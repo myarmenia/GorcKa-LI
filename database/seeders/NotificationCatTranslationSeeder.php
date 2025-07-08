@@ -157,8 +157,70 @@ class NotificationCatTranslationSeeder extends Seeder
                 'name' => 'You applied',
                 'description' => 'Your application was sent.'
 
-            ]
+            ],
+            [
+                'notification_category_id' => 8,
+                'lang' => 'am',
+                'name' => 'Ժամանակը լրացել է',
+                'description' => 'Առաջադրանքի իրականացման ժամկետը ավարտվել է:'
 
+            ],
+            [
+                'notification_category_id' => 8,
+                'lang' => 'ru',
+                'name' => 'Время истекло',
+                'description' => 'Срок выполнения задачи истек.'
+
+            ],
+            [
+                'notification_category_id' => 8,
+                'lang' => 'en',
+                'name' => 'Time is over',
+                'description' => 'The task has expired.'
+
+            ],
+            [
+                'notification_category_id' => 9,
+                'lang' => 'am',
+                'name' => 'Ժամանակը լրացել է',
+                'description' => 'Առաջադրանքի իրականացման ժամկետը ավարտվել է: Խնդրում ենք գնահատել ձեր գործընկերոջ աշխատանքը:'
+
+            ],
+            [
+                'notification_category_id' => 9,
+                'lang' => 'ru',
+                'name' => 'Время истекло',
+                'description' => 'Срок выполнения задачи истек. Оцените работу партнера.'
+
+            ],
+            [
+                'notification_category_id' => 9,
+                'lang' => 'en',
+                'name' => 'Time is over',
+                'description' => 'The task deadline has expired. Please rate your partner is work.'
+
+            ],
+            [
+                'notification_category_id' => 10,
+                'lang' => 'am',
+                'name' => 'Դուք ստացել եք գնահատական գործընկերոջ կողմից',
+                'description' => 'Գնահատականը տեսնելու համար սեղմեք Այստեղ:'
+
+            ],
+            [
+                'notification_category_id' => 10,
+                'lang' => 'ru',
+                'name' => 'Вы получили оценку от партнера',
+                'description' => 'Нажмите здесь, чтобы увидеть оценку.'
+
+            ],
+            [
+                'notification_category_id' => 10,
+                'lang' => 'en',
+                'name' => 'You have received a rating from a partner',
+                'description' => 'Click Here to see the ratingk.'
+
+            ]
 
         ];
 

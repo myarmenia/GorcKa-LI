@@ -31,8 +31,8 @@ class ApplyToJobService extends SenderService
 
         $this->applicantCreatorService->create($task, $user);
 
-        $employer_notification = $this->notificationService->notify($employer, 'job_applied', $taskName);
-        $executor_notification = $this->notificationService->notify($user, 'you_applied', $taskName);
+        $employer_notification = $this->notificationService->notify($employer, 'job_applied', $task);
+        $executor_notification = $this->notificationService->notify($user, 'you_applied', $task);
 
         $room = $this->roomCreatorService->create($task, $user, $employer);
 

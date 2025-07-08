@@ -41,10 +41,10 @@ class ChatIndicatorEvent implements ShouldBroadcast
     {
 
 
-        // return  new Channel('notification-count' );
+
         return [
             new PrivateChannel('unread-message-count.' . $this->user_id)
-            // new PrivateChannel('notification-count' )
+            
         ];
     }
 

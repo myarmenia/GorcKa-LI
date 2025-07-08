@@ -3,7 +3,7 @@
     import { useModalStore } from '@/Stores/modalStore'
 
     const modal = useModalStore()
-    const { successMessage, visible } = storeToRefs(modal)
+    const { successMessage, errorMessage, visible } = storeToRefs(modal)
 </script>
 
 
@@ -11,21 +11,24 @@
     <Transition name="fade">
         <div
             v-if="visible"
-            class="fixed top-5 right-5 max-w-md w-full bg-green-500 text-green-600 px-6 py-4 rounded-xl shadow-2xl z-50 text-lg"
+            :class="[
+            'fixed top-10 right-5 max-w-md w-full px-6 py-6 rounded-xl shadow-2xl z-50 text-lg',
+            successMessage ? 'bg-green-500/20 text-green-600' : '',
+            errorMessage ? 'bg-red-500/20 text-red-600' : ''
+            ]"
         >
-            {{ successMessage }}
+            {{ successMessage || errorMessage }}
         </div>
     </Transition>
 </template>
 
-
-<style scoped>
-    .fade-enter-active,
-    .fade-leave-active {
+  <style scoped>
+  .fade-enter-active,
+  .fade-leave-active {
     transition: opacity 0.3s ease;
-    }
-    .fade-enter-from,
-    .fade-leave-to {
+  }
+  .fade-enter-from,
+  .fade-leave-to {
     opacity: 0;
-    }
+  }
 </style>

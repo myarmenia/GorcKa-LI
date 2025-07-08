@@ -42,6 +42,18 @@ class NotificationCategorySeeder extends Seeder
                 'id' => 7,
                 'type' => 'you_applied'
             ],
+            [
+                'id' => 8,
+                'type' => 'job_expired'
+            ],
+            [
+                'id' => 9,
+                'type' => 'job_done'
+            ],
+            [
+                'id' => 10,
+                'type' => 'comment_mark'
+            ]
 
 
         ];

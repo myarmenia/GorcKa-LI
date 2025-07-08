@@ -43,6 +43,7 @@ class HandleInertiaRequests extends Middleware
         $file = lang_path($lang . '/' . $name . ".json");
         $formFile = lang_path($lang . '/form' . ".json");
         $navbarFile = lang_path($lang . '/navbar' . ".json");
+        $modal = lang_path($lang . '/modal' . ".json");
         $user = Auth::user();
 
 
@@ -76,7 +77,8 @@ class HandleInertiaRequests extends Middleware
             'translations' => [
                 'form' => File::exists($formFile) ? File::json($formFile) : [],
                 'page' => File::exists($file) ? File::json($file) : [],
-                'navbar' => File::exists($navbarFile) ? File::json($navbarFile) : []
+                'navbar' => File::exists($navbarFile) ? File::json($navbarFile) : [],
+                'modal' => File::exists($modal) ? File::json($modal) : [],
             ],
             'err' => function () use ($request) {
                 return $request->session()->get('errors')

@@ -133,6 +133,40 @@ class Helper
         ];
 
     }
+    public static function translateStatus(string $status = null): string
+    {
+
+        return match ($status) {
+            'active' => __('task_status.active'),
+            'in_process' => __('task_status.in_process'),
+            'done' => __('task_status.done'),
+            'expired' => __('task_status.expired'),
+            default => ucfirst($status),
+        };
+    }
+
+
+    public static function notificationIcons()
+    {
+
+
+        return [
+
+
+            '1' => 'uil uil-info-circle',       //info
+            '2' => 'uil uil-file-plus-alt',     //new_job
+            '3' => 'uil uil-check-circle',      //job_applied
+            '4' => 'uil uil-user-times',        //application_rejected
+            '6' => 'uil uil-user-check',        //selected_executor
+            '7' => 'uil uil-file-check',        //you_applied
+            '8' => 'uil uil-stopwatch-slash',   //job_expired
+            '9' => 'uil uil-clock-five',        //job_done
+            '10' => 'uil uil-star'               //comment_mark
+
+        ];
+
+    }
+
 
 
 }

@@ -9,6 +9,7 @@ trait FilterTrait {
 
     public function scopeFilter($builder, $filters = [])
     {
+        // dd($filters);
 
         $lang = app()->getLocale() ?? "am";
 
@@ -25,7 +26,7 @@ trait FilterTrait {
         $anyLikeFilterFields = $this->anyLikeFilterFields;
         $translationFilterFields = $this->translationFilterFields;
 
-
+// dd($filters);
         foreach ($filters as $field => $value) {
 
             if(isset($boolFilterFields) && in_array($field, $boolFilterFields) && $value != null) {
@@ -88,6 +89,7 @@ trait FilterTrait {
 
             // dump($field, $relationFilter);
             if (!empty($relationFilter)) {
+                // dd("relationFilter");
 
                 $relationModel  = $this->getKeyFromValue($field, $relationFilter);
 
@@ -99,7 +101,7 @@ trait FilterTrait {
             }
 
             if (isset($defaultFields) && in_array($field, $defaultFields)) {
-
+// dd("defaultFields");
                 if (is_array($value)) {
                     $builder->whereIn($field, $value);
                 } else {

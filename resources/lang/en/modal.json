@@ -1,0 +1,15 @@
+{
+    "confirm_modal_delete_all": {
+        "title": "Deletion confirmation",
+        "description": "Are you sure you want to clear all notifications?",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+    },
+    "comment_modal": {
+        "title": "Comment",
+        "label": "Write a comment",
+        "placeholder": "Comment ․․․",
+        "button_save": "Save"
+    }
+
+}

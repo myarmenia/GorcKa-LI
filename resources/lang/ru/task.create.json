@@ -12,7 +12,12 @@
     "description": "Описание",
     "chose_file": "Выбрать файл",
     "task_type": "Тип задачи",
-    "remote_task": "Отметить для удаленной работы"
+    "remote_task": "Отметить для удаленной работы",
+    "files_not_selected": "Файлы не выбраны",
+    "one_file_selected":"Выбран 1 файл",
+    "multiple_files_selected":"Выбрано :count файлов"
+
+
 
 
 }

@@ -4,10 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Traits\FilterTrait;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -24,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var list<string>
      */
     protected $guarded = [];
+    protected $appends = ['avatar_url','location_translation'];
     protected $defaultFields = ['location_id'];
     protected $likeFilterFields = ['name'];
     protected $boolFilterFields = ['status'];
@@ -51,7 +54,8 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function tasks(){
+    public function tasks(): HasMany
+    {
         return $this->hasMany(Task::class);
 
     }
@@ -61,7 +65,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     }
 
-    public function applicants()
+    public function applicants(): HasMany
     {
         return $this->hasMany(Applicant::class);
 
@@ -72,25 +76,25 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->morphMany(Filable::class, 'filable');
     }
 
-    public function social_medias()
+    public function social_medias(): HasMany
     {
         return $this->hasMany(SocialMedia::class);
 
     }
 
-    public function notifications()
+    public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class);
 
     }
 
-    public function messages()
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class);
 
     }
 
-    public function rooms()
+    public function rooms(): HasMany
     {
         return $this->hasMany(Room::class, 'employer_id');
 
@@ -115,22 +119,47 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
-    public function hasAccessToRoom($roomId)
+    public function receivedComments(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'recipient_id');
+    }
+
+    public function writtenComments(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'author_id');
+    }
+
+
+    public function hasAccessToRoom($roomId): bool
     {        
         return $this->roomsAll()->where('id', $roomId)->exists();
     }
 
-    public function hasAccessToTask($taskId)
+    public function hasAccessToTask($taskId): bool
     {        
         return $this->tasks()->where('id', $taskId)->exists();
     }
 
       
-    public function hasAccessToJobApplicant($taskId)
+    public function hasAccessToJobApplicant($taskId): bool
     {        
         
         $has = $this->applicants()->where('task_id', $taskId)->exists();
         return !$has ? $this->hasAccessToTask($taskId) : $has;
     }
 
+    protected function avatarUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->avatar ? asset('storage/' . $this->avatar) : asset('assets/user/images/user.svg'),
+        );
+    }
+    protected function locationTranslation(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => optional($this->location?->translation)->name
+        );
+    }
+
+    
 }

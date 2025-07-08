@@ -17,7 +17,7 @@ use App\Helpers\Helper;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\Specialist\SpecialistController;
-
+use App\Http\Controllers\Specialist\SpecialistDetailsController;
 
 Route::get('/', function () {
     return redirect('/am');
@@ -38,6 +38,8 @@ Route::prefix('{locale}')
         Route::get('categories', CategoriesController::class)->name('categories');
         Route::get('jobs', JobsController::class)->name('jobs');
         Route::get('single-jobe/{id}', SingleJobeController::class)->name('single_job');
+        Route::get('specialist/{specialist}',[SpecialistDetailsController::class,'index'])->name('specialist_details');
+
 
     });
 

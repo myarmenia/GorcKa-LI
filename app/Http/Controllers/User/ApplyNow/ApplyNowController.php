@@ -14,8 +14,6 @@ use Illuminate\Http\Request;
 class ApplyNowController extends Controller
 {
 
-    // public function __construct(protected ApplyNowService $applyNowService)
-    // {
     public function __construct(protected NotifyService $notifyService)
     {
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Helper;
 use App\Traits\FilterTrait;
 use Auth;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -17,6 +18,8 @@ class Task extends Model
 {
     use FilterTrait;
     protected $guarded = [];
+    protected $appends =['translated_status'];
+   
     protected $hidden = ['updated_at'];
 
     protected $defaultFields = ['sub_category_id', 'location_id', 'status'];
@@ -32,6 +35,11 @@ class Task extends Model
     public function user(): BelongsTo{
 
         return $this->belongsTo(User::class,'user_id');
+    }
+
+    public function executor(): BelongsTo{
+
+        return $this->belongsTo(User::class,'executor_id');
     }
 
     public function sub_category(): BelongsTo
@@ -69,11 +77,26 @@ class Task extends Model
         return $this->hasManyThrough(User::class, Applicant::class, 'task_id', 'id', 'id', 'user_id');
     }
 
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    public function scopeActiveByTable($query)
+    {
+        return $query->where('tasks.status', 'active');
+    }
+
     // public function hasAccessToJobApplicant($userId)
     // {        
     //     dd(22);
     //     return $this->applicantUsers()->where('id', $userId)->exists();
     // }
+    public function getTranslatedStatusAttribute(): string
+{
+
+    return Helper::translateStatus($this->status);
+}
 
 
 }

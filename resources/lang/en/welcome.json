@@ -36,6 +36,11 @@
         "p_2": "As an employer, create a page on the site about a job or task to find interested people.",
         "h5_3": "Search for a job or task that interests you",
         "p_3": "Search for a job or task by categories and subcategories to find the job you want."
+    },
+
+    "top_category_jobs": {
+        "h3": "Jobs in Top categories",
+        "p": "Tasks in the most popular categories."
     }
 
 }

@@ -4,32 +4,34 @@ namespace App\Services\User\Notify;
 
 use App\Events\NotificationEvent;
 use App\Mail\JobApplicationSubmissionNotification;
+use App\Models\Task;
 use App\Services\FCM\FCMService;
 use Mail;
 
 
 class NotificationSender{
 
-    public function dispatch($user, $notification, string $taskName): void
+    public function dispatch($user, $notification, Task $task): void
     {
-        $this->sendPush($user, $notification, $taskName);
-        $this->sendEmail($user, $notification, $taskName);
+        $this->sendPush($user, $notification, $task->title);
+        $this->sendEmail($user, $notification, $task);
         $this->sendUnreadCountSocket($user);
     }
 
     public function sendPush($user, $notification, $taskName): void
     {
         $title = $notification->title . ' - ' . $taskName;
-        FCMService::sendNotification($user, $title, $notification->description);
+        $sendeed = FCMService::sendNotification($user, $title, $notification->description);
+
     }
 
-    public function sendEmail($user, $notification, $taskName): void
+    public function sendEmail($user, $notification, $task): void
     {
 
         Mail::to($user->email)->send(new JobApplicationSubmissionNotification(
             $notification->title,
             $notification->description,
-            $taskName
+            $task
         ));
     }
 
@@ -37,7 +39,6 @@ class NotificationSender{
     {
         event(new NotificationEvent(
             $user->notifications()->unread()->count(),
-            'job_applied',
             $user->id
         ));
     }

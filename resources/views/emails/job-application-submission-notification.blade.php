@@ -73,7 +73,10 @@
         <div class="container ">
             <div class="content">
                 <h2> {{ $title }}  </h2>
-                <h3>{{__('email.jobname')}}։ {{ $task_name }}  </h3>
+                <h3>{{__('email.jobname')}}։
+                    <a href="{{ url('/' . app()->getLocale() . '/single-jobe/' . $task->id) }}"> {{ $task->title }} </a>
+
+                </h3>
 
                 <h4>{{ $description }} </h4>
 

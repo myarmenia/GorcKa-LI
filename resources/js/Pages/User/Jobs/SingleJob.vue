@@ -100,26 +100,43 @@ const formattedDates = computed(() => ({
                                     </div>
                                 </div>
 
-                                <div class="mt-5">
+                                <div class="mt-5 pt-8">
                                     <h5 class="mb-3 text-gray-900 dark:text-gray-50">{{useTrans('page.job_description')}}</h5>
                                     <div>
                                         <p class="mb-0 text-gray-500 dark:text-gray-300">{{ jobRef.description }}</p>
                                     </div>
                                 </div>
 
-                                <div class="pt-10 my-10">
+                                <div v-if="jobRef.files.some(file => ['png', 'jpg', 'jpeg'].includes(file.ext))" class="pt-8 my-10">
                                     <h6 class="mb-0 text-gray-900 text-17 fw-bold dark:text-gray-50">{{useTrans('page.images')}}</h6>
                                     <div class="mt-4 ">
                                         <div class="grid grid-cols-12 gap-5 ">
                                             <div v-for="file in jobRef.files" class="col-span-4 ">
-                                                <div class="relative overflow-hidden rounded-md group/project h-[160px]">
-                                                    <img :src="file.file_path" alt="" class="transition-all duration-300 ease-in-out group-hover/project:scale-110">
+                                                <div v-if="['png', 'jpg', 'jpeg'].includes(file.ext)" class="relative overflow-hidden rounded-md group/project h-[160px]">
+                                                    <img   :src="file.file_path" alt="" class="transition-all duration-300 ease-in-out group-hover/project:scale-110">
                                                     <div class="transition-all duration-300 ease-in-out group-hover/project:bg-black/40 group-hover/project:absolute group-hover/project:inset-0"></div>
                                                     <div class="absolute top-[50%] left-[50%] -translate-x-5 -translate-y-5 group-hover/project:block hidden transition-all duration-300 ease-in-out text-2xl">
                                                         <a :href="file.file_path" class="text-white image-popup" ><i class="uil uil-search-alt"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div  v-if="jobRef.files.some(file => ['xlsx', 'pdf', 'docx'].includes(file.ext))" class="pt-8 my-10">
+                                    <h6 class="mb-0 text-gray-900 text-17 fw-bold dark:text-gray-50">Files</h6>
+                                    <div class="mt-4 ">
+                                        <div class="grid grid-cols-12 gap-5 ">
+                                            <template v-for="file in jobRef.files" class="col-span-4 ">
+                                                <div v-if="['xlsx', 'pdf', 'docx'].includes(file.ext)" class="col-span-12 relative overflow-hidden rounded-md">
+                                                    <div class="transition-all duration-300 ease-in-out text-lg">
+                                                        <a :href="file.file_path" target="_blank" >{{ file.name }} <i class="uil uil-download-alt font-bold group-data-[theme-color=green]:text-green-500"></i></a>
+                                                    </div>
+                                                </div>
+
+                                            </template>
 
                                         </div>
                                     </div>

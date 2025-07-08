@@ -24,6 +24,7 @@ class JobsController extends Controller
         $categories = Helper::getCategories();
 
         $jobs = $this->jobService->filterJobs($request->all());
+        
         $jobs = $this->arrayPaginator($jobs, $request, $perPage);
 
         return Inertia::render('Jobs/Index', ['locations' => $locations, 'categories' => $categories, 'jobs' => $jobs]);
