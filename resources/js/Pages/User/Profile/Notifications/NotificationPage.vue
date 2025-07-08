@@ -5,21 +5,23 @@ import dayjs from 'dayjs';
 import Index from '../Index.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import CommentMarkModal from '@/Components/CommentMarkModal.vue'
+import ConfirmModal from '@/Components/ConfirmModal.vue';
 import { useTrans } from '/resources/js/trans';
 
 const props = defineProps({
-  notifications: {
-    type: Object,
-    default: () => ({
-      data: [],
-      links: []
-    })
-  },
-  socialMedias: {
-    type: Array,
-    default: () => []
-  },
-  notificationIcons: Array
+    locale: String,
+    notifications: {
+        type: Object,
+        default: () => ({
+        data: [],
+        links: []
+        })
+    },
+    socialMedias: {
+        type: Array,
+        default: () => []
+    },
+    notificationIcons: Array
 });
 
 
@@ -76,30 +78,36 @@ const deleteNotification = async (id, index) => {
 
 
 // Удаление всех уведомлений
+const confirmDeleteAll = ref(false)
+
+const askDeleteAllNotifications = () => {
+  confirmDeleteAll.value = true
+}
+
+
 const deleteAllNotifications = async () => {
-    if (!confirm('Вы уверены, что хотите удалить это уведомление?')) return;
     try {
-        await axios.get(route('user.notifications.delete_all', { locale: 'am' } ));
+        await axios.get(route('user.notifications.delete_all', { locale: props.locale }));
         localNotifications.value = [];
+        paginationLinks.value = [];
+
+        confirmDeleteAll.value = false;
 
     } catch (error) {
         console.error('Ошибка при удалении notification:', error);
     }
+}
 
-};
 
-
-// const openModal = ref(false)
 const openModal = ref({ show: false, taskId: null, notificationId: null })
 
 function handleFeedbackSubmitted(feedback) {
-  // например, показываем тост или обновляем список
-  console.log('Получен отзыв:', feedback)
+    console.log('Получен отзыв:', feedback)
 
-//   const item =  props.notifications.find(n => n.id === notificationId)
-//     if (item) {
-//         item.has_comment = true
-//     }
+    const item = localNotifications.value.find(n => n.id === feedback.notificationId)
+    if (item) {
+        item.has_comment = true
+    }
 }
 
 // read notifications in page via auth user
@@ -144,11 +152,12 @@ const changePage = (url) => {
             <div class="flex justify-between" >
                 <h4 class=" text-gray-900 fs-16 dark:text-gray-50">{{useTrans('page.title')}} </h4>
                 <button v-if="localNotifications.length > 1"
-                    @click="deleteAllNotifications"
+                    @click="askDeleteAllNotifications"
                     class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
                 >
                 {{useTrans('page.delete_all')}}
                 </button>
+
             </div>
 
             <div class="mt-8 space-y-6">
@@ -202,15 +211,6 @@ const changePage = (url) => {
                             {{ useTrans('page.button_comment') }}
                         </PrimaryButton>
 
-                        <CommentMarkModal
-                            v-if="openModal.show"
-                            :task-id="openModal.taskId"
-                            :notification-id="openModal.notificationId"
-                            :locale="$page.props.locale"
-                            @close="openModal.show = false"
-                            @submitted="handleFeedbackSubmitted"
-                        />
-
                     </div>
 
                 </div>
@@ -236,7 +236,25 @@ const changePage = (url) => {
             </div>
             </div>
         </section>
+
+        <CommentMarkModal
+            v-if="openModal.show"
+            :task-id="openModal.taskId"
+            :notification-id="openModal.notificationId"
+            :locale="$page.props.locale"
+            @close="openModal.show = false"
+            @submitted="handleFeedbackSubmitted"
+        />
+
+        <ConfirmModal
+            v-if="confirmDeleteAll"
+            :title="useTrans('modal.confirm_modal_delete_all.title') "
+            :message="useTrans('modal.confirm_modal_delete_all.description')"
+            @cancel="confirmDeleteAll = false"
+            @confirm="deleteAllNotifications"
+        />
     </template>
+
 
   </Index>
 </template>

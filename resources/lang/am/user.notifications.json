@@ -3,10 +3,5 @@
     "delete_all": "Ջնջել բոլորը",
     "button_comment": "Գնահատել",
     "task_name": "Առաջադրանք - ",
-    "no_result": "Արդյունք չի գտնվել",
-    "comments": {
-        "comment_label": "Գրել մեկնաբանություն",
-        "comment_placeholder": "Մեկնաբանություն ․․․",
-        "button_sավե": "Պահպանել"
-    }
+    "no_result": "Արդյունք չի գտնվել"
 }
