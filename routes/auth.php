@@ -71,7 +71,6 @@ Route::middleware('auth')->group(function () {
         ->where(['locale' => 'en|ru|am']) // Здесь указываются допустимые значения для локали
         ->group(function () {
 
-
             Route::get('verify-email', EmailVerificationPromptController::class)
                 ->name('verification.notice')->where(['locale' => 'en|ru|am']);
 
@@ -149,7 +148,7 @@ Route::middleware('auth')->group(function () {
             });
 
 
-            Route::get('/apply-now/{task}', [ApplyNowController::class, 'applyNow'])->name('apply_now');
+            Route::post('/apply-now/{task}', [ApplyNowController::class, 'applyNow'])->name('apply_now');
             Broadcast::routes(['middleware' => ['auth']]);
 
         });
@@ -157,8 +156,6 @@ Route::middleware('auth')->group(function () {
 
 
     Route::post('/save-fcm-token', [SaveFcmTokenController::class, 'saveFcmToken']);
-
-
 
 });
 // Route::post('/save-fcm-token', [ApplyNowController::class, 'sendPush']);

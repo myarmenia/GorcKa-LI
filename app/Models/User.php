@@ -26,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var list<string>
      */
     protected $guarded = [];
+    public const REQUIRED_POINTS_FOR_CLICK = 19;
     protected $appends = ['avatar_url','location_translation'];
     protected $defaultFields = ['location_id'];
     protected $likeFilterFields = ['name'];
@@ -159,6 +160,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return Attribute::make(
             get: fn() => optional($this->location?->translation)->name
         );
+    }
+
+    public function hasEnoughPointsForClick(): bool
+    {
+        return $this->point >= self::REQUIRED_POINTS_FOR_CLICK;
     }
 
     

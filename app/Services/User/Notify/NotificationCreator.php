@@ -14,7 +14,8 @@ class NotificationCreator{
     public function create($user, string $type, int $task_id = null, bool $is_comment = null)
     {
         $notification_category_id = Helper::getNotificationCategoryId($type);
-        $translation = Helper::getNotificationTranslation($notification_category_id, app()->getLocale());
+        $locale = $user->lang ?? app()->getLocale();
+        $translation = Helper::getNotificationTranslation($notification_category_id, $locale);
 
         $notification = new NotificationDTO(
             user_id: $user->id,

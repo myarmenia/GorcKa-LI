@@ -34,11 +34,11 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
         $user = Auth::user();
-
+        $locale = $user->lang ?? app()->getLocale();
 
         return $user->hasVerifiedEmail() ?
-            redirect(route('welcome', ['locale' => app()->getLocale()], absolute: false)) :
-            redirect(route('dashboard', ['locale' => app()->getLocale()], absolute: false));
+            redirect(route('welcome', ['locale' => $locale], absolute: false)) :
+            redirect(route('dashboard', ['locale' => $locale], absolute: false));
     }
 
     /**

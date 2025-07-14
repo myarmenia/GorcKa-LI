@@ -12,7 +12,7 @@ const categoryItems = computed(() => {
     return props.categories.map(category => ({
         name: category.translation?.name,
         icon: category.icon
-            ? `assets/user/icons/categories/${category.icon}.svg`
+            ? `assets/user/icons/categories/${category.icon}.png`
             : `assets/user/icons/categories/default.png`,
         tasks_count: category.tasks_count
     }));

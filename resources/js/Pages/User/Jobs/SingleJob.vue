@@ -3,10 +3,12 @@ import '../../../../../public/assets/user/libs/glightbox/css/glightbox.min.css';
 import Layout from '@/Layouts/User/Layout.vue';
 import Jobs from '@/Components/Jobs.vue'
 import { computed, ref, onMounted } from "vue";
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { useModalStore } from '@/Stores/modalStore'
+
 import { useTrans } from '/resources/js/trans';
 import dayjs from 'dayjs';
-
 
 import { initLightbox } from '@/modules/user/lightbox.init.js';
 import gFunLightbox from '@/modules/user/glightbox.min';
@@ -24,14 +26,39 @@ const props = defineProps({
     related_jobs: Array
 });
 
+const modal = useModalStore()
+const loading = ref(false)
 const jobRef = ref(props.job);
-const relatedJobsRef = ref(props.related_jobs);
-console.log(jobRef, 4545454545)
+
 const formattedDates = computed(() => ({
     created_at: jobRef.value.created_at ? dayjs(jobRef.value.created_at).format('DD.MM.YYYY') : null,
     start: jobRef.value.start_date ? dayjs(jobRef.value.start_date).format('DD.MM.YYYY') : null,
     end: jobRef.value.end_date ? dayjs(jobRef.value.end_date).format('DD.MM.YYYY') : null,
 }));
+
+
+async function submitApplication() {
+    const locale = usePage().props.locale;
+    const taskId = jobRef.value.id;
+    loading.value = true;
+console.log(loading.value,2222333)
+    try {
+        const response = await axios.post(route('apply_now', { locale, task: taskId }));
+
+        modal.showSuccess(response?.data?.message);
+        jobRef.value.auth_applicant = true;
+        await router.reload({ only: ['auth'] });
+    } catch (error) {
+        if (error.response && error.response.status === 403) {
+            modal.showError(error.response.data.error);
+
+        } else {
+            console.log('Произошла ошибка при отправке заявки.');
+        }
+    } finally {
+        loading.value = false;
+    }
+}
 
 
 </script>
@@ -75,7 +102,7 @@ const formattedDates = computed(() => ({
                                     <div class="col-span-12 lg:col-span-1 mr-3">
                                         <div class="relative">
                                             <img :src="jobRef.sub_category.category.icon
-                                                ? `/assets/user/icons/categories/${jobRef.sub_category.category.icon}.svg`
+                                                ? `/assets/user/icons/categories/${jobRef.sub_category.category.icon}.png`
                                                 : `/assets/user/icons/categories/it.svg`"
                                                 alt="" class="rounded-md img-fluid">
                                         </div>
@@ -230,11 +257,17 @@ const formattedDates = computed(() => ({
                                 </ul>
 
                                 <div class="mt-8 space-y-2">
-                                    <Link v-if="$page.props.auth.user != null && ($page.props.auth.user.id != jobRef.user.id) && !jobRef.auth_applicant && $page.props.auth.user.verified != null"
-                                        :href="route('apply_now', {locale: $page.props.locale, task: jobRef.id})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">
+
+                                    <PrimaryButton
+                                        v-if="$page.props.auth.user && ($page.props.auth.user.id !== jobRef.user.id) && !jobRef.auth_applicant && $page.props.auth.user.verified"
+                                        @click="submitApplication"
+                                        class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5"
+                                        :class="{ 'opacity-25': loading }"
+                                        :loading="loading"
+                                    >
                                             {{ useTrans('page.jobs.apply_now') }}
-                                            <i class="uil uil-arrow-right"></i>
-                                    </Link>
+                                        <i class="uil uil-arrow-right"></i>
+                                    </PrimaryButton>
 
                                     <Link v-else-if="$page.props.auth.user == null "
                                         :href="route('login', {locale: $page.props.locale})" class="btn w-full group-data-[theme-color=green]:bg-green-500 border-transparent text-white hover:-translate-y-1.5">

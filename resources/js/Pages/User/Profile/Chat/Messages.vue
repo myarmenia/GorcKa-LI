@@ -5,6 +5,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import { useTrans } from '/resources/js/trans';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import CommentMarkModal from '@/Components/CommentMarkModal.vue'
 
 
 const props = defineProps({
@@ -15,13 +16,17 @@ const props = defineProps({
   removeRoom: Function,
   selectedJobExecutirId: Number,
   jobStatus: String,
+  jobEvaluate: Object,
   updateRoomExecutor: Function
 });
 
 
 const messages = ref([])
+const loading = ref(false)
 // const messages = reactive({});
 const interlocutor = computed(() => props.interlocutor)
+const jobEvaluate = computed(() => props.jobEvaluate)
+const commentSentMap = ref({})
 const currentYear = dayjs().year();
 const message = ref('')
 const files = ref([])
@@ -50,6 +55,7 @@ watch(() => props.roomId, async (newId, oldId) => {
             messages.value = response.data.messages;
             isSelected.value = false
             isExecutorSelecting.value = false
+
 
             console.log( response.data, 'MMMMMMMM')
             console.log(props.selectedJobExecutirId, props.jobStatus, '- 222222222222 -');
@@ -174,6 +180,7 @@ const removeMessage = async (date, messageId) => {
 //select Executor
 const selectExecutor = async (roomId) => {
   try {
+    loading.value = true
     isExecutorSelecting.value = true;
 
     await axios.get(`chat/select-executor/${roomId}/room`);
@@ -264,7 +271,7 @@ const isInterlocutorInCurrentRoom = computed(() =>
 const sendMessage = () => {
     if (!message.value.trim() && files.value.length === 0) return
 
-
+    loading.value = true
     const formData = new FormData()
     formData.append('message', message.value)
     formData.append('room_id', props.roomId)
@@ -283,7 +290,7 @@ const sendMessage = () => {
         forceFormData: true,
 
         onSuccess: () => {
-
+            loading.value = false
             successMessage.value = 'Сообщение отправлено!'
 
             message.value = ''
@@ -308,9 +315,27 @@ const sendMessage = () => {
         onFinish: () => {
         // Можно использовать для скрытия лоадера
         }
+        
     })
 
 }
+
+
+
+// ======= comment/mark ==============
+const openModal = ref({ show: false, taskId: null, notificationId: null })
+
+function handleFeedbackSubmitted(feedback) {
+    console.log('Получен отзыв:', feedback)
+
+
+    if (feedback.notificationId) {
+        props.jobEvaluate = null
+        commentSentMap.value[props.roomId] = true
+        loading.value = false
+    }
+}
+
 </script>
 
 <template>
@@ -355,24 +380,41 @@ const sendMessage = () => {
                                     {{useTrans('page.select_specialist')}}
                                 </button>
 
-                                <div v-else class="text-green-600">
+                                <!-- <div v-else class="text-green-600">
                                     <i class="uil uil-check-circle text-xl"></i> {{ useTrans('page.selected_specialist') }}
-                                </div>
+                                </div> -->
                             </template>
                             <template v-if="props.jobStatus == 'in_process' || props.jobStatus == 'done'">
-                                <div v-if="props.selectedJobExecutirId == interlocutor.id" class="text-green-600">
-                                    <i class="uil uil-check-circle text-xl"></i> {{useTrans('page.selected_specialist')}}
-                                </div>
-                                <!-- <div v-else>merjvats user</div> -->
+                                <template  v-if="props.selectedJobExecutirId == interlocutor.id">
+                                    <span class="text-green-600">
+                                        <i class="uil uil-check-circle text-xl"></i> {{ useTrans('page.selected_specialist') }}
+                                    </span>
+                                    <span v-if="props.jobStatus == 'done' && props.jobEvaluate && !commentSentMap[props.roomId]" class="text-green-600 ml-2">
+                                        <PrimaryButton
+                                            :loading="loading"
+                                            @click="openModal = { show: true, taskId: jobEvaluate.task_id, notificationId: jobEvaluate.id}"
+                                        >
+                                            {{ useTrans('page.button_comment') }}
+                                        </PrimaryButton>
+                                    </span>
+                                </template>
                             </template>
                         </li>
-                        <li v-else>
 
-                            <template v-if="props.jobStatus !== 'active'">
-                                <div v-if="props.selectedJobExecutirId == $page.props.auth.user.id" class="text-green-600">
-                                    <i class="uil uil-check-circle text-xl"></i> {{useTrans('page.selected_specialist')}}
-                                </div>
-                                <!-- <div v-else>dzez merjvats user</div> -->
+                        <li v-else>
+                            <template v-if="props.jobStatus == 'in_process' || props.jobStatus == 'done'">
+                                <template v-if="props.selectedJobExecutirId == $page.props.auth.user.id">
+                                    <span  class="text-green-600">
+                                        <i class="uil uil-check-circle text-xl"></i> {{useTrans('page.selected_specialist')}}
+                                    </span>
+                                    <span v-if="props.jobStatus == 'done' && props.jobEvaluate && !commentSentMap[props.roomId]" class="text-green-600 ml-2">
+                                        <PrimaryButton :loading="loading"
+                                            @click="openModal = { show: true, taskId: jobEvaluate.task_id, notificationId: jobEvaluate.id}"
+                                        >
+                                            {{ useTrans('page.button_comment') }}
+                                        </PrimaryButton>
+                                    </span>
+                                </template>
                             </template>
 
                         </li>
@@ -663,5 +705,14 @@ const sendMessage = () => {
     <div v-show="!props.roomId" class="relative w-full overflow-hidden chat-contain">
         <div class="p-4 text-gray-500">Выберите комнату для отображения сообщений</div>
     </div>
+
+    <CommentMarkModal
+        v-if="openModal.show"
+        :task-id="openModal.taskId"
+        :notification-id="openModal.notificationId"
+        :locale="$page.props.locale"
+        @close="openModal.show = false"
+        @submitted="handleFeedbackSubmitted"
+    />
 </template>
 
