@@ -15,9 +15,10 @@ class Location extends Model
 
         return $this->hasMany(LocationTranslation::class);
     }
-    public function translation(){
-
-        return $this->hasOne(LocationTranslation::class )->where('lang',app()->getLocale());
+    public function translation($lang=null){
+        $lang=$lang ?? app()->getLocale() ;
+     
+        return $this->hasOne(LocationTranslation::class )->where('lang',$lang );
     }
 
     public function users(): HasMany
