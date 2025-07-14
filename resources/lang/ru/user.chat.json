@@ -1,6 +1,6 @@
 {
     "title": "Чат",
     "select_specialist": "Выбрать этого специалиста",
-    "selected_specialist": "Выбранный специалист"
-
+    "selected_specialist": "Выбранный специалист",
+    "button_comment": "Поставить оценку"
 }

@@ -22,7 +22,8 @@
     "save": "Сохранить",
     "name_surname": "Имя Фамилия",
     "filter": "Фильтр",
-    "cleare_filter": "Сбросить"
+    "cleare_filter": "Сбросить",
+    "sending": "Отправка..."
 
 
 }

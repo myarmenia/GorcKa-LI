@@ -19,13 +19,13 @@ class ApplyNowController extends Controller
     }
     public function applyNow(Request $request, $locale, Task $task)
     {
+        $result = $this->notifyService->applyNow($task);
 
-        // $this->applyNowService->applyNow($task);
-        $this->notifyService->applyNow($task);
+        if (!$result['success']) {
+            return response()->json(['error' => $result['message']], 403);
+        }
 
-        return redirect()->back()->with('success', 'Notification sent');
-        // return response()->json(['message' => 'Notification sent']);
-        // return response()->json(['message' => 'User not found'], 404);
+        return response()->json(['message' => $result['message']]);
 
     }
 }

@@ -2,8 +2,6 @@
 namespace App\Services\User\Notify;
 
 use App\Interfaces\Job\JobInterface;
-use App\Models\Task;
-use App\Services\User\UserPointUpdaterService;
 use Log;
 
 
@@ -14,7 +12,7 @@ class SelectExecutorService extends SenderService
         NotificationService $notificationService,
         MessageCreatorService $messageCreatorService,
     ) {
-        
+
         parent::__construct($notificationService, $messageCreatorService);
     }
 

@@ -10,7 +10,7 @@ class UserPointUpdaterService
     {
     }
 
-    public function decrement($user, int $point = 1): void
+    public function decrement($user, int $point = 19): void
     {
         $this->userRepository->update($user->id, [
             'point' => $user->point - $point

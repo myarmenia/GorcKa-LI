@@ -11,7 +11,7 @@ class ApplicantCreatorService
     {
         $applicant = new ApplicantDTO(
             task_id: $task->id,
-            point: 1,
+            point: 19,
             user_id: $user->id
         );
 

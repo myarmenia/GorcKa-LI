@@ -98,5 +98,15 @@ class Task extends Model
     return Helper::translateStatus($this->status);
 }
 
+    public function evaluate(): HasOne               // ❗ դնել գնահատակ / գնահատական դրվում է, եթե թասքի ստատուսը = done / is_comment նայում ենք ծանուցմանը, որը հուշում է, որ այս թասքին կարելի է գնահատել։
+    {
+        return $this->hasOne(Notification::class, 'task_id')
+            ->where('user_id', Auth::id())
+            ->where('is_comment', 1)
+            ->where('has_comment', 0);        
+
+
+    }
+
 
 }

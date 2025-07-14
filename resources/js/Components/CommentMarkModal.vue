@@ -1,10 +1,13 @@
 <script setup>
 import { useTrans } from '/resources/js/trans';
 import { useForm } from '@inertiajs/vue3'
+import { ref } from 'vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+
 import { useModalStore } from '@/Stores/modalStore'
 
 const modal = useModalStore()
+const loading = ref(false)
 
 const props = defineProps({
     locale: String,
@@ -21,9 +24,9 @@ const form = useForm({
   mark: null,
 })
 
-
 const submit = async () => {
     try {
+        loading.value = true
         const response = await axios.post(route('user.comment_mark', { locale: props.locale }), form)
 
         modal.showSuccess(response?.data?.message)
@@ -36,13 +39,15 @@ const submit = async () => {
 
         emit('close')
         form.reset()
+        loading.value = false
+
     } catch (error) {
 
         let message = error?.response?.data?.message || 'Произошла ошибка при отправке комментария.'
         message = message.replace(/\s?\(and.*?\)$/i, '')
 
         modal.showError(message)
-        console.error('Ошибка при отправке:', error)
+        
     }
 }
 
@@ -53,7 +58,6 @@ const submit = async () => {
     <teleport to="body">
         <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div class="bg-white p-6 rounded-xl w-full max-w-md relative shadow-xl">
-                <!-- <button class="absolute top-2 right-2 text-xl" @click="$emit('close')"><i class="uil uil-times"></i></button> -->
                 <button @click="$emit('close')" class="w-10 h-10 text-lg absolute top-2 right-2 text-red-500 rounded bg-red-500/20 flex items-center justify-center hover:bg-red-500/30 transition"><i class="uil uil-multiply"></i></button>
 
                 <h2 class="text-xl font-bold mb-4">{{useTrans('modal.comment_modal.title')}}</h2>
@@ -79,9 +83,12 @@ const submit = async () => {
                             </span>
                         </div>
                         <div>
-                            <PrimaryButton type="submit" :disabled="form.processing">
-                                {{ form.processing ? 'Отправка...' : useTrans('modal.comment_modal.button_save') }}
+                            <PrimaryButton
+                                :class="{ 'opacity-25': loading }"
+                                :disabled="loading">
+                                {{ loading ? useTrans('form.sending') : useTrans('modal.comment_modal.button_save') }}
                             </PrimaryButton>
+
                         </div>
                     </div>
 
