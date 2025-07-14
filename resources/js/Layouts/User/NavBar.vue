@@ -262,7 +262,7 @@ const changeLanguage = (lang) => {
                         </li>
                         <li class="py-5 lg:px-4">
                             <Link
-                                :href="route('welcome', { locale: $page.props.locale })"
+                                :href="route('contact', { locale: $page.props.locale })"
                                 class="py-2.5 text-gray-800 font-medium leading-tight dark:text-gray-50"> {{useTrans('navbar.contact')}}
                             </Link>
 
