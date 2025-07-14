@@ -3,10 +3,5 @@
     "delete_all": "Delete All",
     "button_comment": "Rate",
     "task_name": "Task: ",
-    "no_result": "No results found",
-    "comments": {
-        "comment_label": "Write a comment",
-        "comment_placeholder": "Comment ․․․",
-        "button_sավե": "Save"
-    }
+    "no_result": "No results found"
 }
