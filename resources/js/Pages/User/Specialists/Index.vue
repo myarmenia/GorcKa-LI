@@ -3,7 +3,7 @@ import Layout from '@/Layouts/User/Layout.vue';
 import SearchSelect from '@/Components/SearchSelect.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { computed, ref, onMounted, watch } from "vue";
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, Link } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 import { useTrans } from '/resources/js/trans';
 
@@ -263,36 +263,39 @@ const changePage = (link) =>{
                     </div>
 
                     <div class="mt-8 space-y-6">
+
+                         <!-- <Link :href="route('specialist_details', {id: 1  })">aaaa</Link> -->
+
                         <div v-for="(spec, index) in specialistsRef" class="p-4 border border-gray-100/50 rounded-md relative hover:-translate-y-1.5 transition-all duration-500 ease-in-out  group-data-[theme-color=green]:hover:border-green-500 hover:shadow-md hover:shadow-gray-100/30 dark:border-neutral-600 dark:hover:shadow-neutral-900">
-                            <div class="grid items-center grid-cols-12">
-                                <div class="col-span-12 md:col-auto">
-                                    <div>
-                                        <a href="javascript:void(0)">
-                                            <img :src="`${spec.avater}`" alt="Avatar" class="w-16 h-16 p-1 rounded-full outline outline-2 outline-gray-100/50 dark:outline-neutral-600 group-data-[theme-color=violet]:bg-violet-500" />
-                                        </a>
-                                    </div>
-                                </div><!--end col-->
+                            <Link :href="`specialist/${spec.user_id}`">
 
-                                <div class="col-span-12 md:col-span-5">
-                                    <div class="mt-3 mt-lg-0">
-                                        <h5 class="mb-0 text-gray-900 text-19 dark:text-white"><a href="candidate-details.html">{{spec.user_name}}</a>
-                                            <span class="px-2 py-1 mx-2 text-sm text-white bg-green-500 rounded"><i class="align-middle uil uil-star "></i> 4.8</span>
-                                        </h5>
-                                        <ul class="flex flex-wrap gap-3 text-gray-500 dark:text-gray-300">
-                                            <li class="list-inline-item">
-                                                <i class="uil uil-map-marker "></i> {{spec.location}}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div><!--end col-->
+                                <div class="grid items-center grid-cols-12">
+                                    <div class="col-span-12 md:col-auto">
+                                        <div>
+                                             <img :src="`${spec.avater}`" alt="Avatar" class="w-16 h-16 p-1 rounded-full outline outline-2 outline-gray-100/50 dark:outline-neutral-600 group-data-[theme-color=violet]:bg-violet-500" />
+                                        </div>
+                                    </div><!--end col-->
 
-                                <div class="col-span-12 md:col-span-4">
-                                    <div class="flex flex-wrap gap-2 mt-2 mt-lg-0">
-                                        <span v-for="subCategory in spec.sub_categories" :class="`px-2 py-1 text-sm font-medium text-${subCategory.color}-500 rounded bg-${subCategory.color}-500/20`">{{subCategory.name}}</span>
-                                    </div>
-                                </div><!--end col-->
-                            </div><!--end row-->
+                                    <div class="col-span-12 md:col-span-5">
+                                        <div class="mt-3 mt-lg-0">
+                                            <h5 class="mb-0 text-gray-900 text-19 dark:text-white">{{spec.user_name}}
+                                                <span class="px-2 py-1 mx-2 text-sm text-white bg-green-500 rounded"><i class="align-middle uil uil-star "></i> 4.8</span>
+                                            </h5>
+                                            <ul class="flex flex-wrap gap-3 text-gray-500 dark:text-gray-300">
+                                                <li class="list-inline-item">
+                                                    <i class="uil uil-map-marker "></i> {{spec.location}}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div><!--end col-->
 
+                                    <div class="col-span-12 md:col-span-4">
+                                        <div class="flex flex-wrap gap-2 mt-2 mt-lg-0">
+                                            <span v-for="subCategory in spec.sub_categories" :class="`px-2 py-1 text-sm font-medium text-${subCategory.color}-500 rounded bg-${subCategory.color}-500/20`">{{subCategory.name}}</span>
+                                        </div>
+                                    </div><!--end col-->
+                                </div><!--end row-->
+                            </Link>
                         </div>
                     </div>
 

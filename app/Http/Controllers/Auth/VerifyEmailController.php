@@ -23,11 +23,11 @@ class VerifyEmailController extends Controller
         if ($request->user()->markEmailAsVerified()) {
 
             event(new Verified($request->user()));
-            
+
             $user = Auth::user();
             if($user->point == null){
-                $user->update(['point' => 1000]);
-                // petq e notify anel vor 1000 point e stacel
+                $user->update(['point' => 500]);
+                // petq e notify anel vor 500 point e stacel
             }
 
 

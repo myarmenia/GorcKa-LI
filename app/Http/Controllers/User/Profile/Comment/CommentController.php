@@ -18,7 +18,7 @@ class CommentController extends Controller
 
     public function index(){
 
-        $comments = $this->commentService->getComments()->paginate(3);
+        $comments = $this->commentService->getComments()->orderBy('id', 'desc')->paginate(3);
 
         return Inertia::render('Profile/Comments/CommentPage', [
                         'comments' => $comments
@@ -40,7 +40,7 @@ class CommentController extends Controller
             return response()->json(['message' => 'Комментарий сохранён.']);
 
         } catch (\Throwable $e) {
-           
+
             Log::error('Ошибка при сохранении комментария: ' . $e->getMessage());
             return response()->json(['message' => 'Произошла внутренняя ошибка.']);
 

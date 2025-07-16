@@ -2,7 +2,7 @@
 
     "create": "Ստեղծել",
     "name": "Անուն ազգանուն",
-    "email": "Էլ․ փոստ",
+    "email": "Էլ․հասցե",
     "phone": "Հեռախոս",
     "location": "Մարզ",
     "password": "Գաղտնաբառ",
@@ -12,7 +12,7 @@
     "register": "Գրանցվել",
 
     "name_placeholder": "Մուտքագրեք ձեր անունը և ազգանունը",
-    "email_placeholder": "Մուտքագրեք ձեր էլ․ փոստը",
+    "email_placeholder": "Մուտքագրեք ձեր Էլ․հասցեն",
     "phone_placeholder": "Մուտքագրեք ձեր հեռախոսահամարը",
     "password_placeholder": "Մուտքագրեք ձեր գաղտնաբառը",
     "password_confirmation_placeholder": "Հաստատեք գաղտնաբառը",
@@ -21,7 +21,8 @@
     "save": "Պահպանել",
     "name_surname": "Անուն Ազգանուն",
     "filter": "Ֆիլտր",
-    "cleare_filter": "Չեղարկել"
+    "cleare_filter": "Չեղարկել",
+    "sending": "Ուղարկում..."
 
 
 

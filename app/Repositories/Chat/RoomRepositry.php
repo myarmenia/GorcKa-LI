@@ -98,6 +98,7 @@ class RoomRepositry extends BaseRepository implements RoomInterface
                 'executor:id,name,avatar',
                 'employer:id,name,avatar',
                 'task:id,title,status,executor_id',
+                'task.evaluate:id,user_id,task_id',
                 'messages:id,room_id,message'
             ]);
 

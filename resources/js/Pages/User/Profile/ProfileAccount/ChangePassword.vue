@@ -55,7 +55,7 @@ const submit = () => {
             <!--end socia-media-->
             <div class="mt-4">
                 <h5 class="mb-3 font-semibold text-17 dark:text-gray-50">
-                    Change Password
+                    {{ useTrans('page.change_password.title') }}
                 </h5>
                 <div class="grid grid-cols-12 gap-5">
                     <div class="col-span-12">
@@ -109,7 +109,7 @@ const submit = () => {
             <div class="mt-8 text-right">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing">
-                    Update
+                    {{ useTrans('page.default.save') }}
                 </PrimaryButton>
             </div>
         </form>

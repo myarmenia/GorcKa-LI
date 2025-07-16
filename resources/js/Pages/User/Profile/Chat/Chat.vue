@@ -15,7 +15,7 @@ const props = defineProps({
 });
 
 const jobs = ref(props.rooms);
-
+console.log(jobs, 7777777)
 const selectedRoomId = ref(null);
 const selectedRoomEmployerId = ref(null);
 const selectedUser = ref(null)
@@ -23,6 +23,7 @@ const authUserId = ref(usePage().props?.auth?.user.id || null)
 const unreadCounts = ref({});
 const selectedJobExecutirId = ref({})
 const selectedJobStatus = ref({})
+const selectedJobEvaluate = ref({})
 const searchText = ref('');
 
 
@@ -33,11 +34,13 @@ function selectRoom(room) {
     selectedRoomEmployerId.value = room.employer_id
     selectedJobExecutirId.value = room.task.executor_id
     selectedJobStatus.value = room.task.status
-
+    selectedJobEvaluate.value = room.task.evaluate
     // сбросить индикатор
     unreadCounts.value[room.id] = 0;
     removeUnreadCount(room.id)
     readMessages(room.id)
+
+    console.log(selectedJobEvaluate.value, '<<<=======')
 }
 
 
@@ -86,6 +89,7 @@ function updateRoomExecutor(roomId, executorId, status) {
   // Обновим текущую выбранную комнату
   selectedJobExecutirId.value = executorId;
   selectedJobStatus.value = status;
+
 }
 
 
@@ -305,6 +309,7 @@ const unreadCountsPerJob = computed(() => {
                                 :employerId="selectedRoomEmployerId"
                                 :selectedJobExecutirId="selectedJobExecutirId"
                                 :jobStatus="selectedJobStatus"
+                                :jobEvaluate="selectedJobEvaluate"
                                 :updateRoomExecutor="updateRoomExecutor"
                             />
 

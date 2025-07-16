@@ -9,6 +9,7 @@ use App\Interfaces\Chat\ChatInterface;
 use App\Interfaces\Chat\MessageInterface;
 use App\Interfaces\Chat\RoomInterface;
 use App\Interfaces\Comment\CommentInterface;
+use App\Interfaces\Contact\ContactInterface;
 use App\Interfaces\Job\JobInterface;
 use App\Interfaces\Notification\NotificationInterface;
 use App\Interfaces\Specialist\SpecialistDetailsInterface;
@@ -34,6 +35,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use App\Mail\VerifyEmail as CustomVerifyEmail;
 use App\Repositories\Comment\CommentRepository;
+use App\Repositories\Contact\ContactRepository;
 use App\Repositories\Specialist\SpecialistDetailsRepository;
 use App\Repositories\Task\TaskRepository;
 use Illuminate\Support\Facades\Session;
@@ -68,7 +70,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ChatInterface::class, ChatRepository::class);
         $this->app->bind(CommentInterface::class, CommentRepository::class);
         $this->app->bind(SpecialistDetailsInterface::class,SpecialistDetailsRepository::class);
-
+        $this->app->bind(ContactInterface::class,ContactRepository::class);
 
     }
 

@@ -17,7 +17,7 @@ const props = defineProps({
                                                             <i class="uil uil-envelope-alt"></i>
                                                         </div>
                                                         <div class="ltr:ml-3 rtl:mr-3">
-                                                            <h6 class="mb-1 text-gray-900 text-14 dark:text-gray-50">Email</h6>
+                                                            <h6 class="mb-1 text-gray-900 text-14 dark:text-gray-50">{{ useTrans('page.email') }}</h6>
                                                             <p class="text-gray-500 dark:text-gray-300">{{ props.user.email }}</p>
                                                         </div>
                                                     </div>

@@ -71,7 +71,6 @@ Route::middleware('auth')->group(function () {
         ->where(['locale' => 'en|ru|am']) // Здесь указываются допустимые значения для локали
         ->group(function () {
 
-
             Route::get('verify-email', EmailVerificationPromptController::class)
                 ->name('verification.notice')->where(['locale' => 'en|ru|am']);
 
@@ -128,6 +127,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('{id}/edit', [TaskController::class, 'edit'])->name('task.edit');
                 // when make updateing file dont go it work only
                 Route::post('/{id}', [TaskController::class, 'update'])->name('task.update');
+                Route::get('yesterday',[TaskController::class,'yesterdayTask']);
 
             });
 
@@ -148,16 +148,14 @@ Route::middleware('auth')->group(function () {
             });
 
 
-            Route::get('/apply-now/{task}', [ApplyNowController::class, 'applyNow'])->name('apply_now');
+            Route::post('/apply-now/{task}', [ApplyNowController::class, 'applyNow'])->name('apply_now');
             Broadcast::routes(['middleware' => ['auth']]);
 
         });
 
-  
+
 
     Route::post('/save-fcm-token', [SaveFcmTokenController::class, 'saveFcmToken']);
-
-
 
 });
 // Route::post('/save-fcm-token', [ApplyNowController::class, 'sendPush']);

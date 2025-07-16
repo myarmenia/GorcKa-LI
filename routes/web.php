@@ -14,10 +14,12 @@ use App\Http\Controllers\WelcomeController;
 use App\Services\FileUploadService;
 use Inertia\Inertia;
 use App\Helpers\Helper;
+use App\Http\Controllers\Contact\ContactController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\Specialist\SpecialistController;
 use App\Http\Controllers\Specialist\SpecialistDetailsController;
+use App\Models\Task;
 
 Route::get('/', function () {
     return redirect('/am');
@@ -39,7 +41,8 @@ Route::prefix('{locale}')
         Route::get('jobs', JobsController::class)->name('jobs');
         Route::get('single-jobe/{id}', SingleJobeController::class)->name('single_job');
         Route::get('specialist/{specialist}',[SpecialistDetailsController::class,'index'])->name('specialist_details');
-
+        Route::get('contact',[ContactController::class,'index'])->name('contact');
+        Route::post('contact',[ContactController::class,'store'])->name('contact.store');
 
     });
 
@@ -56,6 +59,10 @@ Route::get('/location-filter/{value}', LocationFilterController::class)->name('l
 Route::get('/category-subcategory-filter/{value}', CategoryWithSubCategoryFilterController::class)->name('category_subcategory_filter');
 
 
+Route::get('/yesterday_task', function () {
+    $tasks = Task::with('sub_category.category','location.translation')->get();
 
+    return view('emails.new-jobs', ['tasks' => $tasks ]);
+});
 
 require __DIR__.'/auth.php';

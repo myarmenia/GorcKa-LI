@@ -8,14 +8,14 @@ import { useTrans } from '/resources/js/trans';
             <!-- start footer -->
             <section class="py-8 bg-zinc-800 dark:bg-neutral-900">
                 <div class="container mx-auto">
-                    <div class="grid grid-cols-12 lg:gap-10">
-                        <div class="col-span-12 xl:col-span-6">
-                            <div class="mr-12">
+                    <div class="grid grid-cols-12 gap-4 text-white p-6">
+                         <div class="col-span-12 md:col-span-6 block-left">
+                            <!-- <div class="flex w-full md:justify-start  "> -->
                                 <h4 class="text-white text-[23px]">Gorc-Ka</h4>
-                            </div>
+                            <!-- </div> -->
                         </div>
 
-                        <div class="col-span-12 mt-8 md:col-span-6 xl:col-span-6 md:mt-0">
+                        <div class=" col-span-12 md:col-span-6 block-right">
                             <ul class="flex gap-3 justify-end">
                                 <li class="w-8 h-8 leading-loose text-center text-gray-200 transition-all duration-300 border rounded-full cursor-pointer border-gray-200/50 hover:text-gray-50 group-data-[theme-color=violet]:hover:bg-violet-500 group-data-[theme-color=sky]:hover:bg-sky-500 group-data-[theme-color=red]:hover:bg-red-500 group-data-[theme-color=green]:hover:bg-green-500 group-data-[theme-color=pink]:hover:bg-pink-500 group-data-[theme-color=blue]:hover:bg-blue-500 hover:border-transparent">
                                     <a href="https://www.facebook.com/share/1DwZ2mL7HQ/?mibextid=LQQJ4d" target="f">
@@ -41,6 +41,9 @@ import { useTrans } from '/resources/js/trans';
 
                         </div>
                     </div>
+
+
+
                 </div>
             </section>
             <!-- end footer -->
@@ -59,3 +62,28 @@ import { useTrans } from '/resources/js/trans';
             <!-- end footer alt -->
         </footer>
 </template>
+
+
+<style scoped>
+.block-left {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.block-right {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .block-left {
+    justify-content: flex-start;
+    text-align: left;
+  }
+  .block-right {
+    justify-content: flex-end;
+    text-align: right;
+  }
+}
+</style>

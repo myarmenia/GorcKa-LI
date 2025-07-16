@@ -27,15 +27,15 @@ class TaskRequest extends FormRequest
             "category_id" => "required",
             "sub_category_id" => "required",
             "location_id" => "required",
-            "price_max" => "required",
-            "end_date" => 'required',
+            // "price_max" => "required",
+            // "end_date" => 'required',
         ];
 
-        if(isset($this->price_min) && isset($this->price_max)){
+        // if(isset($this->price_min) && isset($this->price_max)){
 
-                $arr['price_min'] = ['required', 'numeric', 'lte:price_max'];
-                $arr['price_max'] = ['required', 'numeric', 'gte:price_min'];
-        }
+        //         $arr['price_min'] = ['required', 'numeric', 'lte:price_max'];
+        //         $arr['price_max'] = ['required', 'numeric', 'gte:price_min'];
+        // }
         if(isset($this->end_date) && isset($this->start_date)){
 
             $arr['start_date'] = ['required', 'date', 'before_or_equal:end_date'];
