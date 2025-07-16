@@ -6,6 +6,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { computed, ref, defineProps, watch } from "vue";
 import { useModalStore } from '@/Stores/modalStore'
 import SubCategoryTags from './SubCategoryTags.vue'
+import { useTrans } from '/resources/js/trans';
 
 const modal = useModalStore()
 
@@ -152,7 +153,7 @@ function submitSelectedSubCategories() {
         <div class="mt-6 text-right">
             <PrimaryButton @click="submitSelectedSubCategories"
                 >
-                Отправить
+               {{ useTrans('page.default.save') }}
             </PrimaryButton>
 
         </div>

@@ -1,0 +1,34 @@
+{
+    "default": {
+        "save": "Save"
+    },
+    "contacts": {
+        "title": "Contacts",
+        "phone": "Phone Number",
+        "email": "Email",
+        "location": "Location"
+    },
+    "nav": {
+        "main": "main",
+        "personal_information": "Personal Information",
+        "select_categories": "Select Categories",
+        "change_password": "Change Password"
+    },
+    "main": {
+        "about": "About",
+        "works": "Works",
+        "selected_categories": "Selected Categories"
+    },
+    "personal_information": {
+        "my_account": "My Account",
+        "lang": "Site language",
+        "social_media": "Social Media",
+        "delete_photo": "Delete Photo"
+    },
+    "categories": {
+
+    },
+    "change_password":{
+        "title": "Change Password"
+    }
+}

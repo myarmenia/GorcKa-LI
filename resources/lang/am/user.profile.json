@@ -1,0 +1,34 @@
+{
+    "default": {
+        "save": "Պահպանել"
+    },
+    "contacts": {
+        "title": "Կոնտակտային տվյալներ",
+        "phone": "Հեռախոս",
+        "email": "Էլ․ հասցե",
+        "location": "Մարզ"
+    },
+    "nav": {
+        "main": "Գլխավոր",
+        "personal_information": "Անձնական տվյալներ",
+        "select_categories": "Ընտրել կատեգորիա",
+        "change_password": "Գաղտնաբառի փոփոխում"
+    },
+    "main": {
+        "about": "Իմ մասին",
+        "works": "Իմ աշխատանքները",
+        "selected_categories": "Նախընտրելի կատեգորիաներ"
+    },
+    "personal_information": {
+        "my_account": "Իմ հաշիվը",
+        "lang": "Կայքի լեզուն",
+        "social_media": "Սոցիալական ցանցեր",
+        "delete_photo": "Ջնջել նկարը"
+    },
+    "categories": {
+
+    },
+    "change_password":{
+        "title": "Գաղտնաբառի փոփոխում"
+    }
+}

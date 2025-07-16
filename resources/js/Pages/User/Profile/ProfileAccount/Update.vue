@@ -224,7 +224,7 @@ const submit = () => {
         <!-- <form action="#"> -->
         <form  @submit.prevent="submit" class="mt-8">
             <div>
-                <h5 class="mb-3 text-gray-900 fs-17 fw-semibold dark:text-gray-50">My Account</h5>
+                <h5 class="mb-3 text-gray-900 fs-17 fw-semibold dark:text-gray-50">{{ useTrans('page.personal_information.my_account') }}</h5>
 
                 <div class="text-center">
                     <div class="relative mb-4">
@@ -257,7 +257,7 @@ const submit = () => {
                         @click="removeImage"
                         class="mt-2 text-sm text-red-500 hover:underline"
                         >
-                        Удалить фото
+                        {{ useTrans('page.personal_information.delete_photo') }}
                     </button>
                 </div>
                 <div class="mt-5">
@@ -321,7 +321,7 @@ const submit = () => {
                         <!--end col-->
 
                         <div class="col-span-12 lg:col-span-6">
-                            <InputLabel for="lang_id" :value="useTrans('form.lang')"  class="text-sm text-gray-900 dark:text-gray-50"  />
+                            <InputLabel for="lang_id" :value="useTrans('page.personal_information.lang')"  class="text-sm text-gray-900 dark:text-gray-50"  />
                             <Select
                                 id="lang_id"
                                 :options="langOptions"
@@ -340,11 +340,11 @@ const submit = () => {
             <div class="mt-5">
                 <div class="col-span-12">
                     <div class="mb-3">
-                        <InputLabel for="textarea" :value="useTrans('page.description')" class="text-grey" />
+                        <InputLabel for="textarea" :value="useTrans('page.main.about')" class="text-grey" />
                             <TextArea
                                 id="textarea"
                                 v-model = "form.description"
-                                :placeholder = "useTrans('page.description')"
+                                :placeholder = "useTrans('page.main.about')"
                                 rows="5" />
                     </div>
                 </div>
@@ -352,7 +352,7 @@ const submit = () => {
             </div>
             <!-- =============** -->
             <div class="mt-4">
-                <h5 class="mb-3 font-semibold text-gray-900 text-17 dark:text-gray-50"> Add works </h5>
+                <h5 class="mb-3 font-semibold text-gray-900 text-17 dark:text-gray-50"> {{ useTrans('page.main.works') }} </h5>
 
                 <div class="grid grid-cols-12 gap-5 mt-4">
                 <!-- Сначала старые (из бэка) -->
@@ -427,7 +427,7 @@ const submit = () => {
 
             <!--end profile-->
             <div class="mt-4">
-                <h5 class="mb-3 font-semibold text-gray-900 text-17 dark:text-gray-50">Social Media</h5>
+                <h5 class="mb-3 font-semibold text-gray-900 text-17 dark:text-gray-50">{{ useTrans('page.personal_information.social_media') }}</h5>
                 <div class="grid grid-cols-12 gap-5">
                     <!-- <div v-for="socialItem in props.socialMedias" class="col-span-12 lg:col-span-6"> -->
                         <div v-for="(baseUrl, socialType) in props.socialMedias" :key="socialType" class="col-span-12 lg:col-span-6">
@@ -452,7 +452,7 @@ const submit = () => {
             <div class="mt-8 text-right">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing">
-                    Update
+                    {{ useTrans('page.default.save') }}
                 </PrimaryButton>
             </div>
         </form>

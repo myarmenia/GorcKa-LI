@@ -1,6 +1,6 @@
 <script setup>
     // import { Link } from '@inertiajs/vue3';
-    import { usePage, Link } from '@inertiajs/vue3';
+    import { usePage, Link, router  } from '@inertiajs/vue3';
     import axios from 'axios';
 
     import { onMounted,ref,onUnmounted, watch , computed} from 'vue';
@@ -45,13 +45,15 @@
 
     })
 
-    // onUnmounted(() => {
-    //     const link = document.getElementById('chat-css');
+    onUnmounted(() => {
+        const link = document.getElementById('chat-css');
 
-    //     if (link) {
-    //         link.remove(); // удаляет элемент <link>
-    //     }
-    // });
+        if (link) {
+            link.remove(); // удаляет элемент <link>
+        }
+
+        // router.reload();
+    });
 
 
 

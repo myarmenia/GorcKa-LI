@@ -1,0 +1,32 @@
+{
+    "default": {
+        "save": "Сохранить"
+    },
+    "contacts": {
+        "title": "Контакты",
+        "phone": "Телефон",
+        "email": "Эл. почта",
+        "location": "Локация"
+    },
+    "nav": {
+        "main": "Главная",
+        "personal_information": "Личная информация",
+        "select_categories": "Выбрать категории",
+        "change_password": "Изменить пароль"
+    },
+    "main": {
+        "about": "О себе",
+        "works": "Работы",
+        "selected_categories": "Выбранные категории"
+    },
+    "personal_information": {
+        "my_account": "Мой аккаунт",
+        "lang": "Язык сайта",
+        "social_media": "Социальные сети",
+        "delete_photo": " Удалить фото"
+    },
+    "categories": {},
+    "change_password": {
+        "title": "Изменить пароль"
+    }
+}
