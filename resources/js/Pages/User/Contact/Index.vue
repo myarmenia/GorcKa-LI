@@ -72,13 +72,6 @@ const submitForm = async () => {
                                         </Link>
                                     </li>
 
-                                    <li class="flex items-center px-2">
-                                        <i class="bx bxs-chevron-right mr-1.5 text-base"></i>
-                                        <Link :href="route('specialists', { locale: $page.props.locale })" class="block">
-                                            {{ useTrans('navbar.specialists') }}
-                                        </Link>
-                                    </li>
-
                                     <li class="flex items-center active" aria-current="page">
                                         <i class="bx bxs-chevron-right mr-1.5 text-base"></i>
                                         {{ useTrans('page.title') }}
@@ -98,10 +91,10 @@ const submitForm = async () => {
                             <div class="grid items-center grid-cols-12 mt-5 lg:gap-8 gap-y-8">
                                 <div class="col-span-12 lg:col-span-6">
                                     <div class="mt-4">
-                                        <h3 class="mb-2 text-3xl text-gray-900 dark:text-white">Get in touch</h3>
-                                        <p class="text-gray-500 dark:text-gray-300">Start working with Jobcy that can provide everything you need to generate
-                                            awareness, drive traffic, connect.</p>
-                                        <form method="post"  @submit.prevent = "submitForm" onsubmit="return validateForm()" class="mt-4 contact-form" name="myForm" id="myForm">
+                                        <!-- <h6 class="mb-2 text-3xl text-gray-900 dark:text-white">{{ useTrans('page.here_you_can_submit_your_message') }}</h6> -->
+                                        <p class="text-gray-500 dark:text-gray-300">{{ useTrans('page.here_you_can_submit_your_message') }}
+                                            </p>
+                                        <form method="post"  @submit.prevent = "submitForm"  class="mt-4 contact-form" name="myForm" id="myForm">
                                             <span id="error-msg"></span>
                                             <div class="grid grid-cols-12 gap-5">
                                                 <div class="col-span-12">
@@ -148,7 +141,7 @@ const submitForm = async () => {
                                                     <div class="mb-3">
                                                         <InputLabel for="title"
                                                         :value="$page.props.translations.page.subject"
-                                                         class="text-grey" required />
+                                                         class="text-grey"  />
 
                                                          <TextInput
                                                             v-model="form.subject"
@@ -183,7 +176,7 @@ const submitForm = async () => {
                                                 </div><!--end col-->
                                             </div><!--end row-->
                                             <div class="text-right">
-                                                <button type="submit" id="submit" name="submit" class="text-white border-transparent btn group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500"> Send Message <i class="uil uil-message ms-1"></i></button>
+                                                <button type="submit" id="submit" name="submit" class="text-white border-transparent btn group-data-[theme-color=violet]:bg-violet-500 group-data-[theme-color=sky]:bg-sky-500 group-data-[theme-color=red]:bg-red-500 group-data-[theme-color=green]:bg-green-500 group-data-[theme-color=pink]:bg-pink-500 group-data-[theme-color=blue]:bg-blue-500"> {{ useTrans('page.send') }} <i class="uil uil-message ms-1"></i></button>
                                             </div>
                                         </form><!--end form-->
                                     </div>
@@ -198,7 +191,7 @@ const submitForm = async () => {
                                                 <i class="uil uil-map-marker"></i>
                                             </div>
                                             <div class="ltr:ml-2 rtl:mr-2 grow-1">
-                                                <p class="mb-0 dark:text-gray-300">2453 Clinton StreetLittle Rock, California, USA</p>
+                                                <p class="mb-0 dark:text-gray-300">{{ useTrans('page.baghramyan_79') }}</p>
                                             </div>
                                         </div>
                                         <div class="flex items-center mt-2 text-gray-500">
@@ -206,7 +199,7 @@ const submitForm = async () => {
                                                 <i class="uil uil-envelope"></i>
                                             </div>
                                             <div class="ltr:ml-2 rtl:mr-2 grow-1">
-                                                <p class="mb-0 dark:text-gray-300">contactus@Jobcy.com</p>
+                                                <p class="mb-0 dark:text-gray-300">webexprojects@gmail.com</p>
                                             </div>
                                         </div>
                                         <div class="flex items-center mt-2 text-gray-500">
@@ -214,7 +207,7 @@ const submitForm = async () => {
                                                 <i class="uil uil-phone-alt"></i>
                                             </div>
                                             <div class="ltr:ml-2 rtl:mr-2 grow-1">
-                                                <p class="mb-0 dark:text-gray-300">(+245) 223 1245</p>
+                                                <a href=""class="mb-0 dark:text-gray-300">(+374) 96 40 00 73 </a>
                                             </div>
                                         </div>
                                     </div>
@@ -223,7 +216,8 @@ const submitForm = async () => {
                             </div>
                         </div>
                         <div class="pt-20">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6509157.364974411!2d-123.79641389801948!3d37.193115265681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808fb9fe5f285e3d%3A0x8b5109a227086f55!2sCalifornia%2C%20USA!5e0!3m2!1sen!2sin!4v1628684675253!5m2!1sen!2sin" height="350" style="border:0;width: 100%;" allowfullscreen="" loading="lazy"></iframe>
+                            <!-- <iframe src="" height="350" style="border:0;width: 100%;" allowfullscreen="" loading="lazy"></iframe> -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3047.60324837241!2d44.48961148937805!3d40.19564219552965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406abd136d7e9275%3A0x245f83f02a1daecc!2s79%20Marshal%20Baghramyan%20Ave%2C%20Yerevan%200041!5e0!3m2!1sru!2sam!4v1752573364213!5m2!1sru!2sam"  height="350" style="border:0;width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </section>
 

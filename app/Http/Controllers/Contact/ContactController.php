@@ -24,7 +24,7 @@ class ContactController extends Controller
         $this->service->store(ContactDTO::fromRequestDto($request));
 
         return response()->json([
-                'message' => 'Ваше сообщение успешно отправлено!',
+                'message' => __('validation_messages.your_letter_has_been_sent_successfully'),
             ], 200);
 
     }

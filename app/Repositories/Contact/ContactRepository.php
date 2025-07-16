@@ -12,7 +12,7 @@ class ContactRepository implements ContactInterface
     public function store( $dto): void
     {
 
-         Mail::to("armine.khachatryan1982@gmail.com")->send(new ContactFormMail(
+         Mail::to("webexprojects@gmail.com")->send(new ContactFormMail(
                 name:         $dto->name,
                 email:        $dto->email,
                 subject:      $dto->subject,
@@ -20,7 +20,7 @@ class ContactRepository implements ContactInterface
         ));
 
 
-    //   return $specialist->load('files','social_medias','executor_sub_categories','location.translation','receivedComments.author', 'receivedComments.task');
+
 
     }
 }

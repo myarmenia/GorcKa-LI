@@ -318,7 +318,8 @@ const triggerFileInput = () => {
                                         </div>
                                         <div class="col-span-12 lg:col-span-6">
                                             <div class="mb-3">
-                                                <InputLabel for="price_max" :value="useTrans('page.price_max')" class="text-grey" required :showCurrency="true"/>
+                                                <!-- required  -->
+                                                <InputLabel for="price_max" :value="useTrans('page.price_max')" class="text-grey" :showCurrency="true"/>
                                                 <TextInput
                                                     v-model="form.price_max"
                                                     id="price_max"
