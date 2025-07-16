@@ -328,6 +328,7 @@ watch([() => form.category_id, () => props.categories,() => props.locale], () =>
                                                                                 <!-- location end -->
                                                                             <div class="col-span-12 lg:col-span-6">
                                                                                 <div class="mb-3">
+                                                                                    <!-- required  -->
                                                                                     <InputLabel for="price_max" :value="useTrans('page.price_max')" class="text-grey" required :showCurrency="true" />
                                                                                     <TextInput
                                                                                     v-model="form.price_max"
@@ -335,7 +336,6 @@ watch([() => form.category_id, () => props.categories,() => props.locale], () =>
                                                                                     type="number"
                                                                                     min="0"
                                                                                     class="w-full mt-1 text-gray-500 border rounded border-gray-100/50 text-13 dark:bg-transparent dark:border-neutral-600"
-
                                                                                     autofocus
                                                                                     :placeholder="useTrans('page.price_max')"
 
@@ -371,8 +371,8 @@ watch([() => form.category_id, () => props.categories,() => props.locale], () =>
                                                                             </div>
                                                                             <div class="col-span-12 lg:col-span-6">
                                                                                 <div class="mb-3">
-
-                                                                                    <InputLabel for="endDate" :value="useTrans('page.end_date')" class="text-grey" required />
+                                                                                    <!-- required -->
+                                                                                    <InputLabel for="endDate" :value="useTrans('page.end_date')" class="text-grey"  />
                                                                                     <TextInput
                                                                                     v-model="form.end_date"
                                                                                     :id="endDate"

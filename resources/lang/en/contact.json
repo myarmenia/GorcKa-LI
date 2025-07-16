@@ -3,5 +3,8 @@
     "name":"Name",
     "email":"Email",
     "subject":"Subject",
-    "your_message":"Your Message"
+    "your_message":"Your Message",
+    "send":"Send",
+    "here_you_can_submit_your_message":"Here you can submit your message",
+    "baghramyan_79":"Baghramyan 79, Armenia, Yerevan"
 }
