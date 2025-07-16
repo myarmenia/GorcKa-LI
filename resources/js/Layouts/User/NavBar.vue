@@ -137,6 +137,9 @@ const changeLanguage = (lang) => {
                     <div v-if="$page.props.auth.user">
                         <Link :href="route('task.create', { locale: usePage().props.locale })" class="mr-2 text-white bg-yellow-600 border-transparent hover:bg-yellow-600 focus:bg-yellow-600 focus:ring ring-yellow-500/30 rounded hover:-translate-y-2 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-4 lg:py-3 py-2 px-3">{{useTrans('navbar.post_job')}} </Link>
                     </div>
+                    <div v-else>
+                        <Link :href="route('login', { locale: usePage().props.locale })" class="mr-2 text-white bg-yellow-600 border-transparent hover:bg-yellow-600 focus:bg-yellow-600 focus:ring ring-yellow-600/30 rounded hover:-translate-y-2 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-4 lg:py-3 py-2 px-3">{{useTrans('navbar.post_job')}}</Link>
+                    </div>
                     <div class="hidden lg:flex ">
 
                         <div v-if="$page.props.auth.user && $page.props.auth.user.verified">
@@ -178,8 +181,8 @@ const changeLanguage = (lang) => {
 
                                 </ul>
                             </div>
-                            <div v-else class="relative dropdown ltr:mr-2 rtl:ml-2">
-                                <Link :href="route('login', { locale: usePage().props.locale })" class="mr-2 text-white bg-yellow-600 border-transparent hover:bg-yellow-600 focus:bg-yellow-600 focus:ring ring-yellow-600/30 rounded hover:-translate-y-2 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-4 lg:py-3 py-2 px-3">{{useTrans('navbar.post_job')}} </Link>
+                            <div v-else class="relative dropdown mt-5 ltr:mr-2 rtl:ml-2">
+                                <!-- <Link :href="route('login', { locale: usePage().props.locale })" class="mr-2 text-white bg-yellow-600 border-transparent hover:bg-yellow-600 focus:bg-yellow-600 focus:ring ring-yellow-600/30 rounded hover:-translate-y-2 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-4 lg:py-3 py-2 px-3">{{useTrans('navbar.post_job')}} - 555</Link> -->
                                 <Link :href="route('login', { locale: usePage().props.locale })" class="text-white border-transparent  group-data-[theme-color=green]:bg-green-500 rounded hover:-translate-y-2 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-4 lg:py-3 py-2 px-3">{{useTrans('form.sign_in')}} </Link>
                                 <!-- <Link :href="route('register', { locale: usePage().props.locale })" class="text-white border-transparent group-data-[theme-color=green]:bg-green-500  rounded hover:-translate-y-2 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-4 lg:py-3 py-2 px-3">{{useTrans('form.register')}} </Link> -->
                             </div>
@@ -260,8 +263,8 @@ const changeLanguage = (lang) => {
 
                                     </ul>
                                 </div>
-                                <div v-else class="relative dropdown ltr:mr-2 rtl:ml-2">
-                                    <Link :href="route('login', { locale: usePage().props.locale })" class="mr-2 text-white bg-yellow-600 border-transparent hover:bg-yellow-600 focus:bg-yellow-600 focus:ring ring-yellow-600/30 rounded hover:-translate-y-2 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-4 lg:py-3 py-2 px-3">{{useTrans('navbar.post_job')}} </Link>
+                                <div v-else class="relative dropdown mt-5 ltr:mr-2 rtl:ml-2">
+                                    <!-- <Link :href="route('login', { locale: usePage().props.locale })" class="mr-2 text-white bg-yellow-600 border-transparent hover:bg-yellow-600 focus:bg-yellow-600 focus:ring ring-yellow-600/30 rounded hover:-translate-y-2 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-4 lg:py-3 py-2 px-3">{{useTrans('navbar.post_job')}} - 333</Link> -->
                                     <Link :href="route('login', { locale: usePage().props.locale })" class="text-white border-transparent  group-data-[theme-color=green]:bg-green-500 rounded hover:-translate-y-2 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-4 lg:py-3 py-2 px-3">{{useTrans('form.sign_in')}} </Link>
                                     <!-- <Link :href="route('register', { locale: usePage().props.locale })" class="text-white border-transparent group-data-[theme-color=green]:bg-green-500  rounded hover:-translate-y-2 sm:px-4 sm:py-2 md:px-6 md:py-3 lg:px-4 lg:py-3 py-2 px-3">{{useTrans('form.register')}} </Link> -->
                                 </div>
@@ -298,9 +301,9 @@ const changeLanguage = (lang) => {
                         </div>
                     </div>
 
-                    <!-- <ul class="flex flex items-start mt-5 mb-10 font-medium lg:mt-0 lg:mb-0 lg:items-center lg:flex-row" id="navigation-menu"> -->
-                    <ul class="flex flex-row lg:flex-row items-start mt-5 mb-10 font-medium lg:mt-0 lg:mb-0 lg:items-center " id="navigation-menu">
-                    <!-- <ul class="flex flex-col lg:flex-row md:flex-row items-start lg:items-center mt-1 mb-10 lg:mt-0 lg:mb-0 font-medium" id="navigation-menu"> -->
+                    <!-- <ul class="flex items-start mt-5 mb-10 font-medium lg:mt-0 lg:mb-0 lg:items-center lg:flex-row" id="navigation-menu"> -->
+                    <!-- <ul class="flex flex-row lg:flex-row items-start mt-5 mb-10 font-medium lg:mt-0 lg:mb-0 lg:items-center " id="navigation-menu"> -->
+                    <ul class="responsive-row items-start lg:items-center mt-1 mb-10 lg:mt-0 lg:mb-0 font-medium" id="navigation-menu">
 
                         <li class="py-5 lg:px-4">
                             <Link
