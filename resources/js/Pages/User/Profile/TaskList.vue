@@ -205,68 +205,71 @@ const getStatusClass = (status) => {
                         <div v-if="taskList.length">
 
                             <div v-for="(task,index) in taskList"  class=" m-6 w-[95%] deleted-item relative mt-4 overflow-hidden transition-all duration-500 ease-in-out bg-white border rounded-md border-gray-100/50 group/job group-data-[theme-color=violet]:hover:border-violet-500 group-data-[theme-color=sky]:hover:border-sky-500 group-data-[theme-color=red]:hover:border-red-500 group-data-[theme-color=green]:hover:border-green-500 group-data-[theme-color=pink]:hover:border-pink-500 group-data-[theme-color=blue]:hover:border-blue-500 hover:-translate-y-2 dark:bg-neutral-900 dark:border-neutral-600">
-                                <div class="w-48 absolute -top-[5px] -left-20 -rotate-45 group-data-[theme-color=violet]:bg-violet-500/20 group-data-[theme-color=sky]:bg-sky-500/20 group-data-[theme-color=red]:bg-red-500/20 group-data-[theme-color=green]:bg-green-500/20 group-data-[theme-color=pink]:bg-pink-500/20 group-data-[theme-color=blue]:bg-blue-500/20 group-data-[theme-color=violet]:group-hover/job:bg-violet-500 group-data-[theme-color=sky]:group-hover/job:bg-sky-500 group-data-[theme-color=red]:group-hover/job:bg-red-500 group-data-[theme-color=green]:group-hover/job:bg-green-500 group-data-[theme-color=pink]:group-hover/job:bg-pink-500 group-data-[theme-color=blue]:group-hover/job:bg-blue-500 transition-all duration-500 ease-in-out p-[6px] text-center dark:bg-violet-500/20">
-                                    <a href="javascript:void(0)" class="text-2xl text-white align-middle"><i class="mdi mdi-star"></i></a>
-                                </div>
-                                <div class="p-4">
-                                    <div class="grid items-center grid-cols-12 gap-4">
-                                        <div class="col-span-12 lg:col-span-2">
-                                            <div class="mb-4 text-center mb-md-0">
-                                                <img :src="task.sub_category.category.icon
-                                                ? `/assets/user/icons/categories/${task.sub_category.category.icon }.svg`
-                                                : `/assets/user/icons/categories/it.svg`"
-                                            alt="" class="mx-auto img-fluid rounded-3 w-1/3">
-
-                                            </div>
-
-                                        </div>
-
-
-
-                                        <div class="col-span-12 lg:col-span-4 p-4">
-                                            <div class="mb-2 mb-md-0">
-                                                <h5 class="mb-1 fs-18"><a href="job-details.html" class="text-gray-900 dark:text-gray-50">{{ task.title }}</a>
-                                                </h5>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="col-span-12 lg:col-span-2">
-                                            <div class="mb-2 lg:flex">
-                                                <div class="flex-shrink-0">
-                                                    <i class="mr-1 mdi mdi-map-marker group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=sky]:text-sky-500 group-data-[theme-color=red]:text-red-500 group-data-[theme-color=green]:text-green-500 group-data-[theme-color=pink]:text-pink-500 group-data-[theme-color=blue]:text-blue-500"></i>
-                                                </div>
-                                                <p class="mb-0 text-gray-500 dark:text-gray-300">{{ task.location.translation.name }}</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-span-12 lg:col-span-2" >
-                                            <div class=" h-10 text-13 leading-10 text-center rounded "
-                                             :class="getStatusClass(task.status)"
-                                             >
-
-                                              {{ task.translated_status }}
-
-                                            </div>
-                                        </div>
-
-
-
-                                        <div class="col-span-12 lg:col-span-2">
-                                            <div class="flex flex-wrap gap-1.5">
-
-                                                <div class="w-10 h-10 text-lg leading-10 text-center text-green-500 rounded bg-green-500/20">
-
-                                                    <Link :href="route('task.edit',{id:task.id,locale:usePage().props.locale})"  class="text-center avatar-sm success-bg-subtle d-inline-block rounded-circle fs-18">
-                                                        <i class="uil uil-edit"></i>
-                                                    </Link>
+                                <Link :href="route('single_job',{id:task.id,locale:usePage().props.locale})">
+                                   <div class="w-48 absolute -top-[5px] -left-20 -rotate-45 group-data-[theme-color=violet]:bg-violet-500/20 group-data-[theme-color=sky]:bg-sky-500/20 group-data-[theme-color=red]:bg-red-500/20 group-data-[theme-color=green]:bg-green-500/20 group-data-[theme-color=pink]:bg-pink-500/20 group-data-[theme-color=blue]:bg-blue-500/20 group-data-[theme-color=violet]:group-hover/job:bg-violet-500 group-data-[theme-color=sky]:group-hover/job:bg-sky-500 group-data-[theme-color=red]:group-hover/job:bg-red-500 group-data-[theme-color=green]:group-hover/job:bg-green-500 group-data-[theme-color=pink]:group-hover/job:bg-pink-500 group-data-[theme-color=blue]:group-hover/job:bg-blue-500 transition-all duration-500 ease-in-out p-[6px] text-center dark:bg-violet-500/20">
+                                        <a href="javascript:void(0)" class="text-2xl text-white align-middle"><i class="mdi mdi-star"></i></a>
+                                    </div>
+                                    <div class="p-4">
+                                        <div class="grid items-center grid-cols-12 gap-4">
+                                            <div class="col-span-12 lg:col-span-2">
+                                                <div class="mb-4 text-center mb-md-0">
+                                                    <img :src="task.sub_category.category.icon
+                                                    ? `/assets/user/icons/categories/${task.sub_category.category.icon }.png`
+                                                    : `/assets/user/icons/categories/it.png`"
+                                                alt="" class="mx-auto img-fluid rounded-3 w-1/3">
 
                                                 </div>
 
-                                                <div class="w-10 h-10 text-lg leading-10 text-center text-red-500 rounded bg-red-500/20" >
-                                                    <a  class="text-center avatar-sm danger-bg-subtle d-inline-block rounded-circle fs-18 cursor-pointer">
-                                                        <i class="uil uil-trash-alt" data-db @click="deleteElement(task.id, index)"></i>
-                                                    </a>
+                                            </div>
+
+
+
+                                            <div class="col-span-12 lg:col-span-4 p-4">
+                                                <div class="mb-2 mb-md-0">
+                                                    <h5 class="mb-1 fs-18">{{ task.title }}
+                                                    </h5>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-span-12 lg:col-span-2">
+                                                <div class="mb-2 lg:flex">
+                                                    <div class="flex-shrink-0">
+                                                        <i class="mr-1 mdi mdi-map-marker group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=sky]:text-sky-500 group-data-[theme-color=red]:text-red-500 group-data-[theme-color=green]:text-green-500 group-data-[theme-color=pink]:text-pink-500 group-data-[theme-color=blue]:text-blue-500"></i>
+                                                    </div>
+                                                    <p class="mb-0 text-gray-500 dark:text-gray-300">{{ task.location.translation.name }}</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-span-12 lg:col-span-2" >
+                                                <div class=" h-10 text-13 leading-10 text-center rounded "
+                                                :class="getStatusClass(task.status)"
+                                                >
+
+                                                {{ task.translated_status }}
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-span-12 lg:col-span-2">
+                                                <div class="flex flex-wrap gap-1.5">
+
+                                                    <div class="w-10 h-10 text-lg leading-10 text-center text-green-500 rounded bg-green-500/20">
+
+                                                        <Link :href="route('task.edit',{id:task.id,locale:usePage().props.locale})"  class="text-center avatar-sm success-bg-subtle d-inline-block rounded-circle fs-18">
+                                                            <i class="uil uil-edit"></i>
+                                                        </Link>
+
+                                                    </div>
+
+                                                    <div class="w-10 h-10 text-lg leading-10 text-center text-red-500 rounded bg-red-500/20" >
+                                                        <a  class="text-center avatar-sm danger-bg-subtle d-inline-block rounded-circle fs-18 cursor-pointer">
+                                                            <i class="uil uil-trash-alt" data-db @click="deleteElement(task.id, index)"></i>
+                                                        </a>
+                                                    </div>
+
                                                 </div>
 
                                             </div>
@@ -274,19 +277,18 @@ const getStatusClass = (status) => {
                                         </div>
 
                                     </div>
+                                    <div class="px-4 py-3 bg-gray-50 dark:bg-neutral-700">
+                                        <div class="grid grid-cols-12">
+                                            <div class="col-span-12 lg:col-span-6">
+                                                <div>
+                                                    <p class="mb-0 text-gray-500 dark:text-gray-300"> <i class="mr-1 uil uil-clock-three group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=sky]:text-sky-500 group-data-[theme-color=red]:text-red-500  group-data-[theme-color=pink]:text-pink-500 group-data-[theme-color=blue]:text-blue-500"></i> {{ task.start_date }} - {{task.end_date  }}</p>
 
-                                </div>
-                                <div class="px-4 py-3 bg-gray-50 dark:bg-neutral-700">
-                                    <div class="grid grid-cols-12">
-                                        <div class="col-span-12 lg:col-span-6">
-                                            <div>
-                                                <p class="mb-0 text-gray-500 dark:text-gray-300"> <i class="mr-1 uil uil-clock-three group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=sky]:text-sky-500 group-data-[theme-color=red]:text-red-500  group-data-[theme-color=pink]:text-pink-500 group-data-[theme-color=blue]:text-blue-500"></i> {{ task.start_date }} - {{task.end_date  }}</p>
-
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                </div>
+                                    </div>
+                                </Link>
                             </div>
 
                         </div>

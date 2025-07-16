@@ -103,7 +103,7 @@ console.log(loading.value,2222333)
                                         <div class="relative">
                                             <img :src="jobRef.sub_category.category.icon
                                                 ? `/assets/user/icons/categories/${jobRef.sub_category.category.icon}.png`
-                                                : `/assets/user/icons/categories/it.svg`"
+                                                : `/assets/user/icons/categories/it.png`"
                                                 alt="" class="rounded-md img-fluid">
                                         </div>
                                     </div>

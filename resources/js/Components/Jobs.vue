@@ -20,8 +20,8 @@ const props = defineProps({
                     <div class="col-span-12 lg:col-span-2">
                         <div class="mb-4 text-center mb-md-0">
                                 <img :src="job.category_icon
-                                        ? `/assets/user/icons/categories/${job.category_icon}.svg`
-                                        : `/assets/user/icons/categories/it.svg`"
+                                        ? `/assets/user/icons/categories/${job.category_icon}.png`
+                                        : `/assets/user/icons/categories/it.png`"
                                     alt="" class="mx-auto img-fluid rounded-3 w-1/3">
                         </div>
                     </div>
