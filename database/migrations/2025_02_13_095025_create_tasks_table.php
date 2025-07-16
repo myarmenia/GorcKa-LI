@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('price_min')->nullable();
             $table->integer('price_max')->nullable();
             $table->date('start_date')->nullable();
-            $table->date('end_date');
+            $table->date('end_date')->nullable();
             $table->foreignId('executor_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->enum('status', ['active', 'in_process', 'done', 'expired'])->default('active');
             $table->timestamps();

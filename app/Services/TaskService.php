@@ -46,6 +46,7 @@ use Illuminate\Support\Facades\File;
         $files_arr = $dto->file;
 
         $taskTDO = Arr::except($dto->toArray(), ['file']);
+    
         $task = $this->taskRepository->store($taskTDO);
 
 
