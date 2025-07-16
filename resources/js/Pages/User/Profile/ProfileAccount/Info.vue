@@ -44,11 +44,11 @@ const getLocationText = () => {
         </div>
 
         <div class="p-5 ">
-            <h6 class="mb-3 font-semibold text-gray-900 text-17 dark:text-gray-50">Contacts</h6>
+            <h6 class="mb-3 font-semibold text-gray-900 text-17 dark:text-gray-50">{{useTrans('page.contacts.title')}}</h6>
             <ul class="mb-0">
                 <li class="pb-3">
                     <div class="flex">
-                        <label class="w-32 font-medium text-gray-900 dark:text-gray-50">Email</label>
+                        <label class="w-32 font-medium text-gray-900 dark:text-gray-50">{{ useTrans('page.contacts.email') }} </label>
                         <div>
                             <p class="mb-0 text-gray-500 text-break dark:text-gray-300">
                                 {{props.user.email}}
@@ -58,7 +58,7 @@ const getLocationText = () => {
                 </li>
                 <li class="pb-3">
                     <div class="flex">
-                        <label class="w-32 font-medium text-gray-900 dark:text-gray-50">Phone Number</label>
+                        <label class="w-32 font-medium text-gray-900 dark:text-gray-50">{{ useTrans('page.contacts.phone') }}</label>
                         <div>
                             <p class="mb-0 text-gray-500 dark:text-gray-300">{{props.user.phone ?? ' - '}}</p>
                         </div>
@@ -66,7 +66,7 @@ const getLocationText = () => {
                 </li>
                 <li class="pb-3">
                     <div class="flex">
-                        <label class="w-32 font-medium text-gray-900 dark:text-gray-50">Location</label>
+                        <label class="w-32 font-medium text-gray-900 dark:text-gray-50">{{ useTrans('page.contacts.location') }}</label>
                         <div>
                             <p class="mb-0 text-gray-500 dark:text-gray-300">{{getLocationText()}}</p>
                         </div>

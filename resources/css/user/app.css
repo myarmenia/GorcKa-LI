@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .responsive-row {
+        @apply flex flex-col custom:flex-row;
+    }
+}

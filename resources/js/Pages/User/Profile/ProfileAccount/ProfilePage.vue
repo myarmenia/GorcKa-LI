@@ -13,6 +13,7 @@ import { Head } from '@inertiajs/vue3';
 import initNavAndTabs from "@/modules/user/nav&tabs.js";
 import { initLightbox } from '@/modules/user/lightbox.init.js';
 import gFunLightbox from '@/modules/user/glightbox.min';
+import { useTrans } from '/resources/js/trans';
 
 onMounted(() => {
     gFunLightbox();
@@ -92,22 +93,22 @@ watch(
                                             <ul class="items-center text-sm font-medium text-center text-gray-700 nav md:flex">
                                                 <li class="active" role="presentation">
                                                     <button class="inline-block w-full py-4 px-[18px] dark:text-gray-50 active"  data-tw-toggle="tab" type="button" data-tw-target="overview-tab">
-                                                        Overview 1
+                                                        {{ useTrans('page.nav.main') }}
                                                     </button>
                                                 </li>
                                                 <li class="nav-item" role="presentation">
                                                     <button class="inline-block w-full py-4 px-[18px] dark:text-gray-50" data-tw-toggle="tab" type="button" data-tw-target="settings-tab">
-                                                        Settings 2
+                                                        {{ useTrans('page.nav.personal_information') }}
                                                     </button>
                                                 </li>
                                                 <li class="nav-item" role="presentation">
                                                     <button class="inline-block w-full py-4 px-[18px] dark:text-gray-50" data-tw-toggle="tab" type="button" data-tw-target="subcategories-tab">
-                                                       Select Sub categories
+                                                      {{ useTrans('page.nav.select_categories') }}
                                                     </button>
                                                 </li>
                                                 <li class="nav-item" role="presentation">
                                                     <button class="inline-block w-full py-4 px-[18px] dark:text-gray-50" data-tw-toggle="tab" type="button" data-tw-target="password-tab">
-                                                        Change Password
+                                                        {{ useTrans('page.nav.change_password') }}
                                                     </button>
                                                 </li>
                                             </ul>
@@ -117,7 +118,7 @@ watch(
                                                 <div class="block w-full tab-pane" id="overview-tab">
                                                     <div class="mt-2 space-y-8">
                                                         <div>
-                                                            <h5 class="text-lg font-bold text-gray-900 dark:text-gray-50">About</h5>
+                                                            <h5 class="text-lg font-bold text-gray-900 dark:text-gray-50">{{useTrans('page.main.about')}}</h5>
                                                             <p class="mt-4 text-gray-500 dark:text-gray-300">
                                                                 {{props.user.description}}
                                                             </p>
@@ -127,7 +128,7 @@ watch(
 
                                                     <div class="mt-2 space-y-8">
                                                         <div>
-                                                            <h5 class="text-lg font-bold text-gray-900 dark:text-gray-50">Works</h5>
+                                                            <h5 class="text-lg font-bold text-gray-900 dark:text-gray-50">{{useTrans('page.main.works')}}</h5>
                                                             <div class="mt-4 ">
                                                                 <div class="grid grid-cols-12 gap-5 ">
                                                                     <div v-for="file in props.user.files" class="col-span-4 ">
@@ -146,7 +147,7 @@ watch(
                                                     </div>
 
                                                     <div class="mt-6">
-                                                        <h6 class="text-lg font-bold text-gray-900 dark:text-gray-50">Skills</h6>
+                                                        <h6 class="text-lg font-bold text-gray-900 dark:text-gray-50">{{useTrans('page.main.selected_categories')}}</h6>
                                                         <SubCategoryTags
                                                             :subCategories="selectedSubCategories"
                                                             :withRemove="false"
