@@ -10,6 +10,7 @@ const props = defineProps({
 
 const categoryItems = computed(() => {
     return props.categories.map(category => ({
+        id: category.id,
         name: category.translation?.name,
         icon: category.icon
             ? `assets/user/icons/categories/${category.icon}.png`
@@ -32,19 +33,19 @@ const categoryItems = computed(() => {
             </div>
             <div class="grid grid-cols-12 gap-5">
                 <div v-for="(category, index) in categoryItems" class="col-span-12 md:col-span-6 lg:col-span-3">
-                    <div class="mt-4">
-                        <div class="px-6 py-5 transition-all duration-500 ease-in-out cursor-pointer lg:py-10 hover:-translate-y-2">
-                            <div class="flex justify-center items-center job-categorie h-16 w-16 group-data-[theme-color=green]:bg-green-500/20 rounded-lg text-center leading-[4.4] mx-auto dark:bg-violet-900">
-                                <img :src="category.icon" class="" />
-                            </div>
-                            <div class="mt-4 text-center">
-                                <a href="job-categories.html" class="text-gray-900">
-                                    <h5 class="text-lg dark:text-gray-50">{{category.name}}</h5>
-                                </a>
-                                <p class="mt-1 font-medium text-gray-500 dark:text-gray-300">{{category.tasks_count}}</p>
+                    <Link :href="route('jobs', { locale: props.locale, category_id: category.id })" class="text-gray-900">
+                        <div class="mt-4">
+                            <div class="px-6 py-5 transition-all duration-500 ease-in-out cursor-pointer lg:py-10 hover:-translate-y-2">
+                                <div class="flex justify-center items-center job-categorie h-16 w-16 group-data-[theme-color=green]:bg-green-500/20 rounded-lg text-center leading-[4.4] mx-auto dark:bg-violet-900">
+                                    <img :src="category.icon" class="" />
+                                </div>
+                                <div class="mt-4 text-center">
+                                        <h5 class="text-lg dark:text-gray-50">{{category.name}}</h5>
+                                    <p class="mt-1 font-medium text-gray-500 dark:text-gray-300">{{category.tasks_count}}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 </div>
 
             </div>

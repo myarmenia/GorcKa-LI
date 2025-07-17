@@ -253,7 +253,7 @@ const changePage = (link) =>{
                             </form>
                         </div>
                     </div>
-                    <div class="mt-5">
+                    <div class="mt-12">
                         <div class="grid items-center grid-cols-12">
                             <div class="col-span-12 lg:col-span-8">
                                 <h6 class="mb-0 text-gray-900 fs-16 dark:text-gray-50"> {{ useTrans('page.showing') }} {{paginationInfo.from}} – {{paginationInfo.to}} {{ useTrans('page.of') }} {{paginationInfo.total}} {{ useTrans('page.results') }} </h6>
@@ -262,7 +262,7 @@ const changePage = (link) =>{
                         </div>
                     </div>
 
-                    <div class="mt-8 space-y-6">
+                    <div class="mt-5 space-y-6">
 
                          <!-- <Link :href="route('specialist_details', {id: 1  })">aaaa</Link> -->
 
