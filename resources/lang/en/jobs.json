@@ -4,6 +4,9 @@
     "job_type": "Job type",
     "remote": "Remote",
     "form_name": "Name, description",
+    "showing": "Showing",
+    "of": "of",
+    "results": "results",
     "jobs": {
         "remote": "Remote",
         "execution_time": "Execution time: ",

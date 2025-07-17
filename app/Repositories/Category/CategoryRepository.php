@@ -20,6 +20,7 @@ class CategoryRepository implements CategoryInterface
             ->withCount([
                 'sub_categories as tasks_count' => function ($query) {
                     $query->join('tasks', 'tasks.sub_category_id', '=', 'sub_categories.id')
+                        ->where('tasks.status', 'active')
                         ->selectRaw('count(tasks.id)');
                 }
             ])

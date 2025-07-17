@@ -17,7 +17,7 @@ class CategorySeeder extends Seeder
             [
                 'id' => 1,
                 'color' => 'green',
-                'icon' => 'IT'
+                'icon' => 'it'
             ],
             [
                 'id' => 2,
@@ -42,53 +42,53 @@ class CategorySeeder extends Seeder
             [
                 'id' => 6,
                 'color' => 'sky',
-                'icon' => ''
+                'icon' => 'cleaning'
             ],
             [
                 'id' => 7,
                 'color' => 'green',
-                'icon' => ''
+                'icon' => 'accounting'
             ],
             [
                 'id' => 8,
                 'color' => 'red',
-                'icon' => ''
+                'icon' => 'design'
             ],
-            [
-                'id' => 9,
-                'color' => 'violet',
-                'icon' => ''
-            ],
-            [
-                'id' => 10,
-                'color' => 'sky',
-                'icon' => ''
-            ],
-            [
-                'id' => 11,
-                'color' => 'blue',
-                'icon' => ''
-            ],
-            [
-                'id' => 12,
-                'color' => 'yellow',
-                'icon' => ''
-            ],
-            [
-                'id' => 13,
-                'color' => 'green',
-                'icon' => ''
-            ],
-            [
-                'id' => 14,
-                'color' => 'blue',
-                'icon' => ''
-            ],
-            [
-                'id' => 15,
-                'color' => 'sky',
-                'icon' => ''
-            ]
+            // [
+            //     'id' => 9,
+            //     'color' => 'violet',
+            //     'icon' => ''
+            // ],
+            // [
+            //     'id' => 10,
+            //     'color' => 'sky',
+            //     'icon' => ''
+            // ],
+            // [
+            //     'id' => 11,
+            //     'color' => 'blue',
+            //     'icon' => ''
+            // ],
+            // [
+            //     'id' => 12,
+            //     'color' => 'yellow',
+            //     'icon' => ''
+            // ],
+            // [
+            //     'id' => 13,
+            //     'color' => 'green',
+            //     'icon' => ''
+            // ],
+            // [
+            //     'id' => 14,
+            //     'color' => 'blue',
+            //     'icon' => ''
+            // ],
+            // [
+            //     'id' => 15,
+            //     'color' => 'sky',
+            //     'icon' => ''
+            // ]
 
 
         ];
