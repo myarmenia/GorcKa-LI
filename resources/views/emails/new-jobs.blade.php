@@ -170,7 +170,7 @@
 
                                             @php
                                                 $iconPath = '/assets/user/icons/categories/' .
-                                                            ($task->sub_category->category->icon ?? 'it') . '.svg';
+                                                            ($task->sub_category->category->icon ?? 'it') . '.png';
 
 
                                             @endphp

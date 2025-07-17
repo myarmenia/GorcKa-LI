@@ -125,10 +125,10 @@ const changeLanguage = (lang) => {
     <nav class="navbar fixed right-0 left-0 top-0 lg:top-[44.5px] px-5 lg:px-24 transition-all duration-500 ease shadow-lg shadow-gray-200/20 bg-white border-gray-200 dark:bg-neutral-800 z-40 dark:shadow-neutral-900" id="navbar">
         <div class="mx-auto container-fluid">
             <div class="flex flex-wrap items-center justify-between mx-auto py-2">
-                <a href="index.html" class="flex items-center">
+                <Link :href="route('welcome', { locale: usePage().props.locale })" class="flex items-center">
                     <img src="/assets/user/images/FavIcon.png" alt="" class="logo-dark h-[40px] block dark:hidden">
                     <img src="/assets/user/images/FavIcon.png" alt="" class="logo-dark h-[22px] hidden dark:block">
-                </a>
+                </Link>
                 <button data-collapse-toggle="navbar-collapse" type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg navbar-toggler group lg:hidden hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
                     <span class="sr-only">Open main menu</span>
                     <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
