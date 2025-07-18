@@ -172,7 +172,8 @@ return [
         'start_date'=> "start date",
         'end_date' => "end date",
         'current_password' => 'current password',
-        'mark' => 'Mark'
+        'mark' => 'Mark',
+        "today"=> "today"
 
     ],
 
