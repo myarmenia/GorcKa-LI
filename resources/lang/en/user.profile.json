@@ -16,8 +16,11 @@
     },
     "main": {
         "about": "About",
+        "about_default": "You can add this section from the <strong> Personal Information </strong> page.",
         "works": "Works",
-        "selected_categories": "Selected Categories"
+        "works_default": "You can add this section from the <strong> Personal Information </strong> page.",
+        "selected_categories": "Selected Categories",
+        "selected_categories_default": "You can add this section from the <strong> Select Categories </strong> page."
     },
     "personal_information": {
         "my_account": "My Account",
