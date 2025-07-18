@@ -6,6 +6,9 @@
         "notifications": "Ծանուցումներ",
         "comments": "Մեկնաբանություններ",
         "balance": "Բալանս"
+    },
+    "messages": {
+        "password_updated": "Գաղտնաբառը հաջողությամբ փոփոխվել է։"
     }
 
 }

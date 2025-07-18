@@ -138,36 +138,36 @@ class CategoryTranslationsSeeder extends Seeder
                 'lang' => 'en',
                 'name' => 'Design services',
             ],
-            [
-                'category_id' => 9,
-                'lang' => 'am',
-                'name' => 'Cat-9-am',
-            ],
-            [
-                'category_id' => 9,
-                'lang' => 'ru',
-                'name' => 'Cat-9-ru',
-            ],
-            [
-                'category_id' => 9,
-                'lang' => 'en',
-                'name' => 'Cat-9-en',
-            ],
-            [
-                'category_id' => 10,
-                'lang' => 'am',
-                'name' => 'Cat-10-am',
-            ],
-            [
-                'category_id' => 10,
-                'lang' => 'ru',
-                'name' => 'Cat-10-ru',
-            ],
-            [
-                'category_id' => 10,
-                'lang' => 'en',
-                'name' => 'Cat-10-en',
-            ],
+            // [
+            //     'category_id' => 9,
+            //     'lang' => 'am',
+            //     'name' => 'Cat-9-am',
+            // ],
+            // [
+            //     'category_id' => 9,
+            //     'lang' => 'ru',
+            //     'name' => 'Cat-9-ru',
+            // ],
+            // [
+            //     'category_id' => 9,
+            //     'lang' => 'en',
+            //     'name' => 'Cat-9-en',
+            // ],
+            // [
+            //     'category_id' => 10,
+            //     'lang' => 'am',
+            //     'name' => 'Cat-10-am',
+            // ],
+            // [
+            //     'category_id' => 10,
+            //     'lang' => 'ru',
+            //     'name' => 'Cat-10-ru',
+            // ],
+            // [
+            //     'category_id' => 10,
+            //     'lang' => 'en',
+            //     'name' => 'Cat-10-en',
+            // ],
 
         ];
 
