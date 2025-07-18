@@ -133,7 +133,7 @@ console.log(loading.value,2222333)
                                         <p class="mb-0 text-gray-500 dark:text-gray-300">{{ jobRef.description }}</p>
                                     </div>
                                 </div>
-
+<!--
                                 <div v-if="jobRef.files.some(file => ['png', 'jpg', 'jpeg'].includes(file.ext))" class="pt-8 my-10">
                                     <h6 class="mb-0 text-gray-900 text-17 fw-bold dark:text-gray-50">{{useTrans('page.images')}}</h6>
                                     <div class="mt-4 ">
@@ -148,6 +148,31 @@ console.log(loading.value,2222333)
                                                 </div>
                                             </div>
 
+                                        </div>
+                                    </div>
+                                </div> -->
+
+
+
+                                <div v-if="jobRef.files.some(file => ['png', 'jpg', 'jpeg'].includes(file.ext))" class="pt-8 my-10">
+                                    <h6 class="mb-0 text-gray-900 text-17 fw-bold dark:text-gray-50">{{useTrans('page.images')}}</h6>
+                                    <div class="mt-4 ">
+                                        <div class="grid grid-cols-12 gap-4">
+                                            <div v-for="file in jobRef.files" class="col-span-4">
+                                                <div v-if="['png', 'jpg', 'jpeg'].includes(file.ext)"
+                                                    class="relative overflow-hidden rounded-md group/project h-[160px] flex items-center justify-center bg-slate-500/10">
+
+                                                    <img :src="file.file_path"
+                                                        alt=""
+                                                        class="h-auto max-h-[140px] max-w-[90%] object-contain scale-[1.6] transition-all duration-300 ease-in-out group-hover/project:scale-[1.25]">
+                                                    <div class="transition-all duration-300 ease-in-out group-hover/project:bg-black/40 group-hover/project:absolute group-hover/project:inset-0"></div>
+                                                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 group-hover/project:block hidden transition-all duration-300 ease-in-out text-2xl">
+                                                        <a :href="file.file_path" class="text-white image-popup">
+                                                            <i class="uil uil-search-alt"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -169,7 +194,7 @@ console.log(loading.value,2222333)
                                     </div>
                                 </div>
 
-                                <div class="pt-3 mt-4">
+                                <!-- <div class="pt-3 mt-4">
                                     <ul class="flex flex-wrap items-center gap-3 mb-0">
                                         <li class="mt-1 dark:text-gray-50">
                                             {{useTrans('page.share_job')}}
@@ -184,16 +209,14 @@ console.log(loading.value,2222333)
                                             <a href="javascript:void(0)" class="btn bg-green-500 border-transparent text-white hover:-translate-y-1.5"><i class="uil uil-linkedin-alt"></i> linkedin</a>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> -->
                             </div>
 
                         </div>
-                        <div class="mt-10 space-y-8">
+                        <div class="mt-10 space-y-8" v-if="props.related_jobs.length">
                             <h5 class="text-gray-900 dark:text-gray-50">{{useTrans('page.related_jobs')}}</h5>
 
-
                             <Jobs :jobs="props.related_jobs"  />
-
 
                             <div v-if="props.related_jobs.length > 3" class="mt-4 text-center">
                                 <Link :href="route('jobs', { locale: $page.props.locale, category_id: jobRef.sub_category.category.id })" class="font-medium text-gray-900 dark:text-gray-50">
@@ -329,9 +352,9 @@ console.log(loading.value,2222333)
 
                                     </ul>
 
-                                    <div class="mt-6">
+                                    <!-- <div class="mt-6">
                                         <a href="company-details.html" class="w-full text-white border-transparent btn group-data-[theme-color=green]:bg-green-500 "><i class="mdi mdi-eye"></i> {{useTrans('page.view_profile')}}</a>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>

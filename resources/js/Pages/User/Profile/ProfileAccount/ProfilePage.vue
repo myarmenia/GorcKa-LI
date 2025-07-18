@@ -39,7 +39,7 @@ const selectedIds = ref([]);
 
 // Подкатегории с именами
 const selectedSubCategories = ref(props.user.executor_sub_categories || []);
-
+console.log(selectedSubCategories.value.length, 23333555)
 watch(
   () => props.user.executor_sub_categories,
   (newValue) => {
@@ -122,13 +122,18 @@ watch(
                                                             <p class="mt-4 text-gray-500 dark:text-gray-300">
                                                                 {{props.user.description}}
                                                             </p>
-
+                                                            <p class="mt-4 text-gray-500 dark:text-gray-300"
+                                                                v-if="!props.user.description" v-html="useTrans('page.main.about_default')">
+                                                            </p>
                                                         </div>
                                                     </div>
 
                                                     <div class="mt-2 space-y-8">
                                                         <div>
                                                             <h5 class="text-lg font-bold text-gray-900 dark:text-gray-50">{{useTrans('page.main.works')}}</h5>
+                                                            <p class="mt-4 text-gray-500 dark:text-gray-300"
+                                                                v-if="!props.user.files.length" v-html="useTrans('page.main.works_default')">
+                                                            </p>
                                                             <div class="mt-4 ">
                                                                 <div class="grid grid-cols-12 gap-5 ">
                                                                     <div v-for="file in props.user.files" class="col-span-4 ">
@@ -152,6 +157,9 @@ watch(
                                                             :subCategories="selectedSubCategories"
                                                             :withRemove="false"
                                                         />
+                                                        <p class="mt-4 text-gray-500 dark:text-gray-300"
+                                                            v-if="!selectedSubCategories.length" v-html="useTrans('page.main.selected_categories_default')">
+                                                        </p>
                                                     </div>
                                                 </div>
 

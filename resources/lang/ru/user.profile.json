@@ -16,8 +16,11 @@
     },
     "main": {
         "about": "О себе",
+        "about_default": "Вы можете добавить этот раздел со страницы <strong> Личная информация </strong>.",
         "works": "Работы",
-        "selected_categories": "Выбранные категории"
+        "works_default": "Вы можете добавить этот раздел со страницы <strong> Личная информация </strong>.",
+        "selected_categories": "Выбранные категории",
+        "selected_categories_default": "Вы можете добавить этот раздел со страницы <strong> Выбрать категории </strong>."
     },
     "personal_information": {
         "my_account": "Мой аккаунт",
