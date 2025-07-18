@@ -1,6 +1,7 @@
 <script setup>
     // import { Link } from '@inertiajs/vue3';
-    import { usePage, Link, router  } from '@inertiajs/vue3';
+    import { useTrans } from '@/trans';
+import { usePage, Link, router  } from '@inertiajs/vue3';
     import axios from 'axios';
 
     import { onMounted,ref,onUnmounted, watch , computed} from 'vue';
@@ -97,7 +98,7 @@
                                 class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
                             <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                                 <div class="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Profile</span>
+                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">{{useTrans('app.sidebar.profile')}}</span>
                             </div>
                             <i class="uil uil-user-square text-2xl"></i>
                         </Link>
@@ -110,7 +111,7 @@
                                 class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
                             <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                                 <div class="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Task List</span>
+                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">{{useTrans('app.sidebar.task_list')}}</span>
                             </div>
                             <i class="uil uil-clipboard-notes text-2xl"></i>
                         </Link>
@@ -123,7 +124,7 @@
                                 class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
                             <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                                 <div class="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Chat</span>
+                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">{{useTrans('app.sidebar.chat')}}</span>
                             </div>
                             <i class="uil uil-comments  text-2xl"></i>
                         </Link>
@@ -137,7 +138,7 @@
                                 class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
                             <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                                 <div class="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Notifications</span>
+                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">{{useTrans('app.sidebar.notifications')}}</span>
                             </div>
                             <i class="uil uil-bell text-2xl"></i>
                         </Link>
@@ -151,7 +152,7 @@
                                 class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
                             <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">
                                 <div class="absolute -bottom-1 left-[40%] w-3 h-3 rotate-45 bg-black"></div>
-                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">Comments</span>
+                                <span class="relative z-10 p-2 text-xs leading-none text-white whitespace-no-wrap bg-black rounded shadow-lg">{{useTrans('app.sidebar.comments')}}</span>
                             </div>
                             <i class="uil uil-comment-alt-message text-2xl"></i>
                         </Link>

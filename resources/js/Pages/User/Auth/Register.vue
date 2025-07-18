@@ -66,9 +66,9 @@ const submit = () => {
                                         <div class="col-span-6 ltr:rounded-l-lg rtl:rounded-r-lg">
                                             <div class="p-10">
                                                 <a href="">
-                                                    <img src="/assets/user/images/logo-light.png" alt=""
+                                                    <img src="/assets/user/images/logo.png" alt=""
                                                         class="hidden mx-auto dark:block">
-                                                    <img src="/assets/user/images/logo-dark.png" alt=""
+                                                    <img src="/assets/user/images/logo.png" alt=""
                                                         class="block mx-auto dark:hidden">
                                                 </a>
                                                 <div class="mt-5">
@@ -77,7 +77,7 @@ const submit = () => {
                                             </div>
                                         </div>
                                         <div
-                                            class="col-span-12 rounded-b-md lg:col-span-6 group-data-[theme-color=green]:bg-green-500  lg:ltr:rounded-r-lg rtl:rounded-l-lg">
+                                            class="col-span-12 rounded-b-md lg:col-span-6 group-data-[theme-color=green]:bg-green-700 lg:rounded-b-none lg:ltr:rounded-r-lg rtl:rounded-l-lg">
                                             <div class="flex flex-col justify-center h-full p-12">
                                                 <div class="text-center">
                                                     <h5 class="text-[18.5px] text-white">{{ useTrans('page.title_h5') }}</h5>

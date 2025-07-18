@@ -12,7 +12,7 @@
 
         .logo{
             margin: 30px 0 10px;
-            width: 120px;
+            width: 46px;
             height: auto
         }
 
@@ -74,7 +74,7 @@
             }
             .logo{
                 margin: 30px 0 10px;
-                width: 120px;
+                width: 46px;
                 height: auto
             }
             .left img,
@@ -92,7 +92,7 @@
     <section >
         <div class="container ">
             <div class="left">
-                <div class="logo-div"><img class="logo" src="{{ $message->embed(public_path('/assets/user/images/logo-dark.png')) }}"></div>
+                <div class="logo-div"><img class="logo" src="{{ $message->embed(public_path('/assets/user/images/logo.png')) }}"></div>
                 <div class="icon-img-div"><img class="icon-img" src="{{ $message->embed(public_path('/assets/user/images/subscribe.png')) }}"></div>
             </div>
 

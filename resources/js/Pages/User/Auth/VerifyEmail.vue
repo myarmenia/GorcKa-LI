@@ -39,8 +39,8 @@ const verificationLinkSent = computed(
                                     <div class="col-span-12 lg:col-span-6 ltr:rounded-l-lg rtl:rounded-r-lg">
                                         <div class="p-10">
                                             <a href="">
-                                                <img src="/assets/user/images/logo-light.png" alt="" class="hidden mx-auto dark:block">
-                                                <img src="/assets/user/images/logo-dark.png" alt="" class="block mx-auto dark:hidden">
+                                                <img src="/assets/user/images/logo.png" alt="" class="hidden mx-auto dark:block">
+                                                <img src="/assets/user/images/logo.png" alt="" class="block mx-auto dark:hidden">
                                             </a>
                                             <div class="mt-5">
                                                 <img src="/assets/user/images/auth/reset-password.png" alt="">
