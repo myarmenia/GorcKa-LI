@@ -6,6 +6,9 @@
         "notifications": "Уведомления",
         "comments": "Комментарии",
         "balance": "Баланс"
+    },
+    "messages": {
+        "password_updated": "Пароль успешно обновлён."
     }
 
 }

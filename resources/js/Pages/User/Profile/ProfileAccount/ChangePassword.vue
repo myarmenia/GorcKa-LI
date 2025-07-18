@@ -33,7 +33,7 @@ const form = useForm({
 const submit = () => {
   form.post(route('profile.password.update', { locale: props.locale }), {
     onSuccess: () => {
-      modal.showSuccess(useTrans('messages.password_updated'))
+      modal.showSuccess(useTrans('app.messages.password_updated'))
       form.reset()
     },
     onError: () => {
@@ -63,7 +63,7 @@ const submit = () => {
                         <div class="mb-3">
                             <InputLabel for="current-password-input" :value="useTrans('form.current_password')" class="text-sm text-gray-900 dark:text-gray-50" />
 
-                            <TextInput id="current-password-input" type="text"
+                            <TextInput id="current-password-input" type="password"
                                 class="w-full mt-1 text-gray-500 border rounded border-gray-100/80 text-13 dark:bg-transparent dark:border-neutral-600"
                                 v-model="form.current_password"
                                 :placeholder="useTrans('form.current_password_placeholder')" />
