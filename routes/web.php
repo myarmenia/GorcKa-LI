@@ -40,6 +40,7 @@ Route::prefix('{locale}')
         Route::get('categories', CategoriesController::class)->name('categories');
         Route::get('jobs', JobsController::class)->name('jobs');
         Route::get('single-jobe/{id}', SingleJobeController::class)->name('single_job');
+        // Route::get('job/{sub_category}/{slug}', SingleJobeController::class)->name('single_job');
         Route::get('specialist/{specialist}',[SpecialistDetailsController::class,'index'])->name('specialist_details');
         Route::get('contact',[ContactController::class,'index'])->name('contact');
         Route::post('contact',[ContactController::class,'store'])->name('contact.store');
