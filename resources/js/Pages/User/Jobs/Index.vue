@@ -273,7 +273,7 @@ const changePage = (link) =>{
                             </form>
                         </div>
 
-                        <div class="mt-12">
+                        <div class="mt-12" v-if="paginationInfo.total > 3">
                             <div class="grid items-center grid-cols-12">
                                 <div class="col-span-12 lg:col-span-8">
                                     <h6 class="mb-0 text-gray-900 fs-16 dark:text-gray-50"> {{ useTrans('page.showing') }} {{paginationInfo.from}} – {{paginationInfo.to}} {{ useTrans('page.of') }} {{paginationInfo.total}} {{ useTrans('page.results') }} </h6>
@@ -288,7 +288,7 @@ const changePage = (link) =>{
                         </div>
 
                         <!-- pagination -->
-                        <div class="grid grid-cols-12" v-if="paginationInfo.total > 3">
+                        <div class="grid grid-cols-12" v-if="paginationInfo.total > 0">
                             <div class="col-span-12">
                                 <ul class="flex justify-center gap-2 mt-8">
                                     <li v-for="(link,index) in pagination"

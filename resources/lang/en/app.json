@@ -1,0 +1,11 @@
+{
+    "sidebar": {
+        "profile": "Profile",
+        "task_list": "Task List",
+        "chat": "Chat",
+        "notifications": "Notifications",
+        "comments": "Comments",
+        "balance": "Balance"
+    }
+
+}
