@@ -57,8 +57,8 @@ const submit = () => {
                                         <div class="col-span-12 lg:col-span-6 ltr:rounded-l-lg rtl:rounded-r-lg">
                                             <div class="p-10">
                                                 <a href="index.html">
-                                                    <img src="/assets/user/images/logo-light.png" alt="" class="hidden mx-auto dark:block">
-                                                    <img src="/assets/user/images/logo-dark.png" alt="" class="block mx-auto dark:hidden">
+                                                    <img src="/assets/user/images/logo.png" alt="" class="hidden mx-auto dark:block">
+                                                    <img src="/assets/user/images/logo.png" alt="" class="block mx-auto dark:hidden">
                                                 </a>
                                                 <div class="mt-5">
                                                     <img src="/assets/user/images/auth/sign-in.png" alt="">
@@ -124,7 +124,7 @@ const submit = () => {
                                                 </form>
                                                 <div class="text-center">
                                                     <p class="text-white">{{useTrans('page.not_registered')}}
-                                                        <Link :href="route('register', { locale: usePage().props.locale })" class="text-white underline fw-medium">
+                                                        <Link :href="route('register', { locale: usePage().props.locale })" class="text-white text-xl underline fw-medium">
                                                             {{useTrans('form.register')}}
                                                         </Link>
                                                     </p>

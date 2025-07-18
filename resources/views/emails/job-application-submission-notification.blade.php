@@ -68,7 +68,7 @@
 
     <section>
         <div class="nav">
-            <div class="logo-div"><img class="logo" src="{{ $message->embed(public_path('/assets/user/images/logo-dark.png')) }}"></div>
+            <div class="logo-div"><img class="logo" src="{{ $message->embed(public_path('/assets/user/images/logo.png')) }}"></div>
         </div>
         <div class="container ">
             <div class="content">
