@@ -171,11 +171,11 @@ const changeLanguage = (lang) => {
                                 <ul class="absolute top-auto z-50 hidden w-48 p-3 list-none bg-white border rounded shadow-lg dropdown-menu border-gray-500/20 xl:ltr:-left-3 ltr:-left-32 rtl:-right-3 dark:bg-neutral-800" id="profile/log" aria-labelledby="navNotifications">
 
                                     <li v-if="$page.props.auth.user.verified" class="p-2 dropdown-item group/dropdown dark:text-gray-300">
-                                        <Link :href="route('user.profile',{locale: usePage().props.locale })" class="text-15 font-medium text-gray-800 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50">My Profile</Link>
+                                        <Link :href="route('user.profile',{locale: usePage().props.locale })" class="text-15 font-medium text-gray-800 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50">{{ useTrans('navbar.my_profile') }}</Link>
 
                                     </li>
                                     <li class="p-2 dropdown-item group/dropdown dark:text-gray-300">
-                                        <Link :href="route('logout', { locale: usePage().props.locale })" method="post" class="text-15 font-medium text-gray-800 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50">Logout</Link>
+                                        <Link :href="route('logout', { locale: usePage().props.locale })" method="post" class="text-15 font-medium text-gray-800 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50">{{ useTrans('navbar.logout') }}</Link>
 
                                     </li>
 
@@ -253,11 +253,11 @@ const changeLanguage = (lang) => {
                                     <ul class="absolute top-auto z-50 hidden w-48 p-3 list-none bg-white border rounded shadow-lg dropdown-menu border-gray-500/20 xl:ltr:-left-3 ltr:-left-32 rtl:-right-3 dark:bg-neutral-800" id="profile/log" aria-labelledby="navNotifications">
 
                                         <li v-if="$page.props.auth.user.verified" class="p-2 dropdown-item group/dropdown dark:text-gray-300">
-                                            <Link :href="route('user.profile',{locale: usePage().props.locale })" class="text-15 font-medium text-gray-800 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50">My Profile</Link>
+                                            <Link :href="route('user.profile',{locale: usePage().props.locale })" class="text-15 font-medium text-gray-800 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50">{{ useTrans('navbar.my_profile') }}</Link>
 
                                         </li>
                                         <li class="p-2 dropdown-item group/dropdown dark:text-gray-300">
-                                            <Link :href="route('logout', { locale: usePage().props.locale })" method="post" class="text-15 font-medium text-gray-800 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50">Logout</Link>
+                                            <Link :href="route('logout', { locale: usePage().props.locale })" method="post" class="text-15 font-medium text-gray-800 group-data-[theme-color=green]:group-hover/dropdown:text-green-500 group-hover:pl-1.5 transition-all duration-300 ease-in dark:text-gray-50">{{ useTrans('navbar.logout') }}</Link>
 
                                         </li>
 

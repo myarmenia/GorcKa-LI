@@ -1,0 +1,11 @@
+{
+    "sidebar": {
+        "profile": "Профиль",
+        "task_list": "Список заданий",
+        "chat": "Чат",
+        "notifications": "Уведомления",
+        "comments": "Комментарии",
+        "balance": "Баланс"
+    }
+
+}
