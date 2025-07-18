@@ -18,7 +18,9 @@ use App\Interfaces\Task\TaskInterface;
 use App\Interfaces\User\UserInterface;
 use App\Mail\CustomResetPasswordToMail;
 use App\Models\Message;
+use App\Models\Task;
 use App\Observers\MessageObserver;
+use App\Observers\TaskObserver;
 use App\Repositories\Applicant\ApplicantRepositry;
 use App\Repositories\Auth\RegisterRepository;
 use App\Repositories\Category\CategoryRepository;
@@ -94,6 +96,7 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         Message::observe(MessageObserver::class);
+        Task::observe(TaskObserver::class);
 
 
     }
