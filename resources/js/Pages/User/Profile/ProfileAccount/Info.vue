@@ -51,7 +51,7 @@ const getLocationText = () => {
                         <label class="w-32 font-medium text-gray-900 dark:text-gray-50">{{ useTrans('page.contacts.email') }} </label>
                         <div>
                             <p class="mb-0 text-gray-500 text-break dark:text-gray-300">
-                                {{props.user.email}}
+                                {{props.user.email ?? ' - '}}
                             </p>
                         </div>
                     </div>

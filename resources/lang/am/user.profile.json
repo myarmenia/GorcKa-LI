@@ -11,13 +11,16 @@
     "nav": {
         "main": "Գլխավոր",
         "personal_information": "Անձնական տվյալներ",
-        "select_categories": "Ընտրել կատեգորիա",
+        "select_categories": "Ընտրել կատեգորիաներ",
         "change_password": "Գաղտնաբառի փոփոխում"
     },
     "main": {
         "about": "Իմ մասին",
+        "about_default": "Այս բաժինը կարող եք ավելացնել <strong> Անձնական տվյալներ </strong> Էջից։",
         "works": "Իմ աշխատանքները",
-        "selected_categories": "Նախընտրելի կատեգորիաներ"
+        "works_default": "Այս բաժինը կարող եք ավելացնել <strong> Անձնական տվյալներ </strong> Էջից։",
+        "selected_categories": "Նախընտրելի կատեգորիաներ",
+        "selected_categories_default": "Այս բաժինը կարող եք ավելացնել <strong> Ընտրել կատեգորիաներ </strong> Էջից։"
     },
     "personal_information": {
         "my_account": "Իմ հաշիվը",
