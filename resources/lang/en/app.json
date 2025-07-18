@@ -6,6 +6,9 @@
         "notifications": "Notifications",
         "comments": "Comments",
         "balance": "Balance"
+    },
+    "messages": {
+        "password_updated": "Password has been successfully updated."
     }
 
 }
