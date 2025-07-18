@@ -15,10 +15,17 @@ class SingleJobeController extends Controller
     }
 
     public function __invoke($locale, $id)
+    // public function __invoke($locale, string $sub_category, string $slug)   seo -i hamar
     {
 
-        // $locations = Helper::getLocations();
-        // $categories = Helper::getCategories();
+
+        // $task = Task::where('slug', $slug)
+        //     ->whereHas('sub_category.translation', function ($q) use ($sub_category) {
+        //         $q->where('slug', $sub_category); // SEO-дружественное сравнение
+        //     })
+        //     ->firstOrFail();
+
+        // $id = $task->id;   // seo -i hamar
 
         $job = $this->jobService->getJob($id);
         $related_jobs = $this->jobService->relatedJobsExcludingThisId($id, $job->sub_category_id);
