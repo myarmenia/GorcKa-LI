@@ -106,7 +106,7 @@ import { usePage, Link, router  } from '@inertiajs/vue3';
                     <li class="flex-grow lg:flex-grow-0">
                         <Link   :href="route('task.list',{locale:usePage().props.locale})"
                                 :class="{
-                                            'active group-data-[theme-color=green]:text-green-500': route().current('task.list')
+                                            'active group-data-[theme-color=green]:text-green-500': route().current('task.*')
                                         }"
                                 class="tab-button flex relative items-center justify-center mx-auto h-14 w-14 leading-[14px] group/tab my-2 rounded-lg">
                             <div class="absolute items-center hidden -top-10 ltr:left-0 group-hover/tab:flex rtl:right-0">

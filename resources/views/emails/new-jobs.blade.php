@@ -187,7 +187,7 @@
                                         </td>
                                         <td style="padding-left: 10px;">
 
-                                            📍 {{ $task->location->translation($userLang)->first()?->name }}<br>
+                                            {{-- 📍 {{ $task->location->translation($userLang)->first()?->name }}<br> --}}
 
                                         </td>
                                         <td style="padding-left: 10px;">
@@ -206,7 +206,7 @@
                                 <tr style="background-color: #f5f5f5;">
                                     <td align="left" style="padding: 8px;">🕒  {{ $task->start_date }} - {{$task->end_date  }}</td>
                                     <td align="right" style="padding: 8px;">
-                                    <a href="{{ route('single_job', ['locale' => $userLang, 'id' => $task->id]) }}" style="color: #222; text-decoration: none; font-weight: 600;">{{ __('for_vue.apply_now') }} <span> »</span></a>
+                                    {{-- <a href="{{ route('single_job', ['locale' => $userLang, 'id' => $task->id]) }}" style="color: #222; text-decoration: none; font-weight: 600;">{{ __('for_vue.apply_now') }} <span> »</span></a> --}}
                                     </td>
                                 </tr>
                                 </table>
