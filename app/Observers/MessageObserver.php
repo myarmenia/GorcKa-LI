@@ -34,16 +34,16 @@ class MessageObserver
      */
     public function updated(Message $message): void
     {
-        dd(55);
-        $user_id = $message->user_id;  // message for user
+        // dd(55);
+        // $user_id = $message->user_id;  // message for user
 
-        if ($user_id) {
-            $allUnreadMessageCount = (new MessageRepository($message))->getAllUnreadMessagesCount( $user_id);
+        // if ($user_id) {
+        //     $allUnreadMessageCount = (new MessageRepository($message))->getAllUnreadMessagesCount( $user_id);
 
-            event(new ChatIndicatorEvent($allUnreadMessageCount,  $user_id));
+        //     event(new ChatIndicatorEvent($allUnreadMessageCount,  $user_id));
 
 
-        }
+        // }
     }
 
 
