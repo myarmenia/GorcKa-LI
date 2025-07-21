@@ -33,8 +33,9 @@ return Application::configure(basePath: dirname(__DIR__))
 
         ]);
         $middleware->validateCsrfTokens(except: [
-            'https://gorc-ka.am/*',
-            'https://gorc-ka.trigger.ltd/*',
+            'https://job.am/*',
+            // 'https://gorc-ka.am/*',
+            // 'https://gorc-ka.trigger.ltd/*',
             'http://127.0.0.1:8000/*',
             'http://localhost:8000/*',
 
