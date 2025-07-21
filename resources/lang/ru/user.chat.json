@@ -2,5 +2,10 @@
     "title": "Чат",
     "select_specialist": "Выбрать этого специалиста",
     "selected_specialist": "Выбранный специалист",
-    "button_comment": "Поставить оценку"
+    "button_comment": "Поставить оценку",
+    "h4": "Чаты",
+    "search_placeholder": "Поиск сообщений или задач",
+    "chat_default": "Выберите пользователя для отображения сообщений",
+    "message_placeholder": "Введите сообщение...",
+    "file_valid_count": "Можно выбрать максимум 3 файла!"
 }

@@ -6,6 +6,7 @@ import { computed, ref, reactive, onMounted, watch, onUnmounted, nextTick } from
 import { Head, useForm, usePage } from '@inertiajs/vue3';
 import initNavAndTabs from "@/modules/user/nav&tabs.js";
 import initChatApp from "@/modules/user/chat-app";
+import { useTrans } from '/resources/js/trans';
 
 import { globalOnlineUsers } from '@/global/globalOnlineUsers';
 
@@ -214,11 +215,11 @@ const unreadCountsPerJob = computed(() => {
                                 <!-- Start chat content -->
                                 <div>
                                     <div class="p-2">
-                                        <h4 class="mb-0 text-gray-700 dark:text-gray-50">Chats</h4>
+                                        <h4 class="mb-0 text-gray-700 dark:text-gray-50">{{useTrans('page.h4')}}</h4>
 
                                         <div class="flex items-center  py-1 mt-5 mb-5 rounded bg-search group-data-[theme-color=green]:dark:bg-zinc-600 ">
 
-                                            <input v-model="searchText" type="text" class="w-5/6 border-0  bg-search placeholder:text-[14px] focus:ring-offset-0 focus:outline-none focus:ring-0  placeholder:text-gray-400" placeholder="Search messages or users" aria-label="Search messages or users" aria-describedby="basic-addon1">
+                                            <input v-model="searchText" type="text" class="w-5/6 border-0  bg-search placeholder:text-[14px] focus:ring-offset-0 focus:outline-none focus:ring-0  placeholder:text-gray-400" :placeholder="useTrans('page.search_placeholder')" aria-label="Search messages or users" aria-describedby="basic-addon1">
                                             <span @click="filterJobsBySearch" class=" pe-1 ps-3  group-data-[theme-color=green]:dark:bg-zinc-600 " id="basic-addon1">
                                                 <i class="text-lg text-gray-400 uil uil-search search-icon dark:text-gray-200 cursor-pointer"></i>
                                             </span>
@@ -227,7 +228,7 @@ const unreadCountsPerJob = computed(() => {
 
                                     <!-- Start chat-message-list -->
                                     <div>
-                                        <h5 class="px-2 mb-4 text-16 text-gray-700 dark:text-gray-50">Recent</h5>
+                                        <!-- <h5 class="px-2 mb-4 text-16 text-gray-700 dark:text-gray-50">Recent</h5> -->
 
                                         <div class="h-[610px] px-2" data-simplebar="init">
                                             <div class="simplebar-wrapper" style="margin: 0px -8px;">
