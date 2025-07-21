@@ -150,38 +150,5 @@ class TaskController extends Controller
     {
         //
     }
-    public function yesterdayTask(){
-        $yesterday = Carbon::yesterday()->toDateString();
-        // dd($yesterday);
-
-        $tasks =Task::whereDate('created_at', "2025-07-09")->get();
-
-        // Шаг 2: Получаем sub_category_id из этих задач
-        $subCategoryIds = $tasks->pluck('sub_category_id')->toArray();
-
-       // Шаг 3: Получаем всех исполнителей по этим подкатегориям
-        $executors = ExecutorSlSubCategory::whereIn('sub_category_id',$subCategoryIds)
-                    ->pluck('user_id')
-                    ->unique()
-                    ->toArray();
-        // dd($executors);
-        // Шаг 4: Получаем user_id авторов этих задач
-        $taskUserIds = $tasks->pluck('user_id')->unique()->toArray();
-        // dd($executors, $taskUserIds);
-        // Шаг 5: Исключаем из исполнителей тех, кто уже автор задачи
-         $finalUserIds = array_diff($executors, $taskUserIds);
-        //  dd($executors, $taskUserIds, $finalUserIds);
-         // Шаг 6: Отправляем уведомление пользователям
-         $usersToNotify = User::whereIn('id', $finalUserIds)->get();
-        //  dd($usersToNotify);
-
-        foreach($usersToNotify as $user){
-
-            foreach($tasks as $task){
-                $this->notificationCreator->create($user,'new_job',$task->id);
-            }
-            $this->newJobMailerService->sendEmail($user,$tasks);
-
-        }
-    }
+    
 }
