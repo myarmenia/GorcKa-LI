@@ -26,6 +26,7 @@ class NewJobsMail extends Mailable
 
         $this->tasks = $tasks;
         $this->userLang = $userLang;
+        // dd($this->userLang);
 
 
     }
@@ -46,7 +47,7 @@ class NewJobsMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.new-jobs',
+            view: 'emails.jobs',
         );
 
     }
