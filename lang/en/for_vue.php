@@ -13,6 +13,7 @@ return [
     */
 
     "apply_now" => "Apply now",
+     "new_jobs" => "New jobs"
 
 
 ];

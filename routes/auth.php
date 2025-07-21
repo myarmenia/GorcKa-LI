@@ -127,7 +127,7 @@ Route::middleware('auth')->group(function () {
                 Route::get('{id}/edit', [TaskController::class, 'edit'])->name('task.edit');
                 // when make updateing file dont go it work only
                 Route::post('/{id}', [TaskController::class, 'update'])->name('task.update');
-                Route::get('yesterday',[TaskController::class,'yesterdayTask']);
+
 
             });
 
