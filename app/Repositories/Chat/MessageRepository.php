@@ -29,7 +29,7 @@ class MessageRepository extends BaseRepository implements MessageInterface
 
     public function getRoomMessages(int $roomId):Collection
     {
-        return  $this->model->with('files:filable_id,name,ext,path as file_path')->where('room_id', $roomId)
+        return  $this->model->with('files')->where('room_id', $roomId)
             ->orderBy('created_at')
             ->get()
             ->groupBy(function ($item) {

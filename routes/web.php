@@ -60,10 +60,6 @@ Route::get('/location-filter/{value}', LocationFilterController::class)->name('l
 Route::get('/category-subcategory-filter/{value}', CategoryWithSubCategoryFilterController::class)->name('category_subcategory_filter');
 
 
-Route::get('/yesterday_task', function () {
-    $tasks = Task::with('sub_category.category','location.translation')->get();
 
-    return view('emails.new-jobs', ['tasks' => $tasks ]);
-});
 
 require __DIR__.'/auth.php';

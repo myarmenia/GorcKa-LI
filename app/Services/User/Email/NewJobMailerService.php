@@ -15,12 +15,12 @@ class NewJobMailerService
 
     public function sendEmail($user,$tasks): void
     {
-        App::setLocale($user->lang ?? 'en');
+        // App::setLocale($user->lang ?? 'en');
 
         Mail::to($user->email)->send(new NewJobsMail(
 
             tasks: $tasks,
-            userLang: $user->lang
+            userLang: $user->lang ?? 'am'
 
         ));
     }

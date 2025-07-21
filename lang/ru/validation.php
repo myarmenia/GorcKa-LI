@@ -167,7 +167,7 @@ return [
         'current_password' => 'Текущий пароль',
         'description' => 'содержание',
         'mark' => 'оценка',
-        "today"=> "сегодня"
+       
 
     ]
 ];
