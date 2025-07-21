@@ -54244,13 +54244,13 @@ input:checked~.dot {
 .group[data-theme-color=green] :is([dir=ltr] .group-data-\[theme-color\=green\]\:ltr\:before\:border-l-green-500):before {
     content: var(--tw-content) !important;
     --tw-border-opacity: 1 !important;
-    border-left-color: rgb(212 240 229 / var(--tw-border-opacity)) !important
+    border-left-color: rgb(4 133 101 / var(--tw-border-opacity)) !important
 }
 
 .group[data-theme-color=green] :is([dir=ltr] .group-data-\[theme-color\=green\]\:ltr\:before\:border-t-green-500):before {
     content: var(--tw-content) !important;
     --tw-border-opacity: 1 !important;
-    border-top-color: rgb(212 240 229 / var(--tw-border-opacity)) !important
+    border-top-color: rgb(4 133 101 / var(--tw-border-opacity)) !important
 }
 
 .group[data-theme-color=red] :is([dir=ltr] .group-data-\[theme-color\=red\]\:ltr\:before\:border-l-red-500):before {

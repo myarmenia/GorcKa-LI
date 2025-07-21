@@ -28,7 +28,7 @@ const props = defineProps({
                     <!--end col-->
                     <div class="col-span-12 lg:col-span-3">
                         <div class="mb-2 mb-md-0">
-                            <h5 class="mb-1 fs-18">
+                            <h5 class="mb-1 fs-18 truncate">
                                 <Link :href="route('single_job', { locale: $page.props.locale, id: job.id })">{{job.title}} </Link>
                             </h5>
                         </div>
@@ -37,7 +37,7 @@ const props = defineProps({
                     <div class="col-span-12 lg:col-span-3">
                         <div class="mb-2 lg:flex">
                             <div class="flex-shrink-0">
-                                <i class="mr-1 group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=sky]:text-sky-500 group-data-[theme-color=red]:text-red-500 group-data-[theme-color=green]:text-green-500 group-data-[theme-color=pink]:text-pink-500 group-data-[theme-color=blue]:text-blue-500 uil uil-map-marker"></i>
+                                <i class="mr-1  group-data-[theme-color=sky]:text-sky-500  group-data-[theme-color=green]:text-green-500  uil uil-map-marker"></i>
                             </div>
                             <p class="mb-0 text-gray-500 dark:text-gray-300">{{job.translation_name}}</p>
                         </div>
@@ -45,7 +45,7 @@ const props = defineProps({
                     <!--end col-->
                     <div class="col-span-12 lg:col-span-2">
                         <div>
-                            <p class="mb-2 text-gray-500 dark:text-gray-300"><span class="group-data-[theme-color=violet]:text-violet-500 group-data-[theme-color=sky]:text-sky-500 group-data-[theme-color=red]:text-red-500 group-data-[theme-color=green]:text-green-500 group-data-[theme-color=pink]:text-pink-500 group-data-[theme-color=blue]:text-blue-500">
+                            <p class="mb-2 text-gray-500 dark:text-gray-300"><span class=" group-data-[theme-color=sky]:text-sky-500  group-data-[theme-color=green]:text-green-500 ">
 
                                 </span>{{job.price_min ? job.price_min + ' - ':  ' '}}  {{job.price_max}} ֏</p>
                         </div>

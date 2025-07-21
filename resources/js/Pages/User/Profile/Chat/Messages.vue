@@ -6,7 +6,9 @@ import dayjs from 'dayjs';
 import { useTrans } from '/resources/js/trans';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import CommentMarkModal from '@/Components/CommentMarkModal.vue'
+import { useModalStore } from '@/Stores/modalStore'
 
+const modal = useModalStore()
 
 const props = defineProps({
   locale: String,
@@ -57,7 +59,7 @@ watch(() => props.roomId, async (newId, oldId) => {
             isExecutorSelecting.value = false
 
 
-            console.log( response.data, 'MMMMMMMM')
+            console.log( messages.value, 'MMMMMMMM')
             console.log(props.selectedJobExecutirId, props.jobStatus, '- 222222222222 -');
 
 
@@ -82,17 +84,14 @@ watch(() => props.roomId, async (newId, oldId) => {
                 })
                 .joining((user) => {
                     console.log('Пользователь вошел в комнату с id:', user.id); // Логируем только id
-                    // usersInRoom.value.push(user);
-                     usersInRoomIds.value.add(user.id);
+
+                    usersInRoomIds.value.add(user.id);
                     console.log('Обновленный список пользователей:', usersInRoomIds.value);
                 })
                 .leaving((user) => {
                         console.log('Пользователь вышел из комнаты:', user);
 
-                        // usersInRoom.value = usersInRoom.value.filter(u => {
-                        //     console.log('Сравнение:', u.id, user.id);
-                        //     return u.id !== user.id;
-                        // });
+
                         usersInRoomIds.value.delete(user.id);
 
                         console.log('Обновленный список пользователей после ухода:', usersInRoomIds.value);
@@ -151,7 +150,7 @@ const handleFileChange = (e) => {
   const selected = Array.from(e.target.files)
 
   if (selected.length > 3) {
-    alert('Можно выбрать максимум 3 файла!')
+    modal.showError(useTrans('page.file_valid_count'))
     return
   }
 
@@ -315,7 +314,7 @@ const sendMessage = () => {
         onFinish: () => {
         // Можно использовать для скрытия лоадера
         }
-        
+
     })
 
 }
@@ -365,24 +364,16 @@ function handleFeedbackSubmitted(feedback) {
                 </div>
                 <div class="col-span-8 sm:col-span-8">
                     <ul class="flex items-center justify-end lg:gap-4">
-                        <!-- <li class="px-3">
-                            <a href="#" class="hidden text-gray-500 dark:text-gray-300 lg:block profileTab">
-                                <i class="text-xl ri-group-line"></i>
-                            </a>
-                        </li> -->
+
                         <li v-if="props.employerId == $page.props.auth.user.id">
 
                             <template v-if="props.jobStatus == 'active'">
                                 <button  v-if="!isSelected" @click="selectExecutor(props.roomId)" :disabled="isExecutorSelecting" type="submit"
                                     class="btn transition-all duration-300 ease-in-out rounded cursor-pointer"
-                                    :class="isExecutorSelecting ? 'bg-gray-500/20 text-gray' : 'bg-green-500 text-green-500'"
+                                    :class="isExecutorSelecting ? 'bg-gray-500/20 text-gray' : 'bg-green-500 text-white'"
                                     >
                                     {{useTrans('page.select_specialist')}}
                                 </button>
-
-                                <!-- <div v-else class="text-green-600">
-                                    <i class="uil uil-check-circle text-xl"></i> {{ useTrans('page.selected_specialist') }}
-                                </div> -->
                             </template>
                             <template v-if="props.jobStatus == 'in_process' || props.jobStatus == 'done'">
                                 <template  v-if="props.selectedJobExecutirId == interlocutor.id">
@@ -419,11 +410,6 @@ function handleFeedbackSubmitted(feedback) {
 
                         </li>
 
-                        <!-- <li>
-                            <button type="button" class="hidden text-xl text-gray-500 border-0 btn dark:text-gray-300 lg:block">
-                                <i class="uil uil-bookmark-full"></i>
-                            </button>
-                        </li> -->
                         <li>
                             <button  @click="props.removeRoom(props.roomId)" type="button" class="hidden text-xl text-gray-500 border-0 btn dark:text-gray-300 lg:block">
                                 <i class="uil uil-trash-alt"></i>
@@ -457,19 +443,17 @@ function handleFeedbackSubmitted(feedback) {
                                     <div  class="flex items-end gap-3">
                                         <div>
                                             <div class="flex gap-2 mb-2">
-                                                <div class="relative px-5 py-3 text-gray-700 rounded-lg ltr:rounded-bl-none rtl:rounded-br-none  group-data-[theme-color=green]:bg-green-500 0">
+                                                <div class="relative px-5 py-3 text-white rounded-lg ltr:rounded-bl-none rtl:rounded-br-none  group-data-[theme-color=green]:bg-green-500 0">
                                                     <p class="mb-0">
-                                                        {{first.message}} - {{ $page.props.auth.user.id }}
+                                                        {{first.message}}
                                                     </p>
-                                                    <p class="mt-1 mb-0 text-xs text-right text-gray-700/50"><i class="align-middle uil uil-clock"></i> <span class="align-middle">{{dayjs(first.created_at).format('HH:mm')}}</span></p>
+                                                    <p class="mt-1 mb-0 text-xs text-right text-white"><i class="align-middle uil uil-clock"></i> <span class="align-middle">{{dayjs(first.created_at).format('HH:mm')}}</span></p>
                                                     <div class="before:content-[''] before:absolute before:border-[5px] before:border-transparent   group-data-[theme-color=green]:ltr:before:border-l-green-500 group-data-[theme-color=green]:ltr:before:border-t-green-500 group-data-[theme-color=red]:ltr:before:border-l-red-500 group-data-[theme-color=red]:ltr:before:border-t-red-500 group-data-[theme-color=violet]:rtl:before:border-r-violet-500  group-data-[theme-color=green]:rtl:before:border-r-green-500 group-data-[theme-color=green]:rtl:before:border-t-green-500 group-data-[theme-color=red]:rtl:before:border-r-red-500 group-data-[theme-color=red]:rtl:before:border-t-red-500 ltr:before:left-0 rtl:before:right-0 before:-bottom-2"></div>
                                                 </div>
-                                                <!-- <a class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" href="#" role="button" data-bs-toggle="dropdown" :id="'dropdownMenuButton' + first.id">
-                                                    <i class="uil uil-trash-alt"></i>
-                                                </a> -->
+
                                             </div>
                                         </div>
-                                        <!-- <div class="font-medium text-gray-700 text-14 dark:text-gray-300">Doris Brown</div> -->
+
                                     </div>
                                 </li>
 
@@ -477,17 +461,12 @@ function handleFeedbackSubmitted(feedback) {
                                     <div  class="flex gap-2 mb-2 ltr:justify-end rtl:justify-start">
                                         <div class="relative order-2 px-5 py-3 text-gray-700 rounded-lg ltr:rounded-br-none rtl:rounded-bl-none bg-gray-50 dark:bg-zinc-700 dark:text-gray-50">
                                             <p class="mb-0">
-                                                {{first.message}} - {{ $page.props.auth.user.id }}
+                                                {{first.message}}
                                             </p>
                                             <p class="mt-1 mb-0 text-xs text-left text-gray-500 dark:text-gray-300"><i class="align-middle uil uil-clock"></i> <span class="align-middle">{{dayjs(first.created_at).format('HH:mm')}}</span></p>
                                             <div class="before:content-[''] before:absolute before:border-[5px] before:border-transparent ltr:before:border-r-gray-50 ltr:before:border-t-gray-50 rtl:before:border-l-gray-50 rtl:before:border-t-gray-50 ltr:before:right-0 rtl:before:left-0 before:-bottom-2 ltr:dark:before:border-t-zinc-700 ltr:dark:before:border-r-zinc-700 rtl:dark:before:border-t-zinc-700 rtl:dark:before:border-l-zinc-700"></div>
                                         </div>
-                                        <!-- <a class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" href="#" role="button" data-bs-toggle="dropdown" :id="'dropdownMenuButton' + first.id">
-                                            <i class="uil uil-trash-alt"></i>
-                                        </a> -->
-                                        <!-- <button @click="removeMessage(date, first.id)" class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" role="button" >
-                                            <i class="uil uil-trash-alt"></i>
-                                        </button> -->
+
                                     </div>
                                 </li>
                             </template>
@@ -498,7 +477,7 @@ function handleFeedbackSubmitted(feedback) {
                                     <div  class="flex items-end gap-3">
                                         <div>
                                             <div class="flex gap-2 mb-2">
-                                                <div class="relative px-5 py-3 text-gray-700 rounded-lg ltr:rounded-bl-none rtl:rounded-br-none  group-data-[theme-color=green]:bg-green-500 0">
+                                                <div class="relative px-5 py-3 text-white rounded-lg ltr:rounded-bl-none rtl:rounded-br-none  group-data-[theme-color=green]:bg-green-500 0">
                                                     <p class="mb-0">
                                                         {{item.message}}
                                                     </p>
@@ -544,18 +523,16 @@ function handleFeedbackSubmitted(feedback) {
                                                             </li>
                                                         </ul>
                                                     </template>
-                                                    <p class="mt-1 mb-0 text-xs text-right text-gray-700/50"><i class="align-middle uil uil-clock"></i> <span class="align-middle">{{dayjs(item.created_at).format('HH:mm')}}</span></p>
+                                                    <p class="mt-1 mb-0 text-xs text-right text-white"><i class="align-middle uil uil-clock"></i> <span class="align-middle">{{dayjs(item.created_at).format('HH:mm')}}</span></p>
                                                     <div class="before:content-[''] before:absolute before:border-[5px] before:border-transparent   group-data-[theme-color=green]:ltr:before:border-l-green-500 group-data-[theme-color=green]:ltr:before:border-t-green-500 group-data-[theme-color=red]:ltr:before:border-l-red-500 group-data-[theme-color=red]:ltr:before:border-t-red-500 group-data-[theme-color=violet]:rtl:before:border-r-violet-500  group-data-[theme-color=green]:rtl:before:border-r-green-500 group-data-[theme-color=green]:rtl:before:border-t-green-500 group-data-[theme-color=red]:rtl:before:border-r-red-500 group-data-[theme-color=red]:rtl:before:border-t-red-500 ltr:before:left-0 rtl:before:right-0 before:-bottom-2"></div>
                                                 </div>
-                                                <!-- <a class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" href="#" role="button" data-bs-toggle="dropdown" :id="'dropdownMenuButton' + item.id">
-                                                    <i class="uil uil-trash-alt"></i>
-                                                </a> -->
+
                                                 <button @click="removeMessage(date, item.id)" class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" role="button" >
                                                     <i class="uil uil-trash-alt"></i>
                                                 </button>
                                             </div>
                                         </div>
-                                        <!-- <div class="font-medium text-gray-700 text-14 dark:text-gray-300">Doris Brown</div> -->
+
                                     </div>
                                 </li>
 
@@ -570,7 +547,7 @@ function handleFeedbackSubmitted(feedback) {
                                                     <li v-for="file in item.files" class="relative inline-block mr-2">
                                                         <div v-if="['jpg', 'jpeg', 'png'].includes(file.ext)">
                                                             <div>
-                                                                <a class="inline-block m-1 popup-img" :href="`${file.pile_path}`" title="Project 1">
+                                                                <a class="inline-block m-1 popup-img" :href="`${file.file_path}`" title="Project 1">
                                                                     <img :src="`${file.file_path}`" alt="" class="border rounded h-28">
                                                                 </a>
                                                             </div>
@@ -616,9 +593,7 @@ function handleFeedbackSubmitted(feedback) {
                                             <p class="mt-1 mb-0 text-xs text-left text-gray-500 dark:text-gray-300"><i class="align-middle uil uil-clock"></i> <span class="align-middle">{{dayjs(item.created_at).format('HH:mm')}}</span></p>
                                             <div class="before:content-[''] before:absolute before:border-[5px] before:border-transparent ltr:before:border-r-gray-50 ltr:before:border-t-gray-50 rtl:before:border-l-gray-50 rtl:before:border-t-gray-50 ltr:before:right-0 rtl:before:left-0 before:-bottom-2 ltr:dark:before:border-t-zinc-700 ltr:dark:before:border-r-zinc-700 rtl:dark:before:border-t-zinc-700 rtl:dark:before:border-l-zinc-700"></div>
                                         </div>
-                                        <!-- <a class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" href="#" role="button" data-bs-toggle="dropdown" :id="'dropdownMenuButton' + item.id">
-                                            <i class="uil uil-trash-alt"></i>
-                                        </a> -->
+
                                         <button @click="removeMessage(date, item.id)" class="p-0 text-gray-400 border-0 btn dropdown-toggle dark:text-gray-100" role="button" >
                                             <i class="uil uil-trash-alt"></i>
                                         </button>
@@ -643,7 +618,7 @@ function handleFeedbackSubmitted(feedback) {
                         type="text"
                         v-model="message"
                         class="w-full border-transparent rounded bg-gray-50 placeholder:text-14 text-14 dark:bg-zinc-700 dark:placeholder:text-gray-300 dark:text-gray-300"
-                        placeholder="Enter Message..."
+                        :placeholder="useTrans('page.message_placeholder')"
                     >
                 </div>
                 <div>
@@ -703,7 +678,7 @@ function handleFeedbackSubmitted(feedback) {
     </div>
 
     <div v-show="!props.roomId" class="relative w-full overflow-hidden chat-contain">
-        <div class="p-4 text-gray-500">Выберите комнату для отображения сообщений</div>
+        <div class="p-4 text-gray-500">{{useTrans('page.chat_default')}}</div>
     </div>
 
     <CommentMarkModal

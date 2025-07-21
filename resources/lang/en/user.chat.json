@@ -2,5 +2,10 @@
     "title": "Чат",
     "select_specialist": "Select this specialist",
     "selected_specialist": "Selected specialist",
-    "button_comment": "Rate"
+    "button_comment": "Rate",
+    "h4": "Chats",
+    "search_placeholder": "Search messages or task",
+    "chat_default": "Select a room to display messages",
+    "message_placeholder": "Enter Message...",
+    "file_valid_count": "You can select up to 3 files!"
 }
