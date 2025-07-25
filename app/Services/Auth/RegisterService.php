@@ -12,11 +12,11 @@ use Mail;
 use Request;
 class RegisterService
 {
-    public function __construct(protected BaseInterface $registerRepository) {}
+    public function __construct(protected RegisterInterface $registerRepository) {}
 
 
-    
-    public function store($dto)
+
+    public function store($dto): mixed
     {
 
         $user = $this->registerRepository->store($dto->toArray());

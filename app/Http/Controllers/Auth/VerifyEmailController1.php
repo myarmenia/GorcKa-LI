@@ -3,17 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Services\Auth\VerifyEmailService;
 use Auth;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
 
-class VerifyEmailController extends Controller
+class VerifyEmailController1 extends Controller
 {
-    public function __construct(protected VerifyEmailService $verifyEmailService)
-    {
-    }
     /**
      * Mark the authenticated user's email address as verified.
      */
@@ -24,19 +20,18 @@ class VerifyEmailController extends Controller
             return redirect()->intended(route('welcome', ['locale' => app()->getLocale()], absolute: false).'?verified=1');
         }
 
-        $this->verifyEmailService->verifyEmail($request->user());
-        // if ($request->user()->markEmailAsVerified()) {
+        if ($request->user()->markEmailAsVerified()) {
 
-        //     event(new Verified($request->user()));
+            event(new Verified($request->user()));
 
-        //     $user = Auth::user();
-        //     if($user->point == null){
-        //         $user->update(['point' => 500]);
-        //         // petq e notify anel vor 500 point e stacel
-        //     }
+            $user = Auth::user();
+            if($user->point == null){
+                $user->update(['point' => 500]);
+                // petq e notify anel vor 500 point e stacel
+            }
 
 
-        // }
+        }
 
 
         return redirect()->intended(route('welcome', ['locale' => app()->getLocale()], absolute: false).'?verified=1');

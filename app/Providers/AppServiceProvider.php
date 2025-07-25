@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Interfaces\Applicant\ApplicantInterface;
+use App\Interfaces\Auth\RegisterInterface;
 use App\Interfaces\BaseInterface;
 use App\Interfaces\Category\CategoryInterface;
 use App\Interfaces\Chat\ChatInterface;
@@ -59,7 +60,7 @@ class AppServiceProvider extends ServiceProvider
 
         App::instance('translator', $translator);
 
-        $this->app->bind(BaseInterface::class, RegisterRepository::class);
+        $this->app->bind(RegisterInterface::class, RegisterRepository::class);
         $this->app->bind(SpecialistInterface::class, SpecialistRepository::class);
         $this->app->bind(TaskInterface::class, TaskRepository::class);
         $this->app->bind(CategoryInterface::class, CategoryRepository::class);
