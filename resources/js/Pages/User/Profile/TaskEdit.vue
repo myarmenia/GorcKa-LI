@@ -184,7 +184,7 @@ const isImage = (file) => {
 //     // alert(1111)
     console.log(file,'2222')
     // console.log(file.name,'2223')
-  const imageFormats = ['jpg', 'jpeg', 'png','PNG', 'gif', 'bmp', 'svg'];
+  const imageFormats = ['jpg', 'jpeg', 'png','PNG', 'gif', 'bmp', 'svg','webp'];
   const fileExtension = file.name.split('.').pop().toLowerCase();
 
   return imageFormats.includes(fileExtension);
