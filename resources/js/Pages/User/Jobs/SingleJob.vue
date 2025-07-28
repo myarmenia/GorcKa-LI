@@ -25,6 +25,7 @@ const props = defineProps({
     job: Object,
     related_jobs: Array
 });
+console.log(props.job,'7777')
 
 const modal = useModalStore()
 const loading = ref(false)
@@ -154,12 +155,12 @@ console.log(loading.value,2222333)
 
 
 
-                                <div v-if="jobRef.files.some(file => ['png', 'jpg', 'jpeg'].includes(file.ext))" class="pt-8 my-10">
+                                <div v-if="jobRef.files.some(file => ['png', 'jpg', 'jpeg','webp'].includes(file.ext))" class="pt-8 my-10">
                                     <h6 class="mb-0 text-gray-900 text-17 fw-bold dark:text-gray-50">{{useTrans('page.images')}}</h6>
                                     <div class="mt-4 ">
                                         <div class="grid grid-cols-12 gap-4">
                                             <div v-for="file in jobRef.files" class="col-span-4">
-                                                <div v-if="['png', 'jpg', 'jpeg'].includes(file.ext)"
+                                                <div v-if="['png', 'jpg', 'jpeg','webp'].includes(file.ext)"
                                                     class="relative overflow-hidden rounded-md group/project h-[160px] flex items-center justify-center bg-slate-500/10">
 
                                                     <img :src="file.file_path"
