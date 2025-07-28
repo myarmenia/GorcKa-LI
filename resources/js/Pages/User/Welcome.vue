@@ -8,7 +8,7 @@ import SiteGuide from '@/Pages/User/Home/SiteGuide.vue';
 import TopCategoriesJobs from '@/Pages/User/Home/TopCategoriesJobs.vue';
 
 import { Head, Link } from '@inertiajs/vue3';
-import TopSpecialist from './Home/TopSpecialist.vue';
+
 
 const props = defineProps({
   locale: String,
@@ -34,7 +34,7 @@ const props = defineProps({
         <Categories :categories="props.categoriesWithTaskCount" :locale="locale"/>
         <Jobs :jobs="props.jobs" />
         <SiteGuide :locale="locale" />
- 
+
 
     </Layout>
 
