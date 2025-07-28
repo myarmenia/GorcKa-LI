@@ -34,7 +34,7 @@ const props = defineProps({
         <Categories :categories="props.categoriesWithTaskCount" :locale="locale"/>
         <Jobs :jobs="props.jobs" />
         <SiteGuide :locale="locale" />
-        <TopSpecialist />
+ 
 
     </Layout>
 
