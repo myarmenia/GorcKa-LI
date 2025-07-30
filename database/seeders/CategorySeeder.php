@@ -54,41 +54,51 @@ class CategorySeeder extends Seeder
                 'color' => 'red',
                 'icon' => 'design'
             ],
-            // [
-            //     'id' => 9,
-            //     'color' => 'violet',
-            //     'icon' => ''
-            // ],
-            // [
-            //     'id' => 10,
-            //     'color' => 'sky',
-            //     'icon' => ''
-            // ],
-            // [
-            //     'id' => 11,
-            //     'color' => 'blue',
-            //     'icon' => ''
-            // ],
-            // [
-            //     'id' => 12,
-            //     'color' => 'yellow',
-            //     'icon' => ''
-            // ],
-            // [
-            //     'id' => 13,
-            //     'color' => 'green',
-            //     'icon' => ''
-            // ],
-            // [
-            //     'id' => 14,
-            //     'color' => 'blue',
-            //     'icon' => ''
-            // ],
-            // [
-            //     'id' => 15,
-            //     'color' => 'sky',
-            //     'icon' => ''
-            // ]
+            [
+                'id' => 9,
+                'color' => 'violet',
+                'icon' => ''
+            ],
+            [
+                'id' => 10,
+                'color' => 'sky',
+                'icon' => ''
+            ],
+            [
+                'id' => 11,
+                'color' => 'blue',
+                'icon' => ''
+            ],
+            [
+                'id' => 12,
+                'color' => 'yellow',
+                'icon' => ''
+            ],
+            [
+                'id' => 13,
+                'color' => 'green',
+                'icon' => ''
+            ],
+            [
+                'id' => 14,
+                'color' => 'blue',
+                'icon' => ''
+            ],
+            [
+                'id' => 15,
+                'color' => 'sky',
+                'icon' => ''
+            ],
+            [
+                'id' => 16,
+                'color' => 'sky',
+                'icon' => ''
+            ],
+            [
+                'id' => 17,
+                'color' => 'sky',
+                'icon' => ''
+            ]
 
 
         ];
