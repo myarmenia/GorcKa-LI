@@ -14,6 +14,7 @@ use App\Interfaces\Job\JobInterface;
 use App\Interfaces\Notification\NotificationInterface;
 use App\Interfaces\Specialist\SpecialistDetailsInterface;
 use App\Interfaces\Specialist\SpecialistInterface;
+use App\Interfaces\Specialist\TopSpecialistInterface;
 use App\Interfaces\Task\TaskInterface;
 use App\Interfaces\User\UserInterface;
 use App\Mail\CustomResetPasswordToMail;
@@ -39,6 +40,7 @@ use App\Mail\VerifyEmail as CustomVerifyEmail;
 use App\Repositories\Comment\CommentRepository;
 use App\Repositories\Contact\ContactRepository;
 use App\Repositories\Specialist\SpecialistDetailsRepository;
+use App\Repositories\Specialist\TopSpecialistRepository;
 use App\Repositories\Task\TaskRepository;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
@@ -73,6 +75,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CommentInterface::class, CommentRepository::class);
         $this->app->bind(SpecialistDetailsInterface::class,SpecialistDetailsRepository::class);
         $this->app->bind(ContactInterface::class,ContactRepository::class);
+        $this->app->bind(TopSpecialistInterface::class,TopSpecialistRepository::class);
 
     }
 

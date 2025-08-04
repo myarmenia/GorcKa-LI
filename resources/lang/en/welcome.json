@@ -41,6 +41,10 @@
     "top_category_jobs": {
         "h3": "Jobs in Top categories",
         "p": "Tasks in the most popular categories."
+    },
+    "top_specialist_rating":{
+        "h3": "The best specialists",
+        "view_profile": "View Profile"
     }
 
 }
