@@ -153,7 +153,9 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected function avatarUrl(): Attribute
     {
+        // dd($this->avatar);
         return Attribute::make(
+
             get: fn() => $this->avatar ? asset('storage/' . $this->avatar) : asset('assets/user/images/user.svg'),
         );
     }

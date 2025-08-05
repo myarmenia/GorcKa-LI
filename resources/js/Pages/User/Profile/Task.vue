@@ -96,14 +96,15 @@ console.log(form.file,'515')
 const isImage = (file) => {
     // alert(1111)
     console.log(file,'2222')
-  const imageFormats = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
+  const imageFormats = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg','webp'];
   const fileExtension = file.name.split('.').pop().toLowerCase();
+
 
   return imageFormats.includes(fileExtension);
 };
 
 const isOther = (file) => {
-  const documentFormats = ['doc', 'docx', 'xls', 'xlsx', 'txt'];
+  const documentFormats = ['doc', 'docx', 'xls', 'xlsx', 'txt',];
   const fileExtension = file.name.split('.').pop().toLowerCase();
   return documentFormats.includes(fileExtension);
 };

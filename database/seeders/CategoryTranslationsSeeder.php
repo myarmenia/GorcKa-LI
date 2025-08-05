@@ -138,36 +138,149 @@ class CategoryTranslationsSeeder extends Seeder
                 'lang' => 'en',
                 'name' => 'Design services',
             ],
-            // [
-            //     'category_id' => 9,
-            //     'lang' => 'am',
-            //     'name' => 'Cat-9-am',
-            // ],
-            // [
-            //     'category_id' => 9,
-            //     'lang' => 'ru',
-            //     'name' => 'Cat-9-ru',
-            // ],
-            // [
-            //     'category_id' => 9,
-            //     'lang' => 'en',
-            //     'name' => 'Cat-9-en',
-            // ],
-            // [
-            //     'category_id' => 10,
-            //     'lang' => 'am',
-            //     'name' => 'Cat-10-am',
-            // ],
-            // [
-            //     'category_id' => 10,
-            //     'lang' => 'ru',
-            //     'name' => 'Cat-10-ru',
-            // ],
-            // [
-            //     'category_id' => 10,
-            //     'lang' => 'en',
-            //     'name' => 'Cat-10-en',
-            // ],
+            [
+                'category_id' => 9,
+                'lang' => 'am',
+                'name' => 'Իրադարձություններ',
+            ],
+            [
+                'category_id' => 9,
+                'lang' => 'ru',
+                'name' => 'События',
+            ],
+            [
+                'category_id' => 9,
+                'lang' => 'en',
+                'name' => 'Events',
+            ],
+            [
+                'category_id' => 10,
+                'lang' => 'am',
+                'name' => 'Կրթություն',
+            ],
+            [
+                'category_id' => 10,
+                'lang' => 'ru',
+                'name' => 'Образование',
+            ],
+            [
+                'category_id' => 10,
+                'lang' => 'en',
+                'name' => 'Education and Teaching',
+            ],
+            [
+                'category_id' => 11,
+                'lang' => 'am',
+                'name' => 'Կենցաղային ծառայություններ',
+            ],
+            [
+                'category_id' => 11,
+                'lang' => 'ru',
+                'name' => 'Бытовые услуги',
+            ],
+            [
+                'category_id' => 11,
+                'lang' => 'en',
+                'name' => 'Domestic Services',
+            ],
+            [
+                'category_id' => 12,
+                'lang' => 'am',
+                'name' => 'Բիզնես ծառայություններ',
+            ],
+            [
+                'category_id' => 12,
+                'lang' => 'ru',
+                'name' => 'Бизнес услуги',
+            ],
+            [
+                'category_id' => 12,
+                'lang' => 'en',
+                'name' => 'Business Services',
+            ],
+
+            [
+                'category_id' => 13,
+                'lang' => 'am',
+                'name' => 'Էլեկտրոնիկա',
+            ],
+            [
+                'category_id' => 13,
+                'lang' => 'ru',
+                'name' => 'Электроника',
+            ],
+            [
+                'category_id' => 13,
+                'lang' => 'en',
+                'name' => 'Electronics',
+            ],
+            [
+                'category_id' => 14,
+                'lang' => 'am',
+                'name' => 'Գեղեցկություն և առողջություն',
+            ],
+            [
+                'category_id' => 14,
+                'lang' => 'ru',
+                'name' => 'Красота и здоровье',
+            ],
+            [
+                'category_id' => 14,
+                'lang' => 'en',
+                'name' => 'Beauty and Health',
+            ],
+            [
+                'category_id' => 15,
+                'lang' => 'am',
+                'name' => 'Այլ ծառայություններ',
+            ],
+            [
+                'category_id' => 15,
+                'lang' => 'ru',
+                'name' => 'Другие услуги',
+            ],
+            [
+                'category_id' => 15,
+                'lang' => 'en',
+                'name' => 'Other Services',
+            ],
+            [
+                'category_id' => 16,
+                'lang' => 'am',
+                'name' => 'Զբոսաշրջություն և ճանապարհորդություն',
+            ],
+            [
+                'category_id' => 16,
+                'lang' => 'ru',
+                'name' => 'Туризм и путешествия',
+            ],
+            [
+                'category_id' => 16,
+                'lang' => 'en',
+                'name' => 'Travel and Tourism',
+            ],
+            [
+                'category_id' => 17,
+                'lang' => 'am',
+                'name' => 'Մեդիա և դիզայն',
+            ],
+            [
+                'category_id' => 17,
+                'lang' => 'ru',
+                'name' => 'Медиа и дизайн',
+            ],
+            [
+                'category_id' => 17,
+                'lang' => 'en',
+                'name' => 'Media and Design',
+            ],
+
+
+
+
+
+
+
 
         ];
 
