@@ -53,6 +53,10 @@ class NotificationCategorySeeder extends Seeder
             [
                 'id' => 10,
                 'type' => 'comment_mark'
+            ],
+            [
+                'id' => 11,
+                'type' => 'referal_point'
             ]
 
 

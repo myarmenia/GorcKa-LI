@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Admin\Referral\ReferralCodeController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DeleteItemController;
@@ -58,8 +59,7 @@ Route::delete('delete-item/{tb_name}/{id}', [DeleteItemController::class, 'index
 
 Route::get('/location-filter/{value}', LocationFilterController::class)->name('location_filter');
 Route::get('/category-subcategory-filter/{value}', CategoryWithSubCategoryFilterController::class)->name('category_subcategory_filter');
-
-
+Route::get('/creat-referral-cods', ReferralCodeController::class);
 
 
 require __DIR__.'/auth.php';

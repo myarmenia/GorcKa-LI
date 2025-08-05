@@ -6,5 +6,5 @@ use App\Interfaces\BaseInterface;
 
 interface RegisterInterface extends BaseInterface
 {
-    public function store(array $data);
+    // public function store(array $data);
 }

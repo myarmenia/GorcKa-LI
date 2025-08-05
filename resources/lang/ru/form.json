@@ -8,6 +8,7 @@
     "password": "Пароль",
     "password_confirmation": "Подтвердить пароль",
     "current_password": "Текущий пароль",
+    "referral_code": "Реферальный код",
     "sign_in": "Войти",
     "register": "Регистрация",
 

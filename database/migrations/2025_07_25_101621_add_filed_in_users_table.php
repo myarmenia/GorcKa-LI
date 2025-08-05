@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('point')->default(0)->after('lang');
-
+            $table->foreignId('referred_by_code_id')->nullable()->after('point')->constrained('referral_codes')->nullOnDelete();
         });
     }
 
