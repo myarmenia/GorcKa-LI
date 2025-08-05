@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -174,8 +175,9 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(ReferralCode::class, 'user_id');
     }
 
-    public function referrer(){
-        $this->referral_code->user;
+    public function referrer(): HasOneThrough
+    {
+        return $this->hasOneThrough(User::class, ReferralCode::class, 'id', 'id', 'referred_by_code_id', 'user_id' );
     }
     
 }

@@ -3,12 +3,20 @@
 namespace App\Services\Auth;
 
 use App\Models\ReferralCode;
+use App\Services\Admin\Referral\ReferralCodeService;
+use App\Services\User\Notify\NotificationCreator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\DB;
 
 class VerifyEmailService
 {
+    public function __construct(
+            protected ReferralCodeService $referralCodeService,
+            protected NotificationCreator $notificationCreator
+        )
+    {
+    }
 
     public function verifyEmail($user): mixed
     {
@@ -22,22 +30,31 @@ class VerifyEmailService
 
 
                 if ($user->point == null) {
-                    if($user->referred_by_code_id){
+                    if ($user->point === null) {
+                        $user->point = 0;
+                        $user->save();
+                    }
 
-                        $user->increment('points', 550);
-                        $user->referrer?->increment('points', 50);
+                    if($user->referred_by_code_id != null){
+
+                        $referrer = $user->referrer;
+
+                        $user->increment('point', 550);
+
+                        if($referrer){
+                            $referrer->increment('point', 50);
+                            $this->notificationCreator->create($referrer, 'referal_point');
+                        }
 
                     }
                     else{
 
-                        // $user->increment('points', 500);
-                        $user->update(['point' => 500]);
-
+                        $user->increment('point', 500);
                     }
 
                 }
 
-                $this->createReferalCode($user->id);
+                $this->referralCodeService->createReferralCode($user->id);
 
                 DB::commit();
 
@@ -53,29 +70,5 @@ class VerifyEmailService
         return false;
     }
 
-
-    protected function createReferalCode($userId)
-    {
-
-        $uniqueCode = $this->generateUniqueReferralCode();
-
-        ReferralCode::create([
-            'code' => $uniqueCode,
-            'user_id' => $userId,
-            'source' => 'user-generated',
-        ]);
-
-    }
-
-
-
-    protected function generateUniqueReferralCode(): string
-    {
-        do {
-            $code = strtoupper(Str::random(10));
-        } while (ReferralCode::where('code', $code)->exists());
-
-        return $code;
-    }
 
 }

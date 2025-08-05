@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watch } from "vue";
+import { computed, watch, onMounted, ref} from "vue";
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import Select from '@/Components/Select.vue';
@@ -17,8 +17,8 @@ const props = defineProps({
   locale: String
 });
 
-console.log(props.locations)
 
+const referralCode = ref('');
 const currentLanguage = computed(() => props.locale);
 
 const locationOptions = computed(() =>
@@ -29,6 +29,11 @@ const locationOptions = computed(() =>
   }))
 
 );
+
+onMounted(() => {
+  const params = new URLSearchParams(window.location.search);
+  form.referral_code = params.get('referral_code') || '';
+});
 
 
 watch(currentLanguage, () => {
@@ -42,7 +47,8 @@ const form = useForm({
     location_id: '',
     password: '',
     password_confirmation: '',
-    agree_terms: ''
+    agree_terms: '',
+    referral_code: ''
 });
 
 const submit = () => {
@@ -130,6 +136,17 @@ const submit = () => {
                                                             :autoSelectFirst="false"
                                                         />
                                                         <InputError :message="form.errors.location_id" />
+                                                    </div>
+
+                                                    <div class="mb-5">
+                                                        <InputLabel for="referral_code" :value="useTrans('form.referral_code')" class="text-white" />
+
+                                                        <TextInput id="referral_code" type="text"
+                                                            class="w-full mt-1 group-data-[theme-color=green]:bg-green-400/40 py-2.5 rounded border-transparent placeholder:text-sm placeholder:text-gray-50 text-white"
+                                                            v-model="form.referral_code"
+                                                            disabled
+                                                            :placeholder="useTrans('form.referral_code')" />
+
                                                     </div>
 
                                                     <div class="mb-5">

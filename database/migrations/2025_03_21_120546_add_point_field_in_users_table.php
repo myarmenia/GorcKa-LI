@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('point')->nullable()->after('lang');
+            $table->integer('point')->default(0)->after('lang');
 
         });
     }

@@ -8,6 +8,7 @@
     "password": "Password",
     "password_confirmation": "Confirm Password",
     "current_password": "Current password",
+    "referral_code": "Referral Code",
     "sign_in": "Sign In",
     "register": "Register",
 

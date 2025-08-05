@@ -38,7 +38,7 @@ class RegisterDTO
             'phone' => $this->phone,
             'location_id' => $this->location_id,
             'password' => $this->password,
-            'referred_by_code_id' => $this->referral_code
+            'referred_by_code_id' => $this->referred_by_code_id
 
         ];
     }

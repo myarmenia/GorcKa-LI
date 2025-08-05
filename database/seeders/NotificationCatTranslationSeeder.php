@@ -220,6 +220,27 @@ class NotificationCatTranslationSeeder extends Seeder
                 'name' => 'You have received a rating from a partner',
                 'description' => 'Click Here to see the ratingk.'
 
+            ],
+            [
+                'notification_category_id' => 11,
+                'lang' => 'am',
+                'name' => 'Միավորներ',
+                'description' => 'Դուք ստացել եք 50 միավոր գործընկերոջ գրանցումից։'
+
+            ],
+            [
+                'notification_category_id' => 11,
+                'lang' => 'ru',
+                'name' => 'Баллы',
+                'description' => 'Вы получили 50 баллов за регистрацию партнёра.'
+
+            ],
+            [
+                'notification_category_id' => 11,
+                'lang' => 'en',
+                'name' => 'Points',
+                'description' => 'You have received 50 points for a partner registration.'
+
             ]
 
         ];
