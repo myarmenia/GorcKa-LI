@@ -161,7 +161,9 @@ class Helper
             '7' => 'uil uil-file-check',        //you_applied
             '8' => 'uil uil-stopwatch-slash',   //job_expired
             '9' => 'uil uil-clock-five',        //job_done
-            '10' => 'uil uil-star'               //comment_mark
+            '10' => 'uil uil-star',               //comment_mark
+            '11' => 'uil uil-award'               //referral_point
+
 
         ];
 

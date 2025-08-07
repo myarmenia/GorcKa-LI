@@ -8,6 +8,7 @@
     "password": "Գաղտնաբառ",
     "password_confirmation": "Հաստատեք գաղտնաբառը",
     "current_password": "Ընթացիկ գաղտնաբառ",
+    "referral_code": "Ուղղորդման կոդը",
     "sign_in": "Մուտք",
     "register": "Գրանցվել",
 

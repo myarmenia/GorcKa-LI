@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -169,5 +171,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->point >= self::REQUIRED_POINTS_FOR_CLICK;
     }
 
+
+    public function referral_code(): HasOne
+    {
+        return $this->hasOne(ReferralCode::class, 'user_id');
+    }
+
+    public function referrer(): HasOneThrough
+    {
+        return $this->hasOneThrough(User::class, ReferralCode::class, 'id', 'id', 'referred_by_code_id', 'user_id' );
+    }
     
 }
