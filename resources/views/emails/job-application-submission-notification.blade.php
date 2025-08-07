@@ -5,84 +5,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        section {
+        body{
+            background: #0485651a;
+        }
+         section {
+
             margin: 0 auto;
             width: 60%;
-            background: #0485651a;
             padding: 20px 0;
-        }
-        .nav{
-            background: #048565;
-            padding: 0 10px;
-        }
 
-        .logo {
+        }
+      .logo {
             margin: 10px 0 10px;
-            width: 120px;
+            width: 46px;
             height: auto
         }
+        .container {
+            max-width: 800px;
+            min-height: 200px;
+            margin: 0 auto;
+            padding: 15px;
+            border-radius:8px
 
-        .container,.logo-div {
-            width: 80%;
-            margin: 20px auto;
-            display: flex;
-            justify-content: center;
+        }
+       .rounded-table {
+            border: 2px solid black;
+            border-radius: 10px;
+            border-collapse: separate; /* обязательно! */
+            border-spacing: 0; /* убрать зазоры */
+            overflow: hidden; /* для некоторых браузеров */
         }
 
-        .content {
-            color: #111;
-            padding: 30px 6px;
+        .rounded-table td {
+            border: none; /* убрать внутренние границы */
+            padding: 10px;
         }
 
-        .btn {
-            margin: 30px 0;
-            display: inline-block;
-            padding: 10px 20px;
-            background: #fff;
-            color: #3F414D !important;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        @media (max-width: 768px) {
-            section {
-                margin: 0 auto;
-                width: 90%;
-                background: #0485651a;
-                padding: 20px 0;
-            }
-            .container {
-                width: 95%;
-                display: block;
-                text-align: center;
-            }
-            .logo {
-                width: 120px;
-                height: auto
-            }
-        }
     </style>
 </head>
 
 <body>
 
     <section>
-        <div class="nav">
-            <div class="logo-div"><img class="logo" src="{{ $message->embed(public_path('/assets/user/images/logo.png')) }}"></div>
-        </div>
-        <div class="container ">
-            <div class="content">
-                <h2> {{ $title }}  </h2>
-                <h3>{{__('email.jobname')}}։
-                    <a href="{{ url('/' . app()->getLocale() . '/single-jobe/' . $task->id) }}"> {{ $task->title }} </a>
 
-                </h3>
+         <table width="100%" cellpadding="0" cellspacing="0" border="0" class="rounded-table">
+                <tr>
+                    <td align="center">
+                        <a href="{{ route('welcome',['locale'=>$userLang]) }}">
+                            <img class="logo"  width="50" src="{{ $message->embed(public_path('/assets/user/images/logo.png')) }}">
+                        </a>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <h2> {{ $title }}  </h2>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="container">
+                            <h3>{{__('email.jobname')}}։
+                                <a href="{{ url('/' . app()->getLocale() . '/single-jobe/' . $task->id) }}"> {{ $task->title }} </a>
+                            </h3>
+                            <h3>{{ $description }} </h3>
+                        </div>
+                    </td>
+                </tr>
 
-                <h4>{{ $description }} </h4>
+                <tr>
+                    <td align="center"    style="height:125px; background-color: #27272a; color: #ffffff;">
 
-                <p>{{__('email.regards')}}, <br>{{__('email.team')}} {{ config('app.name') }}</p>
-            </div>
-        </div>
+                         <x-email.social-links :message="$message"/>
+
+
+
+                    </td>
+
+                </tr>
+
+            </table>
     </section>
 </body>
 

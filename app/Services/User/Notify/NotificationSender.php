@@ -31,7 +31,9 @@ class NotificationSender{
         Mail::to($user->email)->send(new JobApplicationSubmissionNotification(
             $notification->title,
             $notification->description,
-            $task
+            $task,
+            $user->lang
+
         ));
     }
 
